@@ -2,7 +2,6 @@
 
 # dependencies
 /node_modules
-!/node_modules/react-query/types/react/QueryClientProvider.d.ts
 /.pnp
 .pnp.js
 

@@ -1,47 +1,45 @@
-import React, { useEffect } from 'react'
-import { useMutation, useQuery } from 'react-query';
+import React, { useEffect,useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import { getProductNew } from '../store/api/product';
-import { postProductLike } from '../store/state/product';
+import { itemState } from '../store/state/product';
 
 
 
 const Example = () => {
-  const item = {productId:3}
-  const navigate = useNavigate()
-  const { isLoading:ILC, data:allitems } = useQuery<any>(
-    "getProductNew",
-    async () => {return (await (getProductNew()))},
-  );
-  const addLike = useMutation<any, Error>(
-    "addLike",
-    async () => {
-      return await postProductLike(item.productId);
-    },
-    {
-      onSuccess: async (res) => {
-        console.log("좋아요 성공", res);
-      },
-      onError: (err: any) => {
-        if (err.response.status === 401) { 
-          navigate("/login")
-        }
-        console.log(err, "에러발생");
-      },
-    }
-  ); 
-  
+  const navigate = useNavigate();
+  const [allitems, setAllitems] = useRecoilState(itemState);
+
+  useEffect(() => {
+    getProductNew()
+    .then((res) => {
+      setAllitems(res)
+    })
+    .catch((err)=>{
+      console.log('왜 안되지')
+    })
+  }, []);
+
   return (
     <div>
-      {allitems!==undefined ?
-        allitems.map((item:any,idx:number)=>{
-          return(<>
-            <img alt='no' style={{height:"100px"}} src={item.productThumbnailUrl}/>
-          <p key={idx}>{item.productTitle}</p>
-          </>)
-        }):<p>정보없음</p>
-      }</div>
-  )
-}
+      {allitems.length>0 ? (
+        allitems.map((item: any, idx: number) => {
+          return (
+            <div key={idx}>
+              <img
+                alt="no"
+                style={{ height: "100px" }}
+                src={item.productThumbnailUrl}
+              />
+              <p >{item.productTitle}</p>
+            </div>
+          );
+        })
+      ) : (
+        <p>정보없음</p>
+      )}
+    </div>
+  );
+};
 
 export default Example
