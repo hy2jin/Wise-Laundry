@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-query/types/react/QueryClientProvider.d.ts b/node_modules/react-query/types/react/QueryClientProvider.d.ts
-index 65e1214..ea9fbf0 100644
+index 65e1214..8714d3a 100644
 --- a/node_modules/react-query/types/react/QueryClientProvider.d.ts
 +++ b/node_modules/react-query/types/react/QueryClientProvider.d.ts
 @@ -10,4 +10,4 @@ export interface QueryClientProviderProps {
@@ -8,3 +8,4 @@ index 65e1214..ea9fbf0 100644
  }
 -export declare const QueryClientProvider: React.FC<QueryClientProviderProps>;
 +export declare const QueryClientProvider: React.FC<React.PropsWithChildren<QueryClientProviderProps>>;
+\ No newline at end of file
