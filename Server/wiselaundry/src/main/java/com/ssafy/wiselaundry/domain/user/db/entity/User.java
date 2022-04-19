@@ -21,18 +21,22 @@ public class User {
     @Column(name = "user_id")
     private int userId;
 
-    @ApiModelProperty(value = "회원 이름", required = true, example = "김싸피")
-    @Column(name = "user_name")
-    private String userName;
-
-    @ApiModelProperty(value = "회원 이메일", required = true, example = "ssafy@kakao.com")
+    @ApiModelProperty(value = "회원 아이디", required = true, example = "ssafy@kakao.com")
     @Column(name = "user_email")
     private String userEmail;
 
+    @ApiModelProperty(value = "회원 닉네임", required = true, example = "ssafy6th")
+    @Column(name = "user_nick", nullable = false)
+    private String userNick;
+
+    @ApiModelProperty(value = "회원사진", required = false, example = "profile_img.jpg")
+    @Column(name = "user_img")
+    String userImg;
+
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ApiModelProperty(value = "회원 비밀번호", required = true, example = "여/남")
-    @Column(name = "user_password")
-    private String userPassword;
+    @ApiModelProperty(value = "회원 비밀번호", required = true, example = "password")
+    @Column(name = "password")
+    private String password;
 
 }
