@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { DARKMODE, LIGHTMODE,themeState } from '../store/state/theme'
 // import logo from './images/logo.png'
@@ -84,25 +84,26 @@ const FooterNav = styled.div`
 
 const Header = () => {
   const [theme,setTheme] = useRecoilState(themeState)
+  const navigate = useNavigate()
   return (
     <Wrapper>
       <HeaderNav>
-        <Link to='/'>MY LAUNDRY</Link>
-        <Link to='/main'>OKAY LAUNDRY</Link>
-        <Link to='/Example'>NEAR</Link>
-        <img src='https://cdn-icons-png.flaticon.com/512/3238/3238630.png' alt='logo'/>
-        <Link to='/Hong'>COMMUNITY</Link>
-        <Link to='/Moon'>PROFILE</Link>
-        <Link to='/Jin'>LOGOUT</Link>
+        <Link to='/laundry'>MY LAUNDRY</Link>
+        <Link to='/okaylaundry'>OKAY LAUNDRY</Link>
+        <Link to='/near'>NEAR</Link>
+        <img src='https://cdn-icons-png.flaticon.com/512/3238/3238630.png' onClick={() => navigate('/')} alt='logo'/>
+        <Link to='/community'>COMMUNITY</Link>
+        <Link to='/profile'>PROFILE</Link>
+        <Link to='/login'>LOGIN</Link>
         <ToggleTop ><ToggleSwitch/></ToggleTop>
       </HeaderNav>
       <FooterNav>
-          <Link to='/'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
-          <Link to='/main'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
-          <Link to='/Example'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
-          <Link to='/Hong'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
-          <Link to='/Moon'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
-          <Link to='/Jin'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
+          <Link to='/laundry'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
+          <Link to='/okaylaundry'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
+          <Link to='/near'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
+          <Link to='/community'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
+          <Link to='/profile'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
+          <Link to='#'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
           <ToggleBot onClick={()=>{setTheme(LIGHTMODE)}}><ToggleSwitch/></ToggleBot>
       </FooterNav>
     </Wrapper>

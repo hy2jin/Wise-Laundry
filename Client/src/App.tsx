@@ -1,15 +1,20 @@
-import React, { useState } from 'react'
-import {BrowserRouter,Link,Route,Routes} from 'react-router-dom'
-import Home from './pages/Home'
-import Main from './pages/Main'
+import React from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import styled,{ThemeProvider} from 'styled-components'
-import Hong from './pages/Hong'
-import Moon from './pages/Moon'
-import Jin from './pages/Jin'
-import Example from './pages/Example'
 import { useRecoilState } from 'recoil'
-import Header from './components/Header'
 import { themeState } from './store/state/theme'
+import Header from './components/Header'
+import Home from './pages/Home'
+import Near from './pages/Near'
+import OkayLaundry from './pages/OkayLaundry'
+import CommunityAll from './pages/communityBoard/CommunityAll'
+import CommunityDetail from './pages/communityBoard/CommunityDetail'
+import CommunityCreate from './pages/communityBoard/CommunityCreate'
+import LaundryAll from './pages/laundryBoard/LaundryAll'
+import LaundryDetail from './pages/laundryBoard/LaundryDetail'
+import Signup from './pages/user/Signup'
+import Profile from './pages/user/Profile'
+import Login from './pages/user/Login'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -33,19 +38,24 @@ const Wrapper = styled.div`
 `
 
 const App= (props:any) => {
-  const [theme,setTheme] = useRecoilState(themeState)
+  const [theme, setTheme] = useRecoilState(themeState)
   return (
     <BrowserRouter>
         <ThemeProvider theme={theme}>
           <Wrapper>
           <Header/>
             <Routes>
-              <Route path='/' element={<Home/>}/>
-              <Route path='/main' element={<Main/>}/>
-              <Route path='/Example' element={<Example/>}/>
-              <Route path='/Hong' element={<Hong />}/>
-              <Route path='/Moon' element={<Moon />}/>
-              <Route path='/Jin' element={<Jin />}/>
+              <Route path='/' element={<Home />}/>
+              <Route path='/near' element={<Near />}/>
+              <Route path='/okaylaundry' element={<OkayLaundry />}/>
+              <Route path='/community' element={<CommunityAll />}/>
+              <Route path='/community/:boardId' element={<CommunityDetail />}/>
+              <Route path='/board' element={<CommunityCreate />}/>
+              <Route path='/laundry' element={<LaundryAll />}/>
+              <Route path='/laundry/:laundryId' element={<LaundryDetail />}/>
+              <Route path='/profile' element={<Profile />}/>
+              <Route path='/signup' element={<Signup />}/>
+              <Route path='/login' element={<Login />}/>
             </Routes>
           </Wrapper>
         </ThemeProvider>
