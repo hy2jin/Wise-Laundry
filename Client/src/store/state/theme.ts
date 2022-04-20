@@ -7,6 +7,7 @@ interface Itheme {
   navColor: string
   activeBtnColor: string
   inactiveBtnColor: string
+  containerColor: string
 }
 // 2번 색을 지정해준다 => main 색들 넣어주고 다른곳에서 
 // color : ${props => props.theme.fontColor}; 이런식으로 사용하기
