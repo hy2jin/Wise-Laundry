@@ -2,8 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import {Link, useNavigate} from 'react-router-dom'
 import { useRecoilState } from 'recoil'
-import { DARKMODE, LIGHTMODE,themeState } from '../store/state/theme'
-// import logo from './images/logo.png'
+import { themeState } from '../store/state/theme'
 import ToggleSwitch from './ToggleSwitch'
 
 const Wrapper = styled.div`
@@ -11,7 +10,6 @@ const Wrapper = styled.div`
 `
 const HeaderNav = styled.nav`
   background-color: ${props => props.theme.navColor}; 
-  /* 이런식으로 사용가능 */
   width: 100%; 
   height: 8vh;
   line-height: 8vh;
@@ -22,11 +20,16 @@ const HeaderNav = styled.nav`
     text-decoration:none;
     flex: 1;
     text-align: center;
-    font-size: 1.8vw;
+    font-size: 14px;
     color: ${props => props.theme.fontColor};
   }
   img {
     height: 50px;
+  }
+  @media screen and (max-width:700px) {
+    a {
+    font-size: 10px;
+  }
   }
   @media screen and (max-width:500px) {
     display: none;
@@ -39,11 +42,12 @@ const ToggleTop = styled.div`
     color: ${props => props.theme.fontColor};
     padding-top: 20px;
     position: fixed;
-    top: 100px;
+    bottom: 85vh;
     right: 0;
     z-index: 1;
     @media screen and (max-width:500px) {
-      top:76vh;
+      position: fixed;
+      bottom: 92vh;
     }
 `
 
@@ -67,7 +71,6 @@ const FooterNav = styled.nav`
     }
   }
   @media screen and (max-width:500px) {
-    display: inline;
     display: flex;
     justify-content: space-around;
   }
@@ -79,7 +82,6 @@ const Header = () => {
   const navigate = useNavigate()
   return (
     <Wrapper>
-      <ToggleTop ><ToggleSwitch/></ToggleTop>
       <HeaderNav>
         <Link to='/laundry'>MY LAUNDRY</Link>
         <Link to='/okaylaundry'>OKAY LAUNDRY</Link>
@@ -89,6 +91,7 @@ const Header = () => {
         <Link to='/profile'>PROFILE</Link>
         <Link to='/login'>LOGIN</Link>
       </HeaderNav>
+      <ToggleTop ><ToggleSwitch/></ToggleTop>
       <FooterNav>
           <Link to='/laundry'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
           <Link to='/okaylaundry'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>

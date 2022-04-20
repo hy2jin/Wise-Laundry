@@ -20,7 +20,7 @@ const Wrapper = styled.div`
      -moz-appearance: none;
           appearance: none;
   background: #d2f784  ;
-  box-shadow: 3px 3px 5px #333;
+  box-shadow: ${props => props.theme.boxShadowBox};
   border-radius: 20px;
   position: relative;
   outline: 0;
@@ -35,11 +35,12 @@ const Wrapper = styled.div`
   left: 2px;
   width: 28px;
   height: 28px;
-  background: #9b9b9b;
+  background:linear-gradient(#c1c1c1, #4b4a4a);;
   z-index: 1;
   border-radius: 100%;
   -webkit-transition: all .35s;
   transition: all .35s;
+  box-shadow: ${props => props.theme.boxShadowBox};
 }
 
 .input_wrapper svg{
