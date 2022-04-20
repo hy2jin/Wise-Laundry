@@ -42,18 +42,11 @@ const ToggleTop = styled.div`
     top: 100px;
     right: 0;
     z-index: 1;
+    @media screen and (max-width:500px) {
+      top:76vh;
+    }
 `
 
-const ToggleBot = styled.div`
-    border: none;
-    cursor: pointer;
-    width: 100px;
-    color: ${props => props.theme.fontColor};
-    padding-top: 20px;
-    position: fixed;
-    bottom: 100px;
-    right: 0;
-`
 const FooterNav = styled.nav`
   background-color: ${props => props.theme.navColor}; 
   width: 100%;
@@ -86,6 +79,7 @@ const Header = () => {
   const navigate = useNavigate()
   return (
     <Wrapper>
+      <ToggleTop ><ToggleSwitch/></ToggleTop>
       <HeaderNav>
         <Link to='/laundry'>MY LAUNDRY</Link>
         <Link to='/okaylaundry'>OKAY LAUNDRY</Link>
@@ -94,7 +88,6 @@ const Header = () => {
         <Link to='/community'>COMMUNITY</Link>
         <Link to='/profile'>PROFILE</Link>
         <Link to='/login'>LOGIN</Link>
-        <ToggleTop ><ToggleSwitch/></ToggleTop>
       </HeaderNav>
       <FooterNav>
           <Link to='/laundry'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
@@ -103,7 +96,6 @@ const Header = () => {
           <Link to='/community'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
           <Link to='/profile'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
           <Link to='#'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
-          <ToggleBot onClick={()=>{setTheme(LIGHTMODE)}}><ToggleSwitch/></ToggleBot>
       </FooterNav>
     </Wrapper>
   )
