@@ -21,7 +21,7 @@ public class LaundryCareLabels {
     private int clothing_label_id;
 
     @ManyToOne
-    @Column(name = "launry_id")
+    @Column(name = "laundry_id")
     private Laundry laundry;
 
     @ManyToOne

@@ -25,7 +25,7 @@ public class Laundry {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
 
     @ApiModelProperty(value = "세탁물 이미지", example = "laungry_img.jpg")
     @Column(name = "laundry_img")

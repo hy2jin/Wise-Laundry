@@ -17,7 +17,7 @@ public class CareLabels {
     @ApiModelProperty(value = "케어라벨번호", example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "care_lable_id")
+    @Column(name = "care_label_id")
     private int careLableId;
 
     @ApiModelProperty(value = "케어라벨 이름", example = "라벨명")
