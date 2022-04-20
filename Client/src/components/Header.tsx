@@ -9,24 +9,23 @@ import ToggleSwitch from './ToggleSwitch'
 const Wrapper = styled.div`
   
 `
-const HeaderNav = styled.div`
-  /* background-color: #E9F2FF; */
+const HeaderNav = styled.nav`
   background-color: ${props => props.theme.navColor}; 
   /* 이런식으로 사용가능 */
   width: 100%; 
-  height: 60px;
+  height: 8vh;
+  line-height: 8vh;
   display: flex;
   justify-content: space-around;
   border-radius: 0 0 15px 15px;
-  a{
+  a {
     text-decoration:none;
     flex: 1;
     text-align: center;
-    padding-top: 20px;
     font-size: 1.8vw;
     color: ${props => props.theme.fontColor};
   }
-  img{
+  img {
     height: 50px;
   }
   @media screen and (max-width:500px) {
@@ -55,7 +54,7 @@ const ToggleBot = styled.div`
     bottom: 100px;
     right: 0;
 `
-const FooterNav = styled.div`
+const FooterNav = styled.nav`
   background-color: ${props => props.theme.navColor}; 
   width: 100%;
   bottom: 0;
@@ -64,20 +63,20 @@ const FooterNav = styled.div`
   border-radius: 15px 15px 0 0;
   display : none;
   position: fixed;
-  a{
+  a {
     text-decoration:none;
     text-align: center;
     padding-top: 20px;
     font-size: 1.5vh;
     color: ${props => props.theme.fontColor};
-    img{
+    img {
       height: 30px;
     }
   }
   @media screen and (max-width:500px) {
     display: inline;
     display: flex;
-  justify-content: space-around;
+    justify-content: space-around;
   }
 `
   
