@@ -24,30 +24,26 @@ const HeaderNav = styled.nav`
     color: ${props => props.theme.fontColor};
   }
   img {
-    height: 50px;
+    margin-top: 5px;
+    height: 6vh;
   }
-  @media screen and (max-width:700px) {
+  /* @media screen and (max-width:700px) {
     a {
     font-size: 10px;
+  } */
   }
-  }
-  @media screen and (max-width:500px) {
+  @media screen and (max-width:700px) {
     display: none;
   }
 `
 const ToggleTop = styled.div`
+    flex:0.5;
     border: none;
     cursor: pointer;
-    width: 100px;
     color: ${props => props.theme.fontColor};
-    padding-top: 20px;
-    position: fixed;
-    bottom: 85vh;
-    right: 0;
-    z-index: 1;
-    @media screen and (max-width:500px) {
-      position: fixed;
-      bottom: 92vh;
+    margin-top: 11px;
+    @media screen and (max-width:700px) {
+      margin-top: 20px;
     }
 `
 
@@ -61,6 +57,7 @@ const FooterNav = styled.nav`
   display : none;
   position: fixed;
   a {
+    flex:1;
     text-decoration:none;
     text-align: center;
     padding-top: 20px;
@@ -70,7 +67,7 @@ const FooterNav = styled.nav`
       height: 30px;
     }
   }
-  @media screen and (max-width:500px) {
+  @media screen and (max-width:700px) {
     display: flex;
     justify-content: space-around;
   }
@@ -89,16 +86,15 @@ const Header = () => {
         <img src='https://cdn-icons-png.flaticon.com/512/3238/3238630.png' onClick={() => navigate('/')} alt='logo'/>
         <Link to='/community'>COMMUNITY</Link>
         <Link to='/profile'>PROFILE</Link>
-        <Link to='/login'>LOGIN</Link>
+        <ToggleTop ><ToggleSwitch/></ToggleTop>
       </HeaderNav>
-      <ToggleTop ><ToggleSwitch/></ToggleTop>
       <FooterNav>
           <Link to='/laundry'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
           <Link to='/okaylaundry'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
           <Link to='/near'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
           <Link to='/community'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
           <Link to='/profile'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
-          <Link to='#'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
+          <ToggleTop ><ToggleSwitch/></ToggleTop>
       </FooterNav>
     </Wrapper>
   )

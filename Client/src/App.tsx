@@ -15,6 +15,7 @@ import LaundryDetail from './pages/laundryBoard/LaundryDetail'
 import Signup from './pages/user/Signup'
 import Profile from './pages/user/Profile'
 import Login from './pages/user/Login'
+import RegisterLaundry from './pages/laundryBoard/RegisterLaundry'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -56,6 +57,7 @@ const App= (props:any) => {
               <Route path='/profile' element={<Profile />}/>
               <Route path='/signup' element={<Signup />}/>
               <Route path='/login' element={<Login />}/>
+              <Route path='/laundry/register' element={<RegisterLaundry />}/>
             </Routes>
           </Wrapper>
         </ThemeProvider>
