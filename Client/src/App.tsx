@@ -1,39 +1,67 @@
 import React from 'react'
-import {BrowserRouter,Link,Route,Routes} from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import styled,{ThemeProvider} from 'styled-components'
+import { useRecoilState } from 'recoil'
+import { themeState } from './store/state/theme'
+import Header from './components/Header'
 import Home from './pages/Home'
-import Main from './pages/Main'
-import styled from 'styled-components'
-import Hong from './pages/Hong'
-import Moon from './pages/Moon'
-import Jin from './pages/Jin'
-import Example from './pages/Example'
+import Near from './pages/Near'
+import OkayLaundry from './pages/OkayLaundry'
+import CommunityAll from './pages/communityBoard/CommunityAll'
+import CommunityDetail from './pages/communityBoard/CommunityDetail'
+import CommunityCreate from './pages/communityBoard/CommunityCreate'
+import LaundryAll from './pages/laundryBoard/LaundryAll'
+import LaundryDetail from './pages/laundryBoard/LaundryDetail'
+import Signup from './pages/user/Signup'
+import Profile from './pages/user/Profile'
+import Login from './pages/user/Login'
+import RegisterLaundry from './pages/laundryBoard/RegisterLaundry'
 
-const Header = styled.div`
-  background-color: yellow;
-  display: flex;
-  width: 400px;
-  justify-content: space-around;
+const Wrapper = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  /* height: 100vh; */
+  background-color: ${props => props.theme.bgColor}; 
+  color :  ${props => props.theme.fontColor}; 
+  @font-face {
+    font-family: 'twayair';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_tway@1.0/twayair.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  } 
+  *{  
+    font-family: 'twayair';
+    }
+  h1{
+    margin-top: 0;
+    padding-top:10px;
+  }
 `
 
 const App= (props:any) => {
+  const [theme, setTheme] = useRecoilState(themeState)
   return (
     <BrowserRouter>
-      <Header>
-        <Link to='/'>홈</Link>
-        <Link to='/main'>메인</Link>
-        <Link to='/Example'>Example</Link>
-        <Link to='/Hong'>Hong</Link>
-        <Link to='/Moon'>Moon</Link>
-        <Link to='/Jin'>Jin</Link>
-      </Header>
-      <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/main' element={<Main/>}/>
-        <Route path='/Example' element={<Example/>}/>
-        <Route path='/Hong' element={<Hong />}/>
-        <Route path='/Moon' element={<Moon />}/>
-        <Route path='/Jin' element={<Jin />}/>
-      </Routes>
+        <ThemeProvider theme={theme}>
+          <Wrapper>
+          <Header/>
+            <Routes>
+              <Route path='/' element={<Home />}/>
+              <Route path='/near' element={<Near />}/>
+              <Route path='/okaylaundry' element={<OkayLaundry />}/>
+              <Route path='/community' element={<CommunityAll />}/>
+              <Route path='/community/:boardId' element={<CommunityDetail />}/>
+              <Route path='/board' element={<CommunityCreate />}/>
+              <Route path='/board/:boardId' element={<CommunityCreate />}/>
+              <Route path='/laundry' element={<LaundryAll />}/>
+              <Route path='/laundry/:laundryId' element={<LaundryDetail />}/>
+              <Route path='/profile' element={<Profile />}/>
+              <Route path='/signup' element={<Signup />}/>
+              <Route path='/login' element={<Login />}/>
+              <Route path='/laundry/register' element={<RegisterLaundry />}/>
+            </Routes>
+          </Wrapper>
+        </ThemeProvider>
     </BrowserRouter>
   )
 }
