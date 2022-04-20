@@ -121,7 +121,7 @@ const ButtonBox = styled.div`
     width: 150px;
     }
   }
-  @media screen and (max-width:500px) { 
+  @media screen and (max-width:700px) { 
     button{
     margin-top: 10px;
     height: 30px;

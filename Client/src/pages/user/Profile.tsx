@@ -20,7 +20,7 @@ const Logobox = styled.span `
     height: 25vh;
   }
 
-  @media screen and (max-width:500px) {
+  @media screen and (max-width:700px) {
     top: 0;
     img {
     height: 105px;
@@ -48,7 +48,7 @@ const ImgBox = styled.div `
     height: 30px;
   }
 
-  @media screen and (max-width:500px) {
+  @media screen and (max-width:700px) {
     margin-bottom: 50px;
     .ProfileImg {
       width: 100px;
@@ -91,7 +91,7 @@ const SmallBox = styled.div `
     cursor: pointer;
   }
 
-  @media screen and (max-width:500px) {
+  @media screen and (max-width:700px) {
     .EditPasswordBtn {
     border: none;
     width : 100%;
@@ -143,7 +143,7 @@ const EditForm = styled.div `
   }
 
 
-  @media screen and (max-width:500px) {
+  @media screen and (max-width:700px) {
 
     label {
       font-size: 0.8rem;
@@ -195,7 +195,7 @@ const InputForm = styled.section`
   }
 
 
-  @media screen and (max-width:500px) {
+  @media screen and (max-width:700px) {
     height: 15px;
     margin-bottom: 20px;
     /* 인풋박스 크기 조절 여기서 */

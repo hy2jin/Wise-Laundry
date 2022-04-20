@@ -4,6 +4,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { datadetail } from './data'
 import { useRecoilState } from 'recoil';
 import { themeState } from '../../store/state/theme';
+import { useNavigate } from 'react-router-dom';
 
 interface Istate {
   board: {
@@ -28,6 +29,9 @@ interface Istate {
 
 const Wrapper = styled.article`
   margin: 4vh 7vw;
+  @media screen and (max-width: 700px) {
+    padding-bottom: 7vh;
+  }
   `
 const Board = styled.section`
   background-color: ${props => props.theme.containerColor};
@@ -133,6 +137,7 @@ const CreateComment = styled.div`
 `
 
 const CommunityDetail = () => {
+  const navigate = useNavigate()
   const [theme, setTheme] = useRecoilState(themeState)
   const [inputText, setInputText] = useState('')
   const [board, setBoard] = useState<Istate['board']>({
@@ -212,8 +217,8 @@ const CommunityDetail = () => {
         </CreateComment>
       </Board>
       <Btns>
-        <button className='active'>목록</button>
-        <button className='active'>수정</button>
+        <button className='active' onClick={() => navigate('/community')}>목록</button>
+        <button className='active' onClick={() => navigate(`/board/${board.boardId}`)}>수정</button>
         <button className='inactive'>삭제</button>
       </Btns>
     </Wrapper>

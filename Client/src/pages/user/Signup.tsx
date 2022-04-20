@@ -20,7 +20,7 @@ const Logobox = styled.span `
     height: 25vh;
   }
 
-  @media screen and (max-width:500px) {
+  @media screen and (max-width:700px) {
     top: 0;
     img {
     height: 105px;
@@ -56,7 +56,7 @@ const SmallBox = styled.div `
   }
 
 
-  @media screen and (max-width:500px) {
+  @media screen and (max-width:700px) {
     .ConfirmBtn {
     border: none;
     width : 100%;
@@ -105,7 +105,7 @@ const SignupForm = styled.div `
     margin-right: 25px;
   }
 
-  @media screen and (max-width:500px) {
+  @media screen and (max-width:700px) {
     /* width: 50%; */
 
     label {
@@ -155,7 +155,7 @@ const InputForm = styled.section`
     cursor: pointer;
   }
 
-  @media screen and (max-width:500px) {
+  @media screen and (max-width:700px) {
     height: 15px;
     margin-bottom: 20px;
     /* 인풋박스 크기 조절 여기서 */
@@ -194,7 +194,7 @@ const ImgBox = styled.div `
     height: 30px;
   }
 
-  @media screen and (max-width:500px) {
+  @media screen and (max-width:700px) {
     margin-bottom: 50px;
     .ProfileImg {
       width: 100px;
@@ -244,7 +244,7 @@ const FormBox = styled.form `
     width: 100%;
   }
 
-  @media screen and (max-width:500px) {
+  @media screen and (max-width:700px) {
 
     .EmailNickBox {
       display: flex;

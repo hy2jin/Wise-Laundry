@@ -52,6 +52,7 @@ const App= (props:any) => {
               <Route path='/community' element={<CommunityAll />}/>
               <Route path='/community/:boardId' element={<CommunityDetail />}/>
               <Route path='/board' element={<CommunityCreate />}/>
+              <Route path='/board/:boardId' element={<CommunityCreate />}/>
               <Route path='/laundry' element={<LaundryAll />}/>
               <Route path='/laundry/:laundryId' element={<LaundryDetail />}/>
               <Route path='/profile' element={<Profile />}/>
