@@ -21,8 +21,8 @@ public class Comments {
     @ApiModelProperty(value = "댓글번호", example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comments_id")
-    private int commentsId;
+    @Column(name = "comment_id")
+    private int commentId;
 
     @ManyToOne
     @Column(name = "user_id")
@@ -33,13 +33,13 @@ public class Comments {
     private Board board;
 
     @ApiModelProperty(value = "댓글내용", required = true, example = " 내용입니다")
-    @Column(name = "comments_content")
-    private int boardContent;
+    @Column(name = "comment_content")
+    private int commentContent;
 
     @ApiModelProperty(value = "댓글 날짜", required = true, example = "2020-01-23")
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "comments_dt")
-    private Date commentsDt;
+    @Column(name = "comment_dt")
+    private Date commentDt;
 
 
 

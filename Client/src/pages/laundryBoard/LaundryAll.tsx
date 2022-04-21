@@ -103,8 +103,8 @@ const LaundryAll = () => {
 
       <LaundryBox>
         {filter==='my' ? 
-          myLaundries.map((laundry)=>{return(<section><LaundryCard key={laundry.laundryId} laundry={laundry}/></section>)}):
-          allLaundries.map((laundry)=>{return(<section><LaundryCard key={laundry.laundryId} laundry={laundry}/></section>)})
+          myLaundries.map((laundry,idx)=>{return(<section key={laundry.laundryId}><LaundryCard  laundry={laundry}/></section>)}):
+          allLaundries.map((laundry,idx)=>{return(<section key={laundry.laundryId}><LaundryCard  laundry={laundry}/></section>)})
         }
       </LaundryBox>
     </Wrapper>
