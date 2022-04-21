@@ -16,6 +16,7 @@ import Signup from './pages/user/Signup'
 import Profile from './pages/user/Profile'
 import Login from './pages/user/Login'
 import RegisterLaundry from './pages/laundryBoard/RegisterLaundry'
+import MobileBack from './components/MobileBack'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -45,23 +46,24 @@ const App= (props:any) => {
         <ThemeProvider theme={theme}>
           <Wrapper>
           <Header/>
-            <Routes>
-              <Route path='/' element={<Home />}/>
-              <Route path='/near' element={<Near />}/>
-              <Route path='/okaylaundry' element={<OkayLaundry />}/>
-              <Route path='/community' element={<CommunityAll />}/>
-              <Route path='/community/:boardId' element={<CommunityDetail />}/>
-              <Route path='/board' element={<CommunityCreate />}/>
-              <Route path='/board/:boardId' element={<CommunityCreate />}/>
-              <Route path='/laundry' element={<LaundryAll />}/>
-              <Route path='/laundry/:laundryId' element={<LaundryDetail />}/>
-              <Route path='/profile' element={<Profile />}/>
-              <Route path='/signup' element={<Signup />}/>
-              <Route path='/login' element={<Login />}/>
-              <Route path='/laundry/register' element={<RegisterLaundry />}/>
-            </Routes>
-          </Wrapper>
-        </ThemeProvider>
+          <MobileBack/>
+          <Routes>
+            <Route path='/' element={<Home />}/>
+            <Route path='/near' element={<Near />}/>
+            <Route path='/okaylaundry' element={<OkayLaundry />}/>
+            <Route path='/community' element={<CommunityAll />}/>
+            <Route path='/community/:boardId' element={<CommunityDetail />}/>
+            <Route path='/board' element={<CommunityCreate />}/>
+            <Route path='/board/:boardId' element={<CommunityCreate />}/>
+            <Route path='/laundry' element={<LaundryAll />}/>
+            <Route path='/laundry/:laundryId' element={<LaundryDetail />}/>
+            <Route path='/profile' element={<Profile />}/>
+            <Route path='/signup' element={<Signup />}/>
+            <Route path='/login' element={<Login />}/>
+            <Route path='/laundry/register' element={<RegisterLaundry />}/>
+          </Routes>
+        </Wrapper>
+      </ThemeProvider>
     </BrowserRouter>
   )
 }

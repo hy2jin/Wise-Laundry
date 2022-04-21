@@ -20,7 +20,7 @@ interface Istate {
 }
 
 const Wrapper = styled.article`
-  padding: 2.5rem;
+  padding: .5rem 2.5rem;
   p {margin: 0;}
   .title {
     color: #4E7DDA;
