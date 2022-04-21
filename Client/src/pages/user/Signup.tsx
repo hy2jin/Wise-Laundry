@@ -23,7 +23,7 @@ const Logobox = styled.span `
   @media screen and (max-width:700px) {
     top: 0;
     img {
-    height: 105px;
+    height: 12vh;
     }
   }
 `
@@ -35,22 +35,22 @@ const SmallBox = styled.div `
   .LoginBtn {
     border: none;
     width : 100%;
-    height: 40px;
+    height: 5vh;
     border-radius: 10px;
     font-size: 1rem;
     color: white;
     /* color: ${props => props.theme.fontColor}; */
-    background-color: #CCCCCC;
+    background-color: ${props => props.theme.inactiveBtnColor};
     cursor: pointer;
   }
 
   .SignupBtn{
     border: none;
     width : 100%;
-    height: 40px;
+    height: 5vh;
     border-radius: 10px;
     font-size: 1rem;
-    background-color: #96BDF3;
+    background-color: ${props => props.theme.activeBtnColor};
     color: white;
     cursor: pointer;
   }
@@ -60,32 +60,32 @@ const SmallBox = styled.div `
     .ConfirmBtn {
     border: none;
     width : 100%;
-    height: 40px;
+    height: 5vh;
     border-radius: 10px;
     font-size: 1rem;
     color: white;
-    background-color: #96BDF3;
+    background-color: ${props => props.theme.activeBtnColor};
     margin-top: 0.5rem;
   }
 
   .LoginBtn {
     border: none;
     width : 100%;
-    height: 40px;
+    height: 5vh;
     border-radius: 10px;
     font-size: 1rem;
     color: white;
-    background-color: #CCCCCC;
+    background-color: ${props => props.theme.inactiveBtnColor};
     margin-top: 0.5rem;
   }
 
   .SignupBtn {
     border: none;
     width : 100%;
-    height: 40px;
+    height: 5vh;
     border-radius: 10px;
     font-size: 1rem;
-    background-color: #96BDF3;
+    background-color: ${props => props.theme.activeBtnColor};
     color: white;
     }
   }
@@ -123,18 +123,22 @@ const SignupForm = styled.div `
 `
 
 const InputForm = styled.section`
-  height: 20px;
+  height: 2vh;
   padding: 0.8rem;
   border: 1px solid #333333;
   border-radius: 10px;
   display: flex;
   margin-bottom: 2.5rem;
-  width: 400px;
+  width: 25vw;
+  background-color: ${props => props.theme.bgColor};
+  color : ${props => props.theme.fontColor};
 
   input {
     border: none;
     width: 100%;
     font-size: 1rem;
+    background-color: ${props => props.theme.bgColor};
+    color : ${props => props.theme.fontColor};
     &:focus { outline: none; }
     &::placeholder { 
       font-size: 0.8rem;
@@ -151,15 +155,15 @@ const InputForm = styled.section`
     border-radius: 10px;
     font-size: 0.8rem;
     color: white;
-    background-color: #96BDF3;
+    background-color: ${props => props.theme.activeBtnColor};
     cursor: pointer;
   }
 
   @media screen and (max-width:700px) {
-    height: 15px;
+    height: 2vh;
     margin-bottom: 20px;
     /* 인풋박스 크기 조절 여기서 */
-    width: 300px;
+    width: 50vw;
 
     .ConfirmBtn {
       position: relative;
@@ -183,26 +187,27 @@ const ImgBox = styled.div `
   margin-bottom: 100px;
 
   .ProfileImg {
-    width: 180px;
-    border-radius: 100px;
+    width: 11vw;
+    border-radius: 100vh;
     border: 1px solid #333333;
     cursor: pointer;
   }
 
   .cameraImg {
-    width: 30px;
-    height: 30px;
+    width: 1.5vw;
+    height: 2.5vh;
   }
 
   @media screen and (max-width:700px) {
     margin-bottom: 50px;
     .ProfileImg {
-      width: 100px;
+      width: 18vw;
+      margin-left: 5vw;
     }
 
     .cameraImg {
-      width: 20px;
-      height: 20px;
+      width: 3vw;
+      height: 2vh;
     }
   }
 `
@@ -217,7 +222,7 @@ const FormBox = styled.form `
   }
 
   .NickBox {
-    margin-left: 60px;
+    margin-left: 4vw;
   }
 
   .PasswordsBox {
@@ -227,7 +232,7 @@ const FormBox = styled.form `
   }
 
   .PasswordCheckBox {
-    margin-left: 60px;
+    margin-left: 4vw;
   }
 
   .BtnPosition {
@@ -237,7 +242,7 @@ const FormBox = styled.form `
 
   .LoginBtnBox {
     width: 100%;
-    margin-left: 60px;
+    margin-left: 4vw;
   }
 
   .SignupBtnBox {

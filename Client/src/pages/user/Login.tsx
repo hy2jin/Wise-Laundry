@@ -2,7 +2,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import logo from './images/logo2.png'
+import logo from './images/logo2.png';
+import kakaoLogin from './images/kakaoImg.png';
+
+
 
 
 const Wrapper = styled.div `
@@ -22,7 +25,7 @@ const Logobox = styled.span `
   @media screen and (max-width:700px) {
     top: 0;
     img {
-    height: 105px;
+    height: 12vh;
     }
   }
 `
@@ -36,47 +39,51 @@ const SmallBox = styled.div `
   .SignupBtn {
     border: none;
     width : 100%;
-    height: 40px;
+    height: 5vh;
     border-radius: 10px;
     font-size: 1rem;
     color: white;
-    /* color: ${props => props.theme.fontColor}; */
-    background-color: #CCCCCC;
+    background-color: ${props => props.theme.inactiveBtnColor};
     cursor: pointer;
   }
 
   .LoginBtn {
     border: none;
     width : 100%;
-    height: 40px;
+    height: 5vh;
     border-radius: 10px;
     font-size: 1rem;
-    background-color: #96BDF3;
+    background-color: ${props => props.theme.activeBtnColor};
     color: white;
     cursor: pointer;
+  }
+
+  .KakaoBtn {
+    border: none;
+    width : 100%;
+    height: 5vh;
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: #ffde00;
+    color: #181600;
+    cursor: pointer;
+    margin-top: 20px;
   }
 
   @media screen and (max-width:700px) {
     .SignupBtn {
-    border: none;
-    width : 100%;
-    height: 40px;
-    border-radius: 10px;
-    font-size: 1rem;
-    color: white;
-    background-color: #CCCCCC;
-    margin-top: 0.5rem;
-  }
-
-  .LoginBtn {
-    border: none;
-    width : 100%;
-    height: 40px;
-    border-radius: 10px;
-    font-size: 1rem;
-    background-color: #96BDF3;
-    color: white;
+      margin-top: 0.5rem;
     }
+
+    .LoginBtn {
+      border: none;
+      width : 100%;
+      height: 5vh;
+      border-radius: 10px;
+      font-size: 1rem;
+      background-color: ${props => props.theme.activeBtnColor};
+      color: white;
+      }
   }
 `
 
@@ -91,7 +98,7 @@ const LoginForm = styled.div `
   }
 
   .BtnPosition {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     display: flex;
   }
 
@@ -101,7 +108,7 @@ const LoginForm = styled.div `
   
   .SignupBtnBox {
     width: 100%;
-    margin-left: 20px;
+    margin-left: 1.5vw;
   }
 
 
@@ -131,18 +138,22 @@ const LoginForm = styled.div `
 `
 
 const InputForm = styled.section`
-  height: 20px;
+  height: 2vh;
   padding: 0.8rem;
   border: 1px solid #333333;
   border-radius: 10px;
   display: flex;
   margin-bottom: 2.5rem;
-  width: 400px;
+  width: 28vw;
+  background-color: ${props => props.theme.bgColor};
+  color : ${props => props.theme.fontColor};
 
   input {
     border: none;
     width: 100%;
     font-size: 1rem;
+    background-color: ${props => props.theme.bgColor};
+    color : ${props => props.theme.fontColor};
     &:focus { outline: none; }
     &::placeholder { 
       font-size: 0.8rem;
@@ -152,10 +163,10 @@ const InputForm = styled.section`
 
 
   @media screen and (max-width:700px) {
-    height: 15px;
+    height: 2vh;
     margin-bottom: 20px;
     /* 인풋박스 크기 조절 여기서 */
-    width: 300px;
+    width: 30vh;
 
     input {
       font-size: 0.7rem;
@@ -167,17 +178,21 @@ const InputForm = styled.section`
 `
 
 
+// const {Kakao}=window;
 
 const Login = () => {
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   window.Kakao.init(process.env.)
+  // })
   
   // function loginWithKakao() {
   //   Kakao.Auth.login({
-  //     success: function(authObj) {
+  //     success: function(authObj: any) {
   //       alert(JSON.stringify(authObj))
   //     },
-  //     fail: function(err) {
+  //     fail: function(err: any) {
   //       alert(JSON.stringify(err))
   //     },
   //   })
@@ -218,13 +233,11 @@ const Login = () => {
         </div>
         {/* <button>임시 카카오 로그인 자리</button> */}
 
+        <div>
           <a id="custom-login-btn" href="loginWithKakao()">
-            <img
-              src="//k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg"
-              width="222"
-              alt="카카오 로그인 버튼"
-            />
+            <button className='KakaoBtn'>카카오로 시작하기</button>
           </a>
+        </div>
         </LoginForm>
       </SmallBox>
     </Wrapper>
