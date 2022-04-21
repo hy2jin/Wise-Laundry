@@ -20,7 +20,7 @@ const Logobox = styled.span `
     height: 25vh;
   }
 
-  @media screen and (max-width:700px) {
+  @media screen and (max-width: 800px) {
     top: 0;
     img {
     height: 12vh;
@@ -56,7 +56,7 @@ const SmallBox = styled.div `
   }
 
 
-  @media screen and (max-width:700px) {
+  @media screen and (max-width: 800px) {
     .ConfirmBtn {
     border: none;
     width : 100%;
@@ -105,7 +105,7 @@ const SignupForm = styled.div `
     margin-right: 25px;
   }
 
-  @media screen and (max-width:700px) {
+  @media screen and (max-width: 800px) {
     /* width: 50%; */
 
     label {
@@ -155,11 +155,11 @@ const InputForm = styled.section`
     border-radius: 10px;
     font-size: 0.8rem;
     color: white;
-    background-color: ${props => props.theme.activeBtnColor};
+    background-color:max-width: 800pxps.theme.activeBtnColor};
     cursor: pointer;
   }
 
-  @media screen and (max-width:700px) {
+  @media screen and (max-width:800px) {
     height: 2vh;
     margin-bottom: 20px;
     /* 인풋박스 크기 조절 여기서 */
@@ -194,11 +194,11 @@ const ImgBox = styled.div `
   }
 
   .cameraImg {
-    width: 1.5vw;
+    width: 1.5vw;max-width: 800px
     height: 2.5vh;
   }
 
-  @media screen and (max-width:700px) {
+  @media screen and (max-width:800px) {
     margin-bottom: 50px;
     .ProfileImg {
       width: 18vw;
@@ -244,12 +244,12 @@ const FormBox = styled.form `
     width: 100%;
     margin-left: 4vw;
   }
-
+max-width: 800px
   .SignupBtnBox {
     width: 100%;
   }
 
-  @media screen and (max-width:700px) {
+  @media screen and (max-width:800px) {
 
     .EmailNickBox {
       display: flex;

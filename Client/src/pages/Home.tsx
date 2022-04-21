@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   padding-top: 30px;
-  @media screen and (max-width:700px) {
+  @media screen and (max-width: 800px) {
   }
   div{
     border-radius: 20px;
@@ -33,7 +33,7 @@ const TopLeft = styled.div`
   height: 150px;
   width: 40vw;
   background:url('https://images.pexels.com/photos/1366242/pexels-photo-1366242.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500') center;
-  @media screen and (max-width:700px) {
+  @media screen and (max-width: 800px) {
     width: 85vw;
   }
 `
@@ -41,7 +41,7 @@ const TopRight = styled.div`
   height: 150px;
   width: 40vw;
   background:url('https://images.pexels.com/photos/3262937/pexels-photo-3262937.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500') center;
-  @media screen and (max-width:700px) {
+  @media screen and (max-width: 800px) {
     width: 85vw;
     margin-top: 50px;
   }
@@ -51,7 +51,7 @@ const BotLeft = styled.div`
   height: 150px;
   width: 40vw;
   background:url('https://images.pexels.com/photos/271711/pexels-photo-271711.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500') center;
-  @media screen and (max-width:700px) {
+  @media screen and (max-width: 800px) {
     width: 85vw;
   }
 `
@@ -59,7 +59,7 @@ const BotRight = styled.div`
   height: 150px;
   width: 40vw;
   background:url('https://images.pexels.com/photos/2347642/pexels-photo-2347642.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500') center;
-  @media screen and (max-width:700px) {
+  @media screen and (max-width: 800px) {
     width: 85vw;
     margin-top: 50px;
   }
@@ -70,7 +70,7 @@ const FlexBox = styled.div`
   justify-content: space-between;
   margin: auto;
   margin-top: 50px;
-  @media screen and (max-width:700px) {
+  @media screen and (max-width: 800px) {
     flex-wrap: wrap;
     width: 85vw;
     margin: auto;

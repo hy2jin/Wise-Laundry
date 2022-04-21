@@ -20,8 +20,8 @@ const Logobox = styled.span `
   img {
     height: 25vh;
   }
-
-  @media screen and (max-width:700px) {
+max-width: 800px
+  @media screen and (max-width:800px) {
     top: 0;
     img {
     height: 12vh;
@@ -48,8 +48,8 @@ const ImgBox = styled.div `
     width: 1.5vw;
     height: 2.5vh;
   }
-
-  @media screen and (max-width:700px) {
+max-width: 800px
+  @media screen and (max-width:800px) {
     margin-bottom: 50px;
     .ProfileImg {
       width: 18vw;
@@ -91,7 +91,7 @@ const SmallBox = styled.div `
     cursor: pointer;
   }
 
-  @media screen and (max-width:700px) {
+  @media screen and (max-width: 800px) {
     .EditPasswordBtn {
     border: none;
     width : 100%;
@@ -143,7 +143,7 @@ const EditForm = styled.div `
   }
 
 
-  @media screen and (max-width:700px) {
+  @media screen and (max-width: 800px) {
 
     label {
       font-size: 0.8rem;
@@ -195,11 +195,11 @@ const InputForm = styled.section`
     font-size: 0.8rem;
     color: white;
     background-color: ${props => props.theme.activeBtnColor};
-    cursor: pointer;
+    cursor: pointer;max-width: 800px
   }
 
 
-  @media screen and (max-width:700px) {
+  @media screen and (max-width:800px) {
     height: 15px;
     margin-bottom: 20px;
     /* 인풋박스 크기 조절 여기서 */

@@ -19,10 +19,10 @@ const Logobox = styled.span `
   top: 8vh;
 
   img {
-    height: 25vh;
+    height: 25vh;max-width: 800px
   }
 
-  @media screen and (max-width:700px) {
+  @media screen and (max-width:800px) {
     top: 0;
     img {
     height: 12vh;
@@ -56,7 +56,7 @@ const SmallBox = styled.div `
     background-color: ${props => props.theme.activeBtnColor};
     color: white;
     cursor: pointer;
-  }
+  }max-width: 800px
 
   .KakaoBtn {
     border: none;
@@ -70,7 +70,7 @@ const SmallBox = styled.div `
     margin-top: 20px;
   }
 
-  @media screen and (max-width:700px) {
+  @media screen and (max-width:800px) {
     .SignupBtn {
       margin-top: 0.5rem;
     }
@@ -105,14 +105,14 @@ const LoginForm = styled.div `
   .LoginBtnBox {
     width: 100%;
   }
-  
+  max-width: 800px
   .SignupBtnBox {
     width: 100%;
     margin-left: 1.5vw;
   }
 
 
-  @media screen and (max-width:700px) {
+  @media screen and (max-width:800px) {
 
     label {
       font-size: 0.8rem;
@@ -151,7 +151,7 @@ const InputForm = styled.section`
   input {
     border: none;
     width: 100%;
-    font-size: 1rem;
+    font-size: 1rem;max-width: 800px
     background-color: ${props => props.theme.bgColor};
     color : ${props => props.theme.fontColor};
     &:focus { outline: none; }
@@ -162,7 +162,7 @@ const InputForm = styled.section`
   }
 
 
-  @media screen and (max-width:700px) {
+  @media screen and (max-width:800px) {
     height: 2vh;
     margin-bottom: 20px;
     /* 인풋박스 크기 조절 여기서 */
