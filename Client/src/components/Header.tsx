@@ -27,12 +27,12 @@ const HeaderNav = styled.nav`
     margin-top: 5px;
     height: 6vh;
   }
-  /* @media screen and (max-width:700px) {
+  /* @media screen and (max-width: 800px) {
     a {
     font-size: 10px;
   } */
   }
-  @media screen and (max-width:700px) {
+  @media screen and (max-width: 800px) {
     display: none;
   }
 `
@@ -42,7 +42,7 @@ const ToggleTop = styled.div`
     cursor: pointer;
     color: ${props => props.theme.fontColor};
     margin-top: 11px;
-    @media screen and (max-width:700px) {
+    @media screen and (max-width: 800px) {
       margin-top: 20px;
     }
 `
@@ -67,7 +67,7 @@ const FooterNav = styled.nav`
       height: 30px;
     }
   }
-  @media screen and (max-width:700px) {
+  @media screen and (max-width: 800px) {
     display: flex;
     justify-content: space-around;
   }

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import logo from './images/logo2.png';
 import profile from './images/profile-image.png';
 import camera from './images/camera-free-icon-font.png';
+import PasswordModal from './PasswordModal';
 
 
 const Wrapper = styled.div `
@@ -19,11 +20,11 @@ const Logobox = styled.span `
   img {
     height: 25vh;
   }
-
-  @media screen and (max-width:700px) {
+max-width: 800px;
+  @media screen and (max-width:800px) {
     top: 0;
     img {
-    height: 105px;
+    height: 12vh;
     }
   }
 `
@@ -36,28 +37,27 @@ const ImgBox = styled.div `
   margin-bottom: 80px;
 
   .ProfileImg {
-    width: 180px;
-    border-radius: 100px;
+    width: 10vw;
+    border-radius: 100vh;
     border: 1px solid #333333;
-    margin-left: 25px;
+    margin-left: 2vh;
     cursor: pointer;
   }
 
   .cameraImg {
-    width: 30px;
-    height: 30px;
+    width: 1.5vw;
+    height: 2.5vh;
   }
-
-  @media screen and (max-width:700px) {
+max-width: 800px;
+  @media screen and (max-width:800px) {
     margin-bottom: 50px;
     .ProfileImg {
-      width: 100px;
-      margin-left: 15px;
+      width: 18vw;
     }
 
     .cameraImg {
-      width: 20px;
-      height: 20px;
+      width: 3vw;
+      height: 2vh;
     }
   }
 `
@@ -71,45 +71,45 @@ const SmallBox = styled.div `
   .EditPasswordBtn {
     border: none;
     width : 100%;
-    height: 40px;
+    height: 5vh;
     border-radius: 10px;
     font-size: 1rem;
     color: white;
     /* color: ${props => props.theme.fontColor}; */
-    background-color: #CCCCCC;
+    background-color: ${props => props.theme.inactiveBtnColor};
     cursor: pointer;
   }
 
   .SaveBtn {
     border: none;
     width : 100%;
-    height: 40px;
+    height: 5vh;
     border-radius: 10px;
     font-size: 1rem;
-    background-color: #96BDF3;
+    background-color: ${props => props.theme.activeBtnColor};
     color: white;
     cursor: pointer;
   }
 
-  @media screen and (max-width:700px) {
+  @media screen and (max-width: 800px) {
     .EditPasswordBtn {
     border: none;
     width : 100%;
-    height: 40px;
+    height: 5vh;
     border-radius: 10px;
     font-size: 1rem;
     color: white;
-    background-color: #CCCCCC;
+    background-color: ${props => props.theme.inactiveBtnColor};
     margin-top: 0.5rem;
   }
 
   .SaveBtn {
     border: none;
     width : 100%;
-    height: 40px;
+    height: 5vh;
     border-radius: 10px;
     font-size: 1rem;
-    background-color: #96BDF3;
+    background-color: ${props => props.theme.activeBtnColor};
     color: white;
     }
   }
@@ -143,7 +143,7 @@ const EditForm = styled.div `
   }
 
 
-  @media screen and (max-width:700px) {
+  @media screen and (max-width: 800px) {
 
     label {
       font-size: 0.8rem;
@@ -162,18 +162,22 @@ const EditForm = styled.div `
 `
 
 const InputForm = styled.section`
-  height: 20px;
+  height: 2vh;
   padding: 0.8rem;
   border: 1px solid #333333;
   border-radius: 10px;
   display: flex;
   margin-bottom: 30px;
-  width: 400px;
+  width: 30vw;
+  background-color: ${props => props.theme.bgColor};
+  color : ${props => props.theme.fontColor};
 
   input {
     border: none;
     width: 100%;
     font-size: 1rem;
+    background-color: ${props => props.theme.bgColor};
+    color : ${props => props.theme.fontColor};
     &:focus { outline: none; }
     &::placeholder { 
       font-size: 0.8rem;
@@ -190,16 +194,16 @@ const InputForm = styled.section`
     border-radius: 10px;
     font-size: 0.8rem;
     color: white;
-    background-color: #96BDF3;
-    cursor: pointer;
+    background-color: ${props => props.theme.activeBtnColor};
+    cursor: pointer;max-width: 800px
   }
 
 
-  @media screen and (max-width:700px) {
+  @media screen and (max-width:800px) {
     height: 15px;
     margin-bottom: 20px;
     /* 인풋박스 크기 조절 여기서 */
-    width: 300px;
+    width: 55vw;
 
     .ConfirmBtn {
       position: relative;
@@ -217,10 +221,13 @@ const InputForm = styled.section`
 `
 
 const Profile = () => {
+  const [modalOn, setModalOn] = useState(false);
 
   const passwordChangeModal = () => {
-    console.log('모달')
+    setModalOn(true);
+    console.log(modalOn,' 모달 열기')
   }
+
 
 
   return (
@@ -259,6 +266,7 @@ const Profile = () => {
           </div>
         </EditForm>
       </SmallBox>
+      {modalOn && <PasswordModal setModalOn={setModalOn}/>}
     </Wrapper>
   );
 };

@@ -26,7 +26,7 @@ width: 60px;
   &:hover{
     transform: scale(1.05);
   }
-  @media screen and (max-width:700px) {
+  @media screen and (max-width: 800px) {
     width: 48px;
     height: 24px;
   }
@@ -45,7 +45,7 @@ width: 60px;
   -webkit-transition: all .35s;
   transition: all .35s;
   box-shadow: ${props => props.theme.boxShadowBox};
-  @media screen and (max-width:700px) {
+  @media screen and (max-width: 800px) {
     width: 21px;
     height: 21px;
   }

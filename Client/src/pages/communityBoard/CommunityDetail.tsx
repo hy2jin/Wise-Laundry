@@ -29,7 +29,8 @@ interface Istate {
 
 const Wrapper = styled.article`
   margin: 4vh 7vw;
-  @media screen and (max-width: 700px) {
+  margin-top: 1rem;
+  @media screen and (max-width: 800px) {
     padding-bottom: 7vh;
   }
   `
