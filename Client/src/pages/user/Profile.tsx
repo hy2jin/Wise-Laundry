@@ -20,7 +20,7 @@ const Logobox = styled.span `
   img {
     height: 25vh;
   }
-max-width: 800px
+max-width: 800px;
   @media screen and (max-width:800px) {
     top: 0;
     img {
@@ -48,7 +48,7 @@ const ImgBox = styled.div `
     width: 1.5vw;
     height: 2.5vh;
   }
-max-width: 800px
+max-width: 800px;
   @media screen and (max-width:800px) {
     margin-bottom: 50px;
     .ProfileImg {
