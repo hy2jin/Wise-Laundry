@@ -155,7 +155,8 @@ const InputForm = styled.section`
     border-radius: 10px;
     font-size: 0.8rem;
     color: white;
-    background-color:max-width: 800pxps.theme.activeBtnColor};
+    max-width: 800px;
+    background-color: ${props => props.theme.activeBtnColor};
     cursor: pointer;
   }
 
@@ -194,7 +195,8 @@ const ImgBox = styled.div `
   }
 
   .cameraImg {
-    width: 1.5vw;max-width: 800px
+    width: 1.5vw;
+    max-width: 800px;
     height: 2.5vh;
   }
 
@@ -244,7 +246,7 @@ const FormBox = styled.form `
     width: 100%;
     margin-left: 4vw;
   }
-max-width: 800px
+max-width: 800px;
   .SignupBtnBox {
     width: 100%;
   }

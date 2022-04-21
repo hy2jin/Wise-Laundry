@@ -56,11 +56,12 @@ const SmallBox = styled.div `
     background-color: ${props => props.theme.activeBtnColor};
     color: white;
     cursor: pointer;
-  }max-width: 800px
+  }
+  max-width: 800px;
 
   .KakaoBtn {
     border: none;
-    width : 100%;
+    width: 100%;
     height: 5vh;
     border-radius: 10px;
     font-size: 1rem;
@@ -105,7 +106,8 @@ const LoginForm = styled.div `
   .LoginBtnBox {
     width: 100%;
   }
-  max-width: 800px
+  max-width: 800px;
+
   .SignupBtnBox {
     width: 100%;
     margin-left: 1.5vw;
@@ -151,7 +153,8 @@ const InputForm = styled.section`
   input {
     border: none;
     width: 100%;
-    font-size: 1rem;max-width: 800px
+    font-size: 1rem;
+    max-width: 800px;
     background-color: ${props => props.theme.bgColor};
     color : ${props => props.theme.fontColor};
     &:focus { outline: none; }
