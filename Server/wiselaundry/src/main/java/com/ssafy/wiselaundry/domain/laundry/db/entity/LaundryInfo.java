@@ -21,11 +21,11 @@ public class LaundryInfo {
     private int clothing_tag_id;
 
     @ManyToOne
-    @Column(name = "laundry_id")
+    @JoinColumn(name = "laundry_id")
     private Laundry laundry;
 
     @ManyToOne
-    @Column(name = "laundry_info_id")
+    @JoinColumn(name = "laundry_info_id")
     private Info laundryInfo;
 
 }

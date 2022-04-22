@@ -7,7 +7,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.annotation.Generated;
 import javax.persistence.*;
 
 @Entity
@@ -27,13 +26,13 @@ public class Laundry {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ApiModelProperty(value = "세탁물 이미지", example = "laungry_img.jpg")
+    @ApiModelProperty(value = "세탁물 이미지", example = "laundry_img.jpg")
     @Column(name = "laundry_img")
     private String laundryImg;
 
     @ApiModelProperty(value = "세탁물 카테고리", example = "woolKnit")
     @Column(name = "laundry_category")
-    private String laundryCatgory;
+    private String laundryCategory;
 
     @ApiModelProperty(value = "메모", example = "dryCleaning")
     @Column(name = "laundry_memo")

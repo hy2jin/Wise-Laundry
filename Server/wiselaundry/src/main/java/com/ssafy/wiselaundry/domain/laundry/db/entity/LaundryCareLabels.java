@@ -21,11 +21,11 @@ public class LaundryCareLabels {
     private int clothing_label_id;
 
     @ManyToOne
-    @Column(name = "laundry_id")
+    @JoinColumn(name = "laundry_id")
     private Laundry laundry;
 
     @ManyToOne
-    @Column(name = "care_label_id")
+    @JoinColumn(name = "care_label_id")
     private CareLabels careLabel;
 
 }
