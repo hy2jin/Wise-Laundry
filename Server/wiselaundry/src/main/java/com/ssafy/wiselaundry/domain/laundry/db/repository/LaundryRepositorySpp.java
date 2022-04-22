@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.wiselaundry.domain.laundry.db.bean.CareLabelDetail;
 import com.ssafy.wiselaundry.domain.laundry.db.bean.InfoDetail;
 import com.ssafy.wiselaundry.domain.laundry.db.bean.LaundryDetail;
+import com.ssafy.wiselaundry.domain.laundry.db.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

@@ -27,16 +27,9 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    @Cacheable(value = "findByEmail", key="#userEmail")
-    public User findByEmail(String userEmail) {
-        User user = userRepositorySpp.findByEmail(userEmail);
-        return user;
-    }
-
-    @Override
     public User createUser(UserRegisterPostReq userRegisterInfo) {
         User user = new User();
-        if(findByEmail(userRegisterInfo.getUserEmail()).equals(null)){
+        if(userRepository.findByUserEmail(userRegisterInfo.getUserEmail())==null){
             user.setUserEmail((userRegisterInfo.getUserEmail()));
             user.setUserNick((userRegisterInfo.getUserNick()));
             user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword()));
@@ -48,12 +41,18 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User updateUser(UserUpdatePostReq userUpdateInfo){
-        User user = findByEmail(userUpdateInfo.getUserEmail());
-        user.setUserNick(userUpdateInfo.getUserNick());
-        if(!userUpdateInfo.getPassword().equals("")){
-            user.setPassword(userUpdateInfo.getPassword());
+        User user = userRepository.findByUserEmail(userUpdateInfo.getUserEmail());
+        if(user==null){
+            return null;
+        }else{
+            user.setUserNick(userUpdateInfo.getUserNick());
+            if(!userUpdateInfo.getPassword().equals("")){
+                user.setPassword(userUpdateInfo.getPassword());
+            }
+            //profile 수정만 추가.....
+            userRepository.flush();
+            return user;
         }
-        //profile 수정만 추가.....
-        return user;
+
     }
 }

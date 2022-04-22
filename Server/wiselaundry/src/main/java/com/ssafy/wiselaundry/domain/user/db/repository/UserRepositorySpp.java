@@ -15,16 +15,8 @@ public class UserRepositorySpp {
 
     @Autowired
     private JPAQueryFactory jpaQueryFactory;
+
     QUser quser = QUser.user;
 
-
-    public User findByEmail(String userEmail){
-        return jpaQueryFactory.select(quser).from(quser)
-                .where(quser.userEmail.eq(userEmail)).fetchOne();
-    };
-
-    public User updatePassword(String userEmail){
-        return null;
-    }
 
 }
