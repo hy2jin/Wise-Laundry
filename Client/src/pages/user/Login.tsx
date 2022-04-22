@@ -22,7 +22,7 @@ const Logobox = styled.span `
     height: 25vh;max-width: 800px
   }
 
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
     top: 0;
     img {
     height: 12vh;
@@ -71,7 +71,7 @@ const SmallBox = styled.div `
     margin-top: 20px;
   }
 
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
     .SignupBtn {
       margin-top: 0.5rem;
     }
@@ -114,7 +114,7 @@ const LoginForm = styled.div `
   }
 
 
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
 
     label {
       font-size: 0.8rem;
@@ -165,7 +165,7 @@ const InputForm = styled.section`
   }
 
 
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
     height: 2vh;
     margin-bottom: 20px;
     /* 인풋박스 크기 조절 여기서 */

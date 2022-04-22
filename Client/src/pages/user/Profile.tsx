@@ -21,7 +21,7 @@ const Logobox = styled.span `
     height: 25vh;
   }
 max-width: 800px;
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
     top: 0;
     img {
     height: 12vh;
@@ -49,7 +49,7 @@ const ImgBox = styled.div `
     height: 2.5vh;
   }
 max-width: 800px;
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
     margin-bottom: 50px;
     .ProfileImg {
       width: 18vw;
@@ -199,7 +199,7 @@ const InputForm = styled.section`
   }
 
 
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
     height: 15px;
     margin-bottom: 20px;
     /* 인풋박스 크기 조절 여기서 */
