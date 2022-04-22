@@ -4,6 +4,7 @@ package com.ssafy.wiselaundry.domain.user.controller;
 import com.ssafy.wiselaundry.domain.user.db.entity.User;
 import com.ssafy.wiselaundry.domain.user.request.UserLoginPostReq;
 import com.ssafy.wiselaundry.domain.user.request.UserRegisterPostReq;
+import com.ssafy.wiselaundry.domain.user.request.UserUpdatePostReq;
 import com.ssafy.wiselaundry.domain.user.response.UserLoginPostRes;
 import com.ssafy.wiselaundry.domain.user.service.UserService;
 import com.ssafy.wiselaundry.global.model.response.BaseResponseBody;
@@ -39,7 +40,7 @@ public class UserController {
         String user_email = loginInfo.getUserEmail();
         String user_password = loginInfo.getUserPassword();
         User user = userService.findByEmail(user_email);
-        if(passwordEncoder.matches(user_password, user.getUserPassword())){
+        if(passwordEncoder.matches(user_password, user.getPassword())){
             //패스워드가 맞는 경우 , 로그인 성공
             return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(user_email), user_email));
         }
@@ -65,6 +66,15 @@ public class UserController {
             return ResponseEntity.status(400).body(BaseResponseBody.of(400, "error"));
         }
     }
+
+    // 회원정보 수정
+    @PostMapping("/update")
+    public ResponseEntity<? extends BaseResponseBody> update(@RequestBody @ApiParam(value="회원수정 정보", required = true) UserUpdatePostReq userUpdateInfo){
+        User user = userService.updateUser(userUpdateInfo);
+
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200,"Success"));
+    }
+
 
 
 }

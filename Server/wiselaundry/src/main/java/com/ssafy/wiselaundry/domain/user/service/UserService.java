@@ -3,6 +3,7 @@ package com.ssafy.wiselaundry.domain.user.service; //비즈니스 로직 처리�
 
 import com.ssafy.wiselaundry.domain.user.db.entity.User;
 import com.ssafy.wiselaundry.domain.user.request.UserRegisterPostReq;
+import com.ssafy.wiselaundry.domain.user.request.UserUpdatePostReq;
 
 
 /**
@@ -11,4 +12,5 @@ import com.ssafy.wiselaundry.domain.user.request.UserRegisterPostReq;
 public interface UserService {
 	User findByEmail(String userEmail);
 	User createUser(UserRegisterPostReq userRegisterInfo);
+	User updateUser(UserUpdatePostReq userUpdatePostReq);
 }
