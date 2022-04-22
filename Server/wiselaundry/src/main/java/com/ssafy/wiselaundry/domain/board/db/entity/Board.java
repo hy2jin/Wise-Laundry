@@ -1,16 +1,13 @@
 package com.ssafy.wiselaundry.domain.board.db.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ssafy.wiselaundry.domain.user.db.entity.User;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -26,8 +23,7 @@ public class Board{
     @Column(name = "board_id")
     private int boardId;
 
-    // Todo
-    //@ApiModelProperty(value = "유저 정보", example = "")
+    @ApiModelProperty(value = "유저 정보", example = "")
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -42,11 +38,20 @@ public class Board{
 
     @ApiModelProperty(value = "게시글 내용", required = true, example = "게시글 내용입니다")
     @Column(name = "board_content")
-    private int boardContent;
+    private String boardContent;
 
     @ApiModelProperty(value = "게시글 날짜", required = true, example = "2020-01-23 13:33:33")
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "board_dt")
     private Date boardDt;
 
+    @Builder
+    Board(int boardId, User user, String boardName, String boardImg, String boardContent, Date boardDt) {
+        this.boardId = boardId;
+        this.user = user;
+        this.boardName = boardName;
+        this.boardImg = boardImg;
+        this.boardContent = boardContent;
+        this.boardDt = boardDt;
+    }
 }
