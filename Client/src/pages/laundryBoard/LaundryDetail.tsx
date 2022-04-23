@@ -13,7 +13,7 @@ const Wrapper = styled.article`
     font-size: 4vh;
     color: ${props => props.theme.fontColor};
   }
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
     width: 90vw;
   }
   /* height: 120vh; */
@@ -25,7 +25,7 @@ const DetailBox = styled.section`
   height: 600px;
   box-shadow: ${props => props.theme.boxShadowBox} ;
   border-radius: 10px;
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
     height: auto;
   }
 `
@@ -37,7 +37,7 @@ const Top = styled.div`
     margin-left: 3vw;
     margin-top: 5vh;
   }
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
     display: inline;
     margin: auto;
     img{
@@ -114,7 +114,7 @@ const ButtonBox = styled.div`
     font-size:1.1rem;
     cursor: pointer;
   }
-  @media screen and (max-width:800px) { 
+  @media screen and (max-width: 800px) { 
     button{
     margin-top: 10px;
     height: 30px;

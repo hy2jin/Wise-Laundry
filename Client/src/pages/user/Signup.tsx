@@ -160,7 +160,7 @@ const InputForm = styled.section`
     cursor: pointer;
   }
 
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
     height: 2vh;
     margin-bottom: 20px;
     /* 인풋박스 크기 조절 여기서 */
@@ -200,7 +200,7 @@ const ImgBox = styled.div `
     height: 2.5vh;
   }
 
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
     margin-bottom: 50px;
     .ProfileImg {
       width: 18vw;
@@ -251,7 +251,7 @@ max-width: 800px;
     width: 100%;
   }
 
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
 
     .EmailNickBox {
       display: flex;

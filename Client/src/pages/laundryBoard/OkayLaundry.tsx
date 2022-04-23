@@ -12,7 +12,7 @@ const Wrapper = styled.article`
     font-size: 4vh;
     color: ${props => props.theme.fontColor};
   }
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
     width: 90vw;
   }
   /* height: 120vh; */
@@ -36,7 +36,7 @@ const ContainerBox = styled.section`
     margin-top: 5vh;
     border-radius: 10px;
   }
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
     height: auto;
     img{
       height: 350px;
@@ -51,7 +51,7 @@ const ContainerBox = styled.section`
 `
 const FlexBox = styled.div`
   display: flex;
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
     display: inline;
   }
 `
@@ -69,7 +69,7 @@ const InformBox = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 450px;
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
     width: 80vw;
     height: auto;
     text-align: center;
@@ -84,7 +84,7 @@ const Button = styled.button`
   border-radius: 10px;
   margin: auto;
   cursor: pointer;
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
     margin-top: 50px;
     width: 70vw;
   }
