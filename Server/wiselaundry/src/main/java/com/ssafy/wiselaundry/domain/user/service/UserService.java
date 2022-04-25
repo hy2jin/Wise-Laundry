@@ -12,4 +12,5 @@ import com.ssafy.wiselaundry.domain.user.request.UserUpdatePostReq;
 public interface UserService {
 	User createUser(UserRegisterPostReq userRegisterInfo);
 	User updateUser(UserUpdatePostReq userUpdatePostReq);
+	User findByUserId(int userId);
 }

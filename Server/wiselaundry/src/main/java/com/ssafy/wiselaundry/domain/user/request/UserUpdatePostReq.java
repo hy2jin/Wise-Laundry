@@ -1,5 +1,6 @@
 package com.ssafy.wiselaundry.domain.user.request;
 
+import com.ssafy.wiselaundry.domain.user.db.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -20,4 +21,12 @@ public class UserUpdatePostReq{
     String userImg;
     @ApiModelProperty(name = "회원 Password", example = "1234")
     String password;
+
+    public User toEntity(UserRegisterPostReq body){
+        return User.builder()
+                .userEmail(body.getUserEmail())
+                .userNick(body.getUserNick())
+                .password(body.getPassword())
+                .build();
+    }
 }
