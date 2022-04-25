@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import { useNavigate } from 'react-router-dom';
 import tack from './images/laundryLabel.jpg'
 const Wrapper = styled.article`
+  padding-top: 2vh;
   width: 70vw;
   margin: auto;
   background-color: ${props => props.theme.bgColor};
@@ -35,17 +34,30 @@ const ContainerBox = styled.section`
     margin-left: 10vw;
     margin-top: 5vh;
     border-radius: 10px;
+    border: 2px solid #6b6b6b;
+  }
+  @media screen and (max-width: 1200px) {
+    height: auto;
+    img{
+      height: 45vh;
+      width: 30vw;
+      margin-top: 5vh;
+      margin-left:5vw;
+    }
+    .title{
+      font-size: 30px;
+    }
   }
   @media screen and (max-width: 800px) {
     height: auto;
     img{
-      height: 350px;
-      width: 80%;
+      height: 40vh;
+      width: 90%;
       margin-top: 5vh;
-      margin-left:10vw;
+      margin-left:5vw;
     }
     .title{
-      font-size: 5vw;
+      font-size: 30px;
     }
   }
 `
@@ -59,17 +71,18 @@ const InformBox = styled.div`
   width: 30vw;
   margin: auto;
   margin-top: 5vh;
-  .inform{
-    overflow-y: auto;
-
-    p{
-  }
-  }
+  
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 450px;
+  .inform{
+    overflow-y: auto;
+    height: 45vh;
+    flex:9;
+  }
   @media screen and (max-width: 800px) {
+    font-size: 14px;
     width: 80vw;
     height: auto;
     text-align: center;
@@ -90,10 +103,8 @@ const Button = styled.button`
   }
 `
 const OkayLaundry = () => {
-  const navigate = useNavigate()
   return (
     <Wrapper>
-      <KeyboardBackspaceIcon style={{"cursor":"pointer"}} onClick={()=>{navigate('/laundry')}}/>
       <ContainerBox>
         <div className='title'>Okay Laundry</div>
         <FlexBox>

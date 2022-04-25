@@ -1,14 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import {Link, useNavigate} from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { themeState } from '../store/state/theme'
 import ToggleSwitch from './ToggleSwitch'
 import MobileBack from './MobileBack'
-
+import IronIcon from '@mui/icons-material/Iron';
+import LinkedCameraIcon from '@mui/icons-material/LinkedCamera';
+import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
+import ForumIcon from '@mui/icons-material/Forum';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 const Wrapper = styled.div`
   .backIcon{
     cursor: pointer;
+    /* width: 100px; */
+    background-color: yellow;
   }
 `
 const HeaderNav = styled.nav`
@@ -76,15 +82,17 @@ const FooterNav = styled.nav`
   
 
 const Header = () => {
-  const [theme,setTheme] = useRecoilState(themeState)
+  const [themeCheck,setThemeCheck] = useState(false)
+
   const navigate = useNavigate()
   if (window.location.pathname === '/') 
   return null;
+ 
   return (
     <Wrapper>
-      <div className='backIcon'>
+      <span className='backIcon'>
         <MobileBack/>
-      </div>
+      </span>
       <HeaderNav>
         <Link to='/laundry'>MY LAUNDRY</Link>
         <Link to='/okaylaundry'>OKAY LAUNDRY</Link>
@@ -92,15 +100,15 @@ const Header = () => {
         <img src='https://cdn-icons-png.flaticon.com/512/3238/3238630.png' onClick={() => navigate('/home')} alt='logo'/>
         <Link to='/community'>COMMUNITY</Link>
         <Link to='/profile'>PROFILE</Link>
-        <ToggleTop ><ToggleSwitch/></ToggleTop>
+        <ToggleTop ><ToggleSwitch themeCheck={themeCheck} setThemeCheck={setThemeCheck} /></ToggleTop>
       </HeaderNav>
       <FooterNav>
-          <Link to='/laundry'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
-          <Link to='/okaylaundry'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
-          <Link to='/near'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
-          <Link to='/community'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
-          <Link to='/profile'><img src='https://cdn-icons-png.flaticon.com/512/821/821528.png' alt='그림'/></Link>
-          <ToggleTop ><ToggleSwitch/></ToggleTop>
+          <Link to='/laundry'><IronIcon/></Link>
+          <Link to='/okaylaundry'><LinkedCameraIcon/></Link>
+          <Link to='/near'><LocalLaundryServiceIcon/></Link>
+          <Link to='/community'><ForumIcon/></Link>
+          <Link to='/profile'><AssignmentIndIcon/></Link>
+          <ToggleTop ><ToggleSwitch themeCheck={themeCheck} setThemeCheck={setThemeCheck}/></ToggleTop>
       </FooterNav>
     </Wrapper>
   )

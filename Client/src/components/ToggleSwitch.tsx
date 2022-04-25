@@ -82,25 +82,29 @@ width: 60px;
 }
 
 `
+interface Iprops {
+  themeCheck:boolean
+  setThemeCheck :React.Dispatch<React.SetStateAction<boolean>>
+}
 
-
-const ToggleSwitch:React.FC= () => {
-  const [change,setChange] = useState(false)
+const ToggleSwitch:React.FC<Iprops>= ({themeCheck,setThemeCheck}) => {
   const [theme,setTheme] = useRecoilState(themeState)
 
   useEffect(()=>{
-    if (!change){
+    if (!themeCheck){
       setTheme(LIGHTMODE)}
     else{
       setTheme(DARKMODE)
     }
-  },[change])
+  },[themeCheck])
   return (
     <Wrapper>
       <div className="input_wrapper">
         <input onChange={(e: React.ChangeEvent<HTMLInputElement>)=>{
-          setChange(e.target.checked)
-        }} type="checkbox" className="switch_4"/>
+          setThemeCheck(e.target.checked)
+        }} 
+        checked={themeCheck}
+        type="checkbox" className="switch_4"/>
       </div>
     </Wrapper>
   )

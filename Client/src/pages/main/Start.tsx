@@ -24,17 +24,18 @@ const Wrapper = styled.article`
     color: white;
     position: fixed;
     left: 50%;
-    top:300px;
+    /* top:300px; */
+    top:30vh;
     transform: translate(-50%, 0);
     z-index: 2;
     @media screen and (max-width: 800px) {
       font-size: 40px;
       left: 54%;
-      top:300px;
     }
   }
   .up{
-    top:100px;
+    /* top:100px; */
+    top:10vh;
     transition: 1.5s;
     min-width: 200px;
     font-size: 5vw;
@@ -46,7 +47,6 @@ const Wrapper = styled.article`
     @media screen and (max-width: 800px) {
       font-size: 40px;
       left: 57%;
-      top:100px;
     }
   }
   img{
@@ -79,7 +79,8 @@ const Content = styled.div`
     width: 50vw;
     height: 30vh;
     left: 25%;
-    top:350px;
+    /* top:350px; */
+    top:50vh;
     color:white;
     text-align: center;
     /* transition: 2s; */
@@ -95,7 +96,8 @@ const Content = styled.div`
     font-size: 25px;
     /* transform: translateY(30px); */
     /* line-height: 50px; */
-    transition: all 1s ease;
+    /* transition: all 1s ease; */
+    transition: 1s;
     @media screen and (max-width: 800px) {
       font-size: 16px;
     }
@@ -113,7 +115,7 @@ const LoginBox = styled.div`
     transition: 1s;
   }
   position: fixed;
-  top:650px;
+  top:90vh;
   display: flex;
   width: 50vw;
   height: 50px;
@@ -191,14 +193,14 @@ const Start = () => {
           allowTouchMove ={false}
           effect="fade"
           >
-        {[img1, img2, img3,img4].map((i, el) => {
+        {[img1, img2,img4, img3].map((i, el) => {
           return <SwiperSlide key={el}>
               <img alt='img' src={i}/>
               </SwiperSlide>;
         })}
         </Swiper>
       } 
-      {showImg ===4 && <img alt='img' src={img4}/>}
+      {showImg ===4 && <img alt='img' src={img3}/>}
       
         <Content >
         <article className={showText ?"show":""} >

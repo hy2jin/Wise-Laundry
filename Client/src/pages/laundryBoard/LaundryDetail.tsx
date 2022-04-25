@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const Wrapper = styled.article`
   width: 70vw;
   margin: auto;
+  margin-top: 1vh;
   background-color: ${props => props.theme.bgColor};
   svg{
     margin: 30px 0;
@@ -97,6 +98,36 @@ const Label = styled.div`
   p{
     margin-top: 1px;
   }
+  &:nth-child(1){
+    background-color: #91ff47;
+  }
+  &:nth-child(2){
+    background-color: #47ffe3;
+  }
+  &:nth-child(3){
+    background-color: #e6fb5e;
+  }
+  &:nth-child(4){
+    background-color: #ff47ce;
+  }
+  &:nth-child(5){
+    background-color: #f9a93a;
+  }
+  &:nth-child(6){
+    background-color: #96b084;
+  }
+  &:nth-child(7){
+    background-color: #30a997;
+  }
+  &:nth-child(8){
+    background-color: #a2b434;
+  }
+  &:nth-child(9){
+    background-color: #b33090;
+  }
+  &:nth-child(10){
+    background-color: #a87226;
+  }
 `
 const ButtonBox = styled.div`
   width: 70vw;
@@ -151,7 +182,6 @@ const LaundryDetail = () => {
   const navigate = useNavigate()
   return (
     <Wrapper>
-      <KeyboardBackspaceIcon style={{"cursor":"pointer"}} onClick={()=>{navigate('/laundry')}}/>
       <DetailBox>
         <Top>
           <img alt='옷사진' src={laundry.laundryImg}/>
