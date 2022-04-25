@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-// const setToken = ()=>{
+const baseURL = process.env.REACT_APP_BASEURL
+
+// const setToken = () => {
 //   const token = localStorage.getItem('jwt')
 //   const config = {
 //     Authorization:`Bearer ${token}`
@@ -11,14 +13,14 @@ import axios from 'axios'
 const token = sessionStorage.getItem('jwt')
 
 const apiClient = axios.create({
-  baseURL:'http://localhost:8080/api',
+  baseURL: baseURL,
   headers:{
     "Content-type": "application/json",
     'Authorization':`Bearer ${token}`
   }
 })
 
-export const postLogin = async (id:string, password:string)=> {
+export const postLogin = async (id:string, password:string) => {
   const response = await apiClient.post<any>(
     '/users/login',
     {
