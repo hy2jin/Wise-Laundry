@@ -26,8 +26,10 @@ const DetailBox = styled.section`
   height: 600px;
   box-shadow: ${props => props.theme.boxShadowBox} ;
   border-radius: 10px;
+  margin-top: 10vh;
   @media screen and (max-width: 800px) {
     height: auto;
+    margin-top: 0;
   }
 `
 const Top = styled.div`

@@ -378,7 +378,7 @@ const Signup = () => {
                   <label htmlFor='passwordCheck'>
                     <span className='LabelTitle'>비밀번호 확인</span> 
                     <InputForm >
-                      <input type='passwordCheck' id='passwordCheck' 
+                      <input type='password' id='passwordCheck' 
                         placeholder='비밀번호를 한 번 더 입력하세요'
                       />
                     </InputForm>

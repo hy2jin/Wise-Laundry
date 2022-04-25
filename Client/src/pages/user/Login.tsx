@@ -239,7 +239,7 @@ const Login = () => {
           <label htmlFor="passwordInput">
             <span className='LabelTitle'>비밀번호</span>
           <InputForm>
-            <input type="text" name="passwordInput" placeholder="비밀번호를 입력하세요" />
+            <input type="password" name="passwordInput" placeholder="비밀번호를 입력하세요" />
           </InputForm>
           </label>
         </div>

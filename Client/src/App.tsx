@@ -37,6 +37,12 @@ const Wrapper = styled.div`
     margin-top: 0;
     padding-top:10px;
   }
+  input[type=password] {
+    font-family:'Malgun gothic', dotum, sans-serif;
+    &::placeholder {
+      font-family: 'twayair';
+    }
+  }
 `
 
 const App= (props:any) => {

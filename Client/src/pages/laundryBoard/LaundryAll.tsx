@@ -16,6 +16,7 @@ const Wrapper = styled.article`
   width: 70vw;
   /* background-color: yellow; */
   margin: auto;
+  padding-bottom: 10vh;
 `
 
 const Title = styled.div`

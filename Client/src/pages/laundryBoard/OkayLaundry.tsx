@@ -15,7 +15,7 @@ const Wrapper = styled.article`
     width: 90vw;
   }
   /* height: 120vh; */
-  padding-bottom: 20vh;
+  padding-bottom: 10vh;
 
 `
 const ContainerBox = styled.section`
@@ -23,6 +23,7 @@ const ContainerBox = styled.section`
   height: 650px;
   box-shadow: ${props => props.theme.boxShadowBox} ;
   border-radius: 10px;
+  margin-top: 10vh;
   .title{
     font-size: 4vw;
     text-align: center;
@@ -38,6 +39,7 @@ const ContainerBox = styled.section`
   }
   @media screen and (max-width: 1200px) {
     height: auto;
+    margin-top: 0;
     img{
       height: 45vh;
       width: 30vw;
