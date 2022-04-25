@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import { datadetail } from './data'
 import { useRecoilState } from 'recoil';
 import { themeState } from '../../store/state/theme';
 import { useNavigate } from 'react-router-dom';
+import { datadetail } from './data'
 
 interface Istate {
   board: {
@@ -28,10 +29,12 @@ interface Istate {
 }
 
 const Wrapper = styled.article`
-  margin: 4vh 7vw;
-  margin-top: 1rem;
+  width: 60vw;
+  margin: auto;
+  padding: 5vh 0;
   @media screen and (max-width: 800px) {
-    padding-bottom: 7vh;
+    width: 80vw;
+    padding: 0;
   }
   `
 const Board = styled.section`
@@ -40,30 +43,18 @@ const Board = styled.section`
   border-radius: 10px;
   padding: 2vh 4vw;
 `
-const Btns = styled.section`
-  display: flex;
-  justify-content: center;
-  button {
-    margin: 2rem 1rem 0 1rem;
-    border: none;
-    padding: .5rem 1.5rem;
-    color: white;
-    border-radius: 4px;
-    &.active {
-      background-color: ${props => props.theme.activeBtnColor};
-    }
-    &.inactive {
-      background-color: ${props => props.theme.inactiveBtnColor};
-    }
-  }
-`
 const BoardContent = styled.div`
-  .picture {
-    width: 100%;
-    aspect-ratio: 1/1;
-    margin-bottom: 1rem;
-  }
   .top {
+    width: 80%;
+    margin: auto;
+    padding-top: 1rem;
+    img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      margin-bottom: 1rem;
+    }
+  }
+  .middle {
     height: 5vh;
     display: flex;
     justify-content: space-between;
@@ -78,10 +69,15 @@ const BoardContent = styled.div`
       }
     }
   }
-  .middle {
+  .bottom {
     padding: 0 1rem;
     .title {
       font-size: 1.3rem;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    .top {
+      width: 100%;
     }
   }
 `
@@ -126,6 +122,7 @@ const CreateComment = styled.div`
     border: 1px solid #cccccc;
     border-radius: 4px;
     padding-left: .5rem;
+    background-color: ${props => props.theme.bgColor};
   }
   button {
     font-size: 1rem;
@@ -134,6 +131,30 @@ const CreateComment = styled.div`
     color: white;
     border-radius: 4px;
     background-color: ${props => props.theme.activeBtnColor};
+  }
+`
+const Btns = styled.section`
+  display: flex;
+  justify-content: center;
+  button {
+    margin: 2rem 1rem 0 1rem;
+    width: 15vw;
+    height: 5vh;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    &.active {
+      background-color: ${props => props.theme.activeBtnColor};
+    }
+    &.inactive {
+      background-color: ${props => props.theme.inactiveBtnColor};
+    }
+  }
+  @media screen and (max-width: 800px) {
+    padding-bottom: 10vh;
+    button {
+      height: 4vh;
+    }
   }
 `
 
@@ -159,7 +180,8 @@ const CommunityDetail = () => {
         commentContent: '',
         commentDate: ''
       }
-    ]})
+    ]
+  })
 
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -177,12 +199,15 @@ const CommunityDetail = () => {
   useEffect(() => {
     setBoard(datadetail)
   }, [])
+
   return (
     <Wrapper>
       <Board>
         <BoardContent>
-          <img className='picture' src={board.boardImg} alt='사진' />
           <div className='top'>
+            <img src={board.boardImg} alt='사진' />
+          </div>
+          <div className='middle'>
             <div className='user'>
               <img src={board.userImg} alt='이미지' />
               <p>{board.userNick}</p>
@@ -190,7 +215,7 @@ const CommunityDetail = () => {
             <p className='date'>작성일 : {board.boardDate}</p>
           </div>
           <hr />
-          <div className='middle'>
+          <div className='bottom'>
             <p className='title'>{board.boardName}</p>
             <p className='content'>{board.boardContent}</p>
           </div>
