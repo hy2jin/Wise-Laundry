@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CareLabelsRepository extends JpaRepository<CareLabels,Integer> {
-    CareLabels findByCareLabelId(int careLabelId);
+    CareLabels findByCareLabelName(String careLabelName);
 }

@@ -44,15 +44,16 @@ public class LaundryController {
     @ApiOperation(value = "옷 detail 조회")
     public ResponseEntity<LaundryDetailsRes> laundryDetails (@ApiParam(value = "옷 번호") @PathVariable("laundryId") int laundryId){
         log.info("laundryDetails - Call");
-        List<LaundryDetails>list = laundryService.findLaundryDetails(laundryId);
+        LaundryDetails list = laundryService.findLaundryDetails(laundryId);
 
-        if(list != null && !list.isEmpty()) {
+        if(list != null) {
             return ResponseEntity.status(200).body(LaundryDetailsRes.of(200, "Success", list));
         }else {
             log.error("laundryId doesn't exist");
             return ResponseEntity.status(403).body(LaundryDetailsRes.of(403, "laundryId doesn't exist", null));
         }
     }
+
 
     @PostMapping("")
     @ApiOperation(value = "내 옷 등록")
@@ -67,13 +68,14 @@ public class LaundryController {
         }
     }
 
+
     @PutMapping("/{laundryId}")
-    @ApiOperation(value = "내 옷장 수정")
+    @ApiOperation(value = "내 옷 수정")
     public ResponseEntity<LaundryDetailsRes> userLaundryDetailModify(@ApiParam(value = "옷 번호") @PathVariable("laundryId") int laundryId, @RequestBody LaundryModifyPostRep laundryModifyPostRep){
         log.info("userLaundryDetailModify - Call");
-        List<LaundryDetails>list = laundryService.modifyLaundryDetails(laundryId, laundryModifyPostRep);
+        LaundryDetails list = laundryService.modifyLaundryDetails(laundryId, laundryModifyPostRep);
 
-        if(list != null && !list.isEmpty()) {
+        if(list != null) {
             return ResponseEntity.status(200).body(LaundryDetailsRes.of(200, "Success", list));
         }else {
             log.error("laundry doesn't exist");
@@ -84,19 +86,18 @@ public class LaundryController {
     }
 
     @DeleteMapping("/{laundryId}")
-    @ApiOperation(value = "내 옷장 삭제")
+    @ApiOperation(value = "내 옷 삭제")
     public ResponseEntity< ? extends BaseResponseBody> userLaundryDetailDelete(@PathVariable("laundryId") int laundryId){
         log.info("userLaundryDetailDelete - Call");
 
         if(laundryService.deleteLaundry(laundryId) == 1){
-            return ResponseEntity.status(201).body(BaseResponseBody.of(204, "Success"));
+            return ResponseEntity.status(204).body(BaseResponseBody.of(204, "Success"));
         }else{
             log.error("Fail");
             return ResponseEntity.status(403).body(BaseResponseBody.of(403, "Fail"));
         }
 
     }
-
 
     @GetMapping("/all")
     @ApiOperation(value = "모든 옷장 전체 목록")

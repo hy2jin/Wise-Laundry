@@ -2,7 +2,9 @@ package com.ssafy.wiselaundry.domain.laundry.db.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,6 +12,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "care_labels")
 @ApiModel(value = "CareLabel", description = "세탁물 테그")
 public class CareLabels {
@@ -28,4 +31,10 @@ public class CareLabels {
     @Column(name = "care_label")
     private String careLabel;
 
+    @Builder
+    CareLabels(int careLabelId, String careLabelName, String careLabel){
+        this.careLabelId = careLabelId;
+        this.careLabelName = careLabelName;
+        this.careLabel = careLabel;
+    }
 }

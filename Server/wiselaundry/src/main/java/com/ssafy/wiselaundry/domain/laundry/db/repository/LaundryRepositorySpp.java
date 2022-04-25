@@ -2,10 +2,7 @@ package com.ssafy.wiselaundry.domain.laundry.db.repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.wiselaundry.domain.laundry.db.bean.CareLabelDetail;
-import com.ssafy.wiselaundry.domain.laundry.db.bean.InfoDetail;
 import com.ssafy.wiselaundry.domain.laundry.db.bean.LaundryDetail;
-import com.ssafy.wiselaundry.domain.laundry.db.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -33,8 +30,8 @@ public class LaundryRepositorySpp {
     }
 
     //옷 디테일 조회
-    public List<CareLabelDetail> careLabelDetailsByLaundryId(int laundryId){
-        return jpaQueryFactory.select(Projections.constructor(CareLabelDetail.class, qCareLabels.careLabel))
+    public List<String> careLabelDetailsByLaundryId(int laundryId){
+        return jpaQueryFactory.select(qCareLabels.careLabel)
                 .from(qLaundryCareLabels)
                 .leftJoin(qCareLabels).on(qCareLabels.careLabelId.eq(qLaundryCareLabels.careLabel.careLabelId))
                 .where(qLaundryCareLabels.laundry.laundryId.eq(laundryId))
@@ -42,8 +39,8 @@ public class LaundryRepositorySpp {
     }
 
     //옷 설명 조회
-    public List<InfoDetail> infoDetailsByLaundryId(int laundryId){
-        return jpaQueryFactory.select(Projections.constructor(InfoDetail.class, qInfo.laundryInfo))
+    public List<String> infoDetailsByLaundryId(int laundryId){
+        return jpaQueryFactory.select(qInfo.laundryInfo)
                 .from(qLaundryInfo)
                 .leftJoin(qInfo).on(qInfo.laundryInfoId.eq(qLaundryInfo.laundryInfo.laundryInfoId))
                 .where(qLaundryInfo.laundry.laundryId.eq(laundryId))

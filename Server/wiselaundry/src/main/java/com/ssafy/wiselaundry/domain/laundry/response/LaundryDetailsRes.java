@@ -7,16 +7,14 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @ApiModel(value = "LaundryDetailsRes", description = "옷 상세 조회")
 public class LaundryDetailsRes extends BaseResponseBody {
     @ApiModelProperty(value = "옷 상세 조회")
-    List<LaundryDetails> list = null;
+    LaundryDetails list = null;
 
-    public static LaundryDetailsRes of (Integer statusCode, String message, List<LaundryDetails>list){
+    public static LaundryDetailsRes of (Integer statusCode, String message, LaundryDetails list){
         LaundryDetailsRes res = new LaundryDetailsRes();
         res.setList(list);
         res.setMessage(message);

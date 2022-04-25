@@ -4,7 +4,9 @@ package com.ssafy.wiselaundry.domain.laundry.db.entity;
 import com.ssafy.wiselaundry.domain.user.db.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -13,6 +15,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "laundry")
+@NoArgsConstructor
 @ApiModel(value = "Laundry", description = "세탁물")
 public class Laundry {
 
@@ -39,4 +42,12 @@ public class Laundry {
     private String laundryMemo;
 
 
+    @Builder
+    Laundry(int laundryId, User user, String laundryImg, String laundryCategory, String laundryMemo) {
+        this.laundryId = laundryId;
+        this.user = user;
+        this.laundryImg = laundryImg;
+        this.laundryCategory = laundryCategory;
+        this.laundryMemo = laundryMemo;
+    }
 }
