@@ -31,11 +31,10 @@ const Logobox = styled.span `
 const SmallBox = styled.div `
   min-height: 100vh;
 
-
   .LoginBtn {
     border: none;
     width : 100%;
-    height: 5vh;
+    height: 5.5vh;
     border-radius: 10px;
     font-size: 1rem;
     color: white;
@@ -47,7 +46,7 @@ const SmallBox = styled.div `
   .SignupBtn{
     border: none;
     width : 100%;
-    height: 5vh;
+    height: 5.5vh;
     border-radius: 10px;
     font-size: 1rem;
     background-color: ${props => props.theme.activeBtnColor};
@@ -57,6 +56,9 @@ const SmallBox = styled.div `
 
 
   @media screen and (max-width: 800px) {
+    position: relative;
+    bottom: 13vh;
+
     .ConfirmBtn {
     border: none;
     width : 100%;
@@ -71,7 +73,6 @@ const SmallBox = styled.div `
   .LoginBtn {
     border: none;
     width : 100%;
-    height: 5vh;
     border-radius: 10px;
     font-size: 1rem;
     color: white;
@@ -82,7 +83,6 @@ const SmallBox = styled.div `
   .SignupBtn {
     border: none;
     width : 100%;
-    height: 5vh;
     border-radius: 10px;
     font-size: 1rem;
     background-color: ${props => props.theme.activeBtnColor};
@@ -115,9 +115,9 @@ const SignupForm = styled.div `
     h1 {
       display: flex;
       justify-content: center;
-      /* margin-top: 50px; */
-      margin-bottom: 30px;
-      margin-left: 15px;
+      margin-top: 15vh;
+      /* margin-bottom: 30px; */
+      margin-left: 5vw;
     }
   }
 `
@@ -132,6 +132,7 @@ const InputForm = styled.section`
   width: 25vw;
   background-color: ${props => props.theme.bgColor};
   color : ${props => props.theme.fontColor};
+  align-items: center;
 
   input {
     border: none;
@@ -148,7 +149,6 @@ const InputForm = styled.section`
 
   .ConfirmBtn {
     position: relative;
-    bottom: 0.3rem;
     border: none;
     width : 50px;
     height: 30px;
@@ -161,14 +161,14 @@ const InputForm = styled.section`
   }
 
   @media screen and (max-width: 800px) {
-    height: 2vh;
-    margin-bottom: 20px;
+    /* height: 2vh; */
+    margin-bottom: 0.5rem;
     /* 인풋박스 크기 조절 여기서 */
     width: 50vw;
 
     .ConfirmBtn {
       position: relative;
-      bottom: 0.9rem;
+      bottom: 0.3rem;
       font-size: 0.7rem;
     }
 
@@ -185,10 +185,10 @@ const ImgBox = styled.div `
   justify-content: center;
   flex-wrap: nowrap;
   align-items: baseline;
-  margin-bottom: 100px;
+  margin-bottom: 80px;
 
   .ProfileImg {
-    width: 11vw;
+    width: 10vw;
     border-radius: 100vh;
     border: 1px solid #333333;
     cursor: pointer;
@@ -201,21 +201,26 @@ const ImgBox = styled.div `
   }
 
   @media screen and (max-width: 800px) {
-    margin-bottom: 50px;
+    margin-bottom: 5vh;
+
     .ProfileImg {
-      width: 18vw;
+      width: 15vw;
       margin-left: 5vw;
     }
 
     .cameraImg {
-      width: 3vw;
-      height: 2vh;
+      width: 2.5vw;
+      height: 2.3vh;
     }
   }
 `
 
 const FormBox = styled.form `
 
+  .LabelTitle {
+    position: relative;
+    bottom: 1vh;
+  }
 
   .EmailNickBox {
     display: flex;
@@ -246,12 +251,17 @@ const FormBox = styled.form `
     width: 100%;
     margin-left: 4vw;
   }
-max-width: 800px;
+  
   .SignupBtnBox {
     width: 100%;
   }
 
   @media screen and (max-width: 800px) {
+
+    .LabelTitle {
+      position: relative;
+      bottom: 0.2vh;
+    }
 
     .EmailNickBox {
       display: flex;
@@ -326,7 +336,7 @@ const Signup = () => {
               <div className='EmailNickBox'>
                 <div className='EmailBox'>
                   <label htmlFor='email'>
-                    이메일
+                    <span className='LabelTitle'>이메일</span>
                     <InputForm>
                       <input type='email' id='email' value={email} onChange={e => setEmail(e.target.value)} 
                         placeholder='이메일을 입력하세요'
@@ -339,7 +349,7 @@ const Signup = () => {
 
                 <div className='NickBox'>
                   <label htmlFor='nickName'>
-                  <span>닉네임</span>
+                  <span className='LabelTitle'>닉네임</span>
                     <InputForm>
                       <input type='text' id='nickName'
                         placeholder='닉네임을 입력하세요'
@@ -354,7 +364,7 @@ const Signup = () => {
               <div className='PasswordsBox'>
                 <div className='PasswordBox'>
                   <label htmlFor='password'>
-                    비밀번호
+                    <span className='LabelTitle'>비밀번호</span>
                     <InputForm>
                       <input type='password' id='password' value={password} onChange={e => setPassword(e.target.value)} 
                         placeholder='비밀번호를 입력하세요'
@@ -366,7 +376,7 @@ const Signup = () => {
                 {/* 비밀번호 확인 */}
                 <div className='PasswordCheckBox'>
                   <label htmlFor='passwordCheck'>
-                    <span >비밀번호 확인</span> 
+                    <span className='LabelTitle'>비밀번호 확인</span> 
                     <InputForm >
                       <input type='passwordCheck' id='passwordCheck' 
                         placeholder='비밀번호를 한 번 더 입력하세요'

@@ -17,15 +17,17 @@ const Wrapper = styled.div `
   @media screen and (max-width: 800px) {
     width: 63vw;
     top: 15vh;
-    height: 65vh;
+    height: 70vh;
   }
 `
 
 const SmallBox = styled.div `
+  min-height: 100vh;
   display: flex;
+  flex-flow: wrap;
   justify-content: center;
-  align-items: center;
-  flex-flow: nowrap column;
+  position: relative;
+  bottom: 13vh;
 
   h1 {
     display: flex;
@@ -45,8 +47,8 @@ const SmallBox = styled.div `
 
   .ConfirmBtn {
     border: none;
-    width : 21.5vw;
-    height: 5vh;
+    width : 100%;
+    height: 5.5vh;
     border-radius: 10px;
     font-size: 1rem;
     background-color: ${props => props.theme.activeBtnColor};
@@ -69,13 +71,29 @@ const SmallBox = styled.div `
 
     .ConfirmBtn {
       border: none;
-      width : 49vw;
-      height: 5vh;
       border-radius: 10px;
       font-size: 0.9rem;
       background-color: ${props => props.theme.activeBtnColor};
       color: white;
-      }
+    }
+  }
+`
+
+const ModalBox = styled.div `
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: nowrap column;
+
+  .ConfirmBtnBox {
+    width: 100%;
+  }
+
+  @media screen and (max-width: 800px) {
+    .ConfirmBtnBox {
+      width: 100%;
+      margin-left: 0;
+    }
   }
 `
 
@@ -89,6 +107,7 @@ const InputForm = styled.section`
   width: 20vw;
   background-color: ${props => props.theme.bgColor};
   color : ${props => props.theme.fontColor};
+  align-items: center;
 
   input {
     border: none;
@@ -136,28 +155,30 @@ const PasswordModal:React.FC<IProps> = ({setModalOn}) => {
   return (
     <Wrapper>
       <SmallBox>
-        <h1>비밀번호 변경</h1>
-        <div>
-          <label htmlFor="editPassword">
-            <span className='LabelTitle'>변경 할 비밀번호</span>
-          <InputForm>
-            <input type="text" name="editPasswordInput" placeholder="변경 할 비밀번호를 입력하세요" />
-          </InputForm>
-          </label>
-        </div>
-        <div>
-          <label htmlFor="editPasswordConfirm">
-          <span className='LabelTitle'>변경 할 비밀번호 확인</span>
-          <InputForm>
-            <input type="text" name="editPasswordConfirmInput" placeholder="변경 할 비밀번호를 한 번 더 입력하세요" />
-          </InputForm>
-          </label>
-        </div>
-        <div className="BtnPosition">
-          <div className='ConfirmBtnBox'>
-            <button className="ConfirmBtn" onClick={onClose}>확인</button>
+        <ModalBox>
+          <h1>비밀번호 변경</h1>
+          <div>
+            <label htmlFor="editPassword">
+              <span className='LabelTitle'>변경 할 비밀번호</span>
+            <InputForm>
+              <input type="text" name="editPasswordInput" placeholder="변경 할 비밀번호를 입력하세요" />
+            </InputForm>
+            </label>
           </div>
-        </div>
+          <div>
+            <label htmlFor="editPasswordConfirm">
+            <span className='LabelTitle'>변경 할 비밀번호 확인</span>
+            <InputForm>
+              <input type="text" name="editPasswordConfirmInput" placeholder="변경 할 비밀번호를 한 번 더 입력하세요" />
+            </InputForm>
+            </label>
+          <div className="BtnPosition">
+            <div className='ConfirmBtnBox'>
+              <button className="ConfirmBtn" onClick={onClose}>확인</button>
+            </div>
+          </div>
+          </div>
+        </ModalBox>
       </SmallBox>
     </Wrapper>
   );
