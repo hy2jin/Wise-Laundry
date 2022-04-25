@@ -4,7 +4,7 @@ import styled,{ThemeProvider} from 'styled-components'
 import { useRecoilState } from 'recoil'
 import { themeState } from './store/state/theme'
 import Header from './components/Header'
-import Home from './pages/Home'
+import Home from './pages/main/Home'
 import Near from './pages/Near'
 import OkayLaundry from './pages/laundryBoard/OkayLaundry'
 import CommunityAll from './pages/communityBoard/CommunityAll'
@@ -16,7 +16,7 @@ import Signup from './pages/user/Signup'
 import Profile from './pages/user/Profile'
 import Login from './pages/user/Login'
 import RegisterLaundry from './pages/laundryBoard/RegisterLaundry'
-import MobileBack from './components/MobileBack'
+import Start from './pages/main/Start'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -37,6 +37,12 @@ const Wrapper = styled.div`
     margin-top: 0;
     padding-top:10px;
   }
+  input[type=password] {
+    font-family:'Malgun gothic', dotum, sans-serif;
+    &::placeholder {
+      font-family: 'twayair';
+    }
+  }
 `
 
 const App= (props:any) => {
@@ -46,9 +52,9 @@ const App= (props:any) => {
         <ThemeProvider theme={theme}>
           <Wrapper>
           <Header/>
-          <MobileBack/>
           <Routes>
-            <Route path='/' element={<Home />}/>
+            <Route path='/' element={<Start />}/>
+            <Route path='/home' element={<Home />}/>
             <Route path='/near' element={<Near />}/>
             <Route path='/okaylaundry' element={<OkayLaundry />}/>
             <Route path='/community' element={<CommunityAll />}/>

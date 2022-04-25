@@ -5,8 +5,8 @@ import styled from 'styled-components';
 
 const Back = styled.div`
   display: none;
-  padding: 3rem 0 0 3rem;
   @media screen and (max-width: 800px) {
+    padding: 2rem 0 .5rem 3rem;
     display: block;
   }
   svg {

@@ -20,11 +20,11 @@ const Logobox = styled.span `
   img {
     height: 25vh;
   }
-max-width: 800px;
-  @media screen and (max-width:800px) {
+
+  @media screen and (max-width: 800px) {
     top: 0;
     img {
-    height: 12vh;
+      height: 12vh;
     }
   }
 `
@@ -48,9 +48,10 @@ const ImgBox = styled.div `
     width: 1.5vw;
     height: 2.5vh;
   }
-max-width: 800px;
-  @media screen and (max-width:800px) {
-    margin-bottom: 50px;
+
+  @media screen and (max-width: 800px) {
+    margin-bottom: 5vh;
+    
     .ProfileImg {
       width: 18vw;
     }
@@ -71,7 +72,7 @@ const SmallBox = styled.div `
   .EditPasswordBtn {
     border: none;
     width : 100%;
-    height: 5vh;
+    height: 5.5vh;
     border-radius: 10px;
     font-size: 1rem;
     color: white;
@@ -83,7 +84,7 @@ const SmallBox = styled.div `
   .SaveBtn {
     border: none;
     width : 100%;
-    height: 5vh;
+    height: 5.5vh;
     border-radius: 10px;
     font-size: 1rem;
     background-color: ${props => props.theme.activeBtnColor};
@@ -92,25 +93,26 @@ const SmallBox = styled.div `
   }
 
   @media screen and (max-width: 800px) {
-    .EditPasswordBtn {
-    border: none;
-    width : 100%;
-    height: 5vh;
-    border-radius: 10px;
-    font-size: 1rem;
-    color: white;
-    background-color: ${props => props.theme.inactiveBtnColor};
-    margin-top: 0.5rem;
-  }
+    position: relative;
+    bottom: 13vh;
 
-  .SaveBtn {
-    border: none;
-    width : 100%;
-    height: 5vh;
-    border-radius: 10px;
-    font-size: 1rem;
-    background-color: ${props => props.theme.activeBtnColor};
-    color: white;
+    .EditPasswordBtn {
+      border: none;
+      width : 100%;
+      border-radius: 10px;
+      font-size: 1rem;
+      color: white;
+      background-color: ${props => props.theme.inactiveBtnColor};
+      margin-top: 0.5rem;
+    }
+
+    .SaveBtn {
+      border: none;
+      width : 100%;
+      border-radius: 10px;
+      font-size: 1rem;
+      background-color: ${props => props.theme.activeBtnColor};
+      color: white;
     }
   }
 `
@@ -125,6 +127,12 @@ const EditForm = styled.div `
     display: flex;
     margin-bottom: 40px;
     justify-content: center;
+    margin-right: 15px;
+  }
+
+  .LabelTitle {
+    position: relative;
+    bottom: 1vh;
   }
 
   .BtnPosition {
@@ -139,7 +147,7 @@ const EditForm = styled.div `
   
   .EditPasswordBox {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 0.5rem;
   }
 
 
@@ -148,16 +156,22 @@ const EditForm = styled.div `
     label {
       font-size: 0.8rem;
     }
+
+    .LabelTitle {
+      position: relative;
+      /* top: 1vh; */
+    }
     
     h1 {
       display: flex;
       justify-content: center;
       margin-bottom: 30px;
+      margin-left: 2.5vw;
     }
 
     .EditPasswordBox {
-    margin-top: 10px;
-  }
+      margin-top: 0;
+    }
   }
 `
 
@@ -171,6 +185,7 @@ const InputForm = styled.section`
   width: 30vw;
   background-color: ${props => props.theme.bgColor};
   color : ${props => props.theme.fontColor};
+  align-items: center;
 
   input {
     border: none;
@@ -187,7 +202,7 @@ const InputForm = styled.section`
 
   .ConfirmBtn {
     position: relative;
-    bottom: 0.3rem;
+    /* bottom: 0.5rem; */
     border: none;
     width : 50px;
     height: 30px;
@@ -199,22 +214,22 @@ const InputForm = styled.section`
   }
 
 
-  @media screen and (max-width:800px) {
-    height: 15px;
-    margin-bottom: 20px;
+  @media screen and (max-width: 800px) {
+    /* height: 15px; */
+    margin-bottom: 1rem;
     /* 인풋박스 크기 조절 여기서 */
     width: 55vw;
 
     .ConfirmBtn {
       position: relative;
-      bottom: 0.5rem;
+      /* align-items: center; */
       font-size: 0.7rem;
     }
 
     input {
-      font-size: 0.7rem;
+      font-size: 0.8rem;
       &::placeholder { 
-        font-size: 0.6rem;
+        font-size: 0.8rem;
       }
     }
   }
@@ -246,9 +261,10 @@ const Profile = () => {
 
           <div className='NickBox'>
             <label htmlFor='nickName'>
-            <span>닉네임</span>
+            <span className='LabelTitle'>닉네임</span>
               <InputForm>
                 <input type='text' id='nickName'
+                  
                   placeholder='닉네임을 입력하세요'
                 />
                 <button className='ConfirmBtn'>확인</button>

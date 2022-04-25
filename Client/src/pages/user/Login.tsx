@@ -22,7 +22,7 @@ const Logobox = styled.span `
     height: 25vh;max-width: 800px
   }
 
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
     top: 0;
     img {
     height: 12vh;
@@ -39,7 +39,7 @@ const SmallBox = styled.div `
   .SignupBtn {
     border: none;
     width : 100%;
-    height: 5vh;
+    height: 5.5vh;
     border-radius: 10px;
     font-size: 1rem;
     color: white;
@@ -50,28 +50,30 @@ const SmallBox = styled.div `
   .LoginBtn {
     border: none;
     width : 100%;
-    height: 5vh;
+    height: 5.5vh;
     border-radius: 10px;
     font-size: 1rem;
     background-color: ${props => props.theme.activeBtnColor};
     color: white;
     cursor: pointer;
   }
-  max-width: 800px;
 
   .KakaoBtn {
     border: none;
     width: 100%;
-    height: 5vh;
+    height: 5.5vh;
     border-radius: 10px;
     font-size: 1rem;
     background-color: #ffde00;
     color: #181600;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 2vh;
   }
 
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
+    position: relative;
+    bottom: 13vh;
+
     .SignupBtn {
       margin-top: 0.5rem;
     }
@@ -79,12 +81,14 @@ const SmallBox = styled.div `
     .LoginBtn {
       border: none;
       width : 100%;
-      height: 5vh;
       border-radius: 10px;
       font-size: 1rem;
       background-color: ${props => props.theme.activeBtnColor};
       color: white;
       }
+    .KakaoBtn {
+      margin-top: 1vh;
+    }
   }
 `
 
@@ -93,6 +97,11 @@ const LoginForm = styled.div `
   display: flex;
   justify-content: center;
   flex-flow: nowrap column;
+
+  .LabelTitle {
+    position: relative;
+    bottom: 1vh;
+  }
 
   h1 {
     margin-bottom: 40px;
@@ -106,7 +115,6 @@ const LoginForm = styled.div `
   .LoginBtnBox {
     width: 100%;
   }
-  max-width: 800px;
 
   .SignupBtnBox {
     width: 100%;
@@ -114,10 +122,15 @@ const LoginForm = styled.div `
   }
 
 
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
 
     label {
       font-size: 0.8rem;
+    }
+
+    .LabelTitle {
+      position: relative;
+      top: 0.5vh;
     }
 
     .BtnPosition {
@@ -145,16 +158,17 @@ const InputForm = styled.section`
   border: 1px solid #333333;
   border-radius: 10px;
   display: flex;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   width: 28vw;
   background-color: ${props => props.theme.bgColor};
   color : ${props => props.theme.fontColor};
+  align-items: center;
+  
 
   input {
     border: none;
     width: 100%;
     font-size: 1rem;
-    max-width: 800px;
     background-color: ${props => props.theme.bgColor};
     color : ${props => props.theme.fontColor};
     &:focus { outline: none; }
@@ -165,9 +179,10 @@ const InputForm = styled.section`
   }
 
 
-  @media screen and (max-width:800px) {
+  @media screen and (max-width: 800px) {
     height: 2vh;
-    margin-bottom: 20px;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
     /* 인풋박스 크기 조절 여기서 */
     width: 30vh;
 
@@ -213,16 +228,18 @@ const Login = () => {
         <LoginForm>
         <h1>LOGIN</h1>
         <div>
-          <label htmlFor="email">이메일
+          <label htmlFor="email">
+            <span className='LabelTitle'>이메일</span>
           <InputForm>
             <input type="text" name="emailInput" placeholder="이메일을 입력하세요" />
           </InputForm>
           </label>
         </div>
         <div>
-          <label htmlFor="passwordInput">비밀번호
+          <label htmlFor="passwordInput">
+            <span className='LabelTitle'>비밀번호</span>
           <InputForm>
-            <input type="text" name="passwordInput" placeholder="비밀번호를 입력하세요" />
+            <input type="password" name="passwordInput" placeholder="비밀번호를 입력하세요" />
           </InputForm>
           </label>
         </div>

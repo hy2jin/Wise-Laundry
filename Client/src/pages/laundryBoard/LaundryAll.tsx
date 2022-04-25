@@ -16,6 +16,7 @@ const Wrapper = styled.article`
   width: 70vw;
   /* background-color: yellow; */
   margin: auto;
+  padding-bottom: 10vh;
 `
 
 const Title = styled.div`
@@ -28,6 +29,9 @@ const Title = styled.div`
   }
   #filter{
     color :  ${props => props.theme.activeBtnColor}; 
+  }
+  @media screen and (max-width: 800px) {
+   p{margin-left: 2vh;}
   }
 `
 const SearchBar = styled.section`
@@ -57,6 +61,7 @@ const SearchBar = styled.section`
       font-size: 0.8rem;
       color: #a9a9a9; 
     }
+    color: ${props => props.theme.fontColor};
   }
 `
 
