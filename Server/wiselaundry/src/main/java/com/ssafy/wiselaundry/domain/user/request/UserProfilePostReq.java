@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 @ApiModel("UserProfilePostReq")
 public class UserProfilePostReq {
-    @ApiModelProperty(name = "회원이미지", example = "jpg, png")
+    @ApiModelProperty(name = "회원이미지", example = "*.jpg, *.png")
     MultipartFile profileImg;
-
 }
