@@ -17,6 +17,7 @@ import Profile from './pages/user/Profile'
 import Login from './pages/user/Login'
 import RegisterLaundry from './pages/laundryBoard/RegisterLaundry'
 import Start from './pages/main/Start'
+import NotFound from './pages/notfound/NotFound'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -67,6 +68,7 @@ const App= (props:any) => {
             <Route path='/signup' element={<Signup />}/>
             <Route path='/login' element={<Login />}/>
             <Route path='/laundry/register' element={<RegisterLaundry />}/>
+            <Route path='/*' element={<NotFound />} />
           </Routes>
         </Wrapper>
       </ThemeProvider>
