@@ -80,14 +80,14 @@ public class UserServiceImpl implements UserService{
                 String savingFileName = uuid+"."+extension;
 
                 File destFile = new File(uploadPath + File.separator, uploadFolder+ File.separator + "user"+ File.separator + savingFileName);
-
+                System.err.println(destFile);
 
                 try {
                     file.transferTo(destFile);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                recordFileUrl = "user/" + uploadFolder + "/" + savingFileName;
+                recordFileUrl = "user" + File.separator + savingFileName;
                 user.setUserImg(recordFileUrl);
             }
 
