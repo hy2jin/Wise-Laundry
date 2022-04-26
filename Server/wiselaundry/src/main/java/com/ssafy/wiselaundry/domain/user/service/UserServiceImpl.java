@@ -42,13 +42,14 @@ public class UserServiceImpl implements UserService{
     @Override
     public User createKakaoUser(HashMap info) {
         User user = new User();
-        System.out.println(info.get("email").toString());
+//        System.out.println(info.get("email").toString());
         if(userRepository.findByUserEmail(info.get("email").toString())==null){
             user.setUserEmail(info.get("email").toString());
             user.setUserNick(info.get("nickname").toString());
             user.setPassword(passwordEncoder.encode("kovus0f2348gjsdkn23j409vsdhklvz89d"));
             user.setKakaoImg(info.get("image").toString());
-            return userRepository.save(user);
+            userRepository.save(user);
+            return user;
         }else {
             return null;
         }

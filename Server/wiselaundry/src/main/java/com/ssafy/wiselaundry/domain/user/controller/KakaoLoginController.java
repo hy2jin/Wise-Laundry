@@ -37,17 +37,15 @@ public class KakaoLoginController {
 
         Map<String, Object> userInfo = kakaoService.getUserInfo(tokens.get("accessToken"));
 
-        User user = userService.createKakaoUser((HashMap) userInfo);
+        User user = userService.findByUserEmail(userInfo.get("email").toString());
         if(user==null){
-            user = userService.findByUserEmail(userInfo.get("email").toString());
-            if(user.getUserNick().equals(userInfo.get("nickname").toString())
-            &&user.getKakaoImg().equals(userInfo.get("image").toString())){
-                return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(user.getUserEmail()), user.getUserEmail()));
-            }
-            return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Invalid Password", null, null));
+            user = userService.createKakaoUser((HashMap) userInfo);
+            return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(user.getUserEmail()), user.getUserEmail()));
+        }else if(user.getUserNick().equals(userInfo.get("nickname").toString())
+                &&user.getKakaoImg().equals(userInfo.get("image").toString())){
+            return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(user.getUserEmail()), user.getUserEmail()));
         }
-
-        return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(user.getUserEmail()), user.getUserEmail()));
+        return ResponseEntity.status(401).body(UserLoginPostRes.of(400, "Kakao Login Error", null, null));
     }
 
 }
