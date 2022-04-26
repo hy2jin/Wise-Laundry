@@ -1,11 +1,14 @@
 package com.ssafy.wiselaundry.domain.user.controller;
 
 
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ssafy.wiselaundry.domain.user.db.entity.User;
 import com.ssafy.wiselaundry.domain.user.db.repository.UserRepository;
 import com.ssafy.wiselaundry.domain.user.request.UserLoginPostReq;
 import com.ssafy.wiselaundry.domain.user.request.UserRegisterPostReq;
 import com.ssafy.wiselaundry.domain.user.request.UserUpdatePostReq;
+import com.ssafy.wiselaundry.domain.user.response.UserInfoGetRes;
 import com.ssafy.wiselaundry.domain.user.response.UserLoginPostRes;
 import com.ssafy.wiselaundry.domain.user.service.UserService;
 import com.ssafy.wiselaundry.global.model.response.BaseResponseBody;
@@ -41,12 +44,12 @@ public class UserController {
     })
     @PostMapping("/login")
     public ResponseEntity<UserLoginPostRes> login(@RequestBody @ApiParam(value="로그인 정보", required = true) UserLoginPostReq loginInfo) {
-        String user_email = loginInfo.getUserEmail();
-        String user_password = loginInfo.getUserPassword();
-        User user = userRepository.findByUserEmail(user_email);
-        if(passwordEncoder.matches(user_password, user.getPassword())){
+        String userEmail = loginInfo.getUserEmail();
+        String userPassword = loginInfo.getUserPassword();
+        User user = userRepository.findByUserEmail(userEmail);
+        if(user!=null && passwordEncoder.matches(userPassword, user.getPassword())){
             //패스워드가 맞는 경우 , 로그인 성공
-            return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(user_email), user_email));
+            return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(userEmail), userEmail));
         }
         return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Invalid Password", null, null));
     }
@@ -82,7 +85,7 @@ public class UserController {
     }
 
     @GetMapping("/emailcheck")
-    public ResponseEntity<? extends BaseResponseBody> emailCheck(@RequestParam @ApiParam(value="회원수정 정보", required = true) String email){
+    public ResponseEntity<? extends BaseResponseBody> emailCheck(@RequestParam @ApiParam(value="중복체크할 이메일", required = true) String email){
         if(userService.emailCheck(email)){
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Available"));
         }else {
@@ -91,11 +94,24 @@ public class UserController {
     }
 
     @GetMapping("/nickcheck")
-    public ResponseEntity<? extends BaseResponseBody> nickCheck(@RequestParam @ApiParam(value="회원수정 정보", required = true) String nick){
+    public ResponseEntity<? extends BaseResponseBody> nickCheck(@RequestParam @ApiParam(value="중복체크할 닉네임", required = true) String nick){
         if(userService.nickCheck(nick)){
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Available"));
         }else{
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Unavailable"));
+        }
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<UserInfoGetRes> getUserInfo(@RequestHeader @ApiParam(value = "JWT Token 값") String token, @RequestParam @ApiParam(value="유저 이메일", required = true) String email){
+        JWTVerifier verifier = JwtTokenUtil.getVerifier();
+        JwtTokenUtil.handleError(token);
+        DecodedJWT decodedJWT = verifier.verify(token.replace(JwtTokenUtil.TOKEN_PREFIX, ""));
+        String tokenEmail = decodedJWT.getSubject();
+        if(tokenEmail.equals(email)){
+            return ResponseEntity.status(200).body(UserInfoGetRes.of(200, "Success", userService.findByUserEmail(email)));
+        }else{
+            return ResponseEntity.status(400).body(UserInfoGetRes.of(400,"Bad Request", null));
         }
     }
 

@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User updateUser(UserUpdatePostReq userUpdateInfo){
+        //변경할 유저 가져옴
         User user = userRepository.findByUserEmail(userUpdateInfo.getUserEmail());
         if(user==null){
             return null;
