@@ -16,7 +16,7 @@ interface Istate {
     userNick: string,
     userImg: string,
     boardName: string,
-    boardImg: string,
+    boardImg: string[],
     boardContent: string,
     boardDate: string,
     comments: {
@@ -171,7 +171,7 @@ const CommunityDetail = () => {
     userNick: '',
     userImg: '',
     boardName: '',
-    boardImg: '',
+    boardImg: [''],
     boardContent: '',
     boardDate: '',
     comments: [
@@ -238,7 +238,7 @@ const CommunityDetail = () => {
       <Board>
         <BoardContent>
           <div className='top'>
-            <img src={board.boardImg} alt='사진' />
+            <img src={board.boardImg[0]} alt='사진' />
           </div>
           <div className='middle'>
             <div className='user'>

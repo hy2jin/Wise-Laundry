@@ -4,16 +4,107 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { postBoard, putBoard, getCommunityDetail } from '../../store/api/community';
 import { datadetail } from './data';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
 interface Istate {
   board: {
-    boardId: number,
     userId: number,
     boardName: string,
-    boardImg: string,
+    boardImg: string[],
     boardContent: string,
   }
 }
+
+const CommunityCreate = () => {
+  const [board, setBoard] = useState<Istate['board']>({
+    userId: 0,
+    boardName: '',
+    boardImg: [],
+    boardContent: '',
+  })
+  const navigate = useNavigate()
+
+  const [fileList, setFileList] = useState<FileList | undefined>()
+  const onChangeFiles= (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { target: { files } } = e
+    if (files != null) {
+      setFileList(files)
+      const nowImageUrlList = [...board.boardImg]
+      Array.from(files).map(file => {
+        console.log('🎲file: ', file);
+        const nowImageUrl = URL.createObjectURL(file)
+        nowImageUrlList.push(nowImageUrl)
+      })
+      setBoard({...board, boardImg: nowImageUrlList})
+    }
+  }
+  const makeFormData = () => {
+    let formData = new FormData()
+    const content = board.boardContent.replace(/(\n|\r\n)/g, '<br/>')
+    const newData = {
+      userId: 1,
+      boardName: board.boardName,
+      boardContent: content
+    }
+    formData.append(
+      "data",
+      new Blob([JSON.stringify(newData)], {type: "application/json"})
+    )
+    if (fileList != null) {
+      Array.from(fileList).forEach(f => formData.append("file", f))
+    }
+  }
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    makeFormData()
+    
+    // postBoard({...data, userId: board.userId})
+    // .then(res => {
+    //   navigate(`/community/${board.boardId}`)
+    // })
+    // .catch(err => {
+    //   console.log('postBoard err:', err)
+    // })
+  }
+
+  return (
+    <Wrapper>
+      <form onSubmit={(e) => handleSubmit(e)} style={{height: '100%'}}>
+        <input type='file' id='image' accept="image/jpg, image/png, image/jpeg"
+          onChange={e => onChangeFiles(e)} style={{display: 'none'}} multiple
+        />
+        <TitleInput htmlFor='title'>
+          <p>제목</p>
+          <input value={board.boardName} id='title'
+            onChange={e => setBoard({...board, boardName: e.target.value})}
+          />
+        </TitleInput>
+        <ImgInput>
+          <p>이미지</p>
+          <ImgBox>
+            <label htmlFor='image' className='imgbtn'>
+              <CameraAltIcon />
+              <p className='imgcnt'>{board.boardImg.length}/5</p>
+            </label>
+            {board.boardImg.map((url, idx) => (
+              <img src={url} alt='옷' key={idx} />
+              ))}
+          </ImgBox>
+        </ImgInput>
+        <ContentInput htmlFor='content'>
+          <p>내용</p>
+          <textarea value={board.boardContent} id='content'
+            onChange={e => setBoard({...board, boardContent: e.target.value})}
+          />
+        </ContentInput>
+      </form>
+      <Buttons>
+        <button className='active' onClick={(e) => handleSubmit(e)}>등록</button>
+        <button className='inactive'>취소</button>
+      </Buttons>
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.article`
   margin: 4vh;
@@ -46,7 +137,7 @@ const TitleInput = styled.label`
     }
   }
 `
-const ImgInput = styled.label`
+const ImgInput = styled.div`
   height: 10rem;
   line-height: 10rem;
   display: flex;
@@ -55,12 +146,38 @@ const ImgInput = styled.label`
   p {
     width: 10%;
   }
-  img {
-    margin: 0 auto;
-  }
   @media screen and (max-width: 800px) {
     padding: 0;
     p {width: 20%;}
+  }
+`
+const ImgBox = styled.label`
+  width: 90%;
+  display: flex;
+  align-items: center;
+  .imgbtn {
+    height: 90%;
+    aspect-ratio: 1/1;
+    border: 1px solid #ACAAAA;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    svg {
+      font-size: 2vw;
+    }
+    .imgcnt {
+      margin: 0;
+      line-height: normal;
+      width: auto;
+    }
+  }
+  img {
+    height: 100%;
+    margin-left: 1rem;
+    @media screen and (max-width: 800px) {
+      width: 80%;
+    }
   }
 `
 const ContentInput = styled.label`
@@ -108,118 +225,5 @@ const Buttons = styled.div`
     }
   }
 `
-
-const CommunityCreate = () => {
-  const boardId = Number(useParams().boardId)
-  const [board, setBoard] = useState<Istate['board']>({
-    boardId: 0,
-    userId: 0,
-    boardName: '',
-    boardImg: 'https://i.ibb.co/jZwwWFk/2.jpg',
-    boardContent: '',
-  })
-  const navigate = useNavigate()
-
-  const fileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // BASE64
-    let reader = new FileReader()
-    reader.onload = e => {
-      const imgUrl = reader.result
-      if (imgUrl) {
-        setBoard({...board, boardImg: imgUrl.toString()})
-      }
-    }
-    const files = e.target.files
-    if (files) {
-      const file = files[0]
-      if (file) {
-        reader.readAsDataURL(file)
-      }
-    }
-  }
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault()
-    const content = board.boardContent.replace(/(\n|\r\n)/g, '<br/>')
-    const data = {
-      boardName: board.boardName,
-      boardImg: board.boardImg,
-      boardContent: content
-    }
-    if (boardId) {
-      console.log(`글 수정: ${JSON.stringify({...data, boardId: board.boardId})}`);
-      // putBoard({...data, boardId: board.boardId})
-      // .then(res => {
-      //   navigate(`/community/${res.boardId}`)
-      // })
-      // .catch(err => {
-      //   console.log('🎲putBoard err:', err)
-      // })
-    } else {
-      console.log(`글 작성: ${JSON.stringify({...data, userId: board.userId})}`);
-      // postBoard({...data, userId: board.userId})
-      // .then(res => {
-      //   navigate(`/community/${board.boardId}`)
-      // })
-      // .catch(err => {
-      //   console.log('postBoard err:', err)
-      // })
-    }
-  }
-
-  useEffect(() => {
-    if (boardId) {
-      // getCommunityDetail(boardId)
-      // .then(res => {
-      //   const data = {
-      //     boardId: res.boardId,
-      //     userId: res.userId,
-      //     boardName: res.boardName,
-      //     boardImg: res.boardImg,
-      //     boardContent: res.boardContent
-      //   }
-      //   setBoard(data)
-      // })
-      // .catch(err => console.log('🎲getCommunityDetail err:', err))
-      const data = {
-        boardId: datadetail.boardId,
-        userId: datadetail.userId,
-        boardName: datadetail.boardName,
-        boardImg: datadetail.boardImg,
-        boardContent: datadetail.boardContent
-      }
-      setBoard(data)
-    }
-  }, [])
-
-  return (
-    <Wrapper>
-      <form onSubmit={(e) => handleSubmit(e)} style={{height: '100%'}}>
-        <input type='file' id='image' accept="image/jpg, image/png, image/jpeg"
-          onChange={e => fileUpload(e)} style={{display: 'none'}}
-        />
-        <TitleInput htmlFor='title'>
-          <p>제목</p>
-          <input value={board.boardName} id='title'
-            onChange={e => setBoard({...board, boardName: e.target.value})}
-          />
-        </TitleInput>
-        <ImgInput htmlFor='image'>
-          <p>이미지</p>
-          <img src={board.boardImg} alt='옷' />
-        </ImgInput>
-        <ContentInput htmlFor='content'>
-          <p>내용</p>
-          <textarea value={board.boardContent} id='content'
-            onChange={e => setBoard({...board, boardContent: e.target.value})}
-          />
-        </ContentInput>
-      </form>
-      <Buttons>
-        <button className='active' onClick={(e) => handleSubmit(e)}>등록</button>
-        <button className='inactive'>취소</button>
-      </Buttons>
-    </Wrapper>
-  );
-};
 
 export default CommunityCreate;

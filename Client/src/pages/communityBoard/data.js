@@ -60,7 +60,7 @@ export const datadetail = {
   userNick: '세탁마스터',
   userImg: 'https://wetrend.co.kr/data/editor2/daily_board/2006/18/1592485881_451b9006194c760358a1987a4690b6ad',
   boardName: '택이 없어졌어요ㅠㅠ 이옷은 어떻게 빨까요?',
-  boardImg: 'https://static.coupangcdn.com/image/vendor_inventory/3e2d/33667a6a7da88559baac5d5b5ba701decb84eed558e92c48e2f30745bc3a.jpg',
+  boardImg: ['https://static.coupangcdn.com/image/vendor_inventory/3e2d/33667a6a7da88559baac5d5b5ba701decb84eed558e92c48e2f30745bc3a.jpg'],
   boardContent: '빈폴 제품이구요 어디서 산지는 모르겠어요..지나가다 할머니에게 샀는데 진품은 맞을거에요!',
   boardDate: '2022.04.13',
   comments: [

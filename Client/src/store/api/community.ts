@@ -24,7 +24,7 @@ export const getCommunityAll = async () => {
 export const getCommunityDetail = async (boardId: number) => {
   const response = await apiClient.get<any>(
     `/community/${boardId}`,
-    )
+  )
   console.log('getCommunityDetail response: ', response)
   return response.data
 }
@@ -34,7 +34,7 @@ export const postBoard = async (data: any) => {
   const response = await apiClient.post<any>(
     '/community/create',
     data
-    )
+  )
   console.log('response: ', response);
   return response.data
 }
@@ -42,9 +42,9 @@ export const postBoard = async (data: any) => {
 // 201 => 디테일 페이지로🎲 // CommunityCreate
 export const putBoard = async (data: any) => {
   const response = await apiClient.put<any>(
-    `community/${data.boardId}`,
+    '/community/update',
     data
-    )
+  )
   console.log('response: ', response);
   return response.data
 }
@@ -53,7 +53,7 @@ export const putBoard = async (data: any) => {
 export const delBoard = async (boardId: number) => {
   const response = await apiClient.delete<any>(
     `/community/${boardId}`,
-    )
+  )
   console.log('delBoard response: ', response)
   return response
 }
@@ -72,7 +72,7 @@ export const postComment = async (data: any) => {
 export const delComment = async (commentId: number) => {
   const response = await apiClient.delete<any>(
     `/community/comment/${commentId}`,
-    )
+  )
   console.log('delComment response: ', response)
   return response
 }
