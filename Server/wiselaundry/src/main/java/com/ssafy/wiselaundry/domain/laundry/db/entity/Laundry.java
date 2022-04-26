@@ -33,9 +33,6 @@ public class Laundry {
     @Column(name = "laundry_img")
     private String laundryImg;
 
-    @ApiModelProperty(value = "세탁물 카테고리", example = "woolKnit")
-    @Column(name = "laundry_category")
-    private String laundryCategory;
 
     @ApiModelProperty(value = "메모", example = "dryCleaning")
     @Column(name = "laundry_memo")
@@ -43,11 +40,10 @@ public class Laundry {
 
 
     @Builder
-    Laundry(int laundryId, User user, String laundryImg, String laundryCategory, String laundryMemo) {
+    Laundry(int laundryId, User user, String laundryImg, String laundryMemo) {
         this.laundryId = laundryId;
         this.user = user;
         this.laundryImg = laundryImg;
-        this.laundryCategory = laundryCategory;
         this.laundryMemo = laundryMemo;
     }
 }
