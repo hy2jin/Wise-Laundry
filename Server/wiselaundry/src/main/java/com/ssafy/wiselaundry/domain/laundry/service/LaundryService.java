@@ -4,6 +4,7 @@ import com.ssafy.wiselaundry.domain.laundry.db.bean.LaundryAll;
 import com.ssafy.wiselaundry.domain.laundry.db.bean.LaundryDetails;
 import com.ssafy.wiselaundry.domain.laundry.request.LaundryModifyPostRep;
 import com.ssafy.wiselaundry.domain.laundry.request.UserLaundryRegisterPostReq;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface LaundryService {
     List<String> findCareLabelDetail(int laundryId);
     LaundryDetails findLaundryDetails(int laundryId);
     List<String> findInfoDetail(int laundryId);
-    int laundryRegisterByUser(UserLaundryRegisterPostReq userLaundryRegisterPostReq);
+    int laundryRegisterByUser(UserLaundryRegisterPostReq userLaundryRegisterPostReq, MultipartHttpServletRequest request);
     int deleteLaundry(int laundryId);
     List<LaundryAll> findLaundryAll();
     LaundryDetails modifyLaundryDetails(int laundryId,LaundryModifyPostRep laundryModifyPostRep);

@@ -9,11 +9,20 @@ import com.ssafy.wiselaundry.domain.laundry.request.LaundryModifyPostRep;
 import com.ssafy.wiselaundry.domain.laundry.request.UserLaundryRegisterPostReq;
 import com.ssafy.wiselaundry.domain.user.db.entity.User;
 import com.ssafy.wiselaundry.domain.user.db.repository.UserRepository;
+import com.ssafy.wiselaundry.domain.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import org.apache.commons.io.FilenameUtils;
+import javax.swing.filechooser.FileSystemView;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class LaundryServiceImpl implements LaundryService{
@@ -24,7 +33,7 @@ public class LaundryServiceImpl implements LaundryService{
     LaundryRepositorySpp laundryRepositorySpp;
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @Autowired
     CareLabelsRepository careLabelsRepository;
@@ -42,6 +51,13 @@ public class LaundryServiceImpl implements LaundryService{
     public List<String> findCareLabelDetail(int laundryId) {
         return laundryRepositorySpp.careLabelDetailsByLaundryId(laundryId);
     }
+
+    @Value("${app.fileupload.uploadDir}")
+    private String uploadFolder;
+
+    @Value("${app.fileupload.uploadPath}")
+    private String uploadPath;
+
     @Override
     public List<String> findInfoDetail(int laundryId) {
         return laundryRepositorySpp.infoDetailsByLaundryId(laundryId);
@@ -81,14 +97,48 @@ public class LaundryServiceImpl implements LaundryService{
 
     //내 옷 등록
     @Override
-    public int laundryRegisterByUser(UserLaundryRegisterPostReq userLaundryRegisterPostReq) {
-        User user = userRepository.findByUserId(userLaundryRegisterPostReq.getUserId());
+    public int laundryRegisterByUser(UserLaundryRegisterPostReq userLaundryRegisterPostReq, MultipartHttpServletRequest request) {
+        User user = userService.findByUserId(userLaundryRegisterPostReq.getUserId());
 
         if(user == null){
             return 0;
         }
+
+        List<MultipartFile> fileList = request.getFiles("file");
+        String rootPath = FileSystemView.getFileSystemView().getHomeDirectory().toString();
+        File uploadDir = new File(uploadPath + File.separator + uploadFolder+ "/laundry");
+
+        // recordimages 폴더 존재하지 않으면 생성
+        if (!uploadDir.exists()) uploadDir.mkdir();
+        String recordFileUrl = "";
+        for (MultipartFile part : fileList) {
+
+            String fileName = part.getOriginalFilename();
+
+            // 보안을 위해 이미지 파일명 난수로 변환
+            UUID uuid = UUID.randomUUID();
+
+            // 파일 확장자 추출
+            String extension = FilenameUtils.getExtension(fileName);
+
+            // 난수로 지정한 파일명 + 확장자
+            String savingFileName = uuid + "." ;//+ extension;
+
+            File destFile = new File(uploadPath + File.separator, uploadFolder + File.separator+ "/laundry/" + savingFileName);
+
+            // 파일 저장
+
+            try {
+                part.transferTo(destFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            recordFileUrl = uploadPath +"/" + uploadFolder + "/" + savingFileName;
+
+        }
+
         Laundry laundry = Laundry.builder()
-                .laundryImg(userLaundryRegisterPostReq.getLaundryImg())
+                .laundryImg(recordFileUrl)
                 .user(user)
                 .laundryMemo(userLaundryRegisterPostReq.getLaundryMemo())
                 .build();
@@ -98,7 +148,6 @@ public class LaundryServiceImpl implements LaundryService{
         for(int i = 0; i < userLaundryRegisterPostReq.getCareLabelName().length; i++) {
             String careLabel = userLaundryRegisterPostReq.getCareLabelName()[i];
             CareLabels findCareLabel = careLabelsRepository.findByCareLabelName(careLabel);
-
 
             laundryCareLabelsRepository.save(LaundryCareLabels.builder()
                     .careLabel(findCareLabel)
@@ -116,8 +165,8 @@ public class LaundryServiceImpl implements LaundryService{
             info = infoRepository.findByLaundryInfo(laundryInfo);
 
             laundryInfoRepository.save(LaundryInfo.builder()
-            .laundryInfo(info).laundry(laundry)
-            .build());
+                    .laundryInfo(info).laundry(laundry)
+                    .build());
         }
 
         return 1;

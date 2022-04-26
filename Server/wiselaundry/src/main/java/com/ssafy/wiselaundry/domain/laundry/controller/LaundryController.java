@@ -13,8 +13,10 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 
@@ -55,12 +57,13 @@ public class LaundryController {
     }
 
 
-    @PostMapping("")
+
+    @PostMapping(value = "",consumes= {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ApiOperation(value = "내 옷 등록")
-    public ResponseEntity<? extends BaseResponseBody> userLaundryRegister (@RequestBody UserLaundryRegisterPostReq userLaundryRegisterPostReq){
+    public ResponseEntity<? extends BaseResponseBody> userLaundryRegister (@RequestPart(value = "laundryRegister") UserLaundryRegisterPostReq userLaundryRegisterPostReq, MultipartHttpServletRequest request){
         log.info("userLaundryRegister - Call");
 
-        if(laundryService.laundryRegisterByUser(userLaundryRegisterPostReq) == 1){
+        if(laundryService.laundryRegisterByUser(userLaundryRegisterPostReq,request) == 1){
             return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
         }else{
             log.error("Fail");
