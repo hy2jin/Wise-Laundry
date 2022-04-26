@@ -64,8 +64,7 @@ public class UserServiceImpl implements UserService{
             if(!userUpdateInfo.getPassword().equals("")||!userUpdateInfo.getPassword().equals(null)){
                 user.setPassword(passwordEncoder.encode(userUpdateInfo.getPassword()));
             }
-            // 이미 이미지가 있을경우 삭제
-            if(img.getFile("file")!=null){
+            if(!img.getFile("file").isEmpty()){
                 if(!user.getUserImg().equals(null)){
                     try {
                         File oldFile = new File("/images" + File.separator + user.getUserImg());
@@ -76,6 +75,7 @@ public class UserServiceImpl implements UserService{
                 }
                 MultipartFile file = img.getFile("file");
                 File uploadDir = new File(uploadPath  + uploadFolder + File.separator + "user");
+
 
                 if(!uploadDir.exists()) uploadDir.mkdir();
                 String recordFileUrl = "";
