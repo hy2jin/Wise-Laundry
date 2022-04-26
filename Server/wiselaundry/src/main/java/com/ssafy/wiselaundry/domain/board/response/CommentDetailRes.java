@@ -6,10 +6,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @ApiModel("댓글 res")
 public class CommentDetailRes extends BaseResponseBody {
     @ApiModelProperty(value = "유저 아이디", required = true, example = "pse1234")
@@ -31,13 +33,15 @@ public class CommentDetailRes extends BaseResponseBody {
     private LocalDateTime commentDt;
 
     @Builder
-    public CommentDetailRes(int userId, String userImg, String userNick, int commentId, String commentContent, LocalDateTime commentDt){
+    public CommentDetailRes(int userId, String userImg, String userNick, int commentId, String commentContent,
+                            LocalDateTime commentDt){
         this.userId = userId;
         this.userImg = userImg;
         this.userNick = userNick;
         this.commentId = commentId;
         this.commentContent = commentContent;
         this.commentDt = commentDt;
+
     }
 
     public CommentDetailRes of(Comments comments){

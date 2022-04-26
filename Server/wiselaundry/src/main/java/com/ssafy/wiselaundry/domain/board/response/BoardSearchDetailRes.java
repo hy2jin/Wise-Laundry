@@ -1,6 +1,7 @@
 package com.ssafy.wiselaundry.domain.board.response;
 
 import com.ssafy.wiselaundry.domain.board.db.entity.Board;
+import com.ssafy.wiselaundry.domain.board.db.entity.BoardImg;
 import com.ssafy.wiselaundry.domain.board.db.entity.Comments;
 import com.ssafy.wiselaundry.global.model.response.BaseResponseBody;
 import io.swagger.annotations.ApiModel;
@@ -9,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -27,42 +29,47 @@ public class BoardSearchDetailRes extends BaseResponseBody {
     @ApiModelProperty(value = "유저 닉네임", required = true, example = "게시글 작성자 닉네임입니다.")
     private String userNick;
 
+    @ApiModelProperty(value = "유저 프로필 사진", required = true)
+    private String userImg;
+
     @ApiModelProperty(value = "게시글 제목", required = true, example = "게시글 제목입니다.")
     private String boardName;
 
     @ApiModelProperty(value = "게시글 사진", required = false, example = "board_img.jpg")
-    private String boardImg;
+    private List<BoardImg> boardImgs;
 
     @ApiModelProperty(value = "게시글 내용", required = true, example = "게시글 내용입니다")
     private String boardContent;
 
     @ApiModelProperty(value = "게시글 날짜", required = true, example = "2020-01-23 13:33:33")
-    private Date boardDt;
+    private LocalDateTime boardDt;
 
     @ApiModelProperty(value = "댓글 정보 리스트", required = true)
-    private List<CommentDetailRes> comments;
+    private static List<CommentDetailRes> comments;
 
     @Builder
-    public BoardSearchDetailRes(int boardId, int userId, String userNick, String boardName, String boardImg, String boardContent, Date boardDt, List<CommentDetailRes> comments) {
+    public BoardSearchDetailRes(int boardId, int userId, String userNick, String userImg, String boardName,
+                                List<BoardImg> boardImgs, String boardContent, LocalDateTime boardDt,
+                                List<CommentDetailRes> comments) {
         this.boardId = boardId;
         this.userId = userId;
         this.userNick = userNick;
+        this.userImg = userImg;
         this.boardName = boardName;
-        this.boardImg = boardImg;
+        this.boardImgs = boardImgs;
         this.boardContent = boardContent;
         this.boardDt = boardDt;
         this.comments = comments;
     }
 
-    public BoardSearchDetailRes of(Board board){
-//        List<Comments> comments = commentsService.board(board.getBoardId());
+    public static BoardSearchDetailRes of(Board board){
 
         return BoardSearchDetailRes.builder()
                 .userId(board.getUser().getUserId())
                 .userNick(board.getUser().getUserNick())
                 .boardId(board.getBoardId())
                 .boardName(board.getBoardName())
-                .boardImg(board.getBoardImg())
+                .boardImgs(board.getBoardImgs())
                 .boardContent(board.getBoardContent())
                 .boardDt(board.getBoardDt())
                 .comments(comments)

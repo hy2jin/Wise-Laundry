@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +21,6 @@ import java.util.List;
 @Table(name = "board")
 @ApiModel(value = "Board", description = "게시글")
 public class Board{
-
     @ApiModelProperty(value = "게시글 번호", example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,25 +36,29 @@ public class Board{
     @Column(name = "board_name")
     private String boardName;
 
-    @ApiModelProperty(value = "개시글 사진", required = false, example = "board_img.jpg")
-    @Column(name = "board_img")
-    private String boardImg;
-
     @ApiModelProperty(value = "게시글 내용", required = true, example = "게시글 내용입니다")
     @Column(name = "board_content")
     private String boardContent;
 
     @ApiModelProperty(value = "게시글 날짜", required = true, example = "2020-01-23 13:33:33")
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "board_dt")
-    private Date boardDt;
+    private LocalDateTime boardDt;
+
+    @ApiModelProperty(value = "게시글 댓글", required = false, example = "게시글 댓글")
+    @OneToMany(mappedBy = "board")
+    private List<Comments> comments = new ArrayList<Comments>();
+
+    @ApiModelProperty(value = "게시글 사진", required = false, example = "board_img.jpg")
+    @OneToMany(mappedBy = "board")
+    private List<BoardImg> boardImgs = new ArrayList<BoardImg>();
 
     @Builder
-    Board(int boardId, User user, String boardName, String boardImg, String boardContent, Date boardDt) {
+    Board(int boardId, User user, String boardName, List<BoardImg> boardImgs, List<Comments> comments, String boardContent, LocalDateTime boardDt) {
         this.boardId = boardId;
         this.user = user;
         this.boardName = boardName;
-        this.boardImg = boardImg;
+        this.boardImgs = boardImgs;
+        this.comments = comments;
         this.boardContent = boardContent;
         this.boardDt = boardDt;
     }

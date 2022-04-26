@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -21,31 +22,27 @@ public class BoardSearchAllRes extends BaseResponseBody {
     @ApiModelProperty(value = "게시글 제목", required = true, example = "게시글 제목입니다.")
     private String boardName;
 
-    @ApiModelProperty(value = "게시글 사진", required = false, example = "board_img.jpg")
-    private String boardImg;
-
     @ApiModelProperty(value = "게시글 내용", required = true, example = "게시글 내용입니다")
     private String boardContent;
 
     @ApiModelProperty(value = "게시글 날짜", required = true, example = "2020-01-23 13:33:33")
-    private Date boardDt;
+    private LocalDateTime boardDt;
 
     @Builder
-    public BoardSearchAllRes(int userId, String userNick, String boardName, String boardImg, String boardContent, Date boardDt) {
+    public BoardSearchAllRes(int userId, String userNick, String boardName, String boardContent, LocalDateTime boardDt) {
         this.userId = userId;
         this.userNick = userNick;
         this.boardName = boardName;
-        this.boardImg = boardImg;
         this.boardContent = boardContent;
         this.boardDt = boardDt;
+
     }
 
-    public BoardSearchAllRes of(Board board){
+    public static BoardSearchAllRes of(Board board){
         return BoardSearchAllRes.builder()
                 .userId(board.getUser().getUserId())
                 .userNick(board.getUser().getUserNick())
                 .boardName(board.getBoardName())
-                .boardImg(board.getBoardImg())
                 .boardContent(board.getBoardContent())
                 .boardDt(board.getBoardDt())
                 .build();

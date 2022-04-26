@@ -1,12 +1,15 @@
 package com.ssafy.wiselaundry.domain.board.response;
 
 import com.ssafy.wiselaundry.domain.board.db.entity.Board;
+import com.ssafy.wiselaundry.domain.board.db.entity.BoardImg;
 import com.ssafy.wiselaundry.global.model.response.BaseResponseBody;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,27 +33,29 @@ public class BoardUpdateRes extends BaseResponseBody {
     private String boardName;
 
     @ApiModelProperty(value = "게시글 사진", required = false, example = "board_img.jpg")
-    private String boardImg;
+    private List<BoardImg> boardImgs = new ArrayList<BoardImg>();
 
     @ApiModelProperty(value = "게시글 내용", required = true, example = "게시글 내용입니다")
     private String boardContent;
 
     @ApiModelProperty(value = "게시글 날짜", required = true, example = "2020-01-23 13:33:33")
-    private Date boardDt;
+    private LocalDateTime boardDt;
 
     @ApiModelProperty(value = "댓글 정보 리스트", required = true)
     private List<CommentDetailRes> comments;
 
     @Builder
-    public BoardUpdateRes(int boardId, int userId, String userNick, String boardName, String boardImg, String boardContent, Date boardDt, List<CommentDetailRes> comments) {
+    public BoardUpdateRes(int boardId, int userId, String userNick, String boardName, List<BoardImg> boardImgs,
+                          String boardContent, LocalDateTime boardDt, List<CommentDetailRes> comments) {
         this.boardId = boardId;
         this.userId = userId;
         this.userNick = userNick;
         this.boardName = boardName;
-        this.boardImg = boardImg;
+        this.boardImgs = boardImgs;
         this.boardContent = boardContent;
         this.boardDt = boardDt;
         this.comments = comments;
+
     }
 
     public BoardUpdateRes of(Board board, List<CommentDetailRes> comments){
@@ -59,7 +64,7 @@ public class BoardUpdateRes extends BaseResponseBody {
                 .userNick(board.getUser().getUserNick())
                 .boardId(board.getBoardId())
                 .boardName(board.getBoardName())
-                .boardImg(board.getBoardImg())
+                .boardImgs(board.getBoardImgs())
                 .boardContent(board.getBoardContent())
                 .boardDt(board.getBoardDt())
                 .comments(comments)
