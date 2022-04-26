@@ -42,6 +42,11 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @ApiModelProperty(value = "카카오유저 사진", required = false, example = "profile_img")
+    @Column(name = "kakao_img")
+    private String kakaoImg;
+
+
     @Builder
     User(int userId, String userEmail, String userNick, String userImg, String password){
         this.userId = userId;

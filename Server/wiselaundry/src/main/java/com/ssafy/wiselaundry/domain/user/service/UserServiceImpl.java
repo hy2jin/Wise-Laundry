@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.UUID;
 
 
@@ -37,6 +38,20 @@ public class UserServiceImpl implements UserService{
 
     @Value("${app.fileupload.uploadPath}")
     private String uploadPath;
+
+    @Override
+    public User createKakaoUser(HashMap info) {
+        User user = new User();
+        if(userRepository.findByUserEmail(info.get("email").toString())==null){
+            user.setUserEmail(info.get("email").toString());
+            user.setUserNick(info.get("nickname").toString());
+            user.setPassword(passwordEncoder.encode("kovus0f2348gjsdkn23j409vsdhklvz89d"));
+            user.setKakaoImg(info.get("image").toString());
+            return userRepository.save(user);
+        }else {
+            return null;
+        }
+    }
 
     @Override
     public User createUser(UserRegisterPostReq userRegisterInfo) {
