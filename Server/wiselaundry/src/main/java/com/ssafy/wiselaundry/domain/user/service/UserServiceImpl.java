@@ -67,4 +67,14 @@ public class UserServiceImpl implements UserService{
     public User findByUserEmail(String userEmail) {
         return userRepository.findByUserEmail(userEmail);
     }
+
+    @Override
+    public boolean emailCheck(String userEmail) {
+        return userRepository.findByUserEmail(userEmail)==null? true:false;
+    }
+
+    @Override
+    public boolean nickCheck(String userNick) {
+        return userRepository.findByUserNick(userNick)==null? true:false;
+    }
 }

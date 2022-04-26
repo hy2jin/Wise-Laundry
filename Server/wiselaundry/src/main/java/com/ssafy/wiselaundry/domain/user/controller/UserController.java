@@ -81,6 +81,23 @@ public class UserController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200,"Success"));
     }
 
+    @GetMapping("/emailcheck")
+    public ResponseEntity<? extends BaseResponseBody> emailCheck(@RequestParam @ApiParam(value="회원수정 정보", required = true) String email){
+        if(userService.emailCheck(email)){
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Available"));
+        }else {
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Unavailable"));
+        }
+    }
+
+    @GetMapping("/nickcheck")
+    public ResponseEntity<? extends BaseResponseBody> nickCheck(@RequestParam @ApiParam(value="회원수정 정보", required = true) String nick){
+        if(userService.nickCheck(nick)){
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Available"));
+        }else{
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Unavailable"));
+        }
+    }
 
 
 }

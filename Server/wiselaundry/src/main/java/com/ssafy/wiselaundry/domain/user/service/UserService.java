@@ -14,4 +14,6 @@ public interface UserService {
 	User updateUser(UserUpdatePostReq userUpdatePostReq);
 	User findByUserId(int userId);
 	User findByUserEmail(String userEmail);
+	boolean emailCheck(String userEmail);
+	boolean nickCheck(String userNick);
 }
