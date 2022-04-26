@@ -1,6 +1,9 @@
 # base image
 FROM node:16.13.2
 
+# Directory for volume mount
+RUN mkdir -p /images
+
 # set working directory
 WORKDIR /app
 
