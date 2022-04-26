@@ -36,15 +36,15 @@ public class Comments {
 
     @ApiModelProperty(value = "댓글 날짜", required = true, example = "2020-01-23")
     @Column(name = "comment_dt")
-    private LocalDateTime commentDt;
+    private LocalDateTime commentDate;
 
     @Builder
-    Comments(int commentId, User user, Board board, String commentContent, LocalDateTime commentDt) {
+    Comments(int commentId, User user, Board board, String commentContent, LocalDateTime commentDate) {
         this.commentId = commentId;
         this.user = user;
         this.board = board;
         this.commentContent = commentContent;
-        this.commentDt = commentDt;
+        this.commentDate = commentDate;
     }
 
 }

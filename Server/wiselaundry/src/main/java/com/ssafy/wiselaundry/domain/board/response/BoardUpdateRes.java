@@ -10,7 +10,6 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,21 +38,21 @@ public class BoardUpdateRes extends BaseResponseBody {
     private String boardContent;
 
     @ApiModelProperty(value = "게시글 날짜", required = true, example = "2020-01-23 13:33:33")
-    private LocalDateTime boardDt;
+    private LocalDateTime boardDate;
 
     @ApiModelProperty(value = "댓글 정보 리스트", required = true)
     private List<CommentDetailRes> comments;
 
     @Builder
     public BoardUpdateRes(int boardId, int userId, String userNick, String boardName, List<BoardImg> boardImgs,
-                          String boardContent, LocalDateTime boardDt, List<CommentDetailRes> comments) {
+                          String boardContent, LocalDateTime boardDate, List<CommentDetailRes> comments) {
         this.boardId = boardId;
         this.userId = userId;
         this.userNick = userNick;
         this.boardName = boardName;
         this.boardImgs = boardImgs;
         this.boardContent = boardContent;
-        this.boardDt = boardDt;
+        this.boardDate = boardDate;
         this.comments = comments;
 
     }
@@ -66,7 +65,7 @@ public class BoardUpdateRes extends BaseResponseBody {
                 .boardName(board.getBoardName())
                 .boardImgs(board.getBoardImgs())
                 .boardContent(board.getBoardContent())
-                .boardDt(board.getBoardDt())
+                .boardDate(board.getBoardDate())
                 .comments(comments)
                 .build();
     }

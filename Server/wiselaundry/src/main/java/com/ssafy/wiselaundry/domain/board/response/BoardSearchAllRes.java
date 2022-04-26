@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Getter
 @ApiModel("모든 게시판 res")
@@ -26,15 +25,15 @@ public class BoardSearchAllRes extends BaseResponseBody {
     private String boardContent;
 
     @ApiModelProperty(value = "게시글 날짜", required = true, example = "2020-01-23 13:33:33")
-    private LocalDateTime boardDt;
+    private LocalDateTime boardDate;
 
     @Builder
-    public BoardSearchAllRes(int userId, String userNick, String boardName, String boardContent, LocalDateTime boardDt) {
+    public BoardSearchAllRes(int userId, String userNick, String boardName, String boardContent, LocalDateTime boardDate) {
         this.userId = userId;
         this.userNick = userNick;
         this.boardName = boardName;
         this.boardContent = boardContent;
-        this.boardDt = boardDt;
+        this.boardDate = boardDate;
 
     }
 
@@ -44,7 +43,7 @@ public class BoardSearchAllRes extends BaseResponseBody {
                 .userNick(board.getUser().getUserNick())
                 .boardName(board.getBoardName())
                 .boardContent(board.getBoardContent())
-                .boardDt(board.getBoardDt())
+                .boardDate(board.getBoardDate())
                 .build();
     }
 

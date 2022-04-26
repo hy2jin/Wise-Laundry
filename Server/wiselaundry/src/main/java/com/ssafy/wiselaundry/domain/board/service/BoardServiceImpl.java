@@ -2,20 +2,24 @@ package com.ssafy.wiselaundry.domain.board.service;
 
 import com.ssafy.wiselaundry.domain.board.db.entity.Board;
 import com.ssafy.wiselaundry.domain.board.db.entity.BoardImg;
-import com.ssafy.wiselaundry.domain.board.db.repository.BoardImgRepository;
 import com.ssafy.wiselaundry.domain.board.db.repository.BoardRepository;
 import com.ssafy.wiselaundry.domain.board.request.BoardCreateReq;
 import com.ssafy.wiselaundry.domain.board.request.BoardUpdateReq;
-import com.ssafy.wiselaundry.domain.board.response.BoardSearchAllRes;
-import com.ssafy.wiselaundry.domain.board.response.BoardSearchDetailRes;
 import com.ssafy.wiselaundry.domain.user.db.entity.User;
-import com.ssafy.wiselaundry.domain.user.db.repository.UserRepository;
 import com.ssafy.wiselaundry.domain.user.service.UserService;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.swing.filechooser.FileSystemView;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -28,6 +32,12 @@ public class BoardServiceImpl implements BoardService{
     @Autowired
     UserService userService;
 
+    @Value("${app.fileupload.uploadDir}")
+    private String uploadFolder;
+
+    @Value("${app.fileupload.uploadPath}")
+    private String uploadPath;
+
     @Override
     public List<Board> boardSearchAll() {
         return boardRepository.findAll();
@@ -38,13 +48,9 @@ public class BoardServiceImpl implements BoardService{
         return boardRepository.findById(boardId).get();
     }
 
-    /**
-     * MySQL은 sequence 전략 불가능하여, Identify 전략을 사용
-     * idnentify 전략을 사용할 경우, DB와 한번 더 통신하진 않음.
-     * 단, create 할 때 마다 쿼리를 날리므로 지연 쓰기가 불가능하다.
-     */
+
     @Override
-    public void boardCreate(BoardCreateReq body) {
+    public int boardCreate(BoardCreateReq body, MultipartHttpServletRequest fileRequest) {
         User user = userService.findByUserId(body.getUserId());
 
         Board board = Board.builder()
@@ -53,28 +59,33 @@ public class BoardServiceImpl implements BoardService{
                 .user(user)
                 .build();
 
-        System.out.println("111111111111111111111");
-        System.out.println("111111111111111111111");
-        System.out.println("111111111111111111111");
-        System.out.println("111111111111111111111");
-        System.out.println("111111111111111111111");
-        System.out.println("111111111111111111111");
-
         boardRepository.save(board);
 
+        List<BoardImg> boardImgList = fileRequestToBoardImg(fileRequest, board);
 
-        board.setBoardImgs(boardImgUpdate(body.getBoardImgs(), board));
+        if(boardImgList.size() != 0) {
+            board.setBoardImgs(boardImgList);
+        }
         boardRepository.save(board);
+
+        return board.getBoardId();
     }
 
     @Override
-    public void boardUpdate(BoardUpdateReq body) {
+    public void boardUpdate(BoardUpdateReq body, MultipartHttpServletRequest request) {
+        // 수정할 파일 가져오기
         Board board = boardRepository.findById(body.getBoardId()).get();
 
-        /*
-            파일을 받아서 이미지로 만드는 로직을 세워서 적용.
-         */
-        board.setBoardImgs(boardImgUpdate(body.getBoardImgs(), board));
+        List<BoardImg> boardImgList = fileRequestToBoardImg(request, board);
+
+        if(boardImgList.size() != 0) {
+            if(request.getFiles("file").size() != 0) {
+                boardImgDelete(board);
+            }
+
+            board.setBoardImgs(boardImgList);
+        }
+
         board.setBoardContent(body.getBoardContent());
         board.setBoardName(body.getBoardName());
 
@@ -88,21 +99,61 @@ public class BoardServiceImpl implements BoardService{
     }
 
     /**
-     * String 으로 들어오는 파일을 처리하여, 서버에 저장 후 객체생성.
-     * @param boardImgString
+     * 서버에 파일을 생성하고, 객체를 생성하고 매핑.
+     * @param fileRequest
      * @param board
      * @return
      */
+    private List<BoardImg> fileRequestToBoardImg(MultipartHttpServletRequest fileRequest, Board board) {
+        List<BoardImg> boardImgList = new ArrayList<>();
 
-    public List<BoardImg> boardImgUpdate(List<String> boardImgString, Board board) {
-        List<BoardImg> boardImgList = board.getBoardImgs();
+        List<MultipartFile> fileList = fileRequest.getFiles("file");
+        String rootPath = FileSystemView.getFileSystemView().getHomeDirectory().toString();
+        File uploadDir = new File(uploadPath + File.separator + uploadFolder + "/community");
 
-        for(String img : boardImgString) {
-            boardImgList.add(boardImgService.boardImgCreate(board, img));
+        if (!uploadDir.exists()) uploadDir.mkdir();
+
+        String recordFileUrl = "";
+
+        for(MultipartFile file : fileList) {
+            if(file.isEmpty())
+                break;
+
+            String fileName = file.getOriginalFilename();
+
+            // 파일명 중복을 방지하기위해 난수화
+            UUID uuid = UUID.randomUUID();
+
+            // 파일 확장자
+            String extension = FilenameUtils.getExtension(fileName);
+
+            String savingFileName = uuid + "." + extension;
+
+            File destFile = new File(uploadPath + File.separator, uploadFolder + File.separator + "/community/" + savingFileName);
+
+            try{
+                file.transferTo(destFile);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+
+            recordFileUrl = uploadPath + "/" + uploadFolder + "/" + savingFileName;
+            boardImgList.add(boardImgService.boardImgCreate(board, recordFileUrl));
         }
 
-        board.setBoardImgs(boardImgList);
-
         return boardImgList;
+    }
+
+    private void boardImgDelete(Board board) {
+        try {
+            for (BoardImg boardImg : board.getBoardImgs()) {
+                File oldFile = new File("/images" + File.separator + boardImg);
+                oldFile.delete();
+
+                boardImgService.boardImgDelete(boardImg.getBoardImgId());
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

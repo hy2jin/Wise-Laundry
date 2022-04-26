@@ -2,16 +2,13 @@ package com.ssafy.wiselaundry.domain.board.response;
 
 import com.ssafy.wiselaundry.domain.board.db.entity.Board;
 import com.ssafy.wiselaundry.domain.board.db.entity.BoardImg;
-import com.ssafy.wiselaundry.domain.board.db.entity.Comments;
 import com.ssafy.wiselaundry.global.model.response.BaseResponseBody;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -42,14 +39,14 @@ public class BoardSearchDetailRes extends BaseResponseBody {
     private String boardContent;
 
     @ApiModelProperty(value = "게시글 날짜", required = true, example = "2020-01-23 13:33:33")
-    private LocalDateTime boardDt;
+    private LocalDateTime boardDate;
 
     @ApiModelProperty(value = "댓글 정보 리스트", required = true)
     private static List<CommentDetailRes> comments;
 
     @Builder
     public BoardSearchDetailRes(int boardId, int userId, String userNick, String userImg, String boardName,
-                                List<BoardImg> boardImgs, String boardContent, LocalDateTime boardDt,
+                                List<BoardImg> boardImgs, String boardContent, LocalDateTime boardDate,
                                 List<CommentDetailRes> comments) {
         this.boardId = boardId;
         this.userId = userId;
@@ -58,7 +55,7 @@ public class BoardSearchDetailRes extends BaseResponseBody {
         this.boardName = boardName;
         this.boardImgs = boardImgs;
         this.boardContent = boardContent;
-        this.boardDt = boardDt;
+        this.boardDate = boardDate;
         this.comments = comments;
     }
 
@@ -71,7 +68,7 @@ public class BoardSearchDetailRes extends BaseResponseBody {
                 .boardName(board.getBoardName())
                 .boardImgs(board.getBoardImgs())
                 .boardContent(board.getBoardContent())
-                .boardDt(board.getBoardDt())
+                .boardDate(board.getBoardDate())
                 .comments(comments)
                 .build();
     }

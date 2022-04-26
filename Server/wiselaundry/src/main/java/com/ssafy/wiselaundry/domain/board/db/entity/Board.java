@@ -11,7 +11,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -42,7 +41,7 @@ public class Board{
 
     @ApiModelProperty(value = "게시글 날짜", required = true, example = "2020-01-23 13:33:33")
     @Column(name = "board_dt")
-    private LocalDateTime boardDt;
+    private LocalDateTime boardDate;
 
     @ApiModelProperty(value = "게시글 댓글", required = false, example = "게시글 댓글")
     @OneToMany(mappedBy = "board")
@@ -53,13 +52,13 @@ public class Board{
     private List<BoardImg> boardImgs = new ArrayList<BoardImg>();
 
     @Builder
-    Board(int boardId, User user, String boardName, List<BoardImg> boardImgs, List<Comments> comments, String boardContent, LocalDateTime boardDt) {
+    Board(int boardId, User user, String boardName, List<BoardImg> boardImgs, List<Comments> comments, String boardContent, LocalDateTime boardDate) {
         this.boardId = boardId;
         this.user = user;
         this.boardName = boardName;
         this.boardImgs = boardImgs;
         this.comments = comments;
         this.boardContent = boardContent;
-        this.boardDt = boardDt;
+        this.boardDate = boardDate;
     }
 }

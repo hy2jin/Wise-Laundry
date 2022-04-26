@@ -30,17 +30,17 @@ public class CommentDetailRes extends BaseResponseBody {
     private String commentContent;
 
     @ApiModelProperty(value = "댓글 등록 날짜", required = true)
-    private LocalDateTime commentDt;
+    private LocalDateTime commentDate;
 
     @Builder
     public CommentDetailRes(int userId, String userImg, String userNick, int commentId, String commentContent,
-                            LocalDateTime commentDt){
+                            LocalDateTime commentDate){
         this.userId = userId;
         this.userImg = userImg;
         this.userNick = userNick;
         this.commentId = commentId;
         this.commentContent = commentContent;
-        this.commentDt = commentDt;
+        this.commentDate = commentDate;
 
     }
 
@@ -50,7 +50,7 @@ public class CommentDetailRes extends BaseResponseBody {
                 .userImg(comments.getUser().getUserImg())
                 .userNick(comments.getUser().getUserNick())
                 .commentContent(comments.getCommentContent())
-                .commentDt(comments.getCommentDt())
+                .commentDate(comments.getCommentDate())
                 .commentId(comments.getCommentId())
                 .build();
     }

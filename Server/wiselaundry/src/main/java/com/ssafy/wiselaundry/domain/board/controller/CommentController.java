@@ -6,10 +6,7 @@ import com.ssafy.wiselaundry.domain.board.response.BoardSearchDetailRes;
 import com.ssafy.wiselaundry.domain.board.response.CommentDetailRes;
 import com.ssafy.wiselaundry.domain.board.service.CommentsService;
 import com.ssafy.wiselaundry.global.model.response.BaseResponseBody;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +31,7 @@ public class CommentController {
     public ResponseEntity<CommentDetailRes> commentsCreate(@RequestBody CommentCreateReq body) {
         Comments comment = commentService.commentCreate(body);
         CommentDetailRes commentDetailRes = CommentDetailRes.builder()
-                .commentDt(comment.getCommentDt())
+                .commentDate(comment.getCommentDate())
                 .commentId(comment.getCommentId())
                 .commentContent(comment.getCommentContent())
                 .userNick(comment.getUser().getUserNick())
@@ -50,7 +47,7 @@ public class CommentController {
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<? extends BaseResponseBody> boardCreate(@RequestParam int commentId) {
+    public ResponseEntity<? extends BaseResponseBody> boardCreate(@ApiParam(value = "댓글 ID") @PathVariable("commentId") int commentId) {
         commentService.commentDelete(commentId);
         return ResponseEntity.status(201).body(BaseResponseBody.of(204, "Success"));
     }
