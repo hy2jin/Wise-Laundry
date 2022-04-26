@@ -105,8 +105,8 @@ public class LaundryServiceImpl implements LaundryService{
         }
 
         List<MultipartFile> fileList = request.getFiles("file");
-        String rootPath = FileSystemView.getFileSystemView().getHomeDirectory().toString();
-        File uploadDir = new File(uploadPath + File.separator + uploadFolder+ "/laundry");
+
+        File uploadDir = new File(uploadPath + uploadFolder+ File.separator +"laundry");
 
         // recordimages 폴더 존재하지 않으면 생성
         if (!uploadDir.exists()) uploadDir.mkdir();
@@ -122,9 +122,9 @@ public class LaundryServiceImpl implements LaundryService{
             String extension = FilenameUtils.getExtension(fileName);
 
             // 난수로 지정한 파일명 + 확장자
-            String savingFileName = uuid + "." ;//+ extension;
+            String savingFileName = uuid + "." + extension;
 
-            File destFile = new File(uploadPath + File.separator, uploadFolder + File.separator+ "/laundry/" + savingFileName);
+            File destFile = new File(uploadPath, uploadFolder + File.separator+ "laundry" + File.separator + savingFileName);
 
             // 파일 저장
 
@@ -133,7 +133,7 @@ public class LaundryServiceImpl implements LaundryService{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            recordFileUrl = uploadPath +"/" + uploadFolder + "/" + savingFileName;
+            recordFileUrl = "laundry" + File.separator + savingFileName;
 
         }
 
@@ -206,14 +206,58 @@ public class LaundryServiceImpl implements LaundryService{
 
     //내 옷 수정
     @Override
-    public LaundryDetails modifyLaundryDetails(int laundryId,LaundryModifyPostRep laundryModifyPostRep) {
-        Laundry laundry = laundryRepository.findByLaundryId(laundryId);
+    public LaundryDetails modifyLaundryDetails(LaundryModifyPostRep laundryModifyPostRep,MultipartHttpServletRequest request) {
+        Laundry laundry = laundryRepository.findByLaundryId(laundryModifyPostRep.getLaundryId());
         if(laundry == null){
             return null;
         }
+
+        List<MultipartFile> fileList = request.getFiles("file");
+
+        String recordFileUrl = "";
+        if (!fileList.isEmpty()){
+            if(!laundry.getLaundryImg().equals(null)){
+                try {
+                    File oldFile = new File("/images"+File.separator + laundry.getLaundryImg());
+                    oldFile.delete();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+
+            File uploadDir = new File(uploadPath + uploadFolder+ File.separator +"laundry");
+
+            // recordimages 폴더 존재하지 않으면 생성
+            if (!uploadDir.exists()) uploadDir.mkdir();
+            for (MultipartFile part : fileList) {
+
+                String fileName = part.getOriginalFilename();
+
+                // 보안을 위해 이미지 파일명 난수로 변환
+                UUID uuid = UUID.randomUUID();
+
+                // 파일 확장자 추출
+                String extension = FilenameUtils.getExtension(fileName);
+
+                // 난수로 지정한 파일명 + 확장자
+                String savingFileName = uuid + "." + extension;
+
+                File destFile = new File(uploadPath, uploadFolder + File.separator+ "laundry" + File.separator + savingFileName);
+
+                // 파일 저장
+                try {
+                    part.transferTo(destFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                recordFileUrl = "laundry" + File.separator + savingFileName;
+                laundry.setLaundryImg(recordFileUrl);
+            }
+        }
+
         //laundry 수정
         laundry.setLaundryMemo(laundryModifyPostRep.getLaundryMemo());
-        laundry.setLaundryImg(laundryModifyPostRep.getLaundryImg());
         laundryRepository.save(laundry);
 
         //라벨 삭제
@@ -244,11 +288,11 @@ public class LaundryServiceImpl implements LaundryService{
             info = infoRepository.findByLaundryInfo(laundryInfo);
 
             laundryInfoRepository.save(LaundryInfo.builder()
-            .laundryInfo(info).laundry(laundry)
-            .build());
+                    .laundryInfo(info).laundry(laundry)
+                    .build());
         }
 
-        return findLaundryDetails(laundryId);
+        return findLaundryDetails(laundryModifyPostRep.getLaundryId());
 
     }
 }

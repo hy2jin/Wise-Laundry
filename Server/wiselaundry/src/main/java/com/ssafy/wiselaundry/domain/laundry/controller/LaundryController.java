@@ -72,11 +72,11 @@ public class LaundryController {
     }
 
 
-    @PutMapping("/{laundryId}")
+    @PutMapping(value = "/",consumes= {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ApiOperation(value = "내 옷 수정")
-    public ResponseEntity<LaundryDetailsRes> userLaundryDetailModify(@ApiParam(value = "옷 번호") @PathVariable("laundryId") int laundryId, @RequestBody LaundryModifyPostRep laundryModifyPostRep){
+    public ResponseEntity<LaundryDetailsRes> userLaundryDetailModify(@RequestPart LaundryModifyPostRep laundryModifyPostRep,MultipartHttpServletRequest request){
         log.info("userLaundryDetailModify - Call");
-        LaundryDetails list = laundryService.modifyLaundryDetails(laundryId, laundryModifyPostRep);
+        LaundryDetails list = laundryService.modifyLaundryDetails(laundryModifyPostRep,request);
 
         if(list != null) {
             return ResponseEntity.status(200).body(LaundryDetailsRes.of(200, "Success", list));

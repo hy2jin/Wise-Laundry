@@ -9,14 +9,14 @@ import lombok.Setter;
 @Setter
 @ApiModel("LaundryModifyPostRep")
 public class LaundryModifyPostRep {
+    @ApiModelProperty(value = "옷 Id", example = "1")
+    int laundryId;
+
     @ApiModelProperty(name = "케어라벨")
     String[] careLabelName;
 
     @ApiModelProperty(name = "옷 정보")
     String[] laundryInfo;
-
-    @ApiModelProperty(value = "옷 사진", example = "1asdfasd")
-    String laundryImg;
 
     @ApiModelProperty(value = "옷 메모", example = "memo")
     String laundryMemo;

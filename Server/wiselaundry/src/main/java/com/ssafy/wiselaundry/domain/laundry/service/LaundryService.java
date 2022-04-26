@@ -16,5 +16,5 @@ public interface LaundryService {
     int laundryRegisterByUser(UserLaundryRegisterPostReq userLaundryRegisterPostReq, MultipartHttpServletRequest request);
     int deleteLaundry(int laundryId);
     List<LaundryAll> findLaundryAll();
-    LaundryDetails modifyLaundryDetails(int laundryId,LaundryModifyPostRep laundryModifyPostRep);
+    LaundryDetails modifyLaundryDetails(LaundryModifyPostRep laundryModifyPostRep, MultipartHttpServletRequest request);
 }
