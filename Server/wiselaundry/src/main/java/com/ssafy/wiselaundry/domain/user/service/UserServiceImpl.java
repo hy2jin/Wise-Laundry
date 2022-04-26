@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService{
             }
             //profile 수정만 추가.....
             if(img!=null){
-                MultipartFile file = img.getFile("img");
+                MultipartFile file = img.getFile("file");
                 File uploadDir = new File(uploadPath + File.separator + uploadFolder + "/user");
 
                 if(!uploadDir.exists()) uploadDir.mkdir();
@@ -80,6 +80,7 @@ public class UserServiceImpl implements UserService{
                 String savingFileName = uuid+ "."+extension;
 
                 File destFile = new File(uploadPath + File.separator, uploadFolder + File.separator + "/user/" + savingFileName);
+
 
                 try {
                     file.transferTo(destFile);
