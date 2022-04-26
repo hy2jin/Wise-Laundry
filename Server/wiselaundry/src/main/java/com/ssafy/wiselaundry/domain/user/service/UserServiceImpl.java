@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User createKakaoUser(HashMap info) {
         User user = new User();
-        System.out.println(userRepository.findByUserEmail(info.get("email").toString()));
+        System.out.println(info.get("email").toString());
         if(userRepository.findByUserEmail(info.get("email").toString())==null){
             user.setUserEmail(info.get("email").toString());
             user.setUserNick(info.get("nickname").toString());
