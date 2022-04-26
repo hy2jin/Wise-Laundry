@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService{
         }else{
             user.setUserNick(userUpdateInfo.getUserNick());
             if(!userUpdateInfo.getPassword().equals("")){
-                user.setPassword(userUpdateInfo.getPassword());
+                user.setPassword(passwordEncoder.encode(userUpdateInfo.getPassword()));
             }
             //profile 수정만 추가.....
             if(img!=null){
