@@ -5,12 +5,19 @@ import com.ssafy.wiselaundry.domain.user.db.repository.UserRepository;
 import com.ssafy.wiselaundry.domain.user.db.repository.UserRepositorySpp;
 import com.ssafy.wiselaundry.domain.user.request.UserRegisterPostReq;
 import com.ssafy.wiselaundry.domain.user.request.UserUpdatePostReq;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
 
 
 @Service("userService")
@@ -25,6 +32,11 @@ public class UserServiceImpl implements UserService{
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Value("${app.fileupload.uploadDir}")
+    private String uploadFolder;
+
+    @Value("${app.fileupload.uploadPath}")
+    private String uploadPath;
 
     @Override
     public User createUser(UserRegisterPostReq userRegisterInfo) {
@@ -42,7 +54,7 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public User updateUser(UserUpdatePostReq userUpdateInfo){
+    public User updateUser(UserUpdatePostReq userUpdateInfo, MultipartHttpServletRequest img){
         //변경할 유저 가져옴
         User user = userRepository.findByUserEmail(userUpdateInfo.getUserEmail());
         if(user==null){
@@ -53,6 +65,31 @@ public class UserServiceImpl implements UserService{
                 user.setPassword(userUpdateInfo.getPassword());
             }
             //profile 수정만 추가.....
+            if(img!=null){
+                MultipartFile file = img.getFile("img");
+                File uploadDir = new File(uploadPath + File.separator + uploadFolder + "/user");
+
+                if(!uploadDir.exists()) uploadDir.mkdir();
+                String recordFileUrl = "";
+                String fileName = file.getOriginalFilename();
+
+                UUID uuid = UUID.randomUUID();
+
+                String extension = FilenameUtils.getExtension(fileName);
+
+                String savingFileName = uuid+ "."+extension;
+
+                File destFile = new File(uploadPath + File.separator, uploadFolder + File.separator + "/user/" + savingFileName);
+
+                try {
+                    file.transferTo(destFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                recordFileUrl = "user/" + uploadFolder + "/" + savingFileName;
+                user.setUserImg(recordFileUrl);
+            }
+
             userRepository.flush();
             return user;
         }

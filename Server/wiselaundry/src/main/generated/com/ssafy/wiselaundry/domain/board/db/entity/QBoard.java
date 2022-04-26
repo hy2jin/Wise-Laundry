@@ -24,13 +24,15 @@ public class QBoard extends EntityPathBase<Board> {
 
     public final StringPath boardContent = createString("boardContent");
 
-    public final DateTimePath<java.util.Date> boardDt = createDateTime("boardDt", java.util.Date.class);
+    public final DateTimePath<java.time.LocalDateTime> boardDt = createDateTime("boardDt", java.time.LocalDateTime.class);
 
     public final NumberPath<Integer> boardId = createNumber("boardId", Integer.class);
 
-    public final StringPath boardImg = createString("boardImg");
+    public final ListPath<BoardImg, QBoardImg> boardImgs = this.<BoardImg, QBoardImg>createList("boardImgs", BoardImg.class, QBoardImg.class, PathInits.DIRECT2);
 
     public final StringPath boardName = createString("boardName");
+
+    public final ListPath<Comments, QComments> comments = this.<Comments, QComments>createList("comments", Comments.class, QComments.class, PathInits.DIRECT2);
 
     public final com.ssafy.wiselaundry.domain.user.db.entity.QUser user;
 

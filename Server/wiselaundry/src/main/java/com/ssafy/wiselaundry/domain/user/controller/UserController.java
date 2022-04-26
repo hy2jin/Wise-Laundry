@@ -16,9 +16,11 @@ import com.ssafy.wiselaundry.global.util.JwtTokenUtil;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @Api("유저 API")
 @Slf4j
@@ -75,11 +77,19 @@ public class UserController {
     }
 
     // 회원정보 수정
-    @PostMapping("/update")
-    public ResponseEntity<? extends BaseResponseBody> update(@RequestBody @ApiParam(value="회원수정 정보", required = true) UserUpdatePostReq userUpdateInfo){
-        User user = userService.updateUser(userUpdateInfo);
+    @PutMapping(value = "/update", consumes= {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.TEXT_PLAIN_VALUE})
+    public ResponseEntity<? extends BaseResponseBody> update(@RequestPart @ApiParam(value="회원수정 정보", required = true) UserUpdatePostReq userUpdateInfo, MultipartHttpServletRequest img, @RequestHeader @ApiParam(value = "JWT Token 값") String token){
+        // JWT Token 확인
+        JWTVerifier verifier = JwtTokenUtil.getVerifier();
+        JwtTokenUtil.handleError(token);
+        DecodedJWT decodedJWT = verifier.verify(token.replace(JwtTokenUtil.TOKEN_PREFIX, ""));
+        String tokenEmail = decodedJWT.getSubject();
+        if(!tokenEmail.equals(userUpdateInfo.getUserEmail())){
+            return ResponseEntity.status(400).body(BaseResponseBody.of(401, "Validation Failed"));
+        }
+        User user = userService.updateUser(userUpdateInfo, img);
         if(user==null){
-            return ResponseEntity.status(400).body(BaseResponseBody.of(400, "error"));
+            return ResponseEntity.status(400).body(BaseResponseBody.of(400, "Bad Request"));
         }
         return ResponseEntity.status(200).body(BaseResponseBody.of(200,"Success"));
     }

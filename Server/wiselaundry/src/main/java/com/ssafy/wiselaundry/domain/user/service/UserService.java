@@ -4,6 +4,7 @@ package com.ssafy.wiselaundry.domain.user.service; //비즈니스 로직 처리�
 import com.ssafy.wiselaundry.domain.user.db.entity.User;
 import com.ssafy.wiselaundry.domain.user.request.UserRegisterPostReq;
 import com.ssafy.wiselaundry.domain.user.request.UserUpdatePostReq;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 
 /**
@@ -11,7 +12,7 @@ import com.ssafy.wiselaundry.domain.user.request.UserUpdatePostReq;
  */
 public interface UserService {
 	User createUser(UserRegisterPostReq userRegisterInfo);
-	User updateUser(UserUpdatePostReq userUpdatePostReq);
+	User updateUser(UserUpdatePostReq userUpdatePostReq, MultipartHttpServletRequest img);
 	User findByUserId(int userId);
 	User findByUserEmail(String userEmail);
 	boolean emailCheck(String userEmail);

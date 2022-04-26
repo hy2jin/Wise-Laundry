@@ -22,8 +22,6 @@ public class QLaundry extends EntityPathBase<Laundry> {
 
     public static final QLaundry laundry = new QLaundry("laundry");
 
-    public final StringPath laundryCategory = createString("laundryCategory");
-
     public final NumberPath<Integer> laundryId = createNumber("laundryId", Integer.class);
 
     public final StringPath laundryImg = createString("laundryImg");

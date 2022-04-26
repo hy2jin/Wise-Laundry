@@ -17,12 +17,10 @@ public class UserUpdatePostReq{
     String userEmail;
     @ApiModelProperty(name = "회원 Nickname", example = "James")
     String userNick;
-    @ApiModelProperty(name = "회원 Img", example = "new_profile_img.jpg")
-    String userImg;
     @ApiModelProperty(name = "회원 Password", example = "1234")
     String password;
 
-    public User toEntity(UserRegisterPostReq body){
+    public User toEntity(UserUpdatePostReq body){
         return User.builder()
                 .userEmail(body.getUserEmail())
                 .userNick(body.getUserNick())
