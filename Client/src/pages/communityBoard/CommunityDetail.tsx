@@ -1,10 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { useRecoilState } from 'recoil';
 import { themeState } from '../../store/state/theme';
-import { useNavigate } from 'react-router-dom';
+import { getCommunityDetail, postComment, delComment, delBoard } from '../../store/api/community';
+import { useNavigate, useParams } from 'react-router-dom';
 import { datadetail } from './data'
 
 interface Istate {
@@ -14,7 +16,7 @@ interface Istate {
     userNick: string,
     userImg: string,
     boardName: string,
-    boardImg: string,
+    boardImg: string[],
     boardContent: string,
     boardDate: string,
     comments: {
@@ -159,6 +161,7 @@ const Btns = styled.section`
 `
 
 const CommunityDetail = () => {
+  const { boardId } = useParams()
   const navigate = useNavigate()
   const [theme, setTheme] = useRecoilState(themeState)
   const [inputText, setInputText] = useState('')
@@ -168,7 +171,7 @@ const CommunityDetail = () => {
     userNick: '',
     userImg: '',
     boardName: '',
-    boardImg: '',
+    boardImg: [''],
     boardContent: '',
     boardDate: '',
     comments: [
@@ -188,15 +191,45 @@ const CommunityDetail = () => {
       createComment()
     }
   }
+  const deleteBoard = () => {
+    // delBoard(board.boardId)
+    // .then(() => {
+    //   navigate('/community')
+    // })
+    // .catch(err => {
+    //   console.log('🎲deleteBoard error:', err)
+    // })
+    console.log(`${boardId}번 글 삭제`);
+  }
   const createComment = () => {
-    console.log(`댓글작성 보냅니다아🎷 ${board.boardId}번글에 ${inputText} 라고 쓰기`)
+    const data = {
+      userId: 0,
+      boardId: board.boardId,
+      commentContent: inputText
+    }
+    console.log(`댓글작성 보냅니다아🎷 ${data}`)
+    // postComment(data)
+    // .then(res => {
+    //   setBoard({...board, comments: [...board.comments, res]})
+    // })
+    // .catch(err => {
+    //   console.log('🎲createComment error:', err)
+    // })
     setInputText('')
   }
-  const deleteComment = (boardId: number, commentId: number) => {
-    console.log(`댓글 지울게요🎷 ${boardId}번글 ${commentId}번댓글`)
+  const deleteComment = (commentId: number) => {
+    console.log(`${commentId}번 댓글 삭제!`);
+    // delComment(commentId)
   }
 
   useEffect(() => {
+    // getCommunityDetail(boardId)
+    // .then(res => {
+    //   setBoard(res)
+    // })
+    // .catch(err => {
+    //   console.log('🎲getCommunityDetail err:', err)
+    // })
     setBoard(datadetail)
   }, [])
 
@@ -205,7 +238,7 @@ const CommunityDetail = () => {
       <Board>
         <BoardContent>
           <div className='top'>
-            <img src={board.boardImg} alt='사진' />
+            <img src={board.boardImg[0]} alt='사진' />
           </div>
           <div className='middle'>
             <div className='user'>
@@ -228,7 +261,7 @@ const CommunityDetail = () => {
               <div className='content' style={{backgroundColor: `${theme.listBgColor[i%3]}`}}>
                 <p>{comment.commentContent}</p>
                 {board.userNick === comment.userNick && 
-                <RemoveCircleOutlineIcon onClick={() => deleteComment(board.boardId, comment.commentId)} />
+                <RemoveCircleOutlineIcon onClick={() => deleteComment(board.boardId)} />
                 }
               </div>
               <p>{comment.commentDate.slice(-8)}</p>
@@ -245,7 +278,7 @@ const CommunityDetail = () => {
       <Btns>
         <button className='active' onClick={() => navigate('/community')}>목록</button>
         <button className='active' onClick={() => navigate(`/board/${board.boardId}`)}>수정</button>
-        <button className='inactive'>삭제</button>
+        <button className='inactive' onClick={() => deleteBoard()}>삭제</button>
       </Btns>
     </Wrapper>
   );

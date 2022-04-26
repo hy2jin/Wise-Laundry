@@ -4,6 +4,8 @@ import logo from './images/logo2.png';
 import profile from './images/profile-image.png';
 import camera from './images/camera-free-icon-font.png';
 import { useNavigate } from 'react-router-dom';
+import { postSignUp } from '../../store/api/user';
+import { getEmailcheck } from '../../store/api/user';
 
 
 const Wrapper = styled.div `
@@ -215,7 +217,7 @@ const ImgBox = styled.div `
   }
 `
 
-const FormBox = styled.form `
+const FormBox = styled.div `
 
   .LabelTitle {
     position: relative;
@@ -300,7 +302,15 @@ const FormBox = styled.form `
 const Signup = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [nickname, setNickname] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [emailChecked, setEmailChecked] = useState(false)
+  const [nickChecked, setNickChecked] = useState(false)
   const navigate = useNavigate();
+
+  // 이메일, 닉네임 확인하는거
+  // 체크는했는데 이메일을 또 바꾸는 걸 방지하기
+  // 바꾸면 확인했던거 다시 false로 바꾸면 됨
 
   const isValid = () => {
     const chkEmail =  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
@@ -315,6 +325,37 @@ const Signup = () => {
     e.preventDefault()
     isValid()
   }
+
+  const onSubmit = () => {
+    postSignUp(password, email, nickname)
+    .then(() => {
+      console.log('회원가입성공')
+      navigate('/login')
+      }
+    )
+    .catch((err) => console.log(err))
+  }
+
+  // const onSubmit = (event: { preventDefault: () => void; }) => {
+  //   event.preventDefault()
+  //   if(password !== confirmPassword) {
+  //     return alert('비밀번호가 일치하지 않습니다.')
+  //   }
+  // }
+  const emailDuplicationCheck = () => {
+    getEmailcheck(email)
+    .then((res) => {
+      const emailCheckMessage = res.message
+      console.log(emailCheckMessage, '중복 확인')
+      if (emailCheckMessage === 'Unavailable') {
+        alert('이미 가입된 이메일 입니다.')
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+
 
 
   return (
@@ -331,9 +372,9 @@ const Signup = () => {
           </ImgBox>
           {/* <section> */}
           <FormBox>
-            {/* <form onSubmit={(e) => onSignup(e)}> */}
               {/* 이메일 */}
               <div className='EmailNickBox'>
+              <form onSubmit={(e) => onSignup(e)}>
                 <div className='EmailBox'>
                   <label htmlFor='email'>
                     <span className='LabelTitle'>이메일</span>
@@ -341,10 +382,12 @@ const Signup = () => {
                       <input type='email' id='email' value={email} onChange={e => setEmail(e.target.value)} 
                         placeholder='이메일을 입력하세요'
                       />
-                      <button className='ConfirmBtn'>확인</button>
+                      <button className='ConfirmBtn' onClick={() => emailDuplicationCheck()}>확인</button>
                     </InputForm>
                   </label>
                 </div>
+              </form>
+              
                 
 
                 <div className='NickBox'>
@@ -353,6 +396,8 @@ const Signup = () => {
                     <InputForm>
                       <input type='text' id='nickName'
                         placeholder='닉네임을 입력하세요'
+                        value={nickname}
+                        onChange={e => setNickname(e.target.value)}
                       />
                       <button className='ConfirmBtn'>확인</button>
                     </InputForm>
@@ -380,6 +425,8 @@ const Signup = () => {
                     <InputForm >
                       <input type='password' id='passwordCheck' 
                         placeholder='비밀번호를 한 번 더 입력하세요'
+                        value={confirmPassword}
+                        onChange={e => setConfirmPassword(e.target.value)}
                       />
                     </InputForm>
                   </label>
@@ -387,7 +434,7 @@ const Signup = () => {
               </div>
               <div className='BtnPosition'>
                 <div className='SignupBtnBox'>
-                  <button className="SignupBtn">가입하기</button>
+                  <button className="SignupBtn" onClick={() => onSubmit()}>가입하기</button>
                 </div>
                 <div className='LoginBtnBox'>
                   <button className="LoginBtn" onClick={() => navigate('/login')} >로그인</button>

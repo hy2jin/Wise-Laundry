@@ -1,15 +1,17 @@
 import axios from "axios"
 
+const baseURL = process.env.REACT_APP_BASEURL
+const token = sessionStorage.getItem('jwt')
+
 const apiClient = axios.create({
-  baseURL: "https://j6e106.p.ssafy.io/api",
-  // baseURL: "http://localhost:8080/api",
-  // baseURL: "https://j6e106.p.ssafy.io/api",
+  baseURL: baseURL,
   headers: {
     "Content-type": "application/json",
+    'Authorization':`Bearer ${token}`
   },
 }); 
 
-export const getProductNew =async () => {
+export const getProductNew = async () => {
   const response = await apiClient.get<any>(
     '/products/all/new', 
   );
