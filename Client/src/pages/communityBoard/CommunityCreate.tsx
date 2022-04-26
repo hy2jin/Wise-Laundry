@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { postBoard, putBoard, getCommunityDetail } from '../../store/api/community';
 import { datadetail } from './data';
 
 interface Istate {
@@ -109,7 +110,7 @@ const Buttons = styled.div`
 `
 
 const CommunityCreate = () => {
-  const { boardId } = useParams()
+  const boardId = Number(useParams().boardId)
   const [board, setBoard] = useState<Istate['board']>({
     boardId: 0,
     userId: 0,
@@ -117,6 +118,7 @@ const CommunityCreate = () => {
     boardImg: 'https://i.ibb.co/jZwwWFk/2.jpg',
     boardContent: '',
   })
+  const navigate = useNavigate()
 
   const fileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     // BASE64
@@ -138,16 +140,46 @@ const CommunityCreate = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
     const content = board.boardContent.replace(/(\n|\r\n)/g, '<br/>')
-    setBoard({...board, boardContent: content})
+    const data = {
+      boardName: board.boardName,
+      boardImg: board.boardImg,
+      boardContent: content
+    }
     if (boardId) {
-      console.log(`글 수정: ${JSON.stringify(board)}`);
+      console.log(`글 수정: ${JSON.stringify({...data, boardId: board.boardId})}`);
+      // putBoard({...data, boardId: board.boardId})
+      // .then(res => {
+      //   navigate(`/community/${res.boardId}`)
+      // })
+      // .catch(err => {
+      //   console.log('🎲putBoard err:', err)
+      // })
     } else {
-      console.log(`글 작성: ${JSON.stringify(board)}`);
+      console.log(`글 작성: ${JSON.stringify({...data, userId: board.userId})}`);
+      // postBoard({...data, userId: board.userId})
+      // .then(res => {
+      //   navigate(`/community/${board.boardId}`)
+      // })
+      // .catch(err => {
+      //   console.log('postBoard err:', err)
+      // })
     }
   }
 
   useEffect(() => {
     if (boardId) {
+      // getCommunityDetail(boardId)
+      // .then(res => {
+      //   const data = {
+      //     boardId: res.boardId,
+      //     userId: res.userId,
+      //     boardName: res.boardName,
+      //     boardImg: res.boardImg,
+      //     boardContent: res.boardContent
+      //   }
+      //   setBoard(data)
+      // })
+      // .catch(err => console.log('🎲getCommunityDetail err:', err))
       const data = {
         boardId: datadetail.boardId,
         userId: datadetail.userId,

@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { themeState } from '../../store/state/theme';
 import { dataall } from './data';
+import { getCommunityAll } from '../../store/api/community';
 
 interface Istate {
   board: {
@@ -152,7 +153,7 @@ const Pagenation = styled.section`
 const CommunityAll = () => {
   const [theme, setTheme] = useRecoilState(themeState)
   const [inputText, setInputText] = useState('')
-  const [boards, setboards] = useState<Istate["board"][]>([])
+  const [boards, setBoards] = useState<Istate["board"][]>([])
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPage, setTotalPage] = useState(5)
 
@@ -191,7 +192,14 @@ const CommunityAll = () => {
   }
 
   useEffect(() => {
-    setboards(dataall)
+    // getCommunityAll()
+    // .then(res => {
+    //   setBoards(res)
+    // })
+    // .catch(err => {
+    //   console.log('🎲getCommunityAll err:', err)
+    // })
+    setBoards(dataall)
   }, [])
 
   return (
