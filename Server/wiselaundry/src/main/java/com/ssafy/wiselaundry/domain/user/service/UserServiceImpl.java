@@ -61,14 +61,22 @@ public class UserServiceImpl implements UserService{
             return null;
         }else{
             user.setUserNick(userUpdateInfo.getUserNick());
-            if(!userUpdateInfo.getPassword().equals("")){
+            if(!userUpdateInfo.getPassword().equals("")||!userUpdateInfo.getPassword().equals(null)){
                 user.setPassword(passwordEncoder.encode(userUpdateInfo.getPassword()));
             }
-            //profile 수정만 추가.....
+            // 이미 이미지가 있을경우 삭제
             if(img!=null){
+                if(!user.getUserImg().equals(null)){
+                    try {
+                        File oldFile = new File("/images" + File.separator + user.getUserImg());
+                        oldFile.delete();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 MultipartFile file = img.getFile("file");
                 File uploadDir = new File(uploadPath  + uploadFolder + File.separator + "user");
-                System.err.println(uploadDir);
+ 
                 if(!uploadDir.exists()) uploadDir.mkdir();
                 String recordFileUrl = "";
                 String fileName = file.getOriginalFilename();
@@ -80,7 +88,6 @@ public class UserServiceImpl implements UserService{
                 String savingFileName = uuid+"."+extension;
 
                 File destFile = new File(uploadPath, uploadFolder+ File.separator + "user"+ File.separator + savingFileName);
-                System.err.println(destFile);
 
                 try {
                     file.transferTo(destFile);
