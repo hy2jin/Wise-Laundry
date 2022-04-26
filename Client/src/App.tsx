@@ -48,6 +48,11 @@ const Wrapper = styled.div`
     }
   }
 `
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
 
 const App= (props:any) => {
   const [theme, setTheme] = useRecoilState(themeState)

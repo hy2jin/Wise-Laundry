@@ -7,12 +7,11 @@ const Wrapper = styled.div`
   
 `
 const Map = styled.div`
-       width: 100vw ;
-       height: 92vh;
-       @media screen and (max-width: 800px) {
-        height: 85vh;
-
-       }
+  width: 100vw ;
+  height: 92vh;
+  @media screen and (max-width: 800px) {
+  height: 85vh;
+  }
 `
 
 var positions = [
