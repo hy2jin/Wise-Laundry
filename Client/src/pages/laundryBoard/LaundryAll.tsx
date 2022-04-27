@@ -77,7 +77,7 @@ const LaundryBox = styled.section`
 `
 
 const LaundryAll = () => {
-  const [myLaundries,setMyLaundries] = useState<Istate['laundry'][]>(itms)
+  const [myLaundries,setMyLaundries] = useState<Istate['laundry'][]>([])
   const [allLaundries,setAllLaundries] = useState<Istate['laundry'][]>(itms2)
   const [filter,setFilter] = useState('my') // my <=> all
   const [inputText,setInputText] = useState('')
@@ -90,6 +90,7 @@ const LaundryAll = () => {
     getProductAll().then((res)=>{
       setMyLaundries(res.list)
     })
+    console.log(myLaundries)
    // setLaundries , setAllLaundries
   },[])
 

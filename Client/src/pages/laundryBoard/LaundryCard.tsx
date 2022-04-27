@@ -63,7 +63,7 @@ const LaundryCard:React.FC<Iprops>= ({laundry}) => {
   const src = `images/${laundry.laundryImg}`
   return (
     <Wrapper onClick={()=>{navigate(`${laundry.laundryId}`)}}>
-      <img src={src} alt='사진' onError={imageOnErrorHandler}/>
+      <img src={laundry.laundryImg} alt='사진' onError={imageOnErrorHandler}/>
       <LabelBox>
         {laundry.careLabel.map(((label,idx)=>{
           return(
