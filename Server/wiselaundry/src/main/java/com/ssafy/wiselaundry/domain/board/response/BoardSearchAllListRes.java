@@ -15,7 +15,7 @@ public class BoardSearchAllListRes extends BaseResponseBody {
     @ApiModelProperty(value = "list 형태로 반환")
     List<BoardSearchAllRes> list;
 
-    public static BoardSearchAllListRes of (Integer statusCode, String message, List<BoardSearchAllRes> list){
+    public static BoardSearchAllListRes of(Integer statusCode, String message, List<BoardSearchAllRes> list){
         BoardSearchAllListRes res = new BoardSearchAllListRes();
         res.setMessage(message);
         res.setStatusCode(statusCode);

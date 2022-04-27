@@ -17,6 +17,9 @@ public class BoardSearchAllRes {
     @ApiModelProperty(value = "유저 닉네임", required = true, example = "게시글 작성자 닉네임입니다.")
     private String userNick;
 
+    @ApiModelProperty(value = "게시글 ID", required = true, example = "게시글 ID")
+    private int boardId;
+
     @ApiModelProperty(value = "게시글 제목", required = true, example = "게시글 제목입니다.")
     private String boardName;
 
@@ -27,9 +30,10 @@ public class BoardSearchAllRes {
     private LocalDateTime boardDate;
 
     @Builder
-    public BoardSearchAllRes(int userId, String userNick, String boardName, String boardContent, LocalDateTime boardDate, String message, Integer statusCode) {
+    public BoardSearchAllRes(int userId, String userNick, int boardId, String boardName, String boardContent, LocalDateTime boardDate, String message, Integer statusCode) {
         this.userId = userId;
         this.userNick = userNick;
+        this.boardId =  boardId;
         this.boardName = boardName;
         this.boardContent = boardContent;
         this.boardDate = boardDate;
@@ -39,6 +43,7 @@ public class BoardSearchAllRes {
         return BoardSearchAllRes.builder()
                 .userId(board.getUser().getUserId())
                 .userNick(board.getUser().getUserNick())
+                .boardId(board.getBoardId())
                 .boardName(board.getBoardName())
                 .boardContent(board.getBoardContent())
                 .boardDate(board.getBoardDate())
