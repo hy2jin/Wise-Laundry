@@ -6,8 +6,8 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { themeState } from '../../store/state/theme';
-import { dataall } from './data';
 import { getCommunityAll } from '../../store/api/community';
+import defaultImg from './images/ironing.png'
 
 interface Istate {
   board: {
@@ -35,31 +35,6 @@ const CommunityAll = () => {
       setInputText('')
     }
   }
-  const makePageList = () => {
-    let arr = []
-    if (totalPage < 5) {
-      // 1부터 totalPage까지
-      for (let i = 1; i < totalPage+1; i++) {arr.push(i)}
-    } else if (currentPage > totalPage-2) {
-      // totalPage -4부터 totalPage까지 
-      for (let i = totalPage-4; i < totalPage+1; i++) {arr.push(i)}
-    } else if (currentPage < 3) {
-      // 1부터 5까지
-      for (let i = 1; i < 6; i++) {arr.push(i)}
-    } else {
-      // currentPage -2부터 +2까지
-      for (let i = currentPage-2; i < currentPage+3; i++) {arr.push(i)}
-    }
-    return arr
-  }
-  const changePage = (num: number) => {
-    const newPage = currentPage + num
-    if (newPage < 1 || newPage > totalPage) {
-      alert('NOPE❌')
-    } else {
-      setCurrentPage(newPage)
-    }
-  }
 
   useEffect(() => {
     getCommunityAll()
@@ -85,7 +60,7 @@ const CommunityAll = () => {
       <section>
         {boards.map((board, i) => 
         <EachBoard key={i} onClick={() => navigate(`/community/${board.boardId}`)}>
-          <img src={board.userImg || 'ironing.png'} alt='사진' />
+          <img src={board.userImg || defaultImg} alt='프로필' />
           <p className='nick'>{board.userNick}</p>
           <div className='board' style={{ backgroundColor: `${theme.listBgColor[i%3]}`}}>
             <div className='name'>{board.boardName}</div>
@@ -95,20 +70,6 @@ const CommunityAll = () => {
         </EachBoard>
         )}
       </section>
-      <Pagenation style={{margin: '0'}}>
-        <div className='pagenation'>
-          <div onClick={() => {changePage(-1)}}><p>&lt;</p></div>
-            {makePageList().map((num, idx) => (
-              <div className={currentPage === num ? 'active': ''} key={idx} 
-                onClick={() => setCurrentPage(num)}
-                style={{width: `${totalPage > 4 ? '15%' : `${75/totalPage}%`}`}}
-              >
-                <p>{num}</p>
-              </div>
-            ))}
-          <div onClick={() => {changePage(1)}}><p>&gt;</p></div>
-        </div>
-      </Pagenation>
     </Wrapper>
   );
 };
@@ -118,7 +79,8 @@ const Wrapper = styled.article`
   margin: auto;
   padding-top: 5vh;
   @media screen and (max-width: 800px) {
-    padding: 0;
+    padding-top: 0;
+    padding-bottom: 70px;
   }
   p {margin: 0;}
   .title {
@@ -209,35 +171,6 @@ const EachBoard = styled.div`
     }
     svg {
       font-size: 0.8rem;
-    }
-  }
-`
-const Pagenation = styled.section`
-  display: flex;
-  justify-content: center;
-  .pagenation {
-    border: 1px solid #56586C;
-    border-radius: 4px;
-    width: 18rem;
-    height: 2rem;;
-    display: flex;
-    div {
-      height: 100%;
-      cursor: pointer;
-      position: relative;
-      &:first-child,
-      &:last-child {
-        width: 12.5%;
-      }
-      &.active {
-        font-weight: bold;
-      }
-      p {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-      }
     }
   }
 `

@@ -103,12 +103,12 @@ const Header = () => {
         <ToggleTop ><ToggleSwitch themeCheck={themeCheck} setThemeCheck={setThemeCheck} /></ToggleTop>
       </HeaderNav>
       <FooterNav>
-          <Link to='/laundry'><IronIcon/></Link>
-          <Link to='/okaylaundry'><LinkedCameraIcon/></Link>
-          <Link to='/near'><LocalLaundryServiceIcon/></Link>
-          <Link to='/community'><ForumIcon/></Link>
-          <Link to='/profile'><AssignmentIndIcon/></Link>
-          <ToggleTop ><ToggleSwitch themeCheck={themeCheck} setThemeCheck={setThemeCheck}/></ToggleTop>
+        <Link to='/laundry'><IronIcon/></Link>
+        <Link to='/okaylaundry'><LinkedCameraIcon/></Link>
+        <Link to='/near'><LocalLaundryServiceIcon/></Link>
+        <Link to='/community'><ForumIcon/></Link>
+        <Link to='/profile'><AssignmentIndIcon/></Link>
+        <ToggleTop ><ToggleSwitch themeCheck={themeCheck} setThemeCheck={setThemeCheck}/></ToggleTop>
       </FooterNav>
     </Wrapper>
   )

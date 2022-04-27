@@ -21,6 +21,7 @@ import KakaoLogin from './pages/user/KakaoLogin'
 import NotFound from './pages/notfound/NotFound'
 import Yas from './pages/Near/Yas'
 import Practice from './pages/Near/Practice'
+import CommunityUpdate from './pages/communityBoard/CommunityUpdate'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -69,7 +70,7 @@ const App= (props:any) => {
             <Route path='/community' element={<CommunityAll />}/>
             <Route path='/community/:boardId' element={<CommunityDetail />}/>
             <Route path='/board' element={<CommunityCreate />}/>
-            <Route path='/board/:boardId' element={<CommunityCreate />}/>
+            <Route path='/board/:boardId' element={<CommunityUpdate />}/>
             <Route path='/laundry' element={<LaundryAll />}/>
             <Route path='/laundry/:laundryId' element={<LaundryDetail />}/>
             <Route path='/profile' element={<Profile />}/>
