@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Api("유저 API")
@@ -40,7 +41,7 @@ public class BoardController {
         for (Board board: boards) {
             boardSearchAllResList.add(BoardSearchAllRes.boardToBoardSearchAllRes(board));
         }
-
+        Collections.reverse(boardSearchAllResList);
         return ResponseEntity.status(200).body(BoardSearchAllListRes.of(200, "Success", boardSearchAllResList));
     }
 

@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Api("유저 API")
 @Slf4j
@@ -22,14 +25,17 @@ public class CommentController {
     @Autowired
     CommentsService commentService;
 
-    @ApiOperation(value = "게시판 ID로 게시글 조회", notes = "게시글 하나에 대해서만 상세히 반환")
+    @ApiOperation(value = "댓글 생성", notes = "댓글 생성")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = BoardSearchDetailRes.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
     @PostMapping("/create")
-    public ResponseEntity<CommentDetailRes> commentsCreate(@RequestBody CommentCreateReq body) {
+    public ResponseEntity<? extends BaseResponseBody> commentsCreate(@RequestBody CommentCreateReq body) {
         Comments comment = commentService.commentCreate(body);
+
+        List<CommentDetailRes> list = new ArrayList<>();
+
         CommentDetailRes commentDetailRes = CommentDetailRes.builder()
                 .commentDate(comment.getCommentDate())
                 .commentId(comment.getCommentId())
@@ -38,6 +44,8 @@ public class CommentController {
                 .userImg(comment.getUser().getUserImg())
                 .userId(comment.getUser().getUserId())
                 .build();
+
+        list.add(commentDetailRes);
         return ResponseEntity.status(200).body(CommentDetailRes.of(200,"success", commentDetailRes));
     }
 
