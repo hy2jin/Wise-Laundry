@@ -23,7 +23,7 @@ export const getCommunityAll = async () => {
   const response = await apiClient.get<any>(
     '/community/all', 
   )
-  // console.log('getCommunityAll response: ', response)
+  console.log('getCommunityAll response data: ', response.data.list)
   return response.data.list
 }
 
