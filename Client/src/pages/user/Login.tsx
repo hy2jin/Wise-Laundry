@@ -226,16 +226,6 @@ const Login = () => {
     sessionStorage.setItem('kakao', 'false')
   }
 
-  window.onstorage = (event) => {
-    if (event.key !== "newPage") return;
-    console.log("스토리지변경감지");
-    const newPage = sessionStorage.getItem("newPage") || null
-    console.log(newPage);
-    if (newPage !== null) {
-      navigate('/');
-      sessionStorage.removeItem('newPage')
-    }
-  };
   // const query = queryString.parse(window.location.search);
   
   // const goKakaoLogin = () => {
@@ -290,7 +280,7 @@ const Login = () => {
         </div>
 
         <div>
-          <a id="custom-login-btn" href={KAKAO_AUTH_URL} target='_blank' onClick={() => submitKakao()}>
+          <a id="custom-login-btn" href={KAKAO_AUTH_URL} onClick={() => submitKakao()}>
             <button id="custom-login-btn" className='KakaoBtn'>카카오로 시작하기</button>
           </a>
         </div>
