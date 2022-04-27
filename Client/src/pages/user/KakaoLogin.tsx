@@ -16,10 +16,13 @@ const KakaoLogin = () => {
     if (isKakao === 'true') {
       console.log(code, '코드 확인')
       sessionStorage.setItem('kakao', 'false')
+      // sessionStorage.setItem('newPage', 'true')
       getKakaoLogin(code)
       .then((res) => {
         console.log('로그인 성공')
         sessionStorage.setItem('kakao', 'false')
+        // 세션에 값을 또 하나 추가하고 변경감지가 되면 로그인tsx에서 
+        sessionStorage.setItem('newPage', 'true')
         // navigate('/home')
         const token = res.accessToken;
         sessionStorage.setItem("jwt", `${token}`);
