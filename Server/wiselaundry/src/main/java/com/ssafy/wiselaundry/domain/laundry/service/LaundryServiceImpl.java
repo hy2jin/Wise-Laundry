@@ -149,6 +149,12 @@ public class LaundryServiceImpl implements LaundryService{
             String careLabel = userLaundryRegisterPostReq.getCareLabelName()[i];
             CareLabels findCareLabel = careLabelsRepository.findByCareLabelName(careLabel);
 
+            if(findCareLabel == null){
+                findCareLabel = CareLabels.builder().careLabel(careLabel).careLabelName(careLabel).build();
+                careLabelsRepository.save(findCareLabel);
+
+            }
+
             laundryCareLabelsRepository.save(LaundryCareLabels.builder()
                     .careLabel(findCareLabel)
                     .laundry(laundry)
@@ -271,6 +277,12 @@ public class LaundryServiceImpl implements LaundryService{
         for(int i = 0; i < laundryModifyPostRep.getCareLabelName().length; i++) {
             String careLabel = laundryModifyPostRep.getCareLabelName()[i];
             CareLabels findCareLabel = careLabelsRepository.findByCareLabelName(careLabel);
+
+            if(findCareLabel == null){
+                findCareLabel = CareLabels.builder().careLabel(careLabel).careLabelName(careLabel).build();
+                careLabelsRepository.save(findCareLabel);
+
+            }
 
             laundryCareLabelsRepository.save(LaundryCareLabels.builder()
                     .careLabel(findCareLabel)
