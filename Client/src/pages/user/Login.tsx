@@ -222,7 +222,6 @@ const Login = () => {
   const REDIRECT_URI = "http://k6e104.p.ssafy.io:3000/oauth";
   const KAKAO_AUTH_URL=`https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   
-
   
   // const query = queryString.parse(window.location.search);
   
@@ -230,7 +229,7 @@ const Login = () => {
   //   navigate(KAKAO_AUTH_URL)
   // }
 
-
+  // ⭐getUserInfo 로 받아온 값 store에 user에 등록해주기⭐
 
   return (
     <Wrapper>
@@ -276,11 +275,9 @@ const Login = () => {
             <button className="SignupBtn" onClick={() => navigate('/signup')}>회원가입</button>
           </div>
         </div>
-        {/* <button>임시 카카오 로그인 자리</button> */}
 
         <div>
           <a id="custom-login-btn" href={KAKAO_AUTH_URL}>
-          {/* <button >카카오</button> */}
             <button id="custom-login-btn" className='KakaoBtn'>카카오로 시작하기</button>
           </a>
         </div>

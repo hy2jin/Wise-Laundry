@@ -1,18 +1,34 @@
 import React, { useEffect } from 'react';
 import { getKakaoLogin } from '../../store/api/user';
-
+import { useRecoilState } from 'recoil';
+import { loginState } from '../../store/state/user';
+import { useNavigate } from 'react-router-dom';
 
 const KakaoLogin = () => {
   // 인가코드
-  
+  const [isLogin, setIsLogin] = useRecoilState(loginState)
+  const navigate = useNavigate()
+
   useEffect(() => {
     let code = new URL(window.location.href).searchParams.get("code") || null
     console.log(code, '코드 확인')
-    if (code !== null) {
-      getKakaoLogin(code)
-      console.log('가지나?')
-    }
+    getKakaoLogin(code)
+    .then((res) => {
+      console.log('로그인 성공')
+      // navigate('/home')
+      const token = res.accessToken;
+      sessionStorage.setItem("jwt", `${token}`);
+      console.log(token, 'jwt 토큰 확인')
+      navigate('/')
+    })
+
+    .catch((err) => {
+      console.log(err)
+    })
+    setIsLogin(true)
+
   }, []);
+
 
   return (
     <div>
