@@ -222,7 +222,7 @@ const Login = () => {
   const REDIRECT_URI = "http://k6e104.p.ssafy.io:3000/oauth";
   const KAKAO_AUTH_URL=`https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   
-  
+
   const submitKakao = () => {
     sessionStorage.setItem('kakao', 'false')
   }
@@ -280,7 +280,7 @@ const Login = () => {
         </div>
 
         <div>
-          <a id="custom-login-btn" href={KAKAO_AUTH_URL} onClick={() => }>
+          <a id="custom-login-btn" href={KAKAO_AUTH_URL} onClick={() => submitKakao()}>
             <button id="custom-login-btn" className='KakaoBtn'>카카오로 시작하기</button>
           </a>
         </div>

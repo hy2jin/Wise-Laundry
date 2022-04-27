@@ -15,9 +15,11 @@ const KakaoLogin = () => {
 
     if (isKakao === 'true') {
       console.log(code, '코드 확인')
+      sessionStorage.setItem('kakao', 'false')
       getKakaoLogin(code)
       .then((res) => {
         console.log('로그인 성공')
+        sessionStorage.setItem('kakao', 'false')
         // navigate('/home')
         const token = res.accessToken;
         sessionStorage.setItem("jwt", `${token}`);
@@ -27,6 +29,7 @@ const KakaoLogin = () => {
   
       .catch((err) => {
         console.log(err)
+        sessionStorage.setItem('kakao', 'false')
       })
       setIsLogin(true)
     } else {
