@@ -41,7 +41,7 @@ public class Board{
     private String boardContent;
 
     @ApiModelProperty(value = "게시글 날짜", required = true, example = "2020-01-23 13:33:33")
-    @Column(name = "board_date")
+    @Column(name = "board_dt")
     private LocalDateTime boardDate;
 
     @JsonManagedReference

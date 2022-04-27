@@ -40,7 +40,7 @@ public class Comments {
     private String commentContent;
 
     @ApiModelProperty(value = "댓글 날짜", required = true, example = "2020-01-23")
-    @Column(name = "comment_date")
+    @Column(name = "comment_dt")
     private LocalDateTime commentDate;
 
     @Builder
