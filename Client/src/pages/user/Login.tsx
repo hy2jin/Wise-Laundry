@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from './images/logo2.png';
-import kakaoLogin from './images/kakaoImg.png';
+// import kakaoLogin from './images/kakaoImg.png';
 import { postLogin } from '../../store/api/user';
 
 
@@ -223,6 +223,9 @@ const Login = () => {
   const KAKAO_AUTH_URL=`https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   
   
+  const submitKakao = () => {
+    sessionStorage.setItem('kakao', 'false')
+  }
   // const query = queryString.parse(window.location.search);
   
   // const goKakaoLogin = () => {
@@ -277,7 +280,7 @@ const Login = () => {
         </div>
 
         <div>
-          <a id="custom-login-btn" href={KAKAO_AUTH_URL}>
+          <a id="custom-login-btn" href={KAKAO_AUTH_URL} onClick={() => }>
             <button id="custom-login-btn" className='KakaoBtn'>카카오로 시작하기</button>
           </a>
         </div>

@@ -6,6 +6,7 @@ import { postBoard, putBoard, getCommunityDetail } from '../../store/api/communi
 import { datadetail } from './data';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
+
 interface Istate {
   board: {
     userId: number,
@@ -42,29 +43,31 @@ const CommunityCreate = () => {
     let formData = new FormData()
     const content = board.boardContent.replace(/(\n|\r\n)/g, '<br/>')
     const newData = {
-      userId: 1,
+      userId: 10,
       boardName: board.boardName,
       boardContent: content
     }
     formData.append(
-      "data",
+      "body",
       new Blob([JSON.stringify(newData)], {type: "application/json"})
     )
     if (fileList != null) {
+      console.log('🎲🎲fileList 존재')
       Array.from(fileList).forEach(f => formData.append("file", f))
     }
+    return formData
   }
   const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
-    makeFormData()
-    
-    // postBoard({...data, userId: board.userId})
-    // .then(res => {
-    //   navigate(`/community/${board.boardId}`)
-    // })
-    // .catch(err => {
-    //   console.log('postBoard err:', err)
-    // })
+    const form = makeFormData()
+    postBoard(form)
+    .then(res => {
+      console.log('🎲🎲🎲res: ', res);
+      // navigate(`/community/${board.boardId}`)
+    })
+    .catch(err => {
+      console.log('postBoard err:💧', err)
+    })
   }
 
   return (
