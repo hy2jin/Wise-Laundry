@@ -22,12 +22,11 @@ const KakaoLogin = () => {
         console.log('로그인 성공')
         sessionStorage.setItem('kakao', 'false')
         // 세션에 값을 또 하나 추가하고 변경감지가 되면 로그인tsx에서 
-        sessionStorage.setItem('newPage', 'true')
         // navigate('/home')
         const token = res.accessToken;
         sessionStorage.setItem("jwt", `${token}`);
         console.log(token, 'jwt 토큰 확인')
-        navigate('/')
+        window.open('https://슬기로운세탁.com/')
       })
   
       .catch((err) => {
