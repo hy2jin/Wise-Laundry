@@ -29,14 +29,18 @@ public class BoardSearchAllRes {
     @ApiModelProperty(value = "게시글 날짜", required = true, example = "2020-01-23 13:33:33")
     private LocalDateTime boardDate;
 
+    @ApiModelProperty(value = "댓글 갯수", required = true, example = "3")
+    private int commentCnt;
+
     @Builder
-    public BoardSearchAllRes(int userId, String userNick, int boardId, String boardName, String boardContent, LocalDateTime boardDate, String message, Integer statusCode) {
+    public BoardSearchAllRes(int userId, String userNick, int boardId, String boardName, String boardContent, LocalDateTime boardDate, int commentCnt, String message, Integer statusCode) {
         this.userId = userId;
         this.userNick = userNick;
         this.boardId =  boardId;
         this.boardName = boardName;
         this.boardContent = boardContent;
         this.boardDate = boardDate;
+        this.commentCnt = commentCnt;
     }
 
     public static BoardSearchAllRes boardToBoardSearchAllRes(Board board){
@@ -47,6 +51,7 @@ public class BoardSearchAllRes {
                 .boardName(board.getBoardName())
                 .boardContent(board.getBoardContent())
                 .boardDate(board.getBoardDate())
+                .commentCnt(board.getComments().size())
                 .build();
     }
 }
