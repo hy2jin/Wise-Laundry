@@ -4,10 +4,7 @@ import com.ssafy.wiselaundry.domain.board.db.entity.Board;
 import com.ssafy.wiselaundry.domain.board.db.entity.Comments;
 import com.ssafy.wiselaundry.domain.board.request.BoardCreateReq;
 import com.ssafy.wiselaundry.domain.board.request.BoardUpdateReq;
-import com.ssafy.wiselaundry.domain.board.response.BoardCreateRes;
-import com.ssafy.wiselaundry.domain.board.response.BoardSearchAllRes;
-import com.ssafy.wiselaundry.domain.board.response.BoardSearchDetailRes;
-import com.ssafy.wiselaundry.domain.board.response.CommentDetailRes;
+import com.ssafy.wiselaundry.domain.board.response.*;
 import com.ssafy.wiselaundry.domain.board.service.BoardService;
 import com.ssafy.wiselaundry.global.model.response.BaseResponseBody;
 import io.swagger.annotations.*;
@@ -18,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.print.attribute.standard.Media;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,15 +33,15 @@ public class BoardController {
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
     @GetMapping("/all")
-    public ResponseEntity<List<BoardSearchAllRes>> boardSearchAll() {
+    public ResponseEntity<? extends BaseResponseBody> boardSearchAll() {
         List<Board> boards = boardService.boardSearchAll();
         List<BoardSearchAllRes> boardSearchAllResList = new ArrayList<>();
 
         for (Board board: boards) {
-            boardSearchAllResList.add(BoardSearchAllRes.of(board));
+            boardSearchAllResList.add(BoardSearchAllRes.boardToBoardSearchAllRes(board));
         }
 
-        return ResponseEntity.status(200).body(boardSearchAllResList);
+        return ResponseEntity.status(200).body(BoardSearchAllListRes.of(200, "Success", boardSearchAllResList));
     }
 
 
@@ -55,7 +51,7 @@ public class BoardController {
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
     @GetMapping("/{boardId}")
-    public ResponseEntity<BoardSearchDetailRes> boardSearchDetail(@ApiParam(value = "게시판 번호") @PathVariable("boardId") int boardId) {
+    public ResponseEntity<? extends BaseResponseBody> boardSearchDetail(@ApiParam(value = "게시판 번호") @PathVariable("boardId") int boardId) {
         Board board = boardService.boardSearchById(boardId);
         List<CommentDetailRes> commentDetailResList = new ArrayList<>();
 
@@ -78,7 +74,8 @@ public class BoardController {
                 .userImg(board.getUser().getUserImg())
                 .comments(commentDetailResList)
                 .build();
-        return ResponseEntity.status(200).body(boardSearchDetailRes);
+
+        return ResponseEntity.status(200).body(BoardSearchDetailRes.of(200, "Success", boardSearchDetailRes));
     }
 
 
@@ -107,7 +104,7 @@ public class BoardController {
                                                                   MultipartHttpServletRequest request) {
         log.info("boardUpdate-call");
         boardService.boardUpdate(body, request);
-        return ResponseEntity.status(201).body(new BaseResponseBody(201, "수정 완료"));
+        return ResponseEntity.status(201).body(BaseResponseBody.of(201, "수정 완료"));
     }
 
 
@@ -119,6 +116,6 @@ public class BoardController {
     @DeleteMapping("/{boardId}")
     public ResponseEntity<? extends BaseResponseBody> boardDelete(@ApiParam @PathVariable("boardId") int boardId) {
         boardService.boardDelete(boardId);
-        return ResponseEntity.status(201).body(new BaseResponseBody(201, "수정 완료"));
+        return ResponseEntity.status(201).body(BaseResponseBody.of(201, "삭제 완료"));
     }
 }
