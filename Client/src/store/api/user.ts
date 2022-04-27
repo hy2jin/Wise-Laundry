@@ -93,3 +93,12 @@ export const getKakaoLogin =async (code:any) => {
   return response.data
 }
 
+export const getNicknamecheck =async (userNick: string) => {
+  const response = await apiNoneTokenClient.get<any>(
+    `/user/nickcheck?nick=${userNick}`,
+  )
+  console.log('이메일 중복확인')
+  return response.data
+}
+
+

@@ -4,8 +4,7 @@ import logo from './images/logo2.png';
 import profile from './images/profile-image.png';
 import camera from './images/camera-free-icon-font.png';
 import { useNavigate } from 'react-router-dom';
-import { postSignUp } from '../../store/api/user';
-import { getEmailcheck } from '../../store/api/user';
+import { postSignUp, getEmailcheck, getNicknamecheck } from '../../store/api/user';
 
 
 const Wrapper = styled.div `
@@ -356,6 +355,20 @@ const Signup = () => {
     })
   }
 
+  const nicknameDuplicationCheck = () => {
+    getNicknamecheck(nickname)
+    .then((res) => {
+      const nickCheckMessage = res.message
+      console.log(nickCheckMessage, '중복 확인')
+      if (nickCheckMessage === 'Unavailable') {
+        alert('사용중인 닉네임 입니다.')
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+
 
 
   return (
@@ -399,7 +412,7 @@ const Signup = () => {
                         value={nickname}
                         onChange={e => setNickname(e.target.value)}
                       />
-                      <button className='ConfirmBtn'>확인</button>
+                      <button className='ConfirmBtn' onClick={() => nicknameDuplicationCheck()}>확인</button>
                     </InputForm>
                   </label>
                 </div>
