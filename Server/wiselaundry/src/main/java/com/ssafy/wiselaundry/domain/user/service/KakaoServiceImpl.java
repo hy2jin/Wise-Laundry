@@ -37,7 +37,7 @@ public class KakaoServiceImpl implements KakaoService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=9c4b740a32c840080fcfd4249ec3b331");
-            sb.append("&redirect_uri=http://localhost:3000/oauth");
+            sb.append("&redirect_uri=https://슬기로운세탁.com/oauth");
             sb.append("&code=" + code);
             bw.write(sb.toString());
             bw.flush();

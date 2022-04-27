@@ -36,10 +36,13 @@ public class KakaoLoginController {
         Map<String, String> tokens = kakaoService.getTokens(code);
 
         Map<String, Object> userInfo = kakaoService.getUserInfo(tokens.get("accessToken"));
-
+        System.out.println(userInfo);
         User user = userService.findByUserEmail(userInfo.get("email").toString());
+        System.out.println(user);
         if(user==null){
+
             user = userService.createKakaoUser((HashMap) userInfo);
+
             return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(user.getUserEmail()), user.getUserEmail()));
         }else if(user.getUserNick().equals(userInfo.get("nickname").toString())
                 &&user.getKakaoImg().equals(userInfo.get("image").toString())){
