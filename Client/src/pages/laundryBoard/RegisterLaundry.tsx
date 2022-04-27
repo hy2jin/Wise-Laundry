@@ -127,11 +127,11 @@ interface Istate{
   }
 }
 const RegisterLaundry = () => {
-// const [laundryInfo,setlaundryInfo] = useState<string[]>([])
-// const [careLabelName,setcareLabelName] = useState<string[]>([])
-  const [laundryInfo,setlaundryInfo] = useState(['폴로','스웨터','꽈배기','울니트','1992'])
-  const [careLabelName,setcareLabelName] = useState(['세탁불가','다리미','물빨래','손세탁','허리업','비싸요'])
-  const [laundryMemo,setLaundryMemo] = useState('메모')
+const [laundryInfo,setlaundryInfo] = useState<string[]>([])
+const [careLabelName,setcareLabelName] = useState<string[]>([])
+  // const [laundryInfo,setlaundryInfo] = useState(['폴로','스웨터','꽈배기','울니트','1992'])
+  // const [careLabelName,setcareLabelName] = useState(['세탁불가','다리미','물빨래','손세탁','허리업','비싸요'])
+  const [laundryMemo,setLaundryMemo] = useState('')
   const [user,setUser] = useRecoilState(userState)
   const [file, setFile] = useState<any>();
   const navigate = useNavigate()

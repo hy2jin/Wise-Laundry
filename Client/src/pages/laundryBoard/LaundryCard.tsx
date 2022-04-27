@@ -49,12 +49,21 @@ const Label = styled.div`
     margin-top: 1px;
   }
 `
+const imageOnErrorHandler = (
+  // 사진이 오류날 시 기본 사진
+  event: React.SyntheticEvent<HTMLImageElement, Event>
+) => {
+  event.currentTarget.src =
+    "https://www.pngplay.com/wp-content/uploads/12/Basic-Half-Sleeve-T-Shirt-PNG-Free-File-Download.png";
+};
+
 
 const LaundryCard:React.FC<Iprops>= ({laundry}) => {
   const navigate = useNavigate()
+  const src = `images/${laundry.laundryImg}`
   return (
     <Wrapper onClick={()=>{navigate(`${laundry.laundryId}`)}}>
-      <img src={laundry.laundryImg} alt='사진' />
+      <img src={src} alt='사진' onError={imageOnErrorHandler}/>
       <LabelBox>
         {laundry.careLabel.map(((label,idx)=>{
           return(

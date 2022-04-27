@@ -7,7 +7,7 @@ const apiClient = axios.create({
   baseURL: baseURL,
   headers: {
     "Content-type": "application/json",
-    'Authorization':`Bearer ${token}`
+    // 'Authorization':`Bearer ${token}`
   },
 }); 
 const fileApiClient = axios.create({
