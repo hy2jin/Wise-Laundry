@@ -32,7 +32,7 @@ const CommunityCreate = () => {
       setFileList(files)
       const nowImageUrlList = [...board.boardImg]
       Array.from(files).map(file => {
-        console.log('🎲file: ', file);
+        // console.log('🎲file: ', file);
         const nowImageUrl = URL.createObjectURL(file)
         nowImageUrlList.push(nowImageUrl)
       })
@@ -52,7 +52,7 @@ const CommunityCreate = () => {
       new Blob([JSON.stringify(newData)], {type: "application/json"})
     )
     if (fileList != null) {
-      console.log('🎲🎲fileList 존재')
+      // console.log('🎲🎲fileList 존재')
       Array.from(fileList).forEach(f => formData.append("file", f))
     }
     return formData
@@ -63,7 +63,7 @@ const CommunityCreate = () => {
     postBoard(form)
     .then(res => {
       console.log('🎲🎲🎲res: ', res);
-      // navigate(`/community/${board.boardId}`)
+      navigate(`/community/${res.boardId}`)
     })
     .catch(err => {
       console.log('postBoard err:💧', err)
