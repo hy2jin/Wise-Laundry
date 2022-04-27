@@ -23,7 +23,7 @@ const ContainerBox = styled.section`
   height: 650px;
   box-shadow: ${props => props.theme.boxShadowBox} ;
   border-radius: 10px;
-  margin-top: 10vh;
+  margin-top: 5vh;
   .title{
     font-size: 4vw;
     text-align: center;
@@ -32,18 +32,18 @@ const ContainerBox = styled.section`
   img{
     height: 450px;
     width: 25vw;
-    margin-left: 10vw;
+    margin-left: 5vw;
     margin-top: 5vh;
     border-radius: 10px;
     border: 2px solid #6b6b6b;
   }
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 1000px) {
     height: auto;
-    margin-top: 0;
+    margin-top: 5vh;
     img{
-      height: 45vh;
+      height: 380px;
       width: 30vw;
-      margin-top: 5vh;
+      margin-top: 10vh;
       margin-left:5vw;
     }
     .title{
@@ -53,10 +53,10 @@ const ContainerBox = styled.section`
   @media screen and (max-width: 800px) {
     height: auto;
     img{
-      height: 40vh;
-      width: 90%;
+      height: 350px;
+      width: 80%;
       margin-top: 5vh;
-      margin-left:5vw;
+      margin-left:10vw;
     }
     .title{
       font-size: 30px;
@@ -99,6 +99,7 @@ const Button = styled.button`
   border-radius: 10px;
   margin: auto;
   cursor: pointer;
+
   @media screen and (max-width: 800px) {
     margin-top: 50px;
     width: 70vw;

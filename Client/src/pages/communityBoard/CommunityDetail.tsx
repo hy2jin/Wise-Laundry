@@ -7,7 +7,7 @@ import { useRecoilState } from 'recoil';
 import { themeState } from '../../store/state/theme';
 import { getCommunityDetail, postComment, delComment, delBoard } from '../../store/api/community';
 import { useNavigate, useParams } from 'react-router-dom';
-import { datadetail } from './data'
+import defaultImg from './images/ironing.png'
 
 interface Istate {
   board: {
@@ -16,19 +16,154 @@ interface Istate {
     userNick: string,
     userImg: string,
     boardName: string,
-    boardImg: string[],
+    boardImgs: string[],
     boardContent: string,
-    boardDate: string,
+    boardDate: number[],
     comments: {
       commentId: number,
       userImg: string,
       userNick: string,
       userId: number,
       commentContent: string,
-      commentDate: string
+      commentDate: number[],
+      statusCode: number,
+      message: string
     }[]
   }
 }
+
+const CommunityDetail = () => {
+  const { boardId } = useParams()
+  const navigate = useNavigate()
+  const [theme, setTheme] = useRecoilState(themeState)
+  const [inputText, setInputText] = useState('')
+  const [board, setBoard] = useState<Istate['board']>({
+    boardId: 0,
+    userId: 0,
+    userNick: '',
+    userImg: '',
+    boardName: '',
+    boardImgs: [],
+    boardContent: '',
+    boardDate: [],
+    comments: [
+      {
+        commentId: 0,
+        userImg: '',
+        userNick: '',
+        userId: 0,
+        commentContent: '',
+        commentDate: [],
+        statusCode: 0,
+        message: ''
+      }
+    ]
+  })
+
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      createComment()
+    }
+  }
+  const deleteBoard = () => {
+    console.log(`🎲${board.boardId} 삭제🎲`)
+    // delBoard(board.boardId)
+    delBoard(20)
+    .then(() => {
+      navigate('/community')
+    })
+    .catch(err => {
+      console.log('deleteBoard error:🎲', err)
+    })
+    console.log(`${boardId}번 글 삭제`);
+  }
+  const createComment = () => {
+    const data = {
+      userId: 10,
+      boardId: boardId,
+      commentContent: inputText
+    }
+    postComment(data)
+    .then(res => {
+      setBoard({...board, comments: [...board.comments, res]})
+    })
+    .catch(err => {
+      console.log('🎲createComment error:', err)
+    })
+    setInputText('')
+  }
+  const deleteComment = (commentId: number) => {
+    delComment(commentId)
+    .then(() => {
+      const newComments = board.comments.filter(c => c.commentId !== commentId)
+      setBoard({...board, comments: newComments})
+    })
+  }
+
+  useEffect(() => {
+    getCommunityDetail(Number(boardId))
+    .then(res => {
+      setBoard(res)
+      console.log('🎲res: ', res);
+    })
+    .catch(err => {
+      console.log('🎲getCommunityDetail err:', err)
+    })
+    // setBoard(datadetail)
+  }, [])
+
+  return (
+    <Wrapper>
+      <Board>
+        <BoardContent>
+          <div className='top'>
+            <img src={board.boardImgs[0]} alt='사진' />
+          </div>
+          <div className='middle'>
+            <div className='user'>
+              <img src={board.userImg || defaultImg} alt='프로필' />
+              <p>{board.userNick}</p>
+            </div>
+            <p className='date'>작성일 : {board.boardDate[0]}.{board.boardDate[1]}.{board.boardDate[2]}</p>
+          </div>
+          <hr />
+          <div className='bottom'>
+            <p className='title'>{board.boardName}</p>
+            <p className='content'>{
+              board.boardContent.split('\n').map((line, i) => <span key={i}>{line}<br/></span>)
+            }</p>
+          </div>
+        </BoardContent>
+        <hr />
+        <Comments>
+          {board.comments.map((comment, i) => (
+            <div className='comment' key={i}>
+              <img src={comment.userImg || defaultImg} alt='프로필' />
+              <div className='content' style={{backgroundColor: `${theme.listBgColor[i%3]}`}}>
+                <p>{comment.commentContent}</p>
+                {/* {comment.userId === 10 &&  */}
+                <RemoveCircleOutlineIcon onClick={() => deleteComment(comment.commentId)} />
+                {/* } */}
+              </div>
+              <p>{String(comment.commentDate[0]).slice(-2)}.{comment.commentDate[1]}.{comment.commentDate[2]}</p>
+            </div>
+          ))}
+        </Comments>
+        <CreateComment>
+          <input value={inputText} placeholder='댓글을 입력하세요'
+            onChange={e => setInputText(e.target.value)} onKeyUp={e => handleKeyUp(e)}
+          />
+          <button onClick={() => createComment()}>등록</button>
+        </CreateComment>
+      </Board>
+      <Btns>
+        <button className='active' onClick={() => navigate('/community')}>목록</button>
+        <button className='active' onClick={() => navigate(`/board/${board.boardId}`)}>수정</button>
+        <button className='inactive' onClick={() => deleteBoard()}>삭제</button>
+      </Btns>
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.article`
   width: 60vw;
@@ -159,129 +294,5 @@ const Btns = styled.section`
     }
   }
 `
-
-const CommunityDetail = () => {
-  const { boardId } = useParams()
-  const navigate = useNavigate()
-  const [theme, setTheme] = useRecoilState(themeState)
-  const [inputText, setInputText] = useState('')
-  const [board, setBoard] = useState<Istate['board']>({
-    boardId: 0,
-    userId: 0,
-    userNick: '',
-    userImg: '',
-    boardName: '',
-    boardImg: [''],
-    boardContent: '',
-    boardDate: '',
-    comments: [
-      {
-        commentId: 0,
-        userImg: '',
-        userNick: '',
-        userId: 0,
-        commentContent: '',
-        commentDate: ''
-      }
-    ]
-  })
-
-  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      createComment()
-    }
-  }
-  const deleteBoard = () => {
-    // delBoard(board.boardId)
-    // .then(() => {
-    //   navigate('/community')
-    // })
-    // .catch(err => {
-    //   console.log('🎲deleteBoard error:', err)
-    // })
-    console.log(`${boardId}번 글 삭제`);
-  }
-  const createComment = () => {
-    const data = {
-      userId: 0,
-      boardId: board.boardId,
-      commentContent: inputText
-    }
-    console.log(`댓글작성 보냅니다아🎷 ${data}`)
-    // postComment(data)
-    // .then(res => {
-    //   setBoard({...board, comments: [...board.comments, res]})
-    // })
-    // .catch(err => {
-    //   console.log('🎲createComment error:', err)
-    // })
-    setInputText('')
-  }
-  const deleteComment = (commentId: number) => {
-    console.log(`${commentId}번 댓글 삭제!`);
-    // delComment(commentId)
-  }
-
-  useEffect(() => {
-    // getCommunityDetail(boardId)
-    // .then(res => {
-    //   setBoard(res)
-    // })
-    // .catch(err => {
-    //   console.log('🎲getCommunityDetail err:', err)
-    // })
-    setBoard(datadetail)
-  }, [])
-
-  return (
-    <Wrapper>
-      <Board>
-        <BoardContent>
-          <div className='top'>
-            <img src={board.boardImg[0]} alt='사진' />
-          </div>
-          <div className='middle'>
-            <div className='user'>
-              <img src={board.userImg} alt='이미지' />
-              <p>{board.userNick}</p>
-            </div>
-            <p className='date'>작성일 : {board.boardDate}</p>
-          </div>
-          <hr />
-          <div className='bottom'>
-            <p className='title'>{board.boardName}</p>
-            <p className='content'>{board.boardContent}</p>
-          </div>
-        </BoardContent>
-        <hr />
-        <Comments>
-          {board.comments.map((comment, i) => (
-            <div className='comment' key={i}>
-              <img src={comment.userImg} alt='프로필' />
-              <div className='content' style={{backgroundColor: `${theme.listBgColor[i%3]}`}}>
-                <p>{comment.commentContent}</p>
-                {board.userNick === comment.userNick && 
-                <RemoveCircleOutlineIcon onClick={() => deleteComment(board.boardId)} />
-                }
-              </div>
-              <p>{comment.commentDate.slice(-8)}</p>
-            </div>
-          ))}
-        </Comments>
-        <CreateComment>
-          <input value={inputText} placeholder='댓글을 입력하세요'
-            onChange={e => setInputText(e.target.value)} onKeyUp={e => handleKeyUp(e)}
-          />
-          <button onClick={() => createComment()}>등록</button>
-        </CreateComment>
-      </Board>
-      <Btns>
-        <button className='active' onClick={() => navigate('/community')}>목록</button>
-        <button className='active' onClick={() => navigate(`/board/${board.boardId}`)}>수정</button>
-        <button className='inactive' onClick={() => deleteBoard()}>삭제</button>
-      </Btns>
-    </Wrapper>
-  );
-};
 
 export default CommunityDetail;

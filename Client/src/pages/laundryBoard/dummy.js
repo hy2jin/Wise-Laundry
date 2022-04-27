@@ -60,5 +60,6 @@ export const detailitem = {
   laundryInfo: ['폴로','스웨터','꽈배기','울니트','1992'], 
   laundryImg: 'http://m.daisybird.co.kr/web/product/big/201512/54_shop1_853996.jpg' ,
   laundryOwnerNick: '김순미',
-  laundryOwnerId: 5 
+  laundryOwnerId: 5 ,
+  laundryMemo:'메모래요'
 }

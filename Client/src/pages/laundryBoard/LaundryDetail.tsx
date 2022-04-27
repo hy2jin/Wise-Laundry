@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import { detailitem } from './dummy';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { deleteLaundry, getLaundryDetail } from '../../store/api/laundry';
 
 const Wrapper = styled.article`
   width: 70vw;
@@ -75,7 +74,6 @@ const InfoBox = styled.div`
 const Info = styled.div`
   margin: auto;
   width: 80%;
-  
 `
 const LabelBox = styled.div`
   margin: auto;
@@ -176,17 +174,36 @@ interface Istate{
     laundryImg: string
     laundryOwnerNick: string
     laundryOwnerId: number
+    laundryMemo:string
   }
 }
 
 const LaundryDetail = () => {
-  const [laundry,setLaundry] = useState<Istate['laundry']>(detailitem)
+  const [laundry,setLaundry] = useState<Istate['laundry']>()
   const navigate = useNavigate()
+  const {laundryId} = useParams()
+  useEffect(()=>{
+    getLaundryDetail(Number(laundryId)).then((res)=>{
+      setLaundry(res.list)
+    })
+  },[])
+  const imageOnErrorHandler = (
+    // 사진이 오류날 시 기본 사진
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    event.currentTarget.src =
+      "https://www.pngplay.com/wp-content/uploads/12/Basic-Half-Sleeve-T-Shirt-PNG-Free-File-Download.png";
+  };
+  const goDelete =()=>{
+    deleteLaundry(Number(laundryId))
+    navigate(-1)
+  }
   return (
     <Wrapper>
+      {laundry !==undefined &&
       <DetailBox>
         <Top>
-          <img alt='옷사진' src={laundry.laundryImg}/>
+          <img onError={imageOnErrorHandler} alt='옷사진' src={laundry.laundryImg}/>
           <InfoBox>
             <Info>
               <div className='title'>제품 설명 태그</div>
@@ -208,10 +225,12 @@ const LaundryDetail = () => {
           </InfoBox>
         </Top>
         <ButtonBox>
-          <button className='updateBtn'>수정하기</button>
-          <button className='deleteBtn'>삭제하기</button>
+          <button className='updateBtn' onClick={()=>{navigate(`/laundry/${laundryId}/update`)}}>수정하기</button>
+          <button className='deleteBtn' 
+          onClick={()=>{ goDelete()}}>삭제하기</button>
         </ButtonBox>
       </DetailBox>
+      }
     </Wrapper>
   );
 };

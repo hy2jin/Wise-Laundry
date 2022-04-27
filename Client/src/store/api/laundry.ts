@@ -26,7 +26,7 @@ export const getProductAll = async () => {
 
 export const getProductMine = async (userId:number) => {
   const response = await apiClient.get<any>(
-    `/laundry/${userId}/`, 
+    `/laundry/${userId}/all`, 
   );
   return response.data
 }
@@ -38,17 +38,13 @@ export const getLaundryDetail = async (laundryId:number) => {
   return response.data
 }
 
-export const updateLaundry = async (laundryId:number) => {
-  const response = await apiClient.put<any>(
-    `/laundry/${laundryId}/`, 
-  );
-  return response.data
-}
+
 
 export const deleteLaundry = async (laundryId:number) => {
   const response = await apiClient.delete<any>(
     `/laundry/${laundryId}/`, 
   );
+  console.log('삭제되었다.')
   return response.data
 }
 
@@ -61,15 +57,11 @@ export const AddLaundry = async (formdata:any) => {
   return response.data
 }
 
-export const UpdateLaundry = async (careLabelName:string[], laundryInfo:string[],laundryMemo:string,laundryId:number) => {
-  const response = await apiClient.put<any>(
-    '/laundry',
-    {
-      'careLabelName': careLabelName,
-      'laundryInfo': laundryInfo,
-      'laundryMemo': laundryMemo,
-      "laundryId": laundryId
-    }
+export const UpdateLaundry = async (formdata:any) => {
+  const response = await fileApiClient.put<any>(
+    '/laundry/',
+    formdata
   )
+  console.log('수정되었다!')
   return response.data
 }

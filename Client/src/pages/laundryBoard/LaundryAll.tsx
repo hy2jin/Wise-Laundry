@@ -4,7 +4,9 @@ import LaundryCard from './LaundryCard';
 import { items as itms } from './dummy';
 import { items2 as itms2 } from './dummy';
 import styled from 'styled-components';
-import { getProductAll } from '../../store/api/laundry';
+import { getProductAll, getProductMine } from '../../store/api/laundry';
+import { useRecoilState } from 'recoil';
+import { userState } from '../../store/state/user';
 interface Istate{
   laundry:{
     laundryId: number
@@ -77,8 +79,8 @@ const LaundryBox = styled.section`
 `
 
 const LaundryAll = () => {
+  const [allLaundries,setAllLaundries] = useState<Istate['laundry'][]>([])
   const [myLaundries,setMyLaundries] = useState<Istate['laundry'][]>([])
-  const [allLaundries,setAllLaundries] = useState<Istate['laundry'][]>(itms2)
   const [filter,setFilter] = useState('my') // my <=> all
   const [inputText,setInputText] = useState('')
   const handleEnter = async (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -86,12 +88,14 @@ const LaundryAll = () => {
       // submit
     }
   };
+  const [user,getUser] = useRecoilState(userState)
   useEffect(()=>{
     getProductAll().then((res)=>{
+      setAllLaundries(res.list)
+    })
+    getProductMine(user.userId).then((res)=>{
       setMyLaundries(res.list)
     })
-    console.log(myLaundries)
-   // setLaundries , setAllLaundries
   },[])
 
   return (
