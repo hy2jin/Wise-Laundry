@@ -127,7 +127,7 @@ public class BoardServiceImpl implements BoardService{
             // 파일 확장자
             String extension = FilenameUtils.getExtension(fileName);
 
-            String savingFileName = uuid + "." + extension;
+            String savingFileName =  uuid + "." + extension;
 
             File destFile = new File(uploadPath + File.separator, uploadFolder + File.separator + "/community/" + savingFileName);
 
@@ -137,7 +137,7 @@ public class BoardServiceImpl implements BoardService{
                 e.printStackTrace();
             }
 
-            recordFileUrl = uploadPath + "/" + uploadFolder + "/" + savingFileName;
+            recordFileUrl = "/" + uploadFolder + "/" + savingFileName;
             boardImgList.add(boardImgService.boardImgCreate(board, recordFileUrl));
         }
 
