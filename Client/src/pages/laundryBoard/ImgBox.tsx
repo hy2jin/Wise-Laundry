@@ -16,15 +16,31 @@ const Wrapper = styled.div`
       margin-left: 5vw;
     }
   }
+  .input-box{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  label{
+    padding: 6px 25px;
+    background-color:#FF6600;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+  }
+  input{
+    display: none;
+  }
 `
 
 interface IProps {
   file:any
   setFile:React.Dispatch<any>
+  laundryImg:string
 }
 
-const ImgBox:React.FC<IProps>= ({file,setFile}) => {
-  const [fileSrc, setFileSrc] = useState<string>("");
+const ImgBox:React.FC<IProps>= ({file,setFile,laundryImg}) => {
+  const [fileSrc, setFileSrc] = useState<string>(laundryImg);
   const encodeMainFileToBasek64 = (fileBlob: any) => {
     const reader: any = new FileReader();
     if (fileBlob) {
@@ -44,15 +60,26 @@ const ImgBox:React.FC<IProps>= ({file,setFile}) => {
       encodeMainFileToBasek64((e.target as HTMLInputElement).files?.item(0));
     }
   };
-
+  const imageOnErrorHandler = (
+    // 사진이 오류날 시 기본 사진
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    event.currentTarget.src =
+      "https://www.pngplay.com/wp-content/uploads/12/Basic-Half-Sleeve-T-Shirt-PNG-Free-File-Download.png";
+  };
   return (
     <Wrapper>
-      <img alt='옷' src={fileSrc}/>
-      <input
-        className="file"
-        id="chooseFile"
-        type="file"
-        onChange={handleFileOnChange}/>
+      <img alt='옷' onError={imageOnErrorHandler} src={fileSrc}/>
+      <section className='input-box'>
+        <label  htmlFor="chooseFile">
+          업로드
+        </label>
+        <input
+          className="file"
+          id="chooseFile"
+          type="file"
+          onChange={handleFileOnChange}/>
+      </section>
     </Wrapper>
   )
 }

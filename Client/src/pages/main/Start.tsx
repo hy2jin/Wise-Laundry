@@ -78,15 +78,20 @@ const Content = styled.div`
     background-color: #87878751;
     position:fixed;
     padding: 0 2vw;
-    width: 50vw;
+    width: 35vw;
     /* height: 30vh; */
-    left: 25%;
+    left: 30%;
     /* top:350px; */
     top:50vh;
     color:white;
     text-align: center;
     /* transition: 2s; */
     visibility: hidden;
+    @media screen and (max-width: 800px) {
+      width: 50vw;
+      left: 25%;
+
+    }
     &.show{
     visibility: visible;
     transform: translateY(-10vh);
@@ -99,6 +104,7 @@ const Content = styled.div`
     transition: 1s;
     @media screen and (max-width: 800px) {
       font-size: 16px;
+
     }
   }
 
@@ -139,6 +145,7 @@ const LoginBox = styled.div`
     width: 90%;
     height: 50px;
     button{
+      font-weight: 700;
       width: 42vw;      
     }
   }

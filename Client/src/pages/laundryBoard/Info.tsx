@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  margin-top: 10px;
+  margin-top: 5px;
   margin-left: 20px;
   font-size: 1.3rem;  
   cursor: pointer;
