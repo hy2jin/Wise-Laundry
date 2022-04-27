@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import logo from './images/logo2.png';
 import profile from './images/profile-image.png';
@@ -257,6 +257,14 @@ const FormBox = styled.div `
     width: 100%;
   }
 
+  .PasswordCheckMessage {
+    position: relative;
+    bottom: 3.5vh;
+    left: 0.5vw;
+    color: red;
+    font-size: 0.75rem;
+  }
+
   @media screen and (max-width: 800px) {
 
     .LabelTitle {
@@ -294,6 +302,15 @@ const FormBox = styled.div `
       flex-flow: column;
       margin-top: 1rem;
     }
+
+    .PasswordCheckMessage {
+      position: relative;
+      /* bottom: 4vh; */
+      top: 0.1vh;
+      left: 0.7vw;
+      color: red;
+      font-size: 0.5rem;
+    }
   }
 `
 
@@ -303,8 +320,10 @@ const Signup = () => {
   const [password, setPassword] = useState('')
   const [nickname, setNickname] = useState('')
   const [confirmPassword, setConfirmPassword] = useState("")
-  const [emailChecked, setEmailChecked] = useState(false)
-  const [nickChecked, setNickChecked] = useState(false)
+  const [pushEmailBtn, setPushEmailBtn] = useState(false)
+  const [pushNickBtn, setPushNickBtn] = useState(false)
+  // const [emailChecked, setEmailChecked] = useState(false)
+  // const [nickChecked, setNickChecked] = useState(false)
   const navigate = useNavigate();
 
   // 이메일, 닉네임 확인하는거
@@ -335,34 +354,46 @@ const Signup = () => {
     .catch((err) => console.log(err))
   }
 
-  // const onSubmit = (event: { preventDefault: () => void; }) => {
-  //   event.preventDefault()
-  //   if(password !== confirmPassword) {
-  //     return alert('비밀번호가 일치하지 않습니다.')
-  //   }
-  // }
+  // 이메일 중복 확인
   const emailDuplicationCheck = () => {
-    // setEmailChecked(true)
+    setPushEmailBtn(true)
     getEmailcheck(email)
     .then((res) => {
       const emailCheckMessage = res.message
-      console.log(emailCheckMessage, '중복 확인')
-      if (emailCheckMessage === 'Unavailable') {
-        alert('이미 가입된 이메일 입니다.')
-      }
+      console.log(res, '중복 확인')
+      // console.log(email, '메일 확인')
+      if (email) {
+        if (emailCheckMessage === 'Unavailable') {
+          alert('이미 가입된 이메일 입니다.')
+        } else {
+          alert('사용가능한 이메일 입니다.')
+        }
+      } else {
+        alert('이메일을 입력해주세요')
+      } 
     })
     .catch((err) => {
       console.log(err)
     })
   }
 
+
+  // 닉네임 중복 확인
   const nicknameDuplicationCheck = () => {
+    setPushNickBtn(true)
     getNicknamecheck(nickname)
     .then((res) => {
       const nickCheckMessage = res.message
       console.log(nickCheckMessage, '중복 확인')
-      if (nickCheckMessage === 'Unavailable') {
-        alert('사용중인 닉네임 입니다.')
+
+      if (nickname) {
+        if (nickCheckMessage === 'Unavailable') {
+          alert('사용중인 닉네임 입니다.')
+        } else {
+          alert('사용가능한 닉네임 입니다.')
+        }
+      } else {
+        alert('닉네임을 입력해주세요')
       }
     })
     .catch((err) => {
@@ -370,6 +401,53 @@ const Signup = () => {
     })
   }
 
+  const onPasswordHandler = (event: { currentTarget: { value: React.SetStateAction<string>; }; }) => {
+    setPassword(event.currentTarget.value)
+    // console.log(event.currentTarget.value, '비번 확인')
+  }
+
+  const onConfirmPasswordHandler = (event: { currentTarget: { value: React.SetStateAction<string>; }; }) => {
+    setConfirmPassword(event.currentTarget.value)
+    // console.log(event.currentTarget.value, '비번 체크 확인')
+  }
+
+
+  // 비밀번호 일치 확인
+  const doesPasswordMatch = () => {
+    return password === confirmPassword;
+  }
+
+  // 비밀번호 불일치 시 나오는 메세지
+  const renderCheckMessage = () => {
+    if (confirmPassword) {
+      if (!doesPasswordMatch()) {
+        return (
+          <div className="PasswordCheckMessage">패스워드가 일치하지 않습니다</div>
+        );
+      }
+    }
+  }
+
+
+  const requireBtn = () => {
+    if (!pushNickBtn && !pushEmailBtn) {
+      alert('이메일, 닉네임 중복 확인을 해주세요')
+    } else {
+      if (!pushEmailBtn) {
+        alert('이메일 중복 확인을 해주세요')
+      } else {
+        // onSubmit()
+        // setPushEmailBtn(false)
+      }
+  
+      if (!pushNickBtn) {
+        alert('닉네임 중복 확인을 해주세요')
+      } else {
+        onSubmit()
+        // setPushNickBtn(false)
+      }
+    } 
+  }
 
 
   return (
@@ -420,12 +498,18 @@ const Signup = () => {
               </div>
 
                 {/* 비밀번호 */}
+              {/* <form onSubmit={(e) => passwordSameCheck(e)}> */}
               <div className='PasswordsBox'>
                 <div className='PasswordBox'>
                   <label htmlFor='password'>
                     <span className='LabelTitle'>비밀번호</span>
                     <InputForm>
-                      <input type='password' id='password' value={password} onChange={e => setPassword(e.target.value)} 
+                      <input 
+                        type='password' 
+                        id='password' 
+                        value={password} 
+                        // onChange={(e) => setPassword(e.target.value)} 
+                        onChange={(e) => onPasswordHandler(e)} 
                         placeholder='비밀번호를 입력하세요'
                       />
                     </InputForm>
@@ -437,18 +521,23 @@ const Signup = () => {
                   <label htmlFor='passwordCheck'>
                     <span className='LabelTitle'>비밀번호 확인</span> 
                     <InputForm >
-                      <input type='password' id='passwordCheck' 
+                      <input 
+                        type='password' 
+                        id='passwordCheck' 
                         placeholder='비밀번호를 한 번 더 입력하세요'
                         value={confirmPassword}
-                        onChange={e => setConfirmPassword(e.target.value)}
+                        // onChange={e => setConfirmPassword(e.target.value)}
+                        onChange={e => onConfirmPasswordHandler(e)}
                       />
                     </InputForm>
+                      {renderCheckMessage()}
                   </label>
                 </div>
               </div>
+                {/* </form> */}
               <div className='BtnPosition'>
                 <div className='SignupBtnBox'>
-                  <button className="SignupBtn" onClick={() => onSubmit()}>가입하기</button>
+                  <button className="SignupBtn" onClick={() => requireBtn()}>가입하기</button>
                 </div>
                 <div className='LoginBtnBox'>
                   <button className="LoginBtn" onClick={() => navigate('/login')} >로그인</button>
