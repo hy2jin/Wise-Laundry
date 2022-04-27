@@ -199,7 +199,6 @@ const InputForm = styled.section`
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
   const navigate = useNavigate();
 
   const onSubmit = () => {
@@ -218,7 +217,7 @@ const Login = () => {
   }
 
   const CLIENT_ID = "9c4b740a32c840080fcfd4249ec3b331";
-  //const REDIRECT_URI = "https://슬기로운세탁.com/oauth";
+  // const REDIRECT_URI = "https://슬기로운세탁.com/oauth";
   const REDIRECT_URI = "http://k6e104.p.ssafy.io:3000/oauth";
   const KAKAO_AUTH_URL=`https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   
@@ -226,6 +225,17 @@ const Login = () => {
   const submitKakao = () => {
     sessionStorage.setItem('kakao', 'false')
   }
+
+  window.onstorage = (event) => {
+    if (event.key !== "newPage") return;
+    console.log("스토리지변경감지");
+    const newPage = sessionStorage.getItem("newPage") || null
+    console.log(newPage);
+    if (newPage !== null) {
+      navigate('/');
+      sessionStorage.removeItem('newPage')
+    }
+  };
   // const query = queryString.parse(window.location.search);
   
   // const goKakaoLogin = () => {
@@ -280,7 +290,7 @@ const Login = () => {
         </div>
 
         <div>
-          <a id="custom-login-btn" href={KAKAO_AUTH_URL} onClick={() => submitKakao()}>
+          <a id="custom-login-btn" href={KAKAO_AUTH_URL} target='_blank' onClick={() => submitKakao()}>
             <button id="custom-login-btn" className='KakaoBtn'>카카오로 시작하기</button>
           </a>
         </div>
