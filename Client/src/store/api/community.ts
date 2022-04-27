@@ -7,20 +7,27 @@ const apiClient = axios.create({
   baseURL: baseURL,
   headers: {
     "Content-type": "application/json",
-    'Authorization':`Bearer ${token}`
+    'Authorization': `${token}`
   },
 }); 
+const apiImageClient = axios.create({
+  baseURL: baseURL,
+  headers: {
+    "Content-type": "multipart/form-data",
+    'Authorization': `${token}`
+  },
+})
 
-// Infinite Scroll 수정 필요🎲 // CommunityAll
+// 🌼🌼🌼게시글 전체 => Infinite Scroll 수정 필요
 export const getCommunityAll = async () => {
   const response = await apiClient.get<any>(
     '/community/all', 
   )
-  console.log('getCommunityAll response: ', response)
-  return response.data
+  // console.log('getCommunityAll response: ', response)
+  return response.data.list
 }
 
-// CommunityDetail, CommunityCreate
+// 🌼🌼🌼게시글 한개
 export const getCommunityDetail = async (boardId: number) => {
   const response = await apiClient.get<any>(
     `/community/${boardId}`,
@@ -29,9 +36,10 @@ export const getCommunityDetail = async (boardId: number) => {
   return response.data
 }
 
-// 201 => 디테일 페이지로🎲 // CommunityCreate
+// 🌼🌼🌼게시글 작성
 export const postBoard = async (data: any) => {
-  const response = await apiClient.post<any>(
+  // const response = await apiClient.post<any>(
+  const response = await apiImageClient.post<any>(
     '/community/create',
     data
   )
@@ -39,7 +47,7 @@ export const postBoard = async (data: any) => {
   return response.data
 }
 
-// 201 => 디테일 페이지로🎲 // CommunityCreate
+// 🌼🌼🌼게시글 수정
 export const putBoard = async (data: any) => {
   const response = await apiClient.put<any>(
     '/community/update',
@@ -49,7 +57,7 @@ export const putBoard = async (data: any) => {
   return response.data
 }
 
-// 204 => 전체목록 페이지로🎲 // CommunityDetail
+// 🌼🌼🌼게시글 삭제
 export const delBoard = async (boardId: number) => {
   const response = await apiClient.delete<any>(
     `/community/${boardId}`,
@@ -58,7 +66,7 @@ export const delBoard = async (boardId: number) => {
   return response
 }
 
-// 응답받은 댓글 추가하기🎲 // CommunityDetail
+// 🌼🌼🌼댓글 작성
 export const postComment = async (data: any) => {
   const response = await apiClient.post<any>(
     '/community/comment/create',
@@ -68,7 +76,7 @@ export const postComment = async (data: any) => {
   return response.data
 }
 
-// 204 => 댓글 지우고 보이기🎲 // CommunityDetail
+// 🌼🌼🌼댓글 삭제
 export const delComment = async (commentId: number) => {
   const response = await apiClient.delete<any>(
     `/community/comment/${commentId}`,
