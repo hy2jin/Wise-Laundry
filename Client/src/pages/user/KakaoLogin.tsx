@@ -11,21 +11,27 @@ const KakaoLogin = () => {
 
   useEffect(() => {
     let code = new URL(window.location.href).searchParams.get("code") || null
-    console.log(code, '코드 확인')
-    getKakaoLogin(code)
-    .then((res) => {
-      console.log('로그인 성공')
-      // navigate('/home')
-      const token = res.accessToken;
-      sessionStorage.setItem("jwt", `${token}`);
-      console.log(token, 'jwt 토큰 확인')
-      navigate('/')
-    })
+    const isKakao = sessionStorage.getItem('kakao') || null
 
-    .catch((err) => {
-      console.log(err)
-    })
-    setIsLogin(true)
+    if (isKakao === 'true') {
+      console.log(code, '코드 확인')
+      getKakaoLogin(code)
+      .then((res) => {
+        console.log('로그인 성공')
+        // navigate('/home')
+        const token = res.accessToken;
+        sessionStorage.setItem("jwt", `${token}`);
+        console.log(token, 'jwt 토큰 확인')
+        navigate('/')
+      })
+  
+      .catch((err) => {
+        console.log(err)
+      })
+      setIsLogin(true)
+    } else {
+      sessionStorage.setItem('kakao', 'true')
+    }
 
   }, []);
 
