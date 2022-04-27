@@ -1,17 +1,16 @@
 package com.ssafy.wiselaundry.domain.board.response;
 
 import com.ssafy.wiselaundry.domain.board.db.entity.Board;
-import com.ssafy.wiselaundry.global.model.response.BaseResponseBody;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
-@ApiModel("모든 게시판 res")
-public class BoardSearchAllRes extends BaseResponseBody {
+@Setter
+public class BoardSearchAllRes {
     @ApiModelProperty(value = "유저 ID", required = true, example = "122333")
     private int userId;
 
@@ -28,16 +27,15 @@ public class BoardSearchAllRes extends BaseResponseBody {
     private LocalDateTime boardDate;
 
     @Builder
-    public BoardSearchAllRes(int userId, String userNick, String boardName, String boardContent, LocalDateTime boardDate) {
+    public BoardSearchAllRes(int userId, String userNick, String boardName, String boardContent, LocalDateTime boardDate, String message, Integer statusCode) {
         this.userId = userId;
         this.userNick = userNick;
         this.boardName = boardName;
         this.boardContent = boardContent;
         this.boardDate = boardDate;
-
     }
 
-    public static BoardSearchAllRes of(Board board){
+    public static BoardSearchAllRes boardToBoardSearchAllRes(Board board){
         return BoardSearchAllRes.builder()
                 .userId(board.getUser().getUserId())
                 .userNick(board.getUser().getUserNick())
@@ -46,5 +44,4 @@ public class BoardSearchAllRes extends BaseResponseBody {
                 .boardDate(board.getBoardDate())
                 .build();
     }
-
 }

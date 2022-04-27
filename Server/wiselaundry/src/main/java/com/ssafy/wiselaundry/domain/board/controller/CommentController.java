@@ -38,7 +38,7 @@ public class CommentController {
                 .userImg(comment.getUser().getUserImg())
                 .userId(comment.getUser().getUserId())
                 .build();
-        return ResponseEntity.status(200).body(commentDetailRes);
+        return ResponseEntity.status(200).body(CommentDetailRes.of(200,"success", commentDetailRes));
     }
 
     @ApiOperation(value = "댓글 삭제", notes = "댓글 삭제")

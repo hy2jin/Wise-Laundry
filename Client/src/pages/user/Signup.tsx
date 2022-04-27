@@ -342,6 +342,7 @@ const Signup = () => {
   //   }
   // }
   const emailDuplicationCheck = () => {
+    // setEmailChecked(true)
     getEmailcheck(email)
     .then((res) => {
       const emailCheckMessage = res.message

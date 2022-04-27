@@ -1,17 +1,20 @@
 package com.ssafy.wiselaundry.domain.board.response;
 
-import com.ssafy.wiselaundry.domain.board.db.entity.Board;
 import com.ssafy.wiselaundry.domain.board.db.entity.BoardImg;
 import com.ssafy.wiselaundry.global.model.response.BaseResponseBody;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
+@Setter
+@NoArgsConstructor
 @ApiModel("게시글 상세 res")
 public class BoardSearchDetailRes extends BaseResponseBody {
 //    @Autowired
@@ -47,7 +50,7 @@ public class BoardSearchDetailRes extends BaseResponseBody {
     @Builder
     public BoardSearchDetailRes(int boardId, int userId, String userNick, String userImg, String boardName,
                                 List<BoardImg> boardImgs, String boardContent, LocalDateTime boardDate,
-                                List<CommentDetailRes> comments) {
+                                List<CommentDetailRes> comments, Integer statusCode, String message) {
         this.boardId = boardId;
         this.userId = userId;
         this.userNick = userNick;
@@ -57,19 +60,23 @@ public class BoardSearchDetailRes extends BaseResponseBody {
         this.boardContent = boardContent;
         this.boardDate = boardDate;
         this.comments = comments;
+        this.setMessage(message);
+        this.setStatusCode(statusCode);
     }
 
-    public static BoardSearchDetailRes of(Board board){
+    public static BoardSearchDetailRes of(Integer statusCode, String message, BoardSearchDetailRes body){
 
         return BoardSearchDetailRes.builder()
-                .userId(board.getUser().getUserId())
-                .userNick(board.getUser().getUserNick())
-                .boardId(board.getBoardId())
-                .boardName(board.getBoardName())
-                .boardImgs(board.getBoardImgs())
-                .boardContent(board.getBoardContent())
-                .boardDate(board.getBoardDate())
-                .comments(comments)
+                .userId(body.getUserId())
+                .userNick(body.getUserNick())
+                .boardId(body.getBoardId())
+                .boardName(body.getBoardName())
+                .boardImgs(body.getBoardImgs())
+                .boardContent(body.getBoardContent())
+                .boardDate(body.getBoardDate())
+                .comments(body.comments)
+                .message(message)
+                .statusCode(statusCode)
                 .build();
     }
 }

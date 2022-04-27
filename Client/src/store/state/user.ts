@@ -4,9 +4,10 @@ interface Istate{
   user:{
     userId: number,
     userEmail: string,
-    userNick: string
-    userImg: string
-  }
+    userNick: string,
+    userImg: string,
+  },
+  isLogin: boolean,
 }
 
 export const userState = atom<Istate['user']>({
@@ -18,3 +19,8 @@ export const userState = atom<Istate['user']>({
     userImg: 'https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/944/eabb97e854d5e5927a69d311701cc211_res.jpeg'
   },
 })
+
+export const loginState = atom<Istate['isLogin']>({
+  key : 'isLogin',
+  default: false,
+}) 

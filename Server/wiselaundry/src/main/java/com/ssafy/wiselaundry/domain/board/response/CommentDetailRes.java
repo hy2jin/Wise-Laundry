@@ -34,24 +34,27 @@ public class CommentDetailRes extends BaseResponseBody {
 
     @Builder
     public CommentDetailRes(int userId, String userImg, String userNick, int commentId, String commentContent,
-                            LocalDateTime commentDate){
+                            LocalDateTime commentDate, String message, Integer statusCode){
         this.userId = userId;
         this.userImg = userImg;
         this.userNick = userNick;
         this.commentId = commentId;
         this.commentContent = commentContent;
         this.commentDate = commentDate;
-
+        this.setMessage(message);
+        this.setStatusCode(statusCode);
     }
 
-    public CommentDetailRes of(Comments comments){
+    public static CommentDetailRes of(Integer statusCode, String message, CommentDetailRes body){
         return CommentDetailRes.builder()
-                .userId(comments.getUser().getUserId())
-                .userImg(comments.getUser().getUserImg())
-                .userNick(comments.getUser().getUserNick())
-                .commentContent(comments.getCommentContent())
-                .commentDate(comments.getCommentDate())
-                .commentId(comments.getCommentId())
+                .userId(body.getUserId())
+                .userImg(body.getUserImg())
+                .userNick(body.getUserNick())
+                .commentContent(body.getCommentContent())
+                .commentDate(body.getCommentDate())
+                .commentId(body.getCommentId())
+                .message(message)
+                .statusCode(statusCode)
                 .build();
     }
 }

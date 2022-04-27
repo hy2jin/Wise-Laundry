@@ -45,7 +45,8 @@ public class BoardUpdateRes extends BaseResponseBody {
 
     @Builder
     public BoardUpdateRes(int boardId, int userId, String userNick, String boardName, List<BoardImg> boardImgs,
-                          String boardContent, LocalDateTime boardDate, List<CommentDetailRes> comments) {
+                          String boardContent, LocalDateTime boardDate, List<CommentDetailRes> comments, String messaeg,
+                          Integer statusCode) {
         this.boardId = boardId;
         this.userId = userId;
         this.userNick = userNick;
@@ -54,19 +55,22 @@ public class BoardUpdateRes extends BaseResponseBody {
         this.boardContent = boardContent;
         this.boardDate = boardDate;
         this.comments = comments;
-
+        this.setMessage(messaeg);
+        this.setStatusCode(statusCode);
     }
 
-    public BoardUpdateRes of(Board board, List<CommentDetailRes> comments){
+    public BoardUpdateRes of(Integer statusCode, String message, BoardUpdateRes body){
         return BoardUpdateRes.builder()
-                .userId(board.getUser().getUserId())
-                .userNick(board.getUser().getUserNick())
-                .boardId(board.getBoardId())
-                .boardName(board.getBoardName())
-                .boardImgs(board.getBoardImgs())
-                .boardContent(board.getBoardContent())
-                .boardDate(board.getBoardDate())
+                .userId(body.getUserId())
+                .userNick(body.getUserNick())
+                .boardId(body.getBoardId())
+                .boardName(body.getBoardName())
+                .boardImgs(body.getBoardImgs())
+                .boardContent(body.getBoardContent())
+                .boardDate(body.getBoardDate())
                 .comments(comments)
+                .messaeg(message)
+                .statusCode(statusCode)
                 .build();
     }
 }

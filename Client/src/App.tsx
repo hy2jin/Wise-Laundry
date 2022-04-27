@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil'
 import { themeState } from './store/state/theme'
 import Header from './components/Header'
 import Home from './pages/main/Home'
-import Near from './pages/Near'
+import Near from './pages/Near/Near'
 import OkayLaundry from './pages/laundryBoard/OkayLaundry'
 import CommunityAll from './pages/communityBoard/CommunityAll'
 import CommunityDetail from './pages/communityBoard/CommunityDetail'
@@ -19,6 +19,8 @@ import RegisterLaundry from './pages/laundryBoard/RegisterLaundry'
 import Start from './pages/main/Start'
 import KakaoLogin from './pages/user/KakaoLogin'
 import NotFound from './pages/notfound/NotFound'
+import Yas from './pages/Near/Yas'
+import Practice from './pages/Near/Practice'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -46,6 +48,11 @@ const Wrapper = styled.div`
     }
   }
 `
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
 
 const App= (props:any) => {
   const [theme, setTheme] = useRecoilState(themeState)
