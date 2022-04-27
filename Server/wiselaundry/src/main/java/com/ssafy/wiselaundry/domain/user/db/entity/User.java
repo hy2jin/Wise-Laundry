@@ -4,12 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
+@NoArgsConstructor
 @Getter
 @Setter
 @Table(name = "user")
@@ -38,5 +41,19 @@ public class User {
     @ApiModelProperty(value = "유저 비밀번호", required = true, example = "password")
     @Column(name = "password")
     private String password;
+
+    @ApiModelProperty(value = "카카오유저 사진", required = false, example = "profile_img")
+    @Column(name = "kakao_img")
+    private String kakaoImg;
+
+
+    @Builder
+    User(int userId, String userEmail, String userNick, String userImg, String password){
+        this.userId = userId;
+        this.userEmail = userEmail;
+        this.userNick = userNick;
+        this.userImg = userImg;
+        this.password = password;
+    }
 
 }

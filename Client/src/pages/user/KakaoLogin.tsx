@@ -10,6 +10,7 @@ const KakaoLogin = () => {
     console.log(code, '코드 확인')
     if (code !== null) {
       getKakaoLogin(code)
+      console.log('가지나?')
     }
   }, []);
 

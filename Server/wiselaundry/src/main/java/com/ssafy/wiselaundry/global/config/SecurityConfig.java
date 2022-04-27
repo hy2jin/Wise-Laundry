@@ -2,7 +2,7 @@ package com.ssafy.wiselaundry.global.config;
 
 import com.ssafy.wiselaundry.domain.user.service.UserService;
 import com.ssafy.wiselaundry.global.auth.JwtAuthenticationFilter;
-import com.ssafy.wiselaundry.global.auth.SsafyUserDetailService;
+import com.ssafy.wiselaundry.global.auth.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
     @Autowired
-    private SsafyUserDetailService ssafyUserDetailService;
+    private UserDetailService ssafyUserDetailService;
 
     // Password 인코딩 방식에 BCrypt 암호화 방식 사용
     @Bean
