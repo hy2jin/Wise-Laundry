@@ -218,8 +218,8 @@ const Login = () => {
   }
 
   const CLIENT_ID = "9c4b740a32c840080fcfd4249ec3b331";
-  const REDIRECT_URI = "https://슬기로운세탁.com/oauth";
-  // const REDIRECT_URI = "http://localhost:3000/oauth";
+  //const REDIRECT_URI = "https://슬기로운세탁.com/oauth";
+  const REDIRECT_URI = "http://k6e104.p.ssafy.io:3000/oauth";
   const KAKAO_AUTH_URL=`https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   
 
