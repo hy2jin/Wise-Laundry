@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 public class CommentCreateReq {
@@ -27,6 +29,7 @@ public class CommentCreateReq {
                 .user(user)
                 .board(board)
                 .commentContent(body.commentContent)
+                .commentDate(LocalDateTime.now())
                 .build();
     }
 }

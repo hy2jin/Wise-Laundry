@@ -34,11 +34,12 @@ public class KakaoLoginController {
     @GetMapping("/login")
     public ResponseEntity<UserLoginPostRes> login(@RequestParam @ApiParam(value = "token", required = true)String code){
         Map<String, String> tokens = kakaoService.getTokens(code);
-
+        System.out.println(tokens);
         Map<String, Object> userInfo = kakaoService.getUserInfo(tokens.get("accessToken"));
-        System.out.println(userInfo);
+        System.err.println("=======================================================userinfo sout =" + userInfo);
+        System.err.println("=======================================================getEmail sout =" +userInfo.get("email").toString());
         User user = userService.findByUserEmail(userInfo.get("email").toString());
-        System.out.println(user);
+        System.err.println("=======================================================user sout =" +user);
         if(user==null){
 
             user = userService.createKakaoUser((HashMap) userInfo);

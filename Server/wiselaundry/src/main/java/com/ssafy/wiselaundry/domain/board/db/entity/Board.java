@@ -1,5 +1,6 @@
 package com.ssafy.wiselaundry.domain.board.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ssafy.wiselaundry.domain.user.db.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -43,12 +44,14 @@ public class Board{
     @Column(name = "board_dt")
     private LocalDateTime boardDate;
 
+    @JsonManagedReference
     @ApiModelProperty(value = "게시글 댓글", required = false, example = "게시글 댓글")
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
     private List<Comments> comments = new ArrayList<Comments>();
 
+    @JsonManagedReference
     @ApiModelProperty(value = "게시글 사진", required = false, example = "board_img.jpg")
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
     private List<BoardImg> boardImgs = new ArrayList<BoardImg>();
 
     @Builder

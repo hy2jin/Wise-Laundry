@@ -1,5 +1,6 @@
 package com.ssafy.wiselaundry.domain.board.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class BoardImg {
     @Column(name = "board_img_id")
     private int boardImgId;
 
+    @JsonBackReference
     @ApiModelProperty(value = "게시판 정보", example = "")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")

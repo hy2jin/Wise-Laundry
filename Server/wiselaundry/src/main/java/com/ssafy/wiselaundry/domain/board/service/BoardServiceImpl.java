@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -57,6 +58,7 @@ public class BoardServiceImpl implements BoardService{
                 .boardContent(body.getBoardContent())
                 .boardName(body.getBoardName())
                 .user(user)
+                .boardDate(LocalDateTime.now())
                 .build();
 
         boardRepository.save(board);
@@ -109,10 +111,9 @@ public class BoardServiceImpl implements BoardService{
 
         List<MultipartFile> fileList = fileRequest.getFiles("file");
         String rootPath = FileSystemView.getFileSystemView().getHomeDirectory().toString();
-        File uploadDir = new File(uploadPath + File.separator + uploadFolder + "/community");
+        File uploadDir = new File(uploadPath + uploadFolder + File.separator + "board");
 
         if (!uploadDir.exists()) uploadDir.mkdir();
-
         String recordFileUrl = "";
 
         for(MultipartFile file : fileList) {
@@ -129,7 +130,7 @@ public class BoardServiceImpl implements BoardService{
 
             String savingFileName =  uuid + "." + extension;
 
-            File destFile = new File(uploadPath + File.separator, uploadFolder + File.separator + "/community/" + savingFileName);
+            File destFile = new File(uploadPath, uploadFolder + File.separator + "board" + File.separator + savingFileName);
 
             try{
                 file.transferTo(destFile);
@@ -137,7 +138,7 @@ public class BoardServiceImpl implements BoardService{
                 e.printStackTrace();
             }
 
-            recordFileUrl = "/" + uploadFolder + "/" + savingFileName;
+            recordFileUrl = "board" + File.separator + savingFileName;
             boardImgList.add(boardImgService.boardImgCreate(board, recordFileUrl));
         }
 

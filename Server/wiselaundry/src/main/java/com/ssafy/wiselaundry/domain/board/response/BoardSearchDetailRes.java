@@ -69,6 +69,7 @@ public class BoardSearchDetailRes extends BaseResponseBody {
         return BoardSearchDetailRes.builder()
                 .userId(body.getUserId())
                 .userNick(body.getUserNick())
+                .userImg(body.getUserImg())
                 .boardId(body.getBoardId())
                 .boardName(body.getBoardName())
                 .boardImgs(body.getBoardImgs())
