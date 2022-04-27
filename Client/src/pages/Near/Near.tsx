@@ -10,7 +10,8 @@ const Map = styled.div`
   width: 100vw ;
   height: 92vh;
   @media screen and (max-width: 800px) {
-  height: 85vh;
+    height: 95vh;
+    z-index: 0;
   }
 `
 
@@ -44,6 +45,7 @@ const Near = ()=> {
   useEffect(()=>{
     getLocation()
     getMarker()
+    return () => {};
   },[lat,long])
   
   const getMarker = ()=>{
@@ -97,7 +99,6 @@ const Near = ()=> {
         className="map"
         ref={container}
       ></Map>
-      
     </Wrapper>
   );
 }

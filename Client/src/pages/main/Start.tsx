@@ -75,9 +75,11 @@ const Wrapper = styled.article`
 `
 const Content = styled.div`
   article{
+    background-color: #87878751;
     position:fixed;
+    padding: 0 2vw;
     width: 50vw;
-    height: 30vh;
+    /* height: 30vh; */
     left: 25%;
     /* top:350px; */
     top:50vh;
@@ -94,9 +96,6 @@ const Content = styled.div`
   p{
     margin-top: 30px;
     font-size: 25px;
-    /* transform: translateY(30px); */
-    /* line-height: 50px; */
-    /* transition: all 1s ease; */
     transition: 1s;
     @media screen and (max-width: 800px) {
       font-size: 16px;

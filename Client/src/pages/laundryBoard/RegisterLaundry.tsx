@@ -5,6 +5,10 @@ import { detailitem } from './dummy';
 import { useNavigate } from 'react-router-dom';
 import Label from './Label';
 import Info from './Info';
+import ImgBox from './ImgBox';
+import { AddLaundry } from '../../store/api/laundry';
+import { useRecoilState } from 'recoil';
+import { userState } from '../../store/state/user';
 
 const Wrapper = styled.article`
   width: 70vw;
@@ -32,21 +36,9 @@ const DetailBox = styled.section`
 `
 const Top = styled.div`
   display: flex;
-  img{
-    height: 400px;
-    width: 35vw;
-    margin-left: 3vw;
-    margin-top: 5vh;
-  }
   @media screen and (max-width: 800px) {
     display: inline;
     margin: auto;
-    img{
-      height: 250px;
-      width: 90%;
-      margin-top: 2vh;
-      margin-left: 5vw;
-    }
   }
 `
 const InfoBox = styled.div`
@@ -135,46 +127,66 @@ interface Istate{
   }
 }
 const RegisterLaundry = () => {
-  const [laundry,setLaundry] = useState<Istate['laundry']>(detailitem)
-  const [infos,setInfos] = useState(['폴로','스웨터','꽈배기','울니트','1992'])
-  const [labels,setLabels] = useState(['세탁불가','다리미','물빨래','손세탁','허리업','비싸요'])
+const [laundryInfo,setlaundryInfo] = useState<string[]>([])
+const [careLabelName,setcareLabelName] = useState<string[]>([])
+  // const [laundryInfo,setlaundryInfo] = useState(['폴로','스웨터','꽈배기','울니트','1992'])
+  // const [careLabelName,setcareLabelName] = useState(['세탁불가','다리미','물빨래','손세탁','허리업','비싸요'])
+  const [laundryMemo,setLaundryMemo] = useState('')
+  const [user,setUser] = useRecoilState(userState)
+  const [file, setFile] = useState<any>();
   const navigate = useNavigate()
+  const submitLaundry = ()=>{
+    const formdata = new FormData()
+    formdata.append('laundryRegister',
+      new Blob([
+        JSON.stringify({
+          'laundryInfo':laundryInfo,
+          'careLabelName':careLabelName,
+          'laundryMemo':laundryMemo,
+          'userId':user.userId,
+        })
+      ],{type:'application/json'})
+    )
+    formdata.append('file',file)
+    AddLaundry(formdata)
+  }
   return (
     <Wrapper>
       <KeyboardBackspaceIcon style={{"cursor":"pointer"}} onClick={()=>{navigate('/laundry')}}/>
       <DetailBox>
         <Top>
-          <img alt='옷사진' src={laundry.laundryImg}/>
+          <ImgBox file={file} setFile={setFile}   />
           <InfoBox>
             <LabelBox>
               <div className='title'>
                 세탁 주의 사항
               </div>
               <div className='careLabel'>
-              {labels.map((label,idx)=>{
-                return(<Label labels={labels} key={idx} label={label} idx={idx} setLabels={setLabels}/>  )})}
-              <Label labels={labels} label={''} idx={-1} setLabels={setLabels}/>
+              {careLabelName.map((label,idx)=>{
+                return(<Label labels={careLabelName} key={idx} label={label} idx={idx} setLabels={setcareLabelName}/>  )})}
+              <Label labels={careLabelName} label={''} idx={-1} setLabels={setcareLabelName}/>
               </div>
             </LabelBox>
             <Information>
               <div className='title'>제품 설명 태그</div>
               <div className='inform'>
-                {infos.map((info,idx)=>{
+                {laundryInfo.map((info,idx)=>{
                   return(
-                    <Info infos={infos} key={idx} info={info} idx={idx} setInfos={setInfos} />
+                    <Info infos={laundryInfo} key={idx} info={info} idx={idx} setInfos={setlaundryInfo} />
                   )
                 })}
-                <Info infos={infos} info={''} idx={-1} setInfos={setInfos} />
+                <Info infos={laundryInfo} info={''} idx={-1} setInfos={setlaundryInfo} />
               </div>
               <div className='gray'>
                 <p>옷 태그를 달면 사람들에게 정보가 공유됩니다.</p>
                 <p>나와 같은 옷을 찾는 사람들에게 정보를 공유해 보세요.</p>
               </div>
             </Information>
+            <input value={laundryMemo} onChange={(e)=>{setLaundryMemo(e.target.value)}}/>
           </InfoBox>
         </Top>
         <ButtonBox>
-          <button className='saveBtn'>내 옷장에 저장</button>
+          <button onClick={()=>{submitLaundry()}} className='saveBtn'>내 옷장에 저장</button>
         </ButtonBox>
       </DetailBox>
     </Wrapper>
