@@ -229,6 +229,10 @@ const Login = () => {
   }
   
   useEffect(() => {
+    setOnLogin(false)
+  },[])
+
+  useEffect(() => {
     if (onLogin) {
       console.log(onLogin, '여기 확인')
       // sessionStorage
