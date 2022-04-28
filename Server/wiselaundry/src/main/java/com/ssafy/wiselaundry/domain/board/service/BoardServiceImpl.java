@@ -53,7 +53,7 @@ public class BoardServiceImpl implements BoardService{
 
 
     @Override
-    public int boardCreate(BoardCreateReq body, MultipartHttpServletRequest fileRequest) {
+    public int boardCreate(BoardCreateReq body, MultipartHttpServletRequest request) {
         User user = userService.findByUserId(body.getUserId());
 
         Board board = Board.builder()
@@ -65,7 +65,7 @@ public class BoardServiceImpl implements BoardService{
 
         boardRepository.save(board);
 
-        List<BoardImg> boardImgList = fileRequestToBoardImg(fileRequest, board);
+        List<BoardImg> boardImgList = fileRequestToBoardImg(request, board);
 
         if(boardImgList.size() != 0) {
             board.setBoardImgs(boardImgList);
@@ -77,19 +77,22 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public void boardUpdate(BoardUpdateReq body, MultipartHttpServletRequest request) {
-        // 수정할 파일 가져오기
+//        수정할 board 객체 가져오기
         Board board = boardRepository.findById(body.getBoardId()).get();
 
-        List<BoardImg> boardImgList = fileRequestToBoardImg(request, board);
+//        boardImg 다루는 곳 새롭게 추가.
+        List<BoardImg> addBoardImgList = fileRequestToBoardImg(request, board);
 
-        if(boardImgList.size() != 0) {
-            if(request.getFiles("file").size() != 0) {
-                boardImgDelete(board);
-            }
-
-            board.setBoardImgs(boardImgList);
+        for (BoardImg boardImg : addBoardImgList) {
+            board.getBoardImgs().add(boardImg);
         }
 
+//        삭제 이미지
+        for (String boardImgName : body.getDeleteImgs()) {
+            board.getBoardImgs().remove(boardImgService.findByBoardImg(boardImgName));
+        }
+
+//       내용 수정.
         board.setBoardContent(body.getBoardContent());
         board.setBoardName(body.getBoardName());
 
@@ -99,9 +102,6 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public void boardDelete(int boardId) {
         Board deleteBoard = boardRepository.findById(boardId).get();
-        // 실제 파일 삭제
-//        boardImgDelete(deleteBoard);
-
         boardRepository.delete(deleteBoard);
     }
 
@@ -150,14 +150,12 @@ public class BoardServiceImpl implements BoardService{
         return boardImgList;
     }
 
-    private void boardImgDelete(Board board) {
+    private void boardImgDelete(String boardImg) {
         try {
-            for (BoardImg boardImg : board.getBoardImgs()) {
-                File oldFile = new File("/images" + File.separator + boardImg);
-                oldFile.delete();
+            File oldFile = new File("/images" + File.separator + boardImg);
+            oldFile.delete();
 
-                boardImgService.boardImgDelete(boardImg.getBoardImgId());
-            }
+            boardImgService.boardImgDelete(boardImgService.findByBoardImg(boardImg).getBoardImgId());
         } catch (Exception e){
             e.printStackTrace();
         }

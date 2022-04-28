@@ -10,9 +10,6 @@ public class BoardCreateReq {
     @ApiModelProperty(value = "유저 ID", required = true, example = "유저 ID")
     private int userId;
 
-    @ApiModelProperty(value = "유저 ID", required = true, example = "유저 ID")
-    private int boardId;
-
     @ApiModelProperty(value = "게시글 제목", required = true, example = "게시글 제목")
     private String boardName;
 

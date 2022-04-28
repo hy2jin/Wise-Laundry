@@ -36,4 +36,9 @@ public class BoardImgServiceImpl implements BoardImgService {
         BoardImg deleteBoardId = boardImgRepository.findById(boardImgId).get();
         boardImgRepository.delete(deleteBoardId);
     }
+
+    @Override
+    public BoardImg findByBoardImg(String boardImg) {
+        return boardImgRepository.findByBoardImg(boardImg);
+    }
 }
