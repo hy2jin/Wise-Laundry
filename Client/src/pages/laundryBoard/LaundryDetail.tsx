@@ -132,7 +132,7 @@ const Label = styled.div`
 const ButtonBox = styled.div`
   width: 70vw;
   margin: auto;
-  margin-top: 30px;
+  margin-top: 20px;
   display: flex;
   justify-content: space-around;
   padding-bottom: 20px;
@@ -164,6 +164,23 @@ const ButtonBox = styled.div`
   }
   .deleteBtn{
     background-color:${props => props.theme.inactiveBtnColor};
+  }
+`
+const Memo = styled.div`
+  .mtitle{
+    width: 45px;
+  }
+  margin: auto;
+  margin-top: 30px;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  .memo{
+    padding-left: 10px;
+    height: 70px;
+    width: 200px;
+    overflow-y: auto;
+    word-break:break-all;
   }
 `
 interface Istate{
@@ -205,6 +222,13 @@ const LaundryDetail = () => {
         <Top>
           <img onError={imageOnErrorHandler} alt='옷사진' src={`/images/${laundry.laundryImg}`} />
           <InfoBox>
+            <LabelBox>
+              <div className='title'>세탁 주의 사항</div>
+              <div className='careLabel'>
+              {laundry.careLabel.map((label,idx)=>{
+                return(<Label key={idx} className='label'> {label}</Label>)})}
+              </div>
+            </LabelBox>
             <Info>
               <div className='title'>제품 설명 태그</div>
               <div className='inform'>
@@ -215,13 +239,12 @@ const LaundryDetail = () => {
                 })}
               </div>
             </Info>
-            <LabelBox>
-              <div className='title'>세탁 주의 사항</div>
-              <div className='careLabel'>
-              {laundry.careLabel.map((label,idx)=>{
-                return(<Label key={idx} className='label'> {label}</Label>)})}
+            <Memo>
+              <div className='mtitle'>메모 : </div>
+              <div className='memo'>
+                {laundry.laundryMemo}
               </div>
-            </LabelBox>
+            </Memo>
           </InfoBox>
         </Top>
         <ButtonBox>

@@ -25,6 +25,7 @@ const KakaoLogin = () => {
         sessionStorage.setItem("jwt", `${token}`);
         console.log(token, 'jwt 토큰 확인')
         navigate('/home')
+        window.history.forward()
         // setTimeout(() => {
         //   window.location.href='https://슬기로운세탁.com/'
         // }, 1000); 
@@ -38,9 +39,12 @@ const KakaoLogin = () => {
     } else {
       sessionStorage.setItem('kakao', 'true')
     }
-
   }, []);
 
+  // 로그인 후 로그인 페이지로 뒤로가기 방지
+  // eslint-disable-next-line no-restricted-globals
+  history.go(1)
+  
 
   return (
     <div>

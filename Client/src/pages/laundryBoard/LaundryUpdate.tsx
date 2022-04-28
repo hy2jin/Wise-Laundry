@@ -50,28 +50,33 @@ const Top = styled.div`
 `
 const InfoBox = styled.div`
   width: 100%;
+  
   .inform{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     padding-right: 20px;
-    height: 140px;
+    height: 100px;
     overflow-y: auto;
+    @media screen and (max-width: 800px) {
+      overflow-y: visible;
+    }
   }
   .title{
     text-align: center;
-    margin-top: 40px;
+    margin-top: 30px;
     font-size: 1.2rem;
     color : ${props => props.theme.activeBtnColor}
   }
   .content{
     margin-left: 20px;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 `
 const Information = styled.div`
   margin: auto;
   width: 80%;
+
   .gray{
     width: 100%;
     height: 80px;
@@ -81,29 +86,35 @@ const Information = styled.div`
     font-size: 0.8rem;
     color:#a9a9a9;
   }
-  margin-top: 30px;
-  
+
 `
 const Infos = styled.div`
   margin: auto;
   width: 80%;
-  
+  height: 120px;
+  overflow-y:auto;
 `
 const LabelBox = styled.div`
   margin: auto;
-  margin-top: 70px;
+  margin-top: 50px;
   width: 80%;
+  height: 150px;
+  overflow-y: auto;
+  @media screen and (max-width: 800px) {
+      overflow-y: visible;
+    }
   .careLabel{
     display: flex;
     flex-wrap:wrap;
     margin-top: 20px;
     justify-content: center;
   }
+  
 `
 
 const ButtonBox = styled.div`
   margin: auto;
-  margin-top: 10px;
+  margin-top: 20px;
   display: flex;
   justify-content: space-around;
   padding-bottom: 20px;
@@ -111,7 +122,6 @@ const ButtonBox = styled.div`
     width: 50vw;
     border: none;
     border-radius: 10px;
-    margin-top: 50px;
     height: 50px;
     font-size:1.1rem;
     cursor: pointer;
@@ -127,7 +137,23 @@ const ButtonBox = styled.div`
     background-color:${props => props.theme.activeBtnColor};
   }
 `
-
+const Memo = styled.div`
+  .mtitle{
+    width: 45px;
+  }
+  margin: auto;
+  margin-top: 30px;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  .memo{
+    padding-left: 10px;
+    height: 50px;
+    width: 200px;
+    overflow-y: auto;
+    word-break:break-all;
+  }
+`
 
 interface Istate{
   laundry:{
@@ -176,6 +202,7 @@ const LaundryUpdate = () => {
     )
     formdata.append('file',file)
     UpdateLaundry(formdata)
+    navigate(`/laundry/${laundryId}`)
   }
   useEffect(()=>{
     const newarr =careLabelName.filter((care)=>care!==null)
@@ -183,17 +210,17 @@ const LaundryUpdate = () => {
     setIsLoading(false)
   },[laundry])
   useEffect(()=>{
-    // console.log('인포',laundryInfo)
+    console.log('인포',laundryInfo)
   },[laundryInfo])
   useEffect(()=>{
-    // console.log('케어라벨!',careLabelName)
+    console.log('케어라벨!',careLabelName)
   },[careLabelName])
   return (
     <Wrapper>
       {isLoading ? <div>로딩중</div>:
       <DetailBox>
         <Top>
-          <ImgBox laundryImg={laundryImg}  file={file} setFile={setFile}   />
+          <ImgBox laundryImg={`/images/${laundryImg}`}  file={file} setFile={setFile}   />
           <InfoBox>
             <LabelBox>
               <div className='title'>
@@ -223,7 +250,11 @@ const LaundryUpdate = () => {
                 <p>나와 같은 옷을 찾는 사람들에게 정보를 공유해 보세요.</p>
               </div>
             </Information>
-            <input value={laundryMemo} onChange={(e)=>{setLaundryMemo(e.target.value)}}/>
+          <Memo>
+            <div className='mtitle'>메모 : </div>
+              <textarea className='memo' value={laundryMemo} onChange={(e)=>{setLaundryMemo(e.target.value)}}/>
+          </Memo>
+            
           </InfoBox>
         </Top>
         <ButtonBox>
