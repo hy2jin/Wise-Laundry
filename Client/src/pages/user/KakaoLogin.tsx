@@ -25,9 +25,9 @@ const KakaoLogin = () => {
         const token = res.accessToken;
         sessionStorage.setItem("jwt", `${token}`);
         console.log(token, 'jwt 토큰 확인')
-        setTimeout(() => {
-          window.location.href='https://슬기로운세탁.com/'
-        }, 1000); 
+        // setTimeout(() => {
+        //   window.location.href='https://슬기로운세탁.com/'
+        // }, 1000); 
       })
   
       .catch((err) => {

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ApiModel("댓글 res")
-public class CommentDetailRes extends BaseResponseBody {
+public class CommentDetailRes extends BaseResponseBody{
     @ApiModelProperty(value = "유저 아이디", required = true, example = "pse1234")
     private int userId;
 
@@ -34,15 +34,26 @@ public class CommentDetailRes extends BaseResponseBody {
 
     @Builder
     public CommentDetailRes(int userId, String userImg, String userNick, int commentId, String commentContent,
-                            LocalDateTime commentDate, String message, Integer statusCode){
+                            LocalDateTime commentDate, Integer statusCode, String message){
         this.userId = userId;
         this.userImg = userImg;
         this.userNick = userNick;
         this.commentId = commentId;
         this.commentContent = commentContent;
         this.commentDate = commentDate;
-        this.setMessage(message);
         this.setStatusCode(statusCode);
+        this.setMessage(message);
+    }
+
+    public static CommentDetailRes of(CommentDetailRes body){
+        return CommentDetailRes.builder()
+                .userId(body.getUserId())
+                .userImg(body.getUserImg())
+                .userNick(body.getUserNick())
+                .commentContent(body.getCommentContent())
+                .commentDate(body.getCommentDate())
+                .commentId(body.getCommentId())
+                .build();
     }
 
     public static CommentDetailRes of(Integer statusCode, String message, CommentDetailRes body){
@@ -53,8 +64,8 @@ public class CommentDetailRes extends BaseResponseBody {
                 .commentContent(body.getCommentContent())
                 .commentDate(body.getCommentDate())
                 .commentId(body.getCommentId())
-                .message(message)
                 .statusCode(statusCode)
+                .message(message)
                 .build();
     }
 }
