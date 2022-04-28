@@ -26,11 +26,6 @@ public class CommentsServiceImpl implements CommentsService{
     @Autowired
     BoardService boardService;
 
-//    @Override
-//    public List<Comments> commentSearchByBoard(Board board) {
-//        return commentsRepository.findByBoardId(board);
-//    }
-
     @Override
     public Comments commentSearchById(int commentId) {
         return commentsRepository.findById(commentId).get();

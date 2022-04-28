@@ -119,6 +119,7 @@ public class UserController {
         DecodedJWT decodedJWT = verifier.verify(token.replace(JwtTokenUtil.TOKEN_PREFIX, ""));
         String tokenEmail = decodedJWT.getSubject();
         if(tokenEmail.equals(email)){
+            //카카오 인지 확인해서 돌려주기 => Success / kakaoUser
             return ResponseEntity.status(200).body(UserInfoGetRes.of(200, "Success", userService.findByUserEmail(email)));
         }else{
             return ResponseEntity.status(400).body(UserInfoGetRes.of(400,"Bad Request", null));

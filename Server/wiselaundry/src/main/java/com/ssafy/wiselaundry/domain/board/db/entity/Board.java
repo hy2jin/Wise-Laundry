@@ -46,12 +46,12 @@ public class Board{
 
     @JsonManagedReference
     @ApiModelProperty(value = "게시글 댓글", required = false, example = "게시글 댓글")
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Comments> comments = new ArrayList<Comments>();
 
     @JsonManagedReference
     @ApiModelProperty(value = "게시글 사진", required = false, example = "board_img.jpg")
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<BoardImg> boardImgs = new ArrayList<BoardImg>();
 
     @Builder

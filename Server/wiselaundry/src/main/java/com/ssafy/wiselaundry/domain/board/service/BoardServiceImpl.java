@@ -2,7 +2,9 @@ package com.ssafy.wiselaundry.domain.board.service;
 
 import com.ssafy.wiselaundry.domain.board.db.entity.Board;
 import com.ssafy.wiselaundry.domain.board.db.entity.BoardImg;
+import com.ssafy.wiselaundry.domain.board.db.entity.Comments;
 import com.ssafy.wiselaundry.domain.board.db.repository.BoardRepository;
+import com.ssafy.wiselaundry.domain.board.db.repository.CommentsRepository;
 import com.ssafy.wiselaundry.domain.board.request.BoardCreateReq;
 import com.ssafy.wiselaundry.domain.board.request.BoardUpdateReq;
 import com.ssafy.wiselaundry.domain.user.db.entity.User;
@@ -97,6 +99,9 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public void boardDelete(int boardId) {
         Board deleteBoard = boardRepository.findById(boardId).get();
+        // 실제 파일 삭제
+//        boardImgDelete(deleteBoard);
+
         boardRepository.delete(deleteBoard);
     }
 
