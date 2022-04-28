@@ -5,28 +5,22 @@ import com.ssafy.wiselaundry.domain.board.db.entity.BoardImg;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 public class BoardUpdateReq {
-    @ApiModelProperty(value = "게시판 ID", required = true, example = "123123123123")
+    @ApiModelProperty(value = "게시판 ID", required = true)
     private int boardId;
 
-    @ApiModelProperty(value = "게시판 ID", required = true)
+    @ApiModelProperty(value = "게시판 이름", required = true)
     private String boardName;
 
-    @ApiModelProperty(value = "게시판 이미지")
-    private List<String> boardImgs;
+    @ApiModelProperty(value = "삭제할 이미지")
+    private List<String> deleteImgs = new ArrayList<>();
 
-    @ApiModelProperty(value = "게시판 내용")
+    @ApiModelProperty(value = "게시판 내용", required = true)
     private String boardContent;
-
-    /**
-     * Todo
-     * Req : 확인해야됨 String 으로 받아야되니까
-     * Res : 객체로 보내주는게 맞음
-     * 4/25 확인해야됨.
-     */
 
     public Board toEntity(BoardUpdateReq body, List<BoardImg> boardImgs) {
 

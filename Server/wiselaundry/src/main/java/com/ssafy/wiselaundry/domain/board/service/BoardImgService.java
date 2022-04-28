@@ -10,4 +10,5 @@ public interface BoardImgService {
     BoardImg findById(int boardImgId);
     BoardImg boardImgCreate(Board board, String boardImg);
     void boardImgDelete(int boardId);
+    BoardImg findByBoardImg(String boardImg);
 }

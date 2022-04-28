@@ -36,20 +36,20 @@ public class KakaoLoginController {
         Map<String, String> tokens = kakaoService.getTokens(code);
         System.out.println(tokens);
         Map<String, Object> userInfo = kakaoService.getUserInfo(tokens.get("accessToken"));
-        System.err.println("=======================================================userinfo sout =" + userInfo);
-        System.err.println("=======================================================getEmail sout =" +userInfo.get("email").toString());
-        User user = userService.findByUserEmail(userInfo.get("email").toString());
-        System.err.println("=======================================================user sout =" +user);
+        User user = null;
+        try{
+            user = userService.findByUserEmail(userInfo.get("email").toString());
+        }catch (NullPointerException e){
+            return ResponseEntity.status(400).body(UserLoginPostRes.of(400, "Kakao Login Error - invalid token", null, null));
+        }
         if(user==null){
-
             user = userService.createKakaoUser((HashMap) userInfo);
-
             return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(user.getUserEmail()), user.getUserEmail()));
         }else if(user.getUserNick().equals(userInfo.get("nickname").toString())
                 &&user.getKakaoImg().equals(userInfo.get("image").toString())){
             return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(user.getUserEmail()), user.getUserEmail()));
         }
-        return ResponseEntity.status(401).body(UserLoginPostRes.of(400, "Kakao Login Error", null, null));
+        return ResponseEntity.status(400).body(UserLoginPostRes.of(400, "Kakao Login Error", null, null));
     }
 
 }

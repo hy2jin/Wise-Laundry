@@ -59,6 +59,9 @@ public class BoardController {
         for (Comments comment : board.getComments()) {
             commentDetailResList.add(CommentDetailRes.builder()
                             .commentContent(comment.getCommentContent())
+                            .userId(comment.getUser().getUserId())
+                            .userNick(comment.getUser().getUserNick())
+                            .userImg(comment.getUser().getUserImg())
                             .commentId(comment.getCommentId())
                             .commentDate(comment.getCommentDate())
                             .build());
@@ -102,9 +105,9 @@ public class BoardController {
     })
     @PutMapping(value = "/update", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<? extends BaseResponseBody> boardUpdate(@RequestPart BoardUpdateReq body,
-                                                                  MultipartHttpServletRequest request) {
+                                                                  MultipartHttpServletRequest file) {
         log.info("boardUpdate-call");
-        boardService.boardUpdate(body, request);
+        boardService.boardUpdate(body, file);
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "수정 완료"));
     }
 

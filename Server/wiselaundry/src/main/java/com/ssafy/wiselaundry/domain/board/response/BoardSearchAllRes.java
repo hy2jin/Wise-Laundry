@@ -44,6 +44,9 @@ public class BoardSearchAllRes {
     }
 
     public static BoardSearchAllRes boardToBoardSearchAllRes(Board board){
+        System.out.println(board.getBoardId());
+        System.out.println(board.getUser());
+
         return BoardSearchAllRes.builder()
                 .userId(board.getUser().getUserId())
                 .userNick(board.getUser().getUserNick())
