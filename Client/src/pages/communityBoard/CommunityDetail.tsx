@@ -129,13 +129,18 @@ const CommunityDetail = () => {
     <Wrapper>
       <Board>
         <BoardContent>
-          <div className='top'>
-            <img src={board.boardImgs[imgIdx]} alt='사진' />
+          {board.boardImgs.length > 0 ?
+          (<div className='top'>
+            <img src={board.boardImgs[imgIdx]} alt={`사진${imgIdx+1}`} />
             {board.boardImgs.length > 1 && <>
             <div className='left' onClick={() => changeIdx(-1)}>◀</div>
             <div className='right' onClick={() => changeIdx(1)}>▶</div>
             </>}
-          </div>
+          </div>) :
+          (<div className='top-no'>
+            이미지가 없습니다❌
+          </div>)
+          }
           <div className='middle'>
             <div className='user'>
               <img src={board.userImg || defaultImg} alt='프로필' />
@@ -201,6 +206,10 @@ const Board = styled.section`
   padding: 2vh 4vw;
 `
 const BoardContent = styled.div`
+  .top-no {
+    text-align: center;
+    padding: 5rem 0;
+  }
   .top {
     width: 80%;
     margin: auto;

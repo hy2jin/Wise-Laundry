@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { postBoard } from '../../store/api/community';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 interface Istate {
   board: {
@@ -28,7 +29,9 @@ const CommunityCreate = () => {
       const nowImageUrlList = [...viewImgs]
       Array.from(files).map((file: File) => {
         // console.log('🎲file: ', file);
-        nowImageUrlList.push(URL.createObjectURL(file))
+        if (nowImageUrlList.length < 5) {
+          nowImageUrlList.push(URL.createObjectURL(file))
+        }
       })
       setViewImgs(nowImageUrlList)
     }
@@ -61,6 +64,9 @@ const CommunityCreate = () => {
       console.log('postBoard err:💧', err)
     })
   }
+  const throwImg = (idx: number) => {
+    setViewImgs(viewImgs.filter((v, i) => i !== idx))
+  }
 
   return (
     <Wrapper>
@@ -81,9 +87,12 @@ const CommunityCreate = () => {
               <CameraAltIcon />
               <p className='imgcnt'>{viewImgs.length}/5</p>
             </label>
-            {viewImgs.map((url, idx) => (
-              <img src={url} alt='옷' key={idx} />
-              ))}
+            {viewImgs.map((url, idx) => 
+            <div className='img' key={idx}>
+              <img src={url} alt='옷' />
+              <RemoveCircleIcon onClick={() => throwImg(idx)} />
+            </div>
+            )}
           </ImgBox>
         </ImgInput>
         <ContentInput htmlFor='content'>
@@ -150,6 +159,17 @@ const ImgBox = styled.label`
   width: 90%;
   display: flex;
   align-items: center;
+
+  overflow-x: scroll;
+  overflow-y: hidden;
+  &::-webkit-scrollbar {
+    height: .5rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #D8D8D8;
+    border-radius: 10px;
+  }
+
   .imgbtn {
     height: 90%;
     aspect-ratio: 1/1;
@@ -167,9 +187,19 @@ const ImgBox = styled.label`
       width: auto;
     }
   }
-  img {
-    height: 100%;
+  .img {
+    height: 80%;
     margin-left: 1rem;
+    position: relative;
+    img {
+      height: 100%;
+    }
+    svg {
+      color: red;
+      position: absolute;
+      top: -0.7rem;
+      right: -0.7rem;
+    }
     @media screen and (max-width: 800px) {
       width: 80%;
     }
