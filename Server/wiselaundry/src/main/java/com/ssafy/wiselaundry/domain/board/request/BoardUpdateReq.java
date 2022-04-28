@@ -5,6 +5,7 @@ import com.ssafy.wiselaundry.domain.board.db.entity.BoardImg;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -16,7 +17,7 @@ public class BoardUpdateReq {
     private String boardName;
 
     @ApiModelProperty(value = "삭제할 이미지")
-    private List<String> deleteImgs;
+    private List<String> deleteImgs = new ArrayList<>();
 
     @ApiModelProperty(value = "게시판 내용", required = true)
     private String boardContent;
