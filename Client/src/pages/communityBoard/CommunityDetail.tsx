@@ -25,7 +25,6 @@ interface Istate {
       userId: number,
       commentContent: string,
       commentDate: number[],
-      statusCode: number,
       message: string
     }[]
   }
@@ -53,7 +52,6 @@ const CommunityDetail = () => {
         userId: 0,
         commentContent: '',
         commentDate: [],
-        statusCode: 0,
         message: ''
       }
     ]
@@ -101,7 +99,10 @@ const CommunityDetail = () => {
     getCommunityDetail(Number(boardId))
     .then(res => {
       setBoard(res)
-      console.log('🎲res: ', res);
+      // setBoard({...res, boardImgs: [
+      //   'https://dispatch.cdnser.be/wp-content/uploads/2018/03/20180314150129_3-408.png'
+      // ]})
+      console.log('🎲getCommunityDetail: ', res);
     })
     .catch(err => {
       console.log('getCommunityDetail err:🎲', err)
