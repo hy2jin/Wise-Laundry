@@ -20,37 +20,36 @@ const apiImageClient = axios.create({
 
 // 🌼🌼🌼게시글 전체 => Infinite Scroll 수정 필요
 export const getCommunityAll = async () => {
-  const response = await apiClient.get<any>(
+  const { data } = await apiClient.get<any>(
     '/community/all', 
   )
-  console.log('🌼getCommunityAll: ', response.data.list)
-  return response.data.list
+  console.log('🌼getCommunityAll: ', data.list)
+  return data.list
 }
 
 // 🌼🌼🌼게시글 한개 조회
 export const getCommunityDetail = async (boardId: number) => {
-  const response = await apiClient.get<any>(
+  const { data } = await apiClient.get<any>(
     `/community/${boardId}`,
   )
-  // console.log('🌼getCommunityDetail: ', response.data)
-  const imgs = response.data.boardImgs.map((img: { boardImg: string }) => img.boardImg)
-  // console.log('imgs: ', imgs);
-  const res = {...response.data, boardImgs: imgs}
+  // console.log('🌼getCommunityDetail: ', data)
+  const imgs = data.boardImgs.map((img: { boardImg: string }) => `/images/${img.boardImg}`)
+  // console.log('🌼imgs: ', imgs);
+  const res = {...data, boardImgs: imgs}
   delete res.statusCode
-  delete res.message
   // console.log('🌼res: ', res);
   return res
 }
 
 // 🌼🌼🌼게시글 작성
-export const postBoard = async (data: any) => {
+export const postBoard = async (form: any) => {
   // const response = await apiClient.post<any>(
-  const response = await apiImageClient.post<any>(
+  const { data } = await apiImageClient.post<any>(
     '/community/create',
-    data
+    form
   )
-  console.log('🌼postBoard: ', response);
-  return response.data
+  console.log('🌼postBoard: ', data);
+  return data
 }
 
 // 🌼🌼🌼게시글 수정용 조회
@@ -72,40 +71,40 @@ export const getCommunityUpdate = async (boardId: number) => {
 }
 
 // 🌼🌼🌼게시글 수정
-export const putBoard = async (data: any) => {
-  const response = await apiClient.put<any>(
+export const putBoard = async (form: any) => {
+  const { data } = await apiClient.put<any>(
     '/community/update',
-    data
+    form
   )
-  console.log('🌼putBoard: ', response);
-  return response.data
+  console.log('🌼putBoard: ', data);
+  return data
 }
 
 // 🌼🌼🌼게시글 삭제⭕
 export const delBoard = async (boardId: number) => {
-  const response = await apiClient.delete<any>(
+  const { data } = await apiClient.delete<any>(
     `/community/${boardId}`,
   )
-  // console.log('🌼delBoard: ', response)
-  return response
+  // console.log('🌼delBoard: ', data)
+  return data
 }
 
 // 🌼🌼🌼댓글 작성⭕
-export const postComment = async (data: any) => {
-  const response = await apiClient.post<any>(
+export const postComment = async (form: any) => {
+  const { data } = await apiClient.post<any>(
     '/community/comment/create',
-    data
+    form
   )
-  // console.log('🌼postComment: ', response.data)
-  return response.data
+  // console.log('🌼postComment: ', data)
+  return data
 }
 
 // 🌼🌼🌼댓글 삭제⭕
 export const delComment = async (commentId: number) => {
-  const response = await apiClient.delete<any>(
+  const { data } = await apiClient.delete<any>(
     `/community/comment/${commentId}`,
   )
-  // console.log('🌼delComment: ', response)
-  return response
+  // console.log('🌼delComment: ', data)
+  return data
 }
 
