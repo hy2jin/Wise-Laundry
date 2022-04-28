@@ -145,8 +145,6 @@ const LaundryUpdate = () => {
   const {laundryId} = useParams()
   useEffect(()=>{
     getLaundryDetail(Number(laundryId)).then((res)=>{
-      console.log('받아옴')
-      console.log(res.list)
       setLaundry(res.list)
       setlaundryInfo(res.list.laundryInfo)
       setLaundryImg(res.list.laundryImg)
@@ -185,10 +183,10 @@ const LaundryUpdate = () => {
     setIsLoading(false)
   },[laundry])
   useEffect(()=>{
-    console.log('인포',laundryInfo)
+    // console.log('인포',laundryInfo)
   },[laundryInfo])
   useEffect(()=>{
-    console.log('케어라벨!',careLabelName)
+    // console.log('케어라벨!',careLabelName)
   },[careLabelName])
   return (
     <Wrapper>
