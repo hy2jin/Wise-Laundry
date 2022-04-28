@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { getCommunityUpdate, postBoard } from '../../store/api/community';
+import { getCommunityUpdate, putBoard } from '../../store/api/community';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
 interface Istate {
@@ -21,14 +21,17 @@ const CommunityUpdate = () => {
     boardName: '',
     boardContent: '',
   })
-  const [viewImgs, setViewImgs] = useState<Istate['viewImgs']>([])
+  const [originImgs, setOriginImgs] = useState<Istate['viewImgs']>([])
+  const [newImgs, setNewImgs] = useState<Istate['viewImgs']>([])
+  const [deleteImgs, setDeleteImgs] = useState<Istate['viewImgs']>([])
+  const [fileList, setFileList] = useState<FileList | undefined>()
   const navigate = useNavigate()
 
   useEffect(() => {
     getCommunityUpdate(Number(boardId))
     .then(({ boardId, boardContent, boardImgs, boardName }) => {
       setBoard({boardId, boardName, boardContent})
-      setViewImgs(boardImgs)
+      setOriginImgs(boardImgs)
     })
   }, [boardId])
 
@@ -36,19 +39,19 @@ const CommunityUpdate = () => {
     const { target: { files } } = e
     if (files != null) {
       setFileList(files)
-      const nowImageUrlList = [...viewImgs]
+      const nowImageUrlList = [...newImgs]
       Array.from(files).map((file: File) => {
         // console.log('🎲file: ', file);
         nowImageUrlList.push(URL.createObjectURL(file))
       })
-      setViewImgs(nowImageUrlList)
+      setNewImgs(nowImageUrlList)
     }
   }
-  const [fileList, setFileList] = useState<FileList | undefined>()
   const makeFormData = () => {
     let formData = new FormData()
     const newData = {
       ...board,
+      deleteImgs
     }
     formData.append(
       "body",
@@ -62,10 +65,10 @@ const CommunityUpdate = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
     const form = makeFormData()
-    postBoard(form)
+    putBoard(form)
     .then(res => {
       console.log('🎲res: ', res);
-      navigate(`/community/${res.boardId}`)
+      navigate(`/community/${boardId}`)
     })
     .catch(err => {
       console.log('postBoard err:💧', err)
@@ -89,11 +92,14 @@ const CommunityUpdate = () => {
           <ImgBox>
             <label htmlFor='image' className='imgbtn'>
               <CameraAltIcon />
-              <p className='imgcnt'>{viewImgs.length}/5</p>
+              <p className='imgcnt'>{originImgs.length}/5</p>
             </label>
-            {viewImgs.map((url, idx) => (
-              <img src={url} alt='옷' key={idx} />
-              ))}
+            {originImgs.map((url, idx) => 
+            <img src={url} alt='옷' key={idx} />
+            )}
+            {newImgs.map((url, idx) => 
+            <img src={url} alt='옷' key={idx} />
+            )}
           </ImgBox>
         </ImgInput>
         <ContentInput htmlFor='content'>
@@ -104,8 +110,8 @@ const CommunityUpdate = () => {
         </ContentInput>
       </form>
       <Buttons>
-        <button className='active' onClick={(e) => handleSubmit(e)}>등록</button>
-        <button className='inactive'>취소</button>
+        <button className='active' onClick={(e) => handleSubmit(e)}>수정</button>
+        <button className='inactive' onClick={() => navigate(-1)}>취소</button>
       </Buttons>
     </Wrapper>
   );

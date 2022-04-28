@@ -72,12 +72,12 @@ export const getCommunityUpdate = async (boardId: number) => {
 
 // 🌼🌼🌼게시글 수정
 export const putBoard = async (form: any) => {
-  const { data } = await apiClient.put<any>(
+  const response = await apiClient.put<any>(
     '/community/update',
     form
   )
-  console.log('🌼putBoard: ', data);
-  return data
+  console.log('🌼putBoard: ', response.data);
+  return response.data
 }
 
 // 🌼🌼🌼게시글 삭제⭕
