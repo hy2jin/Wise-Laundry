@@ -59,6 +59,9 @@ public class BoardController {
         for (Comments comment : board.getComments()) {
             commentDetailResList.add(CommentDetailRes.builder()
                             .commentContent(comment.getCommentContent())
+                            .userId(comment.getUser().getUserId())
+                            .userNick(comment.getUser().getUserNick())
+                            .userImg(comment.getUser().getUserImg())
                             .commentId(comment.getCommentId())
                             .commentDate(comment.getCommentDate())
                             .build());
