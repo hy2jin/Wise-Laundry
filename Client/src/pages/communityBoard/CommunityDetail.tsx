@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -56,6 +57,7 @@ const CommunityDetail = () => {
       }
     ]
   })
+  const [imgIdx, setImgIdx] = useState(0)
 
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -94,13 +96,27 @@ const CommunityDetail = () => {
       setBoard({...board, comments: newComments})
     })
   }
+  const changeIdx = (num: number) => {
+    const idx = imgIdx + num
+    const maxIdx = board.boardImgs.length - 1
+    if (idx < 0) {
+      setImgIdx(maxIdx)
+    } else if (idx > maxIdx) {
+      setImgIdx(0)
+    } else {
+      setImgIdx(idx)
+    }
+  }
 
   useEffect(() => {
     getCommunityDetail(Number(boardId))
     .then(res => {
       setBoard(res)
       // setBoard({...res, boardImgs: [
-      //   'https://dispatch.cdnser.be/wp-content/uploads/2018/03/20180314150129_3-408.png'
+      //   'https://img.freepik.com/free-vector/cute-koala-with-cub-cartoon-icon-illustration_138676-2839.jpg?w=2000',
+      //   'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000',
+      //   'https://cdn.custom-cursor.com/cursors/pack2069.png',
+      //   'https://i.ytimg.com/vi/nGIYtetr2u0/maxresdefault.jpg'
       // ]})
       console.log('🎲getCommunityDetail: ', res);
     })
@@ -114,7 +130,11 @@ const CommunityDetail = () => {
       <Board>
         <BoardContent>
           <div className='top'>
-            <img src={board.boardImgs[0]} alt='사진' />
+            <img src={board.boardImgs[imgIdx]} alt='사진' />
+            {board.boardImgs.length > 1 && <>
+            <div className='left' onClick={() => changeIdx(-1)}>◀</div>
+            <div className='right' onClick={() => changeIdx(1)}>▶</div>
+            </>}
           </div>
           <div className='middle'>
             <div className='user'>
@@ -163,9 +183,12 @@ const CommunityDetail = () => {
 };
 
 const Wrapper = styled.article`
-  width: 60vw;
+  width: 50vw;
   margin: auto;
-  padding: 5vh 0;
+  padding: 3rem 0;
+  @media screen and (max-width: 1400px) {
+    width: 70vw;
+  }
   @media screen and (max-width: 800px) {
     width: 80vw;
     padding: 0;
@@ -182,10 +205,22 @@ const BoardContent = styled.div`
     width: 80%;
     margin: auto;
     padding-top: 1rem;
+    position: relative;
     img {
       width: 100%;
-      aspect-ratio: 1/1;
-      margin-bottom: 1rem;
+      /* aspect-ratio: 1/1; */
+    }
+    div {
+      position: absolute;
+      top: 50%;
+      cursor: pointer;
+      font-size: 1.5rem;
+      &.left {
+        left: -2rem;
+      }
+      &.right {
+        right: -2rem;
+      }
     }
   }
   .middle {
@@ -193,6 +228,7 @@ const BoardContent = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 0 1rem;
+    margin-top: 1rem;
     .user {
       display: flex;
       img {
@@ -285,7 +321,7 @@ const Btns = styled.section`
     }
   }
   @media screen and (max-width: 800px) {
-    padding-bottom: 10vh;
+    padding-bottom: 70px;
     button {
       height: 4vh;
     }
