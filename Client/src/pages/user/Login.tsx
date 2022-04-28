@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from './images/logo2.png';
 // import kakaoLogin from './images/kakaoImg.png';
-import { postLogin } from '../../store/api/user';
+import { getUserInfo, postLogin } from '../../store/api/user';
+import { useRecoilState } from 'recoil';
+import { userState } from '../../store/state/user';
 
 
 const Wrapper = styled.div `
@@ -199,22 +201,53 @@ const InputForm = styled.section`
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  
+  const [onLogin, setOnLogin] = useState(false)
+  const [user, setUser] = useRecoilState(userState)
+
   const navigate = useNavigate();
+  
 
   const onSubmit = () => {
     postLogin(email, password)
     .then((res) => {
       console.log('로그인 성공')
-      // navigate('/home')
       const token = res.accessToken;
-      sessionStorage.setItem("jwt", `${token}`);
-      console.log(token, 'jwt 토큰 확인')
+      sessionStorage.setItem("token", `${token}`);
+      // console.log(token, 'jwt 토큰 확인')
+      // window.history.forward()
+      setOnLogin(true)
+      
     })
 
     .catch((err) => {
       console.log(err)
     })
+    // eslint-disable-next-line no-restricted-globals
+    // history.go(1)
+    // 😢두번 누르면 다시 뒤로 돌아감;;😥
   }
+  
+  useEffect(() => {
+    if (onLogin) {
+      console.log(onLogin, '여기 확인')
+      // sessionStorage
+      // console.log(, '토큰 확인')
+      getUserInfo(email)
+        .then((res) => {
+          console.log(res, '💐유저정보💐')
+          setUser(res.user)
+          navigate('/home')
+        })
+    }
+  },[onLogin])
+
+  
+
+  // 로그인 후 로그인 페이지로 뒤로가기 방지
+  // eslint-disable-next-line no-restricted-globals
+  history.go(1)
+
 
   const CLIENT_ID = "9c4b740a32c840080fcfd4249ec3b331";
   const REDIRECT_URI = "https://슬기로운세탁.com/oauth";
