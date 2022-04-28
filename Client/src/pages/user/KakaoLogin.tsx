@@ -21,10 +21,10 @@ const KakaoLogin = () => {
       .then((res) => {
         console.log('로그인 성공')
         sessionStorage.setItem('kakao', 'false')
-        // navigate('/home')
         const token = res.accessToken;
         sessionStorage.setItem("jwt", `${token}`);
         console.log(token, 'jwt 토큰 확인')
+        navigate('/home')
         // setTimeout(() => {
         //   window.location.href='https://슬기로운세탁.com/'
         // }, 1000); 
