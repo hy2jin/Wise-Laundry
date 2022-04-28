@@ -7,9 +7,9 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
 interface Istate {
   board: {
+    boardId: number,
     boardName: string,
     boardContent: string,
-    // boardImgs: string[]
   },
   viewImgs: string[]
 }
@@ -17,17 +17,17 @@ interface Istate {
 const CommunityUpdate = () => {
   const { boardId } = useParams()
   const [board, setBoard] = useState<Istate['board']>({
+    boardId: 0,
     boardName: '',
     boardContent: '',
-    // boardImgs: []
   })
   const [viewImgs, setViewImgs] = useState<Istate['viewImgs']>([])
   const navigate = useNavigate()
 
   useEffect(() => {
     getCommunityUpdate(Number(boardId))
-    .then(({ boardContent, boardImgs, boardName }) => {
-      setBoard({boardName, boardContent})
+    .then(({ boardId, boardContent, boardImgs, boardName }) => {
+      setBoard({boardId, boardName, boardContent})
       setViewImgs(boardImgs)
     })
   }, [boardId])
@@ -49,7 +49,6 @@ const CommunityUpdate = () => {
     let formData = new FormData()
     const newData = {
       ...board,
-      userId: 10
     }
     formData.append(
       "body",

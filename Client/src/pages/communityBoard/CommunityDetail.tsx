@@ -1,12 +1,11 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { themeState } from '../../store/state/theme';
 import { getCommunityDetail, postComment, delComment, delBoard } from '../../store/api/community';
-import { useNavigate, useParams } from 'react-router-dom';
 import defaultImg from './images/ironing.png'
 
 interface Istate {
@@ -66,16 +65,14 @@ const CommunityDetail = () => {
     }
   }
   const deleteBoard = () => {
-    console.log(`🎲${board.boardId} 삭제🎲`)
-    // delBoard(board.boardId)
-    delBoard(20)
+    delBoard(Number(boardId))
     .then(() => {
+      // console.log(`${boardId}번 글 삭제 성공🎲`);
       navigate('/community')
     })
     .catch(err => {
       console.log('deleteBoard error:🎲', err)
     })
-    console.log(`${boardId}번 글 삭제`);
   }
   const createComment = () => {
     const data = {
@@ -88,7 +85,7 @@ const CommunityDetail = () => {
       setBoard({...board, comments: [...board.comments, res]})
     })
     .catch(err => {
-      console.log('🎲createComment error:', err)
+      console.log('createComment error:🎲', err)
     })
     setInputText('')
   }
@@ -107,10 +104,9 @@ const CommunityDetail = () => {
       console.log('🎲res: ', res);
     })
     .catch(err => {
-      console.log('🎲getCommunityDetail err:', err)
+      console.log('getCommunityDetail err:🎲', err)
     })
-    // setBoard(datadetail)
-  }, [])
+  }, [boardId])
 
   return (
     <Wrapper>
@@ -141,9 +137,9 @@ const CommunityDetail = () => {
               <img src={comment.userImg || defaultImg} alt='프로필' />
               <div className='content' style={{backgroundColor: `${theme.listBgColor[i%3]}`}}>
                 <p>{comment.commentContent}</p>
-                {/* {comment.userId === 10 &&  */}
+                {comment.userId === 10 && 
                 <RemoveCircleOutlineIcon onClick={() => deleteComment(comment.commentId)} />
-                {/* } */}
+                }
               </div>
               <p>{String(comment.commentDate[0]).slice(-2)}.{comment.commentDate[1]}.{comment.commentDate[2]}</p>
             </div>
