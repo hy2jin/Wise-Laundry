@@ -87,7 +87,7 @@ export const getUserInfo =async (jwtToken: string, userEmail: string) => {
 
 export const getKakaoLogin =async (code:any) => {
   const response = await apiNoneTokenClient.get<any>(
-    `/oauth/login?code=${code}`,
+    `https://xn--ok0by6qomhppbr9ieqr.com/api/oauth/login?code=${code}`,
   )
   console.log('카카오 로그인')
   return response.data
