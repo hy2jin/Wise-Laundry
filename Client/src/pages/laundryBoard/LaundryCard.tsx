@@ -60,8 +60,8 @@ const imageOnErrorHandler = (
 
 const LaundryCard:React.FC<Iprops>= ({laundry}) => {
   const navigate = useNavigate()
-  const src = `images/${laundry.laundryImg}`
-  // console.log(`images/${laundry.laundryImg}`)
+  const src = `/images/${laundry.laundryImg}`
+  // console.log(`/images/${laundry.laundryImg}`)
   return (
     <Wrapper onClick={()=>{navigate(`${laundry.laundryId}`)}}>
       <img src={src} alt='사진' onError={imageOnErrorHandler}/>
