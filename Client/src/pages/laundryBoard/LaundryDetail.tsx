@@ -203,7 +203,7 @@ const LaundryDetail = () => {
       {laundry !==undefined &&
       <DetailBox>
         <Top>
-          <img onError={imageOnErrorHandler} alt='옷사진' src={laundry.laundryImg}/>
+          <img onError={imageOnErrorHandler} alt='옷사진' src={`/images/${laundry.laundryImg}`} />
           <InfoBox>
             <Info>
               <div className='title'>제품 설명 태그</div>
