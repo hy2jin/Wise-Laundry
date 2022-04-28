@@ -59,9 +59,10 @@ export const getCommunityUpdate = async (boardId: number) => {
     `/community/${boardId}`,
   )
   // console.log('🌼getCommunityUpdate: ', data)
-  const imgs = data.boardImgs.map((img: { boardImg: string }) => img.boardImg)
+  const imgs = data.boardImgs.map((img: { boardImg: string }) => `/images/${img.boardImg}`)
   // console.log('🌼imgs: ', imgs);
   const res = {
+    boardId: data.boardId,
     boardContent: data.boardContent,
     boardImgs: imgs,
     boardName: data.boardName
@@ -80,12 +81,12 @@ export const putBoard = async (data: any) => {
   return response.data
 }
 
-// 🌼🌼🌼게시글 삭제
+// 🌼🌼🌼게시글 삭제⭕
 export const delBoard = async (boardId: number) => {
   const response = await apiClient.delete<any>(
     `/community/${boardId}`,
   )
-  console.log('🌼delBoard: ', response)
+  // console.log('🌼delBoard: ', response)
   return response
 }
 
