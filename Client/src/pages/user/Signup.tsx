@@ -43,7 +43,6 @@ const SmallBox = styled.div `
     color: white;
     /* color: ${props => props.theme.fontColor}; */
     background-color: ${props => props.theme.inactiveBtnColor};
-    cursor: pointer;
   }
 
   .SignupBtn{
@@ -54,7 +53,6 @@ const SmallBox = styled.div `
     font-size: 1rem;
     background-color: ${props => props.theme.activeBtnColor};
     color: white;
-    cursor: pointer;
   }
 
 
@@ -160,7 +158,6 @@ const InputForm = styled.section`
     color: white;
     max-width: 800px;
     background-color: ${props => props.theme.activeBtnColor};
-    cursor: pointer;
   }
 
   #nickChecked {

@@ -161,13 +161,14 @@ const CommunityDetail = () => {
           {board.comments.map((comment, i) => (
             <div className='comment' key={i}>
               <img src={comment.userImg || defaultImg} alt='프로필' />
+              <p className='nick' title={comment.userNick}>{comment.userNick}</p>
               <div className='content' style={{backgroundColor: `${theme.listBgColor[i%3]}`}}>
                 <p>{comment.commentContent}</p>
                 {comment.userId === 10 && 
                 <RemoveCircleOutlineIcon onClick={() => deleteComment(comment.commentId)} />
                 }
               </div>
-              <p>{String(comment.commentDate[0]).slice(-2)}.{comment.commentDate[1]}.{comment.commentDate[2]}</p>
+              <p className='date'>{String(comment.commentDate[0]).slice(-2)}.{comment.commentDate[1]}.{comment.commentDate[2]}</p>
             </div>
           ))}
         </Comments>
@@ -180,8 +181,10 @@ const CommunityDetail = () => {
       </Board>
       <Btns>
         <button className='active' onClick={() => navigate('/community')}>목록</button>
+        {board.userId === 10 && <>
         <button className='active' onClick={() => navigate(`/board/${board.boardId}`)}>수정</button>
         <button className='inactive' onClick={() => deleteBoard()}>삭제</button>
+        </>}
       </Btns>
     </Wrapper>
   );
@@ -220,9 +223,9 @@ const BoardContent = styled.div`
       /* aspect-ratio: 1/1; */
     }
     div {
+      cursor: pointer;
       position: absolute;
       top: 50%;
-      cursor: pointer;
       font-size: 1.5rem;
       &.left {
         left: -2rem;
@@ -263,11 +266,22 @@ const BoardContent = styled.div`
 const Comments = styled.div`
   padding: 0 1rem;
   .comment {
+    cursor: default;
     height: 5vh;
     display: flex;
     margin: 1rem 0;
+    p {
+      margin: 0;
+      height: 5vh;
+      line-height: 5vh;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      &.nick {width: 10vw;}
+      &.date {width: 15%;}
+    }
     img {
-      height: 100%;
+      height: 4vh;
       aspect-ratio: 1/1;
       border-radius: 50%;
       margin-right: .5rem;
@@ -280,13 +294,12 @@ const Comments = styled.div`
       padding: .5rem;
       border-radius: 10px;
       margin-right: .5rem;
-      p {
-        overflow: auto;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-      }
+      svg {cursor: pointer;}
+    }
+  }
+  @media screen and (max-width: 800px) {
+    .date {
+      display: none;
     }
   }
 `

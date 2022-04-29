@@ -31,7 +31,6 @@ const Letter = styled.div`
   }
 `
 const Button = styled.button`
-  cursor: pointer;
   border: none;
   border-radius: 10px;
   padding: 1rem 2rem;

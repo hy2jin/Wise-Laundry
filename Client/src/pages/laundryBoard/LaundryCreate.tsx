@@ -123,7 +123,6 @@ const ButtonBox = styled.div`
     border-radius: 10px;
     height: 50px;
     font-size:1.1rem;
-    cursor: pointer;
   }
  
   @media screen and (max-width: 800px) { 

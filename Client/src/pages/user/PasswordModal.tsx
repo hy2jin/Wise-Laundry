@@ -53,7 +53,6 @@ const SmallBox = styled.div `
     font-size: 1rem;
     background-color: ${props => props.theme.activeBtnColor};
     color: white;
-    cursor: pointer;
   }
 
 
