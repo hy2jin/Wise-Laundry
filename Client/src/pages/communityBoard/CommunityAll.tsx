@@ -39,10 +39,10 @@ const CommunityAll = () => {
   useEffect(() => {
     getCommunityAll()
     .then(res => {
-      setBoards(res)
+      setBoards(res.list)
     })
     .catch(err => {
-      console.log('🎲getCommunityAll err:', err)
+      console.log('getCommunityAll err:🎲 ', err)
     })
   }, [])
 

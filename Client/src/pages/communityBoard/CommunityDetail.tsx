@@ -76,7 +76,7 @@ const CommunityDetail = () => {
   }
   const createComment = () => {
     const data = {
-      userId: 10,
+      userId: 15,
       boardId: boardId,
       commentContent: inputText
     }

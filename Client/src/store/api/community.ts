@@ -23,11 +23,11 @@ export const getCommunityAll = async () => {
   const { data } = await apiClient.get<any>(
     '/community/all', 
   )
-  console.log('🌼getCommunityAll: ', data.list)
-  return data.list
+  console.log('🌼getCommunityAll: ', data)
+  return data
 }
 
-// 🌼🌼🌼게시글 한개 조회
+// 🌼🌼🌼게시글 한개 조회⭕
 export const getCommunityDetail = async (boardId: number) => {
   const { data } = await apiClient.get<any>(
     `/community/${boardId}`,
@@ -41,7 +41,7 @@ export const getCommunityDetail = async (boardId: number) => {
   return res
 }
 
-// 🌼🌼🌼게시글 작성
+// 🌼🌼🌼게시글 작성⭕
 export const postBoard = async (form: any) => {
   // const response = await apiClient.post<any>(
   const { data } = await apiImageClient.post<any>(
@@ -57,8 +57,8 @@ export const getCommunityUpdate = async (boardId: number) => {
   const { data } = await apiClient.get<any>(
     `/community/${boardId}`,
   )
-  // console.log('🌼getCommunityUpdate: ', data)
-  const imgs = data.boardImgs.map((img: { boardImg: string }) => `/images/${img.boardImg}`)
+  console.log('🌼getCommunityUpdate: ', data)
+  const imgs = data.boardImgs.map((img: { boardImg: string }) => img.boardImg)
   // console.log('🌼imgs: ', imgs);
   const res = {
     boardId: data.boardId,
