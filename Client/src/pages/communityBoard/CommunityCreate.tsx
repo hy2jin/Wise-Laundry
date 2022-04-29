@@ -41,14 +41,18 @@ const CommunityCreate = () => {
     let formData = new FormData()
     const newData = {
       ...board,
-      userId: 10
+      userId: 36
     }
     formData.append(
       "body",
       new Blob([JSON.stringify(newData)], {type: "application/json"})
     )
     if (fileList != null) {
-      Array.from(fileList).forEach(f => formData.append("file", f))
+      Array.from(fileList).forEach((f, i) => {
+        if (i < 5) {
+          formData.append("file", f)
+        }
+      })
     }
     return formData
   }

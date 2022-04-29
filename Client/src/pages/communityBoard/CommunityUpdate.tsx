@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getCommunityUpdate, putBoard } from '../../store/api/community';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 interface Istate {
   board: {
@@ -32,6 +33,10 @@ const CommunityUpdate = () => {
     .then(({ boardId, boardContent, boardImgs, boardName }) => {
       setBoard({boardId, boardName, boardContent})
       setOriginImgs(boardImgs)
+      // setOriginImgs([
+      //     'https://cdn.custom-cursor.com/cursors/pack2069.png',
+      //     'https://i.ytimg.com/vi/nGIYtetr2u0/maxresdefault.jpg'
+      //   ])
     })
   }, [boardId])
 
@@ -42,7 +47,9 @@ const CommunityUpdate = () => {
       const nowImageUrlList = [...newImgs]
       Array.from(files).map((file: File) => {
         // console.log('🎲file: ', file);
-        nowImageUrlList.push(URL.createObjectURL(file))
+        if (originImgs.length + nowImageUrlList.length < 5) {
+          nowImageUrlList.push(URL.createObjectURL(file))
+        }
       })
       setNewImgs(nowImageUrlList)
     }
@@ -53,6 +60,7 @@ const CommunityUpdate = () => {
       ...board,
       deleteImgs
     }
+    console.log('🎲newData: ', newData);
     formData.append(
       "body",
       new Blob([JSON.stringify(newData)], {type: "application/json"})
@@ -67,12 +75,19 @@ const CommunityUpdate = () => {
     const form = makeFormData()
     putBoard(form)
     .then(res => {
-      console.log('🎲res: ', res);
+      // console.log('🎲res: ', res);
       navigate(`/community/${boardId}`)
     })
     .catch(err => {
       console.log('postBoard err:💧', err)
     })
+  }
+  const throwOriginImg = (idx: number) => {
+    setDeleteImgs([...deleteImgs, originImgs[idx]])
+    setOriginImgs(originImgs.filter((v, i) => i !== idx))
+  }
+  const throwNewImg = (idx: number) => {
+    setNewImgs(newImgs.filter((v, i) => i !== idx))
   }
 
   return (
@@ -92,13 +107,19 @@ const CommunityUpdate = () => {
           <ImgBox>
             <label htmlFor='image' className='imgbtn'>
               <CameraAltIcon />
-              <p className='imgcnt'>{originImgs.length}/5</p>
+              <p className='imgcnt'>{originImgs.length + newImgs.length}/5</p>
             </label>
             {originImgs.map((url, idx) => 
-            <img src={url} alt='옷' key={idx} />
+            <div className='img' key={idx}>
+              <img src={`/images/${url}`} alt={`옷${idx+1}`} />
+              <RemoveCircleIcon onClick={() => throwOriginImg(idx)} />
+            </div>
             )}
             {newImgs.map((url, idx) => 
-            <img src={url} alt='옷' key={idx} />
+            <div className='img' key={idx}>
+              <img src={url} alt='옷' />
+              <RemoveCircleIcon onClick={() => throwNewImg(idx)} />
+            </div>
             )}
           </ImgBox>
         </ImgInput>
@@ -166,6 +187,17 @@ const ImgBox = styled.label`
   width: 90%;
   display: flex;
   align-items: center;
+
+  overflow-x: scroll;
+  overflow-y: hidden;
+  &::-webkit-scrollbar {
+    height: .5rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #D8D8D8;
+    border-radius: 10px;
+  }
+
   .imgbtn {
     height: 90%;
     aspect-ratio: 1/1;
@@ -175,7 +207,7 @@ const ImgBox = styled.label`
     justify-content: center;
     align-items: center;
     svg {
-      font-size: 2vw;
+      font-size: 150%;
     }
     .imgcnt {
       margin: 0;
@@ -183,9 +215,19 @@ const ImgBox = styled.label`
       width: auto;
     }
   }
-  img {
-    height: 100%;
+  .img {
+    height: 80%;
     margin-left: 1rem;
+    position: relative;
+    img {
+      height: 100%;
+    }
+    svg {
+      color: red;
+      position: absolute;
+      top: -0.7rem;
+      right: -0.7rem;
+    }
     @media screen and (max-width: 800px) {
       width: 80%;
     }
