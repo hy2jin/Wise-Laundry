@@ -89,7 +89,11 @@ public class BoardServiceImpl implements BoardService{
 
 //        삭제 이미지
         for (String boardImgName : body.getDeleteImgs()) {
-            board.getBoardImgs().remove(boardImgService.findByBoardImg(boardImgName));
+            BoardImg boardImg = boardImgService.findByBoardImg(boardImgName);
+            boardImgService.boardImgDelete(boardImg.getBoardImgId());
+            
+//         매핑 된 리스트에서 삭제
+            board.getBoardImgs().remove(boardImg);
         }
 
 //       내용 수정.

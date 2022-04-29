@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   padding: 2px 5px 2px 5px;
   border-radius: 10px;
   font-size: 0.8rem;
-  background-color: #b3eaef;
+  background-color: ${props=>props.color};
   align-items: center;
   p{
     margin-top: 1px;
@@ -24,13 +24,14 @@ const Wrapper = styled.div`
 `
 
 interface Iprops{
-  label:string,
-  setLabels : React.Dispatch<React.SetStateAction<string[]>>,
-  idx:number,
+  label:string
+  setLabels : React.Dispatch<React.SetStateAction<string[]>>
+  idx:number
   labels:string[]
+  color:string
 }
 
-const Label:React.FC<Iprops> = ({label,idx,setLabels,labels}) => {
+const Label:React.FC<Iprops> = ({label,color,idx,setLabels,labels}) => {
   const [value,setValue] = useState(label)
   const [inputMode,setInputMode] = useState(false)
   const handleEnter = async (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -55,10 +56,11 @@ const Label:React.FC<Iprops> = ({label,idx,setLabels,labels}) => {
     }
   };
   return (
-    <Wrapper onClick={()=>{setInputMode(true)}}>
+    <Wrapper color={color} onClick={()=>{setInputMode(true)}}>
       {label!=='' &&
       (inputMode ? 
       <input
+      autoFocus
       onChange={(e)=>{setValue(e.target.value)}} 
       value={value}
       onKeyUp={e => handleEnter(e)} 
@@ -67,6 +69,7 @@ const Label:React.FC<Iprops> = ({label,idx,setLabels,labels}) => {
       {label==='' &&
       (inputMode ? 
       <input
+      autoFocus
       placeholder='press Enter'
       onChange={(e)=>{setValue(e.target.value)}} 
       value={value}
