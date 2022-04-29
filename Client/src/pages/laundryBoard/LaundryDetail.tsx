@@ -143,7 +143,6 @@ const ButtonBox = styled.div`
     margin-top: 50px;
     height: 50px;
     font-size:1.1rem;
-    cursor: pointer;
   }
   @media screen and (max-width: 800px) { 
     button{

@@ -36,10 +36,10 @@ const Wrapper = styled.div`
     font-weight: normal;
     font-style: normal;
   } 
-  *{  
+  * {  
     font-family: 'twayair';
-    }
-  h1{
+  }
+  h1 {
     margin-top: 0;
     padding-top:10px;
   }
@@ -48,6 +48,9 @@ const Wrapper = styled.div`
     &::placeholder {
       font-family: 'twayair';
     }
+  }
+  button {
+    cursor: pointer;
   }
 `
 declare global {

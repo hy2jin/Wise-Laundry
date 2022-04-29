@@ -128,7 +128,6 @@ const LoginBox = styled.div`
   left: 25%;
   button{
     width: 20vw;
-    cursor: pointer;
       border-radius: 10px;
       border: none;
     &.login{

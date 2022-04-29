@@ -199,6 +199,7 @@ const ImgBox = styled.label`
   }
 
   .imgbtn {
+    cursor: pointer;
     height: 90%;
     aspect-ratio: 1/1;
     border: 1px solid #ACAAAA;
@@ -223,6 +224,7 @@ const ImgBox = styled.label`
       height: 100%;
     }
     svg {
+      cursor: pointer;
       color: red;
       position: absolute;
       top: -0.7rem;

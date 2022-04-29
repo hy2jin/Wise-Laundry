@@ -78,7 +78,6 @@ const SmallBox = styled.div `
     color: white;
     /* color: ${props => props.theme.fontColor}; */
     background-color: ${props => props.theme.inactiveBtnColor};
-    cursor: pointer;
   }
 
   .SaveBtn {
@@ -89,7 +88,6 @@ const SmallBox = styled.div `
     font-size: 1rem;
     background-color: ${props => props.theme.activeBtnColor};
     color: white;
-    cursor: pointer;
   }
 
   @media screen and (max-width: 800px) {
@@ -210,7 +208,7 @@ const InputForm = styled.section`
     font-size: 0.8rem;
     color: white;
     background-color: ${props => props.theme.activeBtnColor};
-    cursor: pointer;max-width: 800px
+    max-width: 800px;
   }
 
 

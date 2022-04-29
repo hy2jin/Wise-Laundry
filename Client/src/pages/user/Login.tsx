@@ -44,7 +44,6 @@ const SmallBox = styled.div `
     font-size: 1rem;
     color: white;
     background-color: ${props => props.theme.inactiveBtnColor};
-    cursor: pointer;
   }
 
   .LoginBtn {
@@ -55,7 +54,6 @@ const SmallBox = styled.div `
     font-size: 1rem;
     background-color: ${props => props.theme.activeBtnColor};
     color: white;
-    cursor: pointer;
   }
 
   .KakaoBtn {
@@ -66,7 +64,6 @@ const SmallBox = styled.div `
     font-size: 1rem;
     background-color: #ffde00;
     color: #181600;
-    cursor: pointer;
     margin-top: 2vh;
   }
 
