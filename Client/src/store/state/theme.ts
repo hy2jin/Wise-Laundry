@@ -6,7 +6,9 @@ interface Itheme {
   fontColor: string
   navColor: string
   activeBtnColor: string
+  hoverActiveBtnColor: string
   inactiveBtnColor: string
+  hoverInactiveBtnColor: string
   containerColor: string
   boxShadowBox :string
   listBgColor: string[]
@@ -18,7 +20,9 @@ export const DARKMODE = {
   fontColor: 'white',
   navColor: '#275788',
   activeBtnColor: '#005AB5',
-  inactiveBtnColor: '#CCCCCC',
+  hoverActiveBtnColor: '#0265c8',
+  inactiveBtnColor: '#bdbdbd',
+  hoverInactiveBtnColor: '#d4d4d4',
   containerColor: '#151B20',
   boxShadowBox:'5px 5px 10px #121212',
   listBgColor: ['#0E81F7', '#3B9CFF', '#005BB7'],
@@ -28,7 +32,9 @@ export const LIGHTMODE = {
   fontColor: '#121212',
   navColor: '#E9F2FF',
   activeBtnColor: '#96BDF3',
-  inactiveBtnColor: '#CCCCCC',
+  hoverActiveBtnColor: '#83b5fb',
+  inactiveBtnColor: '#bdbdbd',
+  hoverInactiveBtnColor: '#a8a7a7',
   containerColor: '#F8F8F8',
   // boxShadowBox: '-10px -10px 12px #fff, 9px 9px 12px #e3e6ee, inset 1px 1px 0 rgb(233 235 242 / 10%)'
   boxShadowBox:'0px 4px 4px rgba(0, 0, 0, 0.25)',

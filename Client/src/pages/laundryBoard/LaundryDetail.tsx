@@ -99,34 +99,34 @@ const Label = styled.div`
     margin-top: 1px;
   }
   &:nth-child(1){
-    background-color: #91ff47;
+    background-color: #cffbb2;
   }
   &:nth-child(2){
-    background-color: #47ffe3;
+    background-color: #90fdec;
   }
   &:nth-child(3){
-    background-color: #e6fb5e;
+    background-color: #f4ffac;
   }
   &:nth-child(4){
-    background-color: #ff47ce;
+    background-color: #fea5e6;
   }
   &:nth-child(5){
-    background-color: #f9a93a;
+    background-color: #fdce8d;
   }
   &:nth-child(6){
-    background-color: #96b084;
+    background-color: #ccffa8;
   }
   &:nth-child(7){
-    background-color: #30a997;
+    background-color: #90faea;
   }
   &:nth-child(8){
-    background-color: #a2b434;
+    background-color: #eaf69d;
   }
   &:nth-child(9){
-    background-color: #b33090;
+    background-color: #fba7e5;
   }
   &:nth-child(10){
-    background-color: #a87226;
+    background-color: #ffd59b;
   }
 `
 const ButtonBox = styled.div`
@@ -143,6 +143,9 @@ const ButtonBox = styled.div`
     margin-top: 50px;
     height: 50px;
     font-size:1.1rem;
+    cursor: pointer;
+    color: white;
+
   }
   @media screen and (max-width: 800px) { 
     button{
@@ -156,13 +159,20 @@ const ButtonBox = styled.div`
     margin-top: 10px;
     height: 30px;
     width: 100px;
+
     }
   }
   .updateBtn{
     background-color:${props => props.theme.activeBtnColor};
+    &:hover{
+      background-color: ${props=>props.theme.hoverActiveBtnColor};
+    }
   }
   .deleteBtn{
     background-color:${props => props.theme.inactiveBtnColor};
+    &:hover{
+      background-color: ${props=>props.theme.hoverInactiveBtnColor};
+    }
   }
 `
 const Memo = styled.div`

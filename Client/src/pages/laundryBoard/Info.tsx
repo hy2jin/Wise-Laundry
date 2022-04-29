@@ -63,6 +63,7 @@ const Info:React.FC<Iprops>= ({info,infos,idx,setInfos}) => {
       onChange={(e)=>{setValue(e.target.value)}} 
       value={value}
       onKeyUp={e => handleEnter(e)} 
+      autoFocus
       /></>:<div>#{value}</div>)}
 
       {info==='' &&
@@ -71,6 +72,7 @@ const Info:React.FC<Iprops>= ({info,infos,idx,setInfos}) => {
       placeholder='press Enter'
       onChange={(e)=>{setValue(e.target.value)}} 
       value={value}
+      autoFocus
       onKeyUp={e => handleEnterNew(e)} 
       /></>:<div>+</div>)}
     </Wrapper>

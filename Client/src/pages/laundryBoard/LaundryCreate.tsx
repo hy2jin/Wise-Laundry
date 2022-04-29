@@ -123,6 +123,8 @@ const ButtonBox = styled.div`
     border-radius: 10px;
     height: 50px;
     font-size:1.1rem;
+    cursor: pointer;
+    color: white;
   }
  
   @media screen and (max-width: 800px) { 
@@ -133,6 +135,9 @@ const ButtonBox = styled.div`
   }
   .saveBtn{
     background-color:${props => props.theme.activeBtnColor};
+    &:hover{
+      background-color: ${props=>props.theme.hoverActiveBtnColor};
+    }
   }
 `
 const Memo = styled.div`
@@ -150,6 +155,7 @@ const Memo = styled.div`
     width: 200px;
     overflow-y: auto;
     word-break:break-all;
+    resize: none;
   }
 `
 interface Istate{
@@ -164,6 +170,7 @@ interface Istate{
 }
 
 const LaundryCreate = () => {
+  const colors = ['#cffbb2','#90fdec','#f4ffac','#fea5e6','#fdce8d','#ccffa8','#90faea','#eaf69d','#fba7e5','#ffd59b']
   const [laundryInfo,setlaundryInfo] = useState<string[]>([])
   const [careLabelName,setcareLabelName] = useState<string[]>([])
   const [laundryMemo,setLaundryMemo] = useState('')
@@ -201,8 +208,8 @@ const LaundryCreate = () => {
               </div>
               <div className='careLabel'>
               {careLabelName.map((label,idx)=>{
-                return(<Label labels={careLabelName} key={idx} label={label} idx={idx} setLabels={setcareLabelName}/>  )})}
-              <Label labels={careLabelName} label={''} idx={-1} setLabels={setcareLabelName}/>
+                return(<Label labels={careLabelName} color={colors[idx%10]} key={idx} label={label} idx={idx} setLabels={setcareLabelName}/>  )})}
+              <Label color='#f7d9a2' labels={careLabelName} label={''} idx={-1} setLabels={setcareLabelName}/>
               </div>
             </LabelBox>
             <Information>

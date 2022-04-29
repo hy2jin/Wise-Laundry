@@ -93,11 +93,16 @@ const InformBox = styled.div`
 `
 const Button = styled.button`
   background-color: ${props => props.theme.activeBtnColor};
+  &:hover{
+      background-color: ${props=>props.theme.hoverActiveBtnColor};
+    }
   width: 30vw;
   height: 50px;
   border: none;
   border-radius: 10px;
   margin: auto;
+  cursor: pointer;
+  color: white;
 
   @media screen and (max-width: 800px) {
     margin-top: 50px;
