@@ -26,15 +26,17 @@ const CommunityCreate = () => {
   const onChangeFiles= (e: React.ChangeEvent<HTMLInputElement>) => {
     const { target: { files } } = e
     if (files != null) {
-      setFileList(files)
-      const nowImageUrlList = [...viewImgs]
-      Array.from(files).map((file: File) => {
-        // console.log('🎲file: ', file);
-        if (nowImageUrlList.length < 5) {
+      if (files.length + viewImgs.length < 5) {
+        setFileList(files)
+        const nowImageUrlList = [...viewImgs]
+        Array.from(files).map((file: File) => {
+          // console.log('🎲🎲file: ', file);
           nowImageUrlList.push(URL.createObjectURL(file))
-        }
-      })
-      setViewImgs(nowImageUrlList)
+        })
+        setViewImgs(nowImageUrlList)
+      } else {
+        alert('최대 5개의 이미지만 올릴 수 있습니다')
+      }
     }
   }
   const makeFormData = () => {
@@ -68,19 +70,17 @@ const CommunityCreate = () => {
       console.log('postBoard err:💧', err)
     })
   }
-  const [newFileList, setNewFileList] = useState<File[]>()
   const throwImg = (idx: number) => {
     setViewImgs(viewImgs.filter((v, i) => i !== idx))
-    // const newFileList = new FileList()
-    if (fileList != null) {
-      console.log('도착은 했는데....왜 변하질 않니....')
-      const tmp: File[] = Array.from(fileList).filter((f, i) => i !== idx)
-      setNewFileList(tmp)
+    if (fileList) {
+      const dataTransfer = new DataTransfer()
+      Array.from(fileList)
+      .filter((v, i) => i !== idx)
+      .forEach(file => {
+        dataTransfer.items.add(file)
+      })
+      setFileList(dataTransfer.files)
     }
-    // setFileList(newFileList)
-    console.log('🎲viewImgs: ', viewImgs);
-    console.log('🎲fileList: ', fileList);
-    
   }
 
   return (
