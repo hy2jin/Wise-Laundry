@@ -15,6 +15,7 @@ interface Istate {
     userId: number,
     userNick: string,
     userImg: string,
+    kakaoImg: string,
     boardName: string,
     boardDate: string,
     commentCnt: number
@@ -64,7 +65,7 @@ const CommunityAll = () => {
       </SearchBar>
       <section>
         {boards.map((board, i) => {
-          let boardSrc = board.userImg ? `/images/${board.userImg}` : null
+          let boardSrc = board.userImg ? `/images/${board.userImg}` : board.kakaoImg
           boardSrc = boardSrc || defaultImg
           return (
             <EachBoard key={i}>

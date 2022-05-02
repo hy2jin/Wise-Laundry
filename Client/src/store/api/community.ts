@@ -1,22 +1,20 @@
 import axios from "axios"
 
 const baseURL = process.env.REACT_APP_BASEURL
-const token = sessionStorage.getItem('jwt')
+const token = sessionStorage.getItem('token')
 
 const apiClient = axios.create({
   baseURL: baseURL,
   headers: {
     "Content-type": "application/json",
-    // 'Authorization': `${token}`
-    'token': `${token}`
+    'Authorization': `Bearer ${token}`
   },
-}); 
+})
 const apiImageClient = axios.create({
   baseURL: baseURL,
   headers: {
     "Content-type": "multipart/form-data",
-    // 'Authorization': `${token}`
-    'token': `${token}`
+    'Authorization': `Bearer ${token}`
   },
 })
 

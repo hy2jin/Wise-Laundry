@@ -18,6 +18,7 @@ interface Istate {
     userId: number,
     userNick: string,
     userImg: string,
+    kakaoImg: string,
     boardName: string,
     boardImgs: string[],
     boardContent: string,
@@ -25,6 +26,7 @@ interface Istate {
     comments: {
       commentId: number,
       userImg: string,
+      kakaoImg: string,
       userNick: string,
       userId: number,
       commentContent: string,
@@ -45,6 +47,7 @@ const CommunityDetail = () => {
     userId: 0,
     userNick: '',
     userImg: '',
+    kakaoImg: '',
     boardName: '',
     boardImgs: [],
     boardContent: '',
@@ -53,6 +56,7 @@ const CommunityDetail = () => {
       {
         commentId: 0,
         userImg: '',
+        kakaoImg: '',
         userNick: '',
         userId: 0,
         commentContent: '',
@@ -116,7 +120,7 @@ const CommunityDetail = () => {
   const imageOnErrorHandler = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     e.currentTarget.src = defaultImg;
   };
-  let boardSrc = board.userImg ? `/images/${board.userImg}` : null
+  let boardSrc = board.userImg ? `/images/${board.userImg}` : board.kakaoImg
   boardSrc = boardSrc || defaultImg
 
   useEffect(() => {
@@ -164,7 +168,7 @@ const CommunityDetail = () => {
         <hr />
         <Comments>
           {board.comments.map((comment, i) => {
-            let userSrc = comment.userImg ? `/images/${comment.userImg}` : null
+            let userSrc = comment.userImg ? `/images/${comment.userImg}` : comment.kakaoImg
             userSrc = userSrc || defaultImg
             return (
             <div className='comment' key={i}>
