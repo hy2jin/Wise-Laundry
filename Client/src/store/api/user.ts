@@ -17,7 +17,8 @@ const apiClient = axios.create({
   headers:{
     "Content-type": "application/json",
     // 'Authorization':`Bearer ${token}`
-    'token': `${token}`,
+    'toekn':`Bearer ${token}`,
+    // 'token': `${token}`,
   }
 })
 
@@ -49,14 +50,10 @@ export const getLogout = async () => {
 }
 
 
-export const postSignUp = async (password: string, userEmail: string, userNick: string) => {
+export const postSignUp = async (formdata:any) => {
   const response = await apiNoneTokenClient.post<any>(
     '/user/signup',
-    {
-      'password': password,
-      'userEmail': userEmail,
-      'userNick': userNick,
-    }
+    formdata
   )
   console.log('회원가입 진행중')
   return response.data
@@ -99,6 +96,19 @@ export const getNicknamecheck =async (userNick: string) => {
     `/user/nickcheck?nick=${userNick}`,
   )
   console.log('이메일 중복확인')
+  return response.data
+}
+
+export const putUpdateUserInfo =async (password: string, userEmail: string, userNick: string) => {
+  const response = await apiClient.put<any>(
+    `/user/update`,
+    {
+      'password': password,
+      'userEmail': userEmail,
+      'userNick': userNick,
+    }
+  )
+  console.log('회원정보 변경 중')
   return response.data
 }
 

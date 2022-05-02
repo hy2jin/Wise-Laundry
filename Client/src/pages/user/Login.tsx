@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from './images/logo2.png';
-// import kakaoLogin from './images/kakaoImg.png';
 import { getUserInfo, postLogin } from '../../store/api/user';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store/state/user';
@@ -240,10 +239,17 @@ const Login = () => {
           setUser(res.user)
           navigate('/home')
         })
+        .catch((err) => {
+          console.log(err, '에러')
+        })
     }
   },[onLogin])
 
-  
+  const onKeyupEnter = (e: { key: string; }) => {
+    if (e.key === 'Enter') {
+      onSubmit()
+    }
+  }
 
   // 로그인 후 로그인 페이지로 뒤로가기 방지
   // eslint-disable-next-line no-restricted-globals
@@ -300,13 +306,14 @@ const Login = () => {
               placeholder="비밀번호를 입력하세요" 
               value={password}
               onChange={e => setPassword(e.target.value)}
+              onKeyPress={onKeyupEnter}
             />
           </InputForm>
           </label>
         </div>
         <div className="BtnPosition">
           <div className='LoginBtnBox'>
-            <button className="LoginBtn" onClick={() => onSubmit()}>로그인</button>
+            <button className="LoginBtn" onClick={() => onSubmit()} >로그인</button>
           </div>
           <div className='SignupBtnBox'>
             <button className="SignupBtn" onClick={() => navigate('/signup')}>회원가입</button>
