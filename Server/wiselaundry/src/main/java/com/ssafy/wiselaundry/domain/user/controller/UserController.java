@@ -71,7 +71,7 @@ public class UserController {
     @PostMapping(value = "/signup", consumes= {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<? extends BaseResponseBody> register(
             @RequestPart @ApiParam(value="회원가입 정보", required = true) UserRegisterPostReq userRegisterInfo,
-        @RequestPart(required = false)@ApiParam(value = "image", required = false, allowEmptyValue = true) MultipartHttpServletRequest img) {
+        @Nullable @ApiParam(value = "image", required = false, allowEmptyValue = true) MultipartHttpServletRequest img) {
         //임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
         User user = userService.createUser(userRegisterInfo, img);
         if(user!=null){
@@ -83,7 +83,7 @@ public class UserController {
 
     // 회원정보 수정
     @PutMapping(value = "/update", consumes= {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.TEXT_PLAIN_VALUE})
-    public ResponseEntity<? extends BaseResponseBody> update(@RequestPart @ApiParam(value="회원수정 정보", required = true) UserUpdatePostReq userUpdateInfo, @RequestPart(required = false)@ApiParam(value = "image", required = false,allowEmptyValue = true) MultipartHttpServletRequest img, @RequestHeader @ApiParam(value = "JWT Token 값") String token){
+    public ResponseEntity<? extends BaseResponseBody> update(@RequestPart @ApiParam(value="회원수정 정보", required = true) UserUpdatePostReq userUpdateInfo, @Nullable @ApiParam(value = "image", required = false,allowEmptyValue = true) MultipartHttpServletRequest img, @RequestHeader @ApiParam(value = "JWT Token 값") String token){
         // JWT Token 확인
         JWTVerifier verifier = JwtTokenUtil.getVerifier();
         JwtTokenUtil.handleError(token);

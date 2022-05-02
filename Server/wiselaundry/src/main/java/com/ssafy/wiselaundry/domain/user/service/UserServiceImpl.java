@@ -68,29 +68,31 @@ public class UserServiceImpl implements UserService{
             user.setUserNick((userRegisterInfo.getUserNick()));
             user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword()));
             //image
-            if(img!=null&&!img.getFile("file").isEmpty()){
-                MultipartFile file = img.getFile("file");
-                File uploadDir = new File(uploadPath  + uploadFolder + File.separator + "user");
+            if (img.getFile("file")!=null){
+                if(!img.getFile("file").isEmpty()){
+                    MultipartFile file = img.getFile("file");
+                    File uploadDir = new File(uploadPath  + uploadFolder + File.separator + "user");
 
-                if(!uploadDir.exists()) uploadDir.mkdir();
+                    if(!uploadDir.exists()) uploadDir.mkdir();
 
-                String recordFileUrl = "";
-                String fileName = file.getOriginalFilename();
+                    String recordFileUrl = "";
+                    String fileName = file.getOriginalFilename();
 
-                UUID uuid = UUID.randomUUID();
+                    UUID uuid = UUID.randomUUID();
 
-                String extension = FilenameUtils.getExtension(fileName);
+                    String extension = FilenameUtils.getExtension(fileName);
 
-                String savingFileName = uuid+"."+extension;
+                    String savingFileName = uuid+"."+extension;
 
-                File destFile = new File(uploadPath, uploadFolder+ File.separator + "user"+ File.separator + savingFileName);
-                try {
-                    file.transferTo(destFile);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    File destFile = new File(uploadPath, uploadFolder+ File.separator + "user"+ File.separator + savingFileName);
+                    try {
+                        file.transferTo(destFile);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    recordFileUrl = "user" + File.separator + savingFileName;
+                    user.setUserImg(recordFileUrl);
                 }
-                recordFileUrl = "user" + File.separator + savingFileName;
-                user.setUserImg(recordFileUrl);
             }
             return userRepository.save(user);
         }else {
@@ -111,40 +113,41 @@ public class UserServiceImpl implements UserService{
             if(!userUpdateInfo.getPassword().equals("")||!userUpdateInfo.getPassword().equals(null)){
                 user.setPassword(passwordEncoder.encode(userUpdateInfo.getPassword()));
             }
-            if(img!=null&&!img.getFile("file").isEmpty()){
-                if(!user.getUserImg().equals(null)){
+            if (img.getFile("file")!=null) {
+                if (!img.getFile("file").isEmpty()) {
+                    if (!user.getUserImg().equals(null)) {
+                        try {
+                            File oldFile = new File("/images" + File.separator + user.getUserImg());
+                            oldFile.delete();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    MultipartFile file = img.getFile("file");
+                    File uploadDir = new File(uploadPath + uploadFolder + File.separator + "user");
+
+
+                    if (!uploadDir.exists()) uploadDir.mkdir();
+                    String recordFileUrl = "";
+                    String fileName = file.getOriginalFilename();
+
+                    UUID uuid = UUID.randomUUID();
+
+                    String extension = FilenameUtils.getExtension(fileName);
+
+                    String savingFileName = uuid + "." + extension;
+
+                    File destFile = new File(uploadPath, uploadFolder + File.separator + "user" + File.separator + savingFileName);
+
                     try {
-                        File oldFile = new File("/images" + File.separator + user.getUserImg());
-                        oldFile.delete();
-                    } catch (Exception e) {
+                        file.transferTo(destFile);
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    recordFileUrl = "user" + File.separator + savingFileName;
+                    user.setUserImg(recordFileUrl);
                 }
-                MultipartFile file = img.getFile("file");
-                File uploadDir = new File(uploadPath  + uploadFolder + File.separator + "user");
-
-
-                if(!uploadDir.exists()) uploadDir.mkdir();
-                String recordFileUrl = "";
-                String fileName = file.getOriginalFilename();
-
-                UUID uuid = UUID.randomUUID();
-
-                String extension = FilenameUtils.getExtension(fileName);
-
-                String savingFileName = uuid+"."+extension;
-
-                File destFile = new File(uploadPath, uploadFolder+ File.separator + "user"+ File.separator + savingFileName);
-
-                try {
-                    file.transferTo(destFile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                recordFileUrl = "user" + File.separator + savingFileName;
-                user.setUserImg(recordFileUrl);
             }
-
             userRepository.flush();
             return user;
         }
