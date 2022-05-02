@@ -63,8 +63,8 @@ const App= (props:any) => {
   const [theme, setTheme] = useRecoilState(themeState)
   return (
     <BrowserRouter>
-        <ThemeProvider theme={theme}>
-          <Wrapper>
+      <ThemeProvider theme={theme}>
+        <Wrapper>
           <Header/>
           <Routes>
             <Route path='/' element={<Start />}/>

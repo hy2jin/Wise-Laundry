@@ -138,8 +138,8 @@ const CommunityUpdate = () => {
         </ContentInput>
       </form>
       <Buttons>
-        <button className='active' onClick={(e) => handleSubmit(e)}>수정</button>
-        <button className='inactive' onClick={() => navigate(-1)}>취소</button>
+        <button className='active' onClick={(e) => handleSubmit(e)}><span />수정</button>
+        <button className='inactive' onClick={() => navigate(-1)}><span />취소</button>
       </Buttons>
     </Wrapper>
   );
@@ -150,6 +150,31 @@ const Wrapper = styled.article`
   p {margin: 0;}
   input, textarea {
     padding: .5rem;
+  }
+  button {
+    user-select: none;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    background-color: ${props => props.theme.activeBtnColor};
+    span {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      transition: 0.5s;
+      right: 100%;
+      top: 0;
+      z-index: -1;
+      background-color: ${props => props.theme.hoverActiveBtnColor};
+    }
+    &:hover {
+      span {
+        right: 0;
+      }
+    }
   }
 `
 const TitleInput = styled.label`
@@ -273,17 +298,14 @@ const Buttons = styled.div`
   justify-content: center;
   padding: .5rem 0;
   button {
-    width: 15rem;
+    width: 15vw;
+    height: 5vh;
     margin: 1rem;
-    border: none;
-    padding: .5rem 0;
-    color: white;
-    border-radius: 4px;
-    &.active {
-      background-color: ${props => props.theme.activeBtnColor};
-    }
     &.inactive {
       background-color: ${props => props.theme.inactiveBtnColor};
+      span {
+        background-color: ${props => props.theme.hoverInactiveBtnColor};
+      }
     }
   }
 `

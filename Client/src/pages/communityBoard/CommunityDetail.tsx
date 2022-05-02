@@ -9,6 +9,8 @@ import { userState } from '../../store/state/user';
 import { themeState } from '../../store/state/theme';
 import { getCommunityDetail, postComment, delComment, delBoard } from '../../store/api/community';
 import defaultImg from './images/ironing.png'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 interface Istate {
   board: {
@@ -111,6 +113,11 @@ const CommunityDetail = () => {
       setImgIdx(idx)
     }
   }
+  const imageOnErrorHandler = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = defaultImg;
+  };
+  let boardSrc = board.userImg ? `/images/${board.userImg}` : null
+  boardSrc = boardSrc || defaultImg
 
   useEffect(() => {
     getCommunityDetail(Number(boardId))
@@ -128,20 +135,20 @@ const CommunityDetail = () => {
       <Board>
         <BoardContent>
           {board.boardImgs.length > 0 ?
-          (<div className='top'>
+          <div className='top'>
             <img src={board.boardImgs[imgIdx]} alt={`사진${imgIdx+1}`} />
             {board.boardImgs.length > 1 && <>
-            <div className='left' onClick={() => changeIdx(-1)}>◀</div>
-            <div className='right' onClick={() => changeIdx(1)}>▶</div>
+            <ArrowBackIosNewIcon className='left' onClick={() => changeIdx(-1)} />
+            <ArrowForwardIosIcon className='right' onClick={() => changeIdx(1)} />
             </>}
-          </div>) :
-          (<div className='top-no'>
+          </div> :
+          <div className='top-no'>
             이미지가 없습니다❌
-          </div>)
+          </div>
           }
           <div className='middle'>
             <div className='user'>
-              <img src={board.userImg ? `/images/${board.userImg}` :  defaultImg} alt='프로필' />
+              <img src={boardSrc} onError={imageOnErrorHandler} alt='프로필' />
               <p>{board.userNick}</p>
             </div>
             <p className='date'>작성일 : {board.boardDate[0]}.{board.boardDate[1]}.{board.boardDate[2]}</p>
@@ -156,9 +163,12 @@ const CommunityDetail = () => {
         </BoardContent>
         <hr />
         <Comments>
-          {board.comments.map((comment, i) => (
+          {board.comments.map((comment, i) => {
+            let userSrc = comment.userImg ? `/images/${comment.userImg}` : null
+            userSrc = userSrc || defaultImg
+            return (
             <div className='comment' key={i}>
-              <img src={comment.userImg ? `/images/${comment.userImg}` : defaultImg} alt='프로필' />
+              <img src={userSrc} onError={imageOnErrorHandler} alt='프로필' />
               <p className='nick' title={comment.userNick}>{comment.userNick}</p>
               <div className='content' style={{backgroundColor: `${theme.listBgColor[i%3]}`}}>
                 <p>{comment.commentContent}</p>
@@ -168,21 +178,23 @@ const CommunityDetail = () => {
               </div>
               <p className='date'>{String(comment.commentDate[0]).slice(-2)}.{comment.commentDate[1]}.{comment.commentDate[2]}</p>
             </div>
-          ))}
+            )
+          }
+          )}
         </Comments>
         <CreateComment>
           <input value={inputText} placeholder='댓글을 입력하세요'
             onChange={e => setInputText(e.target.value)} onKeyUp={e => handleKeyUp(e)}
           />
-          <button onClick={() => createComment()}>등록</button>
+          <button onClick={() => createComment()}><span />등록</button>
         </CreateComment>
       </Board>
       <Btns>
-        <button className='active' onClick={() => navigate('/community')}>목록</button>
+        <button className='active' onClick={() => navigate('/community')}><span />목록</button>
         {board.userId === 10 && <>
         {/* {board.userId === user.userId && <> */}
-        <button className='active' onClick={() => navigate(`/board/${board.boardId}`)}>수정</button>
-        <button className='inactive' onClick={() => deleteBoard()}>삭제</button>
+        <button className='active' onClick={() => navigate(`/board/${board.boardId}`)}><span />수정</button>
+        <button className='inactive' onClick={() => deleteBoard()}><span />삭제</button>
         </>}
       </Btns>
     </Wrapper>
@@ -193,6 +205,31 @@ const Wrapper = styled.article`
   width: 50vw;
   margin: auto;
   padding: 3rem 0;
+  button {
+    user-select: none;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    background-color: ${props => props.theme.activeBtnColor};
+    span {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      transition: 0.5s;
+      right: 100%;
+      top: 0;
+      z-index: -1;
+      background-color: ${props => props.theme.hoverActiveBtnColor};
+    }
+    &:hover {
+      span {
+        right: 0;
+      }
+    }
+  }
   @media screen and (max-width: 1400px) {
     width: 70vw;
   }
@@ -221,7 +258,7 @@ const BoardContent = styled.div`
       width: 100%;
       /* aspect-ratio: 1/1; */
     }
-    div {
+    svg {
       cursor: pointer;
       position: absolute;
       top: 50%;
@@ -313,15 +350,12 @@ const CreateComment = styled.div`
     border: 1px solid #cccccc;
     border-radius: 4px;
     padding-left: .5rem;
+    color: ${props => props.theme.fontColor};
     background-color: ${props => props.theme.bgColor};
   }
   button {
     font-size: 1rem;
-    border: none;
     width: 15%;
-    color: white;
-    border-radius: 4px;
-    background-color: ${props => props.theme.activeBtnColor};
   }
 `
 const Btns = styled.section`
@@ -331,14 +365,11 @@ const Btns = styled.section`
     margin: 2rem 1rem 0 1rem;
     width: 15vw;
     height: 5vh;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    &.active {
-      background-color: ${props => props.theme.activeBtnColor};
-    }
     &.inactive {
       background-color: ${props => props.theme.inactiveBtnColor};
+      span {
+        background-color: ${props => props.theme.hoverInactiveBtnColor};
+      }
     }
   }
   @media screen and (max-width: 800px) {
