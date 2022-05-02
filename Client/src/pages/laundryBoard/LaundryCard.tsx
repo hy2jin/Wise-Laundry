@@ -18,16 +18,22 @@ const Wrapper = styled.section`
   margin-top: 8vh;
   border-radius: 10px;
   box-shadow: ${props => props.theme.boxShadowBox};
+  
+  &:hover{
+    transform:translateY(-2px);
+  }
+`
+const ImgWrapper = styled.article`
   background-color: ${props => props.theme.containerColor};
+  border-radius: 10px 10px 0 0;
   img{
     height: 250px;
     width: 250px;
     margin-top: 20px;
     margin-left: 25px;
+    border-radius: 10px 10px 0 0;
   }
-  &:hover{
-    transform:translateY(-2px);
-  }
+
 `
 const LabelBox = styled.div`
   width: 230px;
@@ -94,7 +100,9 @@ const LaundryCard:React.FC<Iprops>= ({laundry}) => {
   // console.log(`/images/${laundry.laundryImg}`)
   return (
     <Wrapper onClick={()=>{navigate(`${laundry.laundryId}`)}}>
-      <img src={src} alt='사진' onError={imageOnErrorHandler}/>
+      <ImgWrapper>
+        <img src={src} alt='사진' onError={imageOnErrorHandler}/>
+      </ImgWrapper>
       <LabelBox>
         {laundry.careLabel.map(((label,idx)=>{
           return(

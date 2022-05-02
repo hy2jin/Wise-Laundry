@@ -10,9 +10,8 @@ import ForumIcon from '@mui/icons-material/Forum';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 const Wrapper = styled.div`
   .backIcon{
+    position: fixed; 
     cursor: pointer;
-    /* width: 100px; */
-    background-color: yellow;
   }
 `
 const HeaderNav = styled.nav`
