@@ -1,7 +1,8 @@
-import React, {  useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-const Wrapper = styled.div`
+const Wrapper = styled.section`
+  cursor: pointer;
   color: black;
   height:1rem;
   margin: 10px 5px 0 5px;
@@ -32,6 +33,7 @@ interface Iprops{
 }
 
 const Label:React.FC<Iprops> = ({label,color,idx,setLabels,labels}) => {
+ 
   const [value,setValue] = useState(label)
   const [inputMode,setInputMode] = useState(false)
   const handleEnter = async (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -66,6 +68,7 @@ const Label:React.FC<Iprops> = ({label,color,idx,setLabels,labels}) => {
       onKeyUp={e => handleEnter(e)} 
       />:<p>{value}</p>)}
 
+
       {label==='' &&
       (inputMode ? 
       <input
@@ -75,7 +78,6 @@ const Label:React.FC<Iprops> = ({label,color,idx,setLabels,labels}) => {
       value={value}
       onKeyUp={e => handleEnterNew(e)} 
       />:<p>+</p>)}
-      
     </Wrapper>
   )
 }

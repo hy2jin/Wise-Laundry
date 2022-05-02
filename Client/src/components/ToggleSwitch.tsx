@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
 import { DARKMODE, LIGHTMODE, themeState } from '../store/state/theme'
 
-const Wrapper = styled.div`
+const Wrapper = styled.article`
 width: 60px;
 .input_wrapper{
   height: 4.2vh;

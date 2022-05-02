@@ -5,6 +5,8 @@ import { deleteLaundry, getLaundryDetail } from '../../store/api/laundry';
 
 const Wrapper = styled.article`
   width: 70vw;
+  max-width: 1200px;
+  min-width: 280px;
   margin: auto;
   margin-top: 1vh;
   background-color: ${props => props.theme.bgColor};
@@ -16,7 +18,6 @@ const Wrapper = styled.article`
   @media screen and (max-width: 800px) {
     width: 90vw;
   }
-  /* height: 120vh; */
   padding-bottom: 20vh;
 
 `

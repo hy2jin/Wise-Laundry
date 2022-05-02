@@ -2,32 +2,29 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  img{
-    height: 400px;
-    width: 35vw;
-    margin-left: 3vw;
-    margin-top: 5vh;
-  }
-  @media screen and (max-width: 800px) {
+  label{
+    cursor: pointer;
     img{
-      height: 250px;
-      width: 90%;
-      margin-top: 2vh;
-      margin-left: 5vw;
+      height: 400px;
+      width: 30vw;
+      margin-left: 3vw;
+      margin-top: 5vh;
+    }
+    @media screen and (max-width: 800px) {
+      img{
+        height: 250px;
+        width: 90%;
+        margin-top: 2vh;
+        margin-left: 5vw;
+      }
+    }
+    .input-box{
+      width: 100%;
+      display: flex;
+      justify-content: center;
     }
   }
-  .input-box{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-  label{
-    padding: 6px 25px;
-    background-color:#FF6600;
-    border-radius: 4px;
-    color: white;
-    cursor: pointer;
-  }
+
   input{
     display: none;
   }
@@ -69,10 +66,9 @@ const ImgBox:React.FC<IProps>= ({file,setFile,laundryImg}) => {
   };
   return (
     <Wrapper>
-      <img alt='옷' onError={imageOnErrorHandler} src={fileSrc}/>
       <section className='input-box'>
         <label  htmlFor="chooseFile">
-          업로드
+         <img alt='옷' onError={imageOnErrorHandler} src={fileSrc}/>
         </label>
         <input
           className="file"
