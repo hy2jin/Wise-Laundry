@@ -78,7 +78,7 @@ const CommunityDetail = () => {
   }
   const createComment = () => {
     const data = {
-      userId: 15,
+      userId: 75,
       // userId: user.userId,
       boardId: boardId,
       commentContent: inputText
@@ -141,7 +141,7 @@ const CommunityDetail = () => {
           }
           <div className='middle'>
             <div className='user'>
-              <img src={board.userImg || defaultImg} alt='프로필' />
+              <img src={board.userImg ? `/images/${board.userImg}` :  defaultImg} alt='프로필' />
               <p>{board.userNick}</p>
             </div>
             <p className='date'>작성일 : {board.boardDate[0]}.{board.boardDate[1]}.{board.boardDate[2]}</p>
@@ -158,7 +158,7 @@ const CommunityDetail = () => {
         <Comments>
           {board.comments.map((comment, i) => (
             <div className='comment' key={i}>
-              <img src={comment.userImg || defaultImg} alt='프로필' />
+              <img src={comment.userImg ? `/images/${comment.userImg}` : defaultImg} alt='프로필' />
               <p className='nick' title={comment.userNick}>{comment.userNick}</p>
               <div className='content' style={{backgroundColor: `${theme.listBgColor[i%3]}`}}>
                 <p>{comment.commentContent}</p>
