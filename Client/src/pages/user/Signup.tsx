@@ -5,8 +5,10 @@ import profile from './images/profile-image.png';
 import camera from './images/camera-free-icon-font.png';
 import { useNavigate } from 'react-router-dom';
 import { postSignUp, getEmailcheck, getNicknamecheck } from '../../store/api/user';
-import { fail } from 'assert';
-import { dividerClasses } from '@mui/material';
+// import { dividerClasses } from '@mui/material';
+import { userState } from '../../store/state/user';
+import { useRecoilState } from 'recoil';
+import UserImgBox from './UserImgBox';  
 
 
 const Wrapper = styled.div `
@@ -266,7 +268,7 @@ const FormBox = styled.div `
 
   .PasswordCheckMessage {
     position: relative;
-    bottom: 3.5vh;
+    bottom: 4vh;
     left: 0.5vw;
     color: red;
     font-size: 0.75rem;
@@ -274,9 +276,25 @@ const FormBox = styled.div `
 
   .PasswordCheckMessage2 {
     position: relative;
-    bottom: 3.5vh;
+    bottom: 4vh;
     left: 0.5vw;
     color: blue;
+    font-size: 0.75rem;
+  }
+
+  .PasswordAllowedMsg {
+    position: relative;
+    bottom: 4vh;
+    left: 0.5vw;
+    color: blue;
+    font-size: 0.75rem;
+  }
+
+  .PasswordNotAllowedMsg {
+    position: relative;
+    bottom: 4vh;
+    left: 0.5vw;
+    color: red;
     font-size: 0.75rem;
   }
 
@@ -335,8 +353,38 @@ const FormBox = styled.div `
       color: blue;
       font-size: 0.5rem;
     }
+
+    .PasswordAllowedMsg {
+      position: relative;
+      /* bottom: 4vh; */
+      top: 0.1vh;
+      left: 0.7vw;
+      color: blue;
+      font-size: 0.5rem;
+    }
+
+    .PasswordNotAllowedMsg {
+      position: relative;
+      /* bottom: 4vh; */
+      top: 0.1vh;
+      left: 0.7vw;
+      color: red;
+      font-size: 0.5rem;
+    }
   }
 `
+
+interface Istate{
+  user:{
+    kakaoImg: string|null,
+    password: string|null,
+    userEmail: string,
+    userId: number,
+    userImg: string|null,
+    userNick: string,
+  },
+  isLogin: boolean,
+}
 
 
 const Signup = () => {
@@ -353,8 +401,13 @@ const Signup = () => {
   const [paswordChecked, setPaswordChecked] = useState(false)
 
   const [allowedPassword, setAllowedPassword] = useState(false)
+
+  const [file, setFile] = useState<any>();
+  // const [user, setUser] = useRecoilState(userState)
   
   const navigate = useNavigate();
+
+  
 
   // 이메일, 닉네임 확인하는거
   // 체크는했는데 이메일을 또 바꾸는 걸 방지하기
@@ -392,8 +445,25 @@ const Signup = () => {
     }
   }
 
+  // const ImgUpload = () => {
+    
+  // }
+
   const requireBtn = () => {
-    postSignUp(password, email, nickname)
+    const formdata = new FormData()
+    formdata.append('userRegisterInfo',
+      new Blob([
+        JSON.stringify({
+          'userEmail': email,
+          'userNick': nickname,
+          'password': password,
+        })
+      ],{type:'application/json'})
+    )
+    if(file!==undefined){
+      formdata.append('file', file)
+    }
+    postSignUp(formdata)
     .then(() => {
       console.log('회원가입성공')
       navigate('/login')
@@ -475,6 +545,7 @@ const Signup = () => {
     }
   }
 
+  // 비밀번호 정규식 확인
   const passwordVaildCheck = (pwd: string) => {
     setAllowedPassword(false)
     const regPass = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/
@@ -483,6 +554,7 @@ const Signup = () => {
     }
   }
 
+  // 비밀번호 확인
   const onPasswordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value)
     passwordVaildCheck(e.target.value)
@@ -492,6 +564,7 @@ const Signup = () => {
     }
   }
 
+  // 비밀번호 확인 확인
   const onConfirmPasswordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setConfirmPassword(e.target.value)
     setPaswordChecked(false)
@@ -499,6 +572,8 @@ const Signup = () => {
       setPaswordChecked(true)
     }
   }
+
+
 
 
 
@@ -511,8 +586,9 @@ const Signup = () => {
         <SignupForm>
           <h1>SIGNUP</h1>
           <ImgBox>
-            <img className='ProfileImg' src={profile} alt="프로필 업로드" />
-            <img className='cameraImg' src={camera} alt="카메라 아이콘" />
+            <UserImgBox userImg='' file={file} setFile={setFile} />
+            {/* <img className='ProfileImg' src={profile} alt="프로필 업로드" /> */}
+            {/* <img className='cameraImg' src={camera} alt="카메라 아이콘" /> */}
           </ImgBox>
           {/* <section> */}
           <FormBox>
@@ -562,7 +638,7 @@ const Signup = () => {
                         placeholder='비밀번호를 입력하세요'
                       />
                     </InputForm>
-                      {allowedPassword ? <p>사용가능한 비밀번호 입니다</p> : <p>사용할 수 없는 비밀번호 입니다</p>}
+                      {!password ? <p></p> : allowedPassword ? <p className='PasswordAllowedMsg'>사용가능한 비밀번호 입니다</p> : <p className='PasswordNotAllowedMsg'>영문, 숫자, 특수기호 포함 8글자 이상 입력해 주세요</p>}
                   </label>
                 </div>
 
@@ -579,7 +655,7 @@ const Signup = () => {
                       />
                     </InputForm>
                       {/* 여기 클래스 이름 바꾸고 파란색 글자로 변경(일치부분) */}
-                      { paswordChecked ? <div className="PasswordCheckMessage2">패스워드가 일치합니다</div> : <div className="PasswordCheckMessage">패스워드가 일치하지 않습니다</div>}
+                      {!confirmPassword ? <p></p>: paswordChecked ? <div className="PasswordCheckMessage2">패스워드가 일치합니다</div> : <div className="PasswordCheckMessage">패스워드가 일치하지 않습니다</div>}
                   </label>
                 </div>
               </div>

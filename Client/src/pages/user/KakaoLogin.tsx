@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
-import { getKakaoLogin } from '../../store/api/user';
+import { getKakaoLogin, getUserInfo } from '../../store/api/user';
 import { useRecoilState } from 'recoil';
-import { loginState } from '../../store/state/user';
+import { loginState, userState } from '../../store/state/user';
 import { useNavigate } from 'react-router-dom';
 
 const KakaoLogin = () => {
   // 인가코드
   const [isLogin, setIsLogin] = useRecoilState(loginState)
+  // const [user, setUser] = useRecoilState(userState)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -14,7 +15,7 @@ const KakaoLogin = () => {
     const isKakao = sessionStorage.getItem('kakao') || null
 
     if (isKakao === 'true') {
-      console.log(code, '코드 확인')
+      // console.log(code, '코드 확인')
       sessionStorage.setItem('kakao', 'false')
       // sessionStorage.setItem('newPage', 'true')
       getKakaoLogin(code)
@@ -23,7 +24,7 @@ const KakaoLogin = () => {
         sessionStorage.setItem('kakao', 'false')
         const token = res.accessToken;
         sessionStorage.setItem("jwt", `${token}`);
-        console.log(token, 'jwt 토큰 확인')
+        // console.log(token, 'jwt 토큰 확인')
         navigate('/home')
         window.history.forward()
         // setTimeout(() => {
@@ -40,6 +41,20 @@ const KakaoLogin = () => {
       sessionStorage.setItem('kakao', 'true')
     }
   }, []);
+
+  // useEffect(() => {
+  //   if (isLogin) {
+  //     console.log(isLogin, '여기 확인')
+  //     // sessionStorage
+  //     // console.log(, '토큰 확인')
+  //     getUserInfo()
+  //       .then((res) => {
+  //         console.log(res, '💐유저정보💐')
+  //         setUser(res.user)
+  //         navigate('/home')
+  //       })
+  //   }
+  // },[isLogin])
 
   // 로그인 후 로그인 페이지로 뒤로가기 방지
   // eslint-disable-next-line no-restricted-globals
