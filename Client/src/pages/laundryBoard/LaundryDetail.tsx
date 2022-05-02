@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import { deleteLaundry, getLaundryDetail } from '../../store/api/laundry';
+import Swal from 'sweetalert2';
 
 const Wrapper = styled.article`
   width: 70vw;
@@ -196,7 +197,7 @@ const Memo = styled.div`
 interface Istate{
   laundry:{
     laundryId: number
-    careLabel: string[]
+    careLabels: {careLabelId: number, careLabelName:string, careLabel:string}[]
     laundryInfo: string[]
     laundryImg: string
     laundryOwnerNick: string
@@ -222,9 +223,31 @@ const LaundryDetail = () => {
       "https://www.pngplay.com/wp-content/uploads/12/Basic-Half-Sleeve-T-Shirt-PNG-Free-File-Download.png";
   };
   const goDelete =()=>{
-    deleteLaundry(Number(laundryId))
-    navigate(-1)
+    Swal.fire({
+      title: '정말로 지우시겠습니까?',
+      text: "지우면 복구하실 수 없습니다.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '네 지울래요!',
+      cancelButtonText:'돌아가기',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          '삭제완료!',
+          '세탁물이 삭제되었습니다.',
+          'success'
+          )
+          deleteLaundry(Number(laundryId))
+          navigate(-1)
+        }
+    })
   }
+
+ 
+  
+  
   return (
     <Wrapper>
       {laundry !==undefined &&
@@ -235,8 +258,8 @@ const LaundryDetail = () => {
             <LabelBox>
               <div className='title'>세탁 주의 사항</div>
               <div className='careLabel'>
-              {laundry.careLabel.map((label,idx)=>{
-                return(<Label key={idx} className='label'> {label}</Label>)})}
+              {laundry.careLabels.map((label,idx)=>{
+                return(<Label key={idx} className='label'> {label.careLabelName}</Label>)})}
               </div>
             </LabelBox>
             <Info>
@@ -260,7 +283,8 @@ const LaundryDetail = () => {
         <ButtonBox>
           <button className='updateBtn' onClick={()=>{navigate(`/laundry/${laundryId}/update`)}}>수정하기</button>
           <button className='deleteBtn' 
-          onClick={()=>{ goDelete()}}>삭제하기</button>
+          onClick={()=>{ goDelete()}}>
+            삭제하기</button>
         </ButtonBox>
       </DetailBox>
       }

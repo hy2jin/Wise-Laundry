@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import LaundryCard from './LaundryCard';
-import { items as itms } from './dummy';
-import { items2 as itms2 } from './dummy';
 import styled from 'styled-components';
 import { getProductAll, getProductMine } from '../../store/api/laundry';
 import { useRecoilState } from 'recoil';
@@ -19,6 +17,7 @@ const Wrapper = styled.section`
   padding-bottom: 10vh;
 `
 const Header = styled.article`
+  margin-top: -10px;
   background-color: ${props => props.theme.containerColor};
   width: 100%;
   height: 280px;

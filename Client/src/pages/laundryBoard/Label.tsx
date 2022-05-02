@@ -1,6 +1,9 @@
 import React, {  useEffect, useState } from 'react'
+import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
-
+import { labelState as labelStore } from '../../store/state/laundry'
+import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close'
 const Wrapper = styled.section`
   cursor: pointer;
   color: black;
@@ -8,76 +11,163 @@ const Wrapper = styled.section`
   margin: 10px 5px 0 5px;
   padding: 2px 5px 2px 5px;
   border-radius: 10px;
-  font-size: 0.8rem;
   background-color: ${props=>props.color};
   align-items: center;
+  font-size: 0.8rem;
   p{
     margin-top: 1px;
   }
   input{
     background: none;
     border: none;
-    width: 100px;
+    border: 1px solid #e9e9e9;
+    width: 120px;
     &:focus{
       outline: none;
     }
+    box-shadow: 0 8px 16px 0 rgb(32 32 32 / 8%);
   }
 `
-
+const InputBox = styled.div`
+  display: flex;
+  .submitBtn{
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    background-color: #6ca6fd ;
+    text-align: center;
+    cursor: pointer;
+    &:hover{
+      background-color: #5086d9 ;
+    }
+    svg{
+      font-size: 1.8rem;
+      margin-top: 5px;
+      color: white;
+    }
+  }
+`
+const Labels = styled.div`
+   margin-left: 20px;
+    overflow-y: auto;
+    height: 300px;
+    width: 92%;
+    display: flex;
+    flex-wrap: wrap;
+   
+`
+const LabelBox = styled.div`
+    width: 23%;
+    height: 55px;
+    background-color:${props => props.color};
+    border-radius: 10px;
+    margin: 10px;
+    text-align: center;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #333;
+    padding-left: 2px;
+    padding-right: 2px;
+`
+const Modal = styled.article`
+  cursor:default ;
+  position:fixed;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  top: 30vh;
+  height: 400px;
+  width: 300px;
+  background-color: ${props=>props.theme.navColor};
+  border-radius: 10px;
+  .close{
+    margin-top: 5px;
+    margin-left:90%;
+    cursor: pointer;
+    color: ${props => props.theme.fontColor};
+  }
+  input{
+    padding-left: 10px;
+    border-radius: 10px;
+    margin:0 20px 20px 20px ;
+    height: 30px;
+    width: 60%;
+    background-color: white;
+    font-size: 1rem;
+  }
+  
+`
 interface Iprops{
-  label:string
-  setLabels : React.Dispatch<React.SetStateAction<string[]>>
+  label:{
+    careLabelId: number;
+    careLabelName: string;
+    careLabel: string;
+  }
+  setCareLabels: React.Dispatch<React.SetStateAction<{
+    careLabelId: number;
+    careLabelName: string;
+    careLabel: string;
+  }[]>>
   idx:number
-  labels:string[]
+  careLabels:{
+    careLabelId: number;
+    careLabelName: string;
+    careLabel: string;
+  }[]
   color:string
 }
 
-const Label:React.FC<Iprops> = ({label,color,idx,setLabels,labels}) => {
- 
-  const [value,setValue] = useState(label)
-  const [inputMode,setInputMode] = useState(false)
-  const handleEnter = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.code === "Enter") {
-      setInputMode(false)
-      var newLabels = labels
-      newLabels[idx] = value
-      setLabels(newLabels)
+const Label:React.FC<Iprops> = ({label,color,idx,setCareLabels,careLabels}) => {
+  const colors = 
+  ['#cffbb2','#90fdec','#f4ffac','#fea5e6','#fdce8d',
+  '#8fdab9','#acd682','#bac3f0','#d8db86','#db829b']
+  const [labelstate,setLabelState] = useRecoilState(labelStore)
+  const [showLabel,setShowLabel] = useState(labelstate)
+  const [showModal,setShowModal] = useState(false)
+  const [value,setValue] = useState('')
+  const getdelete = ()=>{
+    const newCareLabels = careLabels.filter((label,index)=>index!==idx)
+    setCareLabels(newCareLabels)
+  }
+  const selectLabel = (label:any)=>{
+    setCareLabels([...careLabels,label])
+    setShowModal(false)
+  }
+  const searchLabel = (e:any)=>{
+    setValue(e.target.value)
+    if(value===''){setShowLabel(labelstate)}
+    else{
+      var newshow:Iprops['careLabels'] = []
+      labelstate.map((label)=>{
+        if(label.careLabel.includes(value))
+        {newshow.push(label)
+      }})
+      setShowLabel(newshow)
     }
-  };
-  const handleEnterNew = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.code === "Enter") {
-      if (value!==''){
-      setInputMode(false)
-      setLabels([...labels,value])
-      setValue('')
-      }
-      if (value===''){
-        setInputMode(false)
-        setValue('')
-      }
-    }
-  };
+  }
   return (
-    <Wrapper color={color} onClick={()=>{setInputMode(true)}}>
-      {label!=='' &&
-      (inputMode ? 
-      <input
-      autoFocus
-      onChange={(e)=>{setValue(e.target.value)}} 
-      value={value}
-      onKeyUp={e => handleEnter(e)} 
-      />:<p>{value}</p>)}
-
-
-      {label==='' &&
-      (inputMode ? 
-      <input
-      autoFocus
-      placeholder='press Enter'
-      onChange={(e)=>{setValue(e.target.value)}} 
-      value={value}
-      onKeyUp={e => handleEnterNew(e)} 
-      />:<p>+</p>)}
+    <Wrapper color={color} >
+      { label.careLabelName!=='' ? 
+      <p onDoubleClick={()=>{getdelete()}}>{label.careLabelName}</p>:  
+      <div className='plus' onClick={()=>{setShowModal(true)}}>+</div>}
+      {showModal && 
+        <Modal>
+          <CloseIcon onClick={()=>{setShowModal(false)}} className='close'/>
+          <InputBox>
+            <input value={value} onChange={(e)=>{searchLabel(e)}}/>
+            <div className='submitBtn'><SearchIcon/></div>
+          </InputBox>
+          <Labels>
+            {labelstate.map((label,idx)=>{return(
+              <LabelBox onClick={()=>{selectLabel(label)}} key={idx} color={colors[idx%10]}>
+                {label.careLabel}
+              </LabelBox>
+            )})}
+          </Labels>
+        </Modal> 
+        }
     </Wrapper>
   )
 }

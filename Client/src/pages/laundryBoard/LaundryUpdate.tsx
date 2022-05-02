@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
-import { getLaundryDetail, UpdateLaundry } from '../../store/api/laundry'
+import { getCareLabel, getLaundryDetail, UpdateLaundry } from '../../store/api/laundry'
 import { userState } from '../../store/state/user'
 import ImgBox from './ImgBox'
 import Label from './Label';
 import Info from './Info';
+import { labelState } from '../../store/state/laundry'
 
 const Wrapper = styled.article`
   width: 70vw;
@@ -168,12 +169,13 @@ interface Istate{
   laundry:{
     laundryId: number
     laundryImg: string
-    careLabel: string[]
+    careLabels: {careLabelId: number, careLabelName:string, careLabel:string}[]
     laundryInfo: string[]
     laundryOwnerNick: string
     laundryOwnerId: number
     laundryMemo:string
   }
+  careLabels:{careLabelId: number, careLabelName:string, careLabel:string}[]
 }
 
 const LaundryUpdate = () => {
@@ -184,26 +186,27 @@ const LaundryUpdate = () => {
       setLaundry(res.list)
       setlaundryInfo(res.list.laundryInfo)
       setLaundryImg(res.list.laundryImg)
-      setcareLabelName(res.list.careLabel)
+      setCareLabels(res.list.careLabels)
       setLaundryMemo(res.list.laundryMemo)
     })
   },[])
   const [isLoading,setIsLoading] = useState(true)
   const [laundry,setLaundry] = useState<Istate['laundry']>()
   const [laundryInfo,setlaundryInfo] = useState<string[]>([])
-  const [careLabelName,setcareLabelName] = useState<string[]>([])
+  const [careLabels,setCareLabels] = useState<Istate['careLabels']>([])
   const [laundryMemo,setLaundryMemo] = useState('')
   const [laundryImg,setLaundryImg] = useState<string>('')
   const [user,setUser] = useRecoilState(userState)
   const [file, setFile] = useState<any>();
   const navigate = useNavigate()
+  const [careLabelsstate,setCareLabelsstate] =useRecoilState(labelState)
 
   const submitLaundry = ()=>{
     const formdata = new FormData()
     formdata.append('laundryModifyPostRep',
       new Blob([
         JSON.stringify({
-          'careLabelName':careLabelName,
+          'careLabels':careLabels,
           'laundryId':laundryId,
           'laundryInfo':laundryInfo,
           'laundryMemo':laundryMemo,
@@ -214,17 +217,19 @@ const LaundryUpdate = () => {
     UpdateLaundry(formdata)
     navigate(`/laundry/${laundryId}`)
   }
+
   useEffect(()=>{
-    const newarr =careLabelName.filter((care)=>care!==null)
-    setcareLabelName(newarr)
+    getCareLabel().then((res)=>{
+      setCareLabelsstate(res.list)
+    })
+  },[])
+
+  useEffect(()=>{
+    const newarr =careLabels.filter((care)=>care!==null)
+    setCareLabels(newarr)
     setIsLoading(false)
   },[laundry])
-  useEffect(()=>{
-    console.log('인포',laundryInfo)
-  },[laundryInfo])
-  useEffect(()=>{
-    console.log('케어라벨!',careLabelName)
-  },[careLabelName])
+ 
   return (
     <Wrapper>
       {isLoading ? <div>로딩중</div>:
@@ -237,10 +242,11 @@ const LaundryUpdate = () => {
                 세탁 주의 사항
               </div>
               <div className='careLabel'>
-              {careLabelName.map((label,idx)=>{
+              {careLabels.map((label,idx)=>{
                 if (label!==null){
-                return(<Label color={colors[idx%10]} labels={careLabelName} key={idx} label={label} idx={idx} setLabels={setcareLabelName}/>  )}})}
-              <Label color='#f7d9a2' labels={careLabelName} label={''} idx={-1} setLabels={setcareLabelName}/>
+                return(<Label idx={idx} color={colors[idx%10]} careLabels={careLabels} key={idx} label={label} setCareLabels={setCareLabels}/>  )}})}
+              <Label color='#f7d9a2' careLabels={careLabels} 
+              label={{careLabelId: 0,careLabelName: '',careLabel: ''}} idx={-1} setCareLabels={setCareLabels}/>
               </div>
             </LabelBox>
             <Information>
