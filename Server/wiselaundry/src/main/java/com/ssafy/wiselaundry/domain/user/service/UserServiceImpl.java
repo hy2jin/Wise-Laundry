@@ -118,7 +118,7 @@ public class UserServiceImpl implements UserService{
             }
             if (img.getFile("file")!=null) {
                 if (!img.getFile("file").isEmpty()) {
-                    if (!user.getUserImg().equals(null)) {
+                    if (user.getUserImg()!=null) {
                         try {
                             File oldFile = new File("/images" + File.separator + user.getUserImg());
                             oldFile.delete();
