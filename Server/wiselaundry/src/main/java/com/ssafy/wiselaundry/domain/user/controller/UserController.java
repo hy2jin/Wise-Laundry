@@ -16,14 +16,13 @@ import com.ssafy.wiselaundry.global.util.JwtTokenUtil;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import javax.annotation.Nullable;
 
 @Api("유저 API")
 @Slf4j
@@ -70,8 +69,7 @@ public class UserController {
     })
     @PostMapping(value = "/signup", consumes= {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<? extends BaseResponseBody> register(
-            @RequestPart @ApiParam(value="회원가입 정보", required = true) UserRegisterPostReq userRegisterInfo,
-        @Nullable @ApiParam(value = "image", required = false, allowEmptyValue = true) MultipartHttpServletRequest img) {
+            @RequestPart @ApiParam(value="회원가입 정보", required = true) UserRegisterPostReq userRegisterInfo, MultipartHttpServletRequest img) {
         //임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
         User user = userService.createUser(userRegisterInfo, img);
         if(user!=null){

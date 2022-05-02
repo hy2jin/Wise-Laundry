@@ -68,8 +68,11 @@ public class UserServiceImpl implements UserService{
             user.setUserNick((userRegisterInfo.getUserNick()));
             user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword()));
             //image
+            System.out.println(img.getFile("file"));
             if (img.getFile("file")!=null){
+                System.out.println("1");
                 if(!img.getFile("file").isEmpty()){
+                    System.out.println("2");
                     MultipartFile file = img.getFile("file");
                     File uploadDir = new File(uploadPath  + uploadFolder + File.separator + "user");
 
