@@ -7,6 +7,7 @@ import com.ssafy.wiselaundry.global.auth.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -74,9 +75,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()                                                         //요청에 의한 보안검사 시작
                 .antMatchers("/api/user/login").permitAll() // 로그인 허용
                 .antMatchers("/api/user/signup").permitAll() // 회원가입 허용
+                .antMatchers("/api/oauth/login").permitAll()
                 .antMatchers("/api/laundry/carelabel").permitAll() // label 전체 조회 허용
                 .antMatchers("/api/laundry/all").permitAll() // laundry 전체 조회 허용
-                .antMatchers("/api/**").authenticated()  //api 로 시작하는 URL 모두 JWT 필요                  
+                .antMatchers("/api/community/all").permitAll() // board 전체 조회 허용
+                .antMatchers(HttpMethod.GET,"/api/community/{boardId}").permitAll() // board 전체 조회 허용
+                .antMatchers("/api/**").authenticated()  //api 로 시작하는 URL 모두 JWT 필요
                 .anyRequest().permitAll() // Swagger사용을 위해 모든 URL 허용
                 .and().cors();
     }
