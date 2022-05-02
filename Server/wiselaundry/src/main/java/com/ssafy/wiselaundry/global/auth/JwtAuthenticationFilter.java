@@ -2,10 +2,12 @@ package com.ssafy.wiselaundry.global.auth;
 
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.ssafy.wiselaundry.domain.laundry.service.LaundryService;
 import com.ssafy.wiselaundry.domain.user.db.entity.User;
 import com.ssafy.wiselaundry.domain.user.service.UserService;
 import com.ssafy.wiselaundry.global.util.JwtTokenUtil;
 import com.ssafy.wiselaundry.global.util.ResponseBodyWriteUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,12 +26,14 @@ import java.io.IOException;
  */
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
     private UserService userService;
-	
-	public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
-		super(authenticationManager);
-	}
+    private LaundryService laundryService;
 
-	@Override
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, UserService userService) {
+        super(authenticationManager);
+        this.userService = userService;
+    }
+
+    @Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		// Read the Authorization header, where the JWT Token should be

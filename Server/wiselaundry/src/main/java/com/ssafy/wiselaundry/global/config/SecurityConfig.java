@@ -1,5 +1,6 @@
 package com.ssafy.wiselaundry.global.config;
 
+import com.ssafy.wiselaundry.domain.laundry.service.LaundryService;
 import com.ssafy.wiselaundry.domain.user.service.UserService;
 import com.ssafy.wiselaundry.global.auth.JwtAuthenticationFilter;
 import com.ssafy.wiselaundry.global.auth.UserDetailService;
@@ -31,6 +32,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private LaundryService laundryService;
+
     @Autowired
     private UserDetailService ssafyUserDetailService;
 
@@ -62,13 +67,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .httpBasic().disable()
-                .csrf().disable()                                                           //csrf(위조 사이트요청_보호기능을 disable, http Basic 사용하기 때문
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 사용 하지않음
+                .csrf().disable()                                                            //csrf(위조 사이트요청_보호기능을 disable, http Basic 사용하기 때문
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // 토큰 기반 인증이므로 세션 사용 하지않음
                 .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager()))            //HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가
-                .authorizeRequests()                                                        //요청에 의한 보안검사 시작
-                .antMatchers().authenticated()                                              //인증이 필요한 URL과 필요하지 않은 URL에 대하여 설정
-    	        	    .anyRequest().permitAll()                                           //어떤 요청에도 보안검사를 한다.
+                .addFilter(new JwtAuthenticationFilter(authenticationManager(),userService)) //HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가
+                .authorizeRequests()                                                         //요청에 의한 보안검사 시작
+                .antMatchers("/api/laundry/carelabel").permitAll()
+                .antMatchers("/api/laundry/all").permitAll()
+                .antMatchers("/api/laundry/**").authenticated()                   //인증이 필요한 URL과 필요하지 않은 URL에 대하여 설정
+    	        	    .anyRequest().permitAll()                                            //어떤 요청에도 보안검사를 한다.
                 .and().cors();
     }
 }
