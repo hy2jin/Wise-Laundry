@@ -78,7 +78,7 @@ public class UserController {
 
     // 회원정보 수정
     @PutMapping(value = "/update", consumes= {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.TEXT_PLAIN_VALUE})
-    public ResponseEntity<? extends BaseResponseBody> update(@RequestPart @ApiParam(value="회원수정 정보", required = true) UserUpdatePostReq userUpdateInfo, MultipartHttpServletRequest img, @RequestHeader @ApiParam(value = "JWT Token 값") String token){
+    public ResponseEntity<? extends BaseResponseBody> update(@RequestPart @ApiParam(value="회원수정 정보", required = true) UserUpdatePostReq userUpdateInfo, @RequestPart @ApiParam(value = "image", required = false) MultipartHttpServletRequest img, @RequestHeader @ApiParam(value = "JWT Token 값") String token){
         // JWT Token 확인
         JWTVerifier verifier = JwtTokenUtil.getVerifier();
         JwtTokenUtil.handleError(token);
