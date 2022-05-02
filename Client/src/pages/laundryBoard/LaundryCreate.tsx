@@ -163,18 +163,20 @@ const Memo = styled.div`
 interface Istate{
   laundry:{
     laundryId: number
-    careLabel: string[]
-    laundryInfo: string[]
     laundryImg: string
+    careLabels: {careLabelId: number, careLabelName:string, careLabel:string}[]
+    laundryInfo: string[]
     laundryOwnerNick: string
     laundryOwnerId: number
+    laundryMemo:string
   }
+  careLabels:{careLabelId: number, careLabelName:string, careLabel:string}[]
 }
 
 const LaundryCreate = () => {
   const colors = ['#cffbb2','#90fdec','#f4ffac','#fea5e6','#fdce8d','#ccffa8','#90faea','#eaf69d','#fba7e5','#ffd59b']
   const [laundryInfo,setlaundryInfo] = useState<string[]>([])
-  const [careLabelName,setcareLabelName] = useState<string[]>([])
+  const [careLabels,setCareLabels] = useState<Istate['careLabels']>([])
   const [laundryMemo,setLaundryMemo] = useState('')
   const [user,setUser] = useRecoilState(userState)
   const [file, setFile] = useState<any>();
@@ -185,7 +187,7 @@ const LaundryCreate = () => {
       new Blob([
         JSON.stringify({
           'laundryInfo':laundryInfo,
-          'careLabelName':careLabelName,
+          'careLabelName':careLabels,
           'laundryMemo':laundryMemo,
           'userId':user.userId,
         })
@@ -209,9 +211,11 @@ const LaundryCreate = () => {
                 세탁 주의 사항
               </div>
               <div className='careLabel'>
-              {careLabelName.map((label,idx)=>{
-                return(<Label labels={careLabelName} color={colors[idx%10]} key={idx} label={label} idx={idx} setLabels={setcareLabelName}/>  )})}
-              <Label color='#f7d9a2' labels={careLabelName} label={'new'} idx={-1} setLabels={setcareLabelName}/>
+              {careLabels.map((label,idx)=>{
+                if (label!==null){
+                return(<Label idx={idx} color={colors[idx%10]} careLabels={careLabels} key={idx} label={label} setCareLabels={setCareLabels}/>  )}})}
+              <Label color='#f7d9a2' careLabels={careLabels} 
+              label={{careLabelId: 0,careLabelName: '',careLabel: ''}} idx={-1} setCareLabels={setCareLabels}/>
               </div>
             </LabelBox>
             <Information>

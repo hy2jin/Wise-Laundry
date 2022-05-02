@@ -7,7 +7,7 @@ const apiClient = axios.create({
   baseURL: baseURL,
   headers: {
     "Content-type": "application/json",
-    // 'Authorization':`Bearer ${token}`
+    'Authorization':`Bearer ${token}`
   },
 }); 
 const fileApiClient = axios.create({
@@ -63,5 +63,12 @@ export const UpdateLaundry = async (formdata:any) => {
     formdata
   )
   console.log('수정되었다!')
+  return response.data
+}
+export const getCareLabel = async ()=>{
+  const response = await fileApiClient.get<any>(
+    '/laundry/carelabel'
+  )
+  console.log('CARELABEL')
   return response.data
 }

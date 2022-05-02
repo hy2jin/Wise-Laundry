@@ -33,7 +33,6 @@ const ImgWrapper = styled.article`
     margin-left: 25px;
     border-radius: 10px 10px 0 0;
   }
-
 `
 const LabelBox = styled.div`
   width: 230px;
