@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService{
             if(!userUpdateInfo.getPassword().equals("")||!userUpdateInfo.getPassword().equals(null)){
                 user.setPassword(passwordEncoder.encode(userUpdateInfo.getPassword()));
             }
-            if(!img.getFile("file").isEmpty()){
+            if(img!=null&&!img.getFile("file").isEmpty()){
                 if(!user.getUserImg().equals(null)){
                     try {
                         File oldFile = new File("/images" + File.separator + user.getUserImg());

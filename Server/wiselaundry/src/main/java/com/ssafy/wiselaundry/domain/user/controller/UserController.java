@@ -16,10 +16,13 @@ import com.ssafy.wiselaundry.global.util.JwtTokenUtil;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @Api("유저 API")
@@ -79,7 +82,7 @@ public class UserController {
 
     // 회원정보 수정
     @PutMapping(value = "/update", consumes= {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.TEXT_PLAIN_VALUE})
-    public ResponseEntity<? extends BaseResponseBody> update(@RequestPart @ApiParam(value="회원수정 정보", required = true) UserUpdatePostReq userUpdateInfo, @RequestPart @ApiParam(value = "image", allowEmptyValue = true) MultipartHttpServletRequest img, @RequestHeader @ApiParam(value = "JWT Token 값") String token){
+    public ResponseEntity<? extends BaseResponseBody> update(@RequestPart @ApiParam(value="회원수정 정보", required = true) UserUpdatePostReq userUpdateInfo, @RequestPart(required = false)@ApiParam(value = "image", required = false,allowEmptyValue = true) MultipartHttpServletRequest img, @RequestHeader @ApiParam(value = "JWT Token 값") String token){
         this.img = img;
         // JWT Token 확인
         JWTVerifier verifier = JwtTokenUtil.getVerifier();
