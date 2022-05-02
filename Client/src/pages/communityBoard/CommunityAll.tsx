@@ -35,6 +35,9 @@ const CommunityAll = () => {
       setInputText('')
     }
   }
+  const imageOnErrorHandler = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = defaultImg;
+  };
 
   useEffect(() => {
     getCommunityAll()
@@ -48,26 +51,33 @@ const CommunityAll = () => {
 
   return (
     <Wrapper>
-      <p className='title'>질문 게시판<button onClick={() => navigate('/board')}>질문하기</button></p>
+      <p className='title'>질문 게시판
+        <button onClick={() => navigate('/board')}><span />질문하기</button>
+      </p>
       <SearchBar>
-        <SearchIcon
-          fontSize ='large'
-          color='disabled' />
+        <label htmlFor='search'>
+          <SearchIcon />
+        </label>
         <div />
-        <input value={inputText} placeholder='Search title or laundry, and Press Enter' 
+        <input value={inputText} placeholder='Search title or laundry, and Press Enter' id='search'
           onChange={e => setInputText(e.target.value)} onKeyUp={e => handleKeyUp(e)} />
       </SearchBar>
       <section>
-        {boards.map((board, i) => 
-        <EachBoard key={i} onClick={() => navigate(`/community/${board.boardId}`)}>
-          <img src={board.userImg || defaultImg} alt='프로필' />
-          <p className='nick'>{board.userNick}</p>
-          <div className='board' style={{ backgroundColor: `${theme.listBgColor[i%3]}`}}>
-            <div className='name'>{board.boardName}</div>
-            <p className='comment'><ChatBubbleOutlineIcon /><span>{board.commentCnt}</span></p>
-          </div>
-          <p className='date'>{board.boardDate[0]}.{board.boardDate[1]}.{board.boardDate[2]}</p>
-        </EachBoard>
+        {boards.map((board, i) => {
+          let boardSrc = board.userImg ? `/images/${board.userImg}` : null
+          boardSrc = boardSrc || defaultImg
+          return (
+            <EachBoard key={i}>
+              <img src={boardSrc} onError={imageOnErrorHandler} alt='프로필' />
+              <p className='nick'>{board.userNick}</p>
+              <div className='board' onClick={() => navigate(`/community/${board.boardId}`)} style={{ backgroundColor: `${theme.listBgColor[i%3]}`}}>
+                <div className='name'>{board.boardName}</div>
+                <p className='comment'><ChatBubbleOutlineIcon /><span>{board.commentCnt}</span></p>
+              </div>
+              <p className='date'>{board.boardDate[0]}.{board.boardDate[1]}.{board.boardDate[2]}</p>
+            </EachBoard>
+          )
+        }
         )}
       </section>
     </Wrapper>
@@ -78,28 +88,54 @@ const Wrapper = styled.article`
   width: 80vw;
   margin: auto;
   padding-top: 5vh;
-  @media screen and (max-width: 800px) {
-    padding-top: 0;
-    padding-bottom: 70px;
-  }
   p {margin: 0;}
   .title {
     color: #4E7DDA;
     text-align: center;
-    font-size: 2rem;
+    font-size: 2.5rem;
     position: relative;
     button {
+      user-select: none;
       position: absolute;
-      right: .5rem;
-      height: 2rem;
+      right: 1%;
+      height: 100%;
+      padding: 0 1.5rem;
+      z-index: 1;
       border: none;
       border-radius: 4px;
+      overflow: hidden;
+      color: white;
       background-color: ${props => props.theme.activeBtnColor};
+      span {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        transition: 0.5s;
+        right: 100%;
+        top: 0;
+        z-index: -1;
+        background-color: ${props => props.theme.hoverActiveBtnColor};
+      }
+      &:hover {
+        span {
+          right: 1%;
+        }
+      }
     }
   }
   section {
     padding: 0.8rem;
     margin-top: 1.5rem;
+  }
+  @media screen and (max-width: 800px) {
+    padding-top: 0;
+    padding-bottom: 70px;
+    .title {
+      font-size: 1.5rem;
+      button {
+        padding: 0 .3rem;
+      }
+    }
   }
 `
 const SearchBar = styled.section`
@@ -107,12 +143,14 @@ const SearchBar = styled.section`
   border: 2px solid #ACAAAA;
   border-radius: 10px;
   display: flex;
-  svg{
+  svg {
+    user-select: none;
     font-size: 1.8rem;
     margin-top: -2px;
     color: ${props => props.theme.fontColor};
   }
   div {
+    user-select: none;
     height: 100%;
     width: 2.5px;
     background-color: #a9a9a9;
@@ -123,6 +161,7 @@ const SearchBar = styled.section`
     width: 100%;
     font-size: 1rem;
     background-color: ${props => props.theme.bgColor};
+    color: ${props => props.theme.fontColor};
     &:focus { outline: none; }
     &::placeholder { 
       font-size: 0.8rem;
@@ -131,17 +170,11 @@ const SearchBar = styled.section`
   }
 `
 const EachBoard = styled.div`
+  cursor: default;
   height: 2.5rem;
   padding: 20px 0;
   display: flex;
   align-items: center;
-  @media screen  and (max-width: 800px) {
-    .nick,
-    .date,
-    .comment {
-      display: none;
-    }
-  }
   img {
     height: 100%;
     aspect-ratio: 1/1;
@@ -153,6 +186,7 @@ const EachBoard = styled.div`
     width: 5rem;
   }
   .board {
+    cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -171,6 +205,13 @@ const EachBoard = styled.div`
     }
     svg {
       font-size: 0.8rem;
+    }
+  }
+  @media screen  and (max-width: 800px) {
+    .nick,
+    .date,
+    .comment {
+      display: none;
     }
   }
 `
