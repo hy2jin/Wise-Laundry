@@ -68,7 +68,7 @@ public class BoardUpdateRes extends BaseResponseBody {
                 .boardImgs(body.getBoardImgs())
                 .boardContent(body.getBoardContent())
                 .boardDate(body.getBoardDate())
-                .comments(comments)
+                .comments(body.getComments())
                 .messaeg(message)
                 .statusCode(statusCode)
                 .build();

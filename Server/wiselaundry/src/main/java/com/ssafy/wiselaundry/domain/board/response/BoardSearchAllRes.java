@@ -20,6 +20,9 @@ public class BoardSearchAllRes {
     @ApiModelProperty(value = "유저 이미지", required = true, example = "")
     private String userImg;
 
+    @ApiModelProperty(value = "kakao 이미지", required = true, example = "")
+    private String kakaoImg;
+
     @ApiModelProperty(value = "게시글 ID", required = true, example = "게시글 ID")
     private int boardId;
 
@@ -33,7 +36,7 @@ public class BoardSearchAllRes {
     private int commentCnt;
 
     @Builder
-    public BoardSearchAllRes(int userId, String userNick, int boardId, String boardName, LocalDateTime boardDate, String userImg, int commentCnt, String message, Integer statusCode) {
+    public BoardSearchAllRes(int userId, String userNick, int boardId, String boardName, LocalDateTime boardDate, String userImg, int commentCnt, String kakaoImg, String message, Integer statusCode) {
         this.userId = userId;
         this.userNick = userNick;
         this.userImg = userImg;
@@ -41,16 +44,16 @@ public class BoardSearchAllRes {
         this.boardName = boardName;
         this.boardDate = boardDate;
         this.commentCnt = commentCnt;
+        this.kakaoImg = kakaoImg;
     }
 
     public static BoardSearchAllRes boardToBoardSearchAllRes(Board board){
-        System.out.println(board.getBoardId());
-        System.out.println(board.getUser());
 
         return BoardSearchAllRes.builder()
                 .userId(board.getUser().getUserId())
                 .userNick(board.getUser().getUserNick())
                 .userImg(board.getUser().getUserImg())
+                .kakaoImg(board.getUser().getKakaoImg())
                 .boardId(board.getBoardId())
                 .boardName(board.getBoardName())
                 .boardDate(board.getBoardDate())
