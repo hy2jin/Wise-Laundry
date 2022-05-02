@@ -2,12 +2,12 @@ package com.ssafy.wiselaundry.domain.laundry.controller;
 
 import com.ssafy.wiselaundry.domain.laundry.db.bean.LaundryAll;
 import com.ssafy.wiselaundry.domain.laundry.db.bean.LaundryDetails;
-import com.ssafy.wiselaundry.domain.laundry.db.bean.LaundryModifys;
+import com.ssafy.wiselaundry.domain.laundry.db.entity.CareLabels;
 import com.ssafy.wiselaundry.domain.laundry.request.LaundryModifyPostRep;
 import com.ssafy.wiselaundry.domain.laundry.request.UserLaundryRegisterPostReq;
+import com.ssafy.wiselaundry.domain.laundry.response.CareLabelsAllRes;
 import com.ssafy.wiselaundry.domain.laundry.response.LaundryAllRes;
 import com.ssafy.wiselaundry.domain.laundry.response.LaundryDetailsRes;
-import com.ssafy.wiselaundry.domain.laundry.response.LaundryModifysRes;
 import com.ssafy.wiselaundry.domain.laundry.service.LaundryService;
 import com.ssafy.wiselaundry.global.model.response.BaseResponseBody;
 import io.swagger.annotations.Api;
@@ -76,15 +76,14 @@ public class LaundryController {
 
     @PutMapping(value = "/",consumes= {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ApiOperation(value = "내 옷 수정")
-    public ResponseEntity<LaundryModifysRes> userLaundryDetailModify(@RequestPart LaundryModifyPostRep laundryModifyPostRep,MultipartHttpServletRequest request){
+    public ResponseEntity<? extends BaseResponseBody> userLaundryDetailModify(@RequestPart LaundryModifyPostRep laundryModifyPostRep,MultipartHttpServletRequest request){
         log.info("userLaundryDetailModify - Call");
-        LaundryModifys list = laundryService.modifyLaundryDetails(laundryModifyPostRep,request);
 
-        if(list != null) {
-            return ResponseEntity.status(200).body(LaundryModifysRes.of(200, "Success", list));
+        if(laundryService.modifyLaundryDetails(laundryModifyPostRep,request )== 1) {
+            return ResponseEntity.status(200).body(BaseResponseBody.of(201, "Success"));
         }else {
             log.error("laundry doesn't exist");
-            return ResponseEntity.status(403).body(LaundryModifysRes.of(403, "laundry doesn't exist", null));
+            return ResponseEntity.status(403).body(BaseResponseBody.of(403, "laundry doesn't exist"));
         }
 
 
@@ -118,4 +117,17 @@ public class LaundryController {
         }
     }
 
+    @GetMapping("/carelabel")
+    @ApiOperation(value = "케어라벨 전체 목록")
+    public ResponseEntity<CareLabelsAllRes> CareLabelAll () {
+        log.info("CareLabelAll - Call");
+        List<CareLabels> list = laundryService.findCareLabelsAll();
+
+        if(list != null && !list.isEmpty()) {
+            return ResponseEntity.status(200).body(CareLabelsAllRes.of(200, "Success", list));
+        }else {
+            log.error("cloth doesn't exist");
+            return ResponseEntity.status(403).body(CareLabelsAllRes.of(403, "cloth doesn't exist", null));
+        }
+    }
 }
