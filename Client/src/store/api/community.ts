@@ -7,14 +7,16 @@ const apiClient = axios.create({
   baseURL: baseURL,
   headers: {
     "Content-type": "application/json",
-    'Authorization': `${token}`
+    // 'Authorization': `${token}`
+    'token': `${token}`
   },
 }); 
 const apiImageClient = axios.create({
   baseURL: baseURL,
   headers: {
     "Content-type": "multipart/form-data",
-    'Authorization': `${token}`
+    // 'Authorization': `${token}`
+    'token': `${token}`
   },
 })
 
@@ -32,7 +34,7 @@ export const getCommunityDetail = async (boardId: number) => {
   const { data } = await apiClient.get<any>(
     `/community/${boardId}`,
   )
-  // console.log('🌼getCommunityDetail: ', data)
+  console.log('🌼getCommunityDetail: ', data)
   const imgs = data.boardImgs.map((img: { boardImg: string }) => `/images/${img.boardImg}`)
   // console.log('🌼imgs: ', imgs);
   const res = {...data, boardImgs: imgs}
@@ -52,7 +54,7 @@ export const postBoard = async (form: any) => {
   return data
 }
 
-// 🌼🌼🌼게시글 수정용 조회
+// 🌼🌼🌼게시글 수정용 조회⭕
 export const getCommunityUpdate = async (boardId: number) => {
   const { data } = await apiClient.get<any>(
     `/community/${boardId}`,
@@ -70,7 +72,7 @@ export const getCommunityUpdate = async (boardId: number) => {
   return res
 }
 
-// 🌼🌼🌼게시글 수정
+// 🌼🌼🌼게시글 수정⭕
 export const putBoard = async (form: any) => {
   const response = await apiClient.put<any>(
     '/community/update',

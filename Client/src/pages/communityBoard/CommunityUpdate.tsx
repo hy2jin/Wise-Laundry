@@ -33,25 +33,23 @@ const CommunityUpdate = () => {
     .then(({ boardId, boardContent, boardImgs, boardName }) => {
       setBoard({boardId, boardName, boardContent})
       setOriginImgs(boardImgs)
-      // setOriginImgs([
-      //     'https://cdn.custom-cursor.com/cursors/pack2069.png',
-      //     'https://i.ytimg.com/vi/nGIYtetr2u0/maxresdefault.jpg'
-      //   ])
     })
   }, [boardId])
 
   const onChangeFiles= (e: React.ChangeEvent<HTMLInputElement>) => {
     const { target: { files } } = e
     if (files != null) {
-      setFileList(files)
-      const nowImageUrlList = [...newImgs]
-      Array.from(files).map((file: File) => {
-        // console.log('🎲file: ', file);
-        if (originImgs.length + nowImageUrlList.length < 5) {
+      if (files.length + newImgs.length + originImgs.length < 5) {
+        setFileList(files)
+        const nowImageUrlList = [...newImgs]
+        Array.from(files).map((file: File) => {
+          // console.log('🎲file: ', file);
           nowImageUrlList.push(URL.createObjectURL(file))
-        }
-      })
-      setNewImgs(nowImageUrlList)
+        })
+        setNewImgs(nowImageUrlList)
+      } else {
+        alert('최대 5개의 이미지만 올릴 수 있습니다')
+      }
     }
   }
   const makeFormData = () => {
@@ -88,6 +86,15 @@ const CommunityUpdate = () => {
   }
   const throwNewImg = (idx: number) => {
     setNewImgs(newImgs.filter((v, i) => i !== idx))
+    if (fileList) {
+      const dataTransfer = new DataTransfer()
+      Array.from(fileList)
+      .filter((v, i) => i !== idx)
+      .forEach(file => {
+        dataTransfer.items.add(file)
+      })
+      setFileList(dataTransfer.files)
+    }
   }
 
   return (
