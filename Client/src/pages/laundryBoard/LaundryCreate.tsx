@@ -10,6 +10,8 @@ import { userState } from '../../store/state/user';
 
 const Wrapper = styled.article`
   width: 70vw;
+  max-width: 1200px;
+  min-width: 280px;
   margin: auto;
   background-color: ${props => props.theme.bgColor};
   @media screen and (max-width: 800px) {
@@ -33,8 +35,8 @@ const Top = styled.div`
   display: flex;
   img{
     height: 400px;
-    width: 35vw;
-    margin-left: 3vw;
+    width: 25vw;
+    margin-left: 5vw;
     margin-top: 5vh;
   }
   @media screen and (max-width: 800px) {
@@ -209,7 +211,7 @@ const LaundryCreate = () => {
               <div className='careLabel'>
               {careLabelName.map((label,idx)=>{
                 return(<Label labels={careLabelName} color={colors[idx%10]} key={idx} label={label} idx={idx} setLabels={setcareLabelName}/>  )})}
-              <Label color='#f7d9a2' labels={careLabelName} label={''} idx={-1} setLabels={setcareLabelName}/>
+              <Label color='#f7d9a2' labels={careLabelName} label={'new'} idx={-1} setLabels={setcareLabelName}/>
               </div>
             </LabelBox>
             <Information>

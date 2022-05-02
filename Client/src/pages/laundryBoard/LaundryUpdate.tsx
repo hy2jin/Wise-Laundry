@@ -10,6 +10,8 @@ import Info from './Info';
 
 const Wrapper = styled.article`
   width: 70vw;
+  max-width: 1200px;
+  min-width: 280px;
   margin: auto;
   background-color: ${props => props.theme.bgColor};
   @media screen and (max-width: 800px) {
@@ -33,8 +35,8 @@ const Top = styled.div`
   display: flex;
   img{
     height: 400px;
-    width: 35vw;
-    margin-left: 3vw;
+    width: 25vw;
+    margin-left: 5vw;
     margin-top: 5vh;
   }
   @media screen and (max-width: 800px) {

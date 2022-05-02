@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import {Link, useNavigate} from 'react-router-dom'
-import { useRecoilState } from 'recoil'
-import { themeState } from '../store/state/theme'
 import ToggleSwitch from './ToggleSwitch'
 import MobileBack from './MobileBack'
 import IronIcon from '@mui/icons-material/Iron';
@@ -26,8 +24,8 @@ const HeaderNav = styled.nav`
   justify-content: space-around;
   border-radius: 0 0 15px 15px;
   a {
-    text-decoration:none;
     flex: 1;
+    text-decoration:none;
     text-align: center;
     font-size: 14px;
     color: ${props => props.theme.fontColor};
@@ -37,14 +35,17 @@ const HeaderNav = styled.nav`
     height: 6vh;
     cursor: pointer;
   }
- 
+  .toggle{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
   @media screen and (max-width: 800px) {
     display: none;
   }
 `
 
 const ToggleTop = styled.div`
-    flex:0.5;
     border: none;
     cursor: pointer;
     color: ${props => props.theme.fontColor};
@@ -97,10 +98,10 @@ const Header = () => {
         <Link to='/laundry'>MY LAUNDRY</Link>
         <Link to='/okaylaundry'>OKAY LAUNDRY</Link>
         <Link to='/near'>NEAR</Link>
-        <img src='https://cdn-icons-png.flaticon.com/512/3238/3238630.png' onClick={() => navigate('/home')} alt='logo'/>
+        <Link to='/home'><img src='https://cdn-icons-png.flaticon.com/512/3238/3238630.png' alt='logo'/></Link>
         <Link to='/community'>COMMUNITY</Link>
         <Link to='/profile'>PROFILE</Link>
-        <ToggleTop ><ToggleSwitch themeCheck={themeCheck} setThemeCheck={setThemeCheck} /></ToggleTop>
+        <ToggleTop className='toggle' ><ToggleSwitch themeCheck={themeCheck} setThemeCheck={setThemeCheck} /></ToggleTop>
       </HeaderNav>
       <FooterNav>
         <Link to='/laundry'><IronIcon/></Link>

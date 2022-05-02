@@ -1,16 +1,27 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectFade,Autoplay } from 'swiper';
+import img1 from './images/1.jpg'
+import img2 from './images/2.jpg'
+import img3 from './images/3.jpg'
+import img4 from './images/4.jpg'
+import img5 from './images/5.jpg'
+import nearImg from './images/near.jpg'
+import timerImg from './images/timer.jpg'
+import comImg from './images/community.jpeg'
+import washerImg from './images/washer.jpeg'
+import clothImg from './images/cloth.jpeg'
 const Wrapper = styled.div`
-  padding-top: 30px;
-  @media screen and (max-width: 800px) {
-  }
-  div{
+  margin: auto;
+  article{
+    padding-top: 30px;
     border-radius: 20px;
     text-align: center;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
+    cursor: pointer;
     span{
       position: absolute;
       left: 50%;
@@ -18,53 +29,72 @@ const Wrapper = styled.div`
       transform: translate(-50%, -50%);
       font-size: 1.5rem;
       color: white;
+      &.black{
+        color:#333;
+      }
+    }
+    @media screen and (max-width: 800px) {
+      border-radius: 10px;
+
     }
   }
 `
 const EventBanner = styled.div`
-  height: 300px;
+  border-radius: 0;
   width: 100%;
-  background: url('https://cdn.discordapp.com/attachments/885744368399560725/964572370998263838/unknown.png') center;
-  background-repeat: no-repeat;
   margin: auto;
-
+  img{
+    width: 100vw;
+    height: 35vh;
+    object-fit: cover;
+    @media screen and (max-width: 800px) {
+      width: 100vw;
+      height: 200px;
+      display: block;
+      max-width: 100%;
+    }
+  }
 `
-const TopLeft = styled.div`
+const TopLeft = styled.article`
   height: 150px;
   width: 40vw;
-  background:url('https://images.pexels.com/photos/1366242/pexels-photo-1366242.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500') center;
+  background:url("${clothImg}") center;
+  background-position: 0% 30%;
+  .black{
+    color: #333;
+  }
   @media screen and (max-width: 800px) {
     width: 85vw;
   }
 `
-const TopRight = styled.div`
+const TopRight = styled.article`
   height: 150px;
   width: 40vw;
-  background:url('https://images.pexels.com/photos/3262937/pexels-photo-3262937.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500') center;
+  background:url(${washerImg}) center;
   @media screen and (max-width: 800px) {
     width: 85vw;
     margin-top: 50px;
   }
   
 `
-const BotLeft = styled.div`
+const BotLeft = styled.article`
   height: 150px;
   width: 40vw;
-  background:url('https://images.pexels.com/photos/271711/pexels-photo-271711.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500') center;
+  background:url("${comImg}") center;
   @media screen and (max-width: 800px) {
     width: 85vw;
   }
 `
-const BotRight = styled.div`
+const BotRight = styled.article`
   height: 150px;
   width: 40vw;
-  background:url('https://images.pexels.com/photos/2347642/pexels-photo-2347642.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500') center;
+  background:url(${nearImg}) center;
   @media screen and (max-width: 800px) {
     width: 85vw;
     margin-top: 50px;
   }
 `
-const FlexBox = styled.div`
+const FlexBox = styled.article`
   display: flex;
   width: 85vw;
   justify-content: space-between;
@@ -77,23 +107,39 @@ const FlexBox = styled.div`
     margin-top: 50px;
   }
 `
-const TimerBox = styled.div`
-  height: 150px;
+const TimerBox = styled.article`
+  height: 250px;
   width: 85vw;
   margin: auto;
-  background:url('https://images.pexels.com/photos/1209998/pexels-photo-1209998.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500') center;
+  background:url(${timerImg}) center;
   margin-top: 50px;
-  p{
-    /* padding-top: 60px; */
+  background-position: 0% 80%;
+  margin-bottom: 50px;
+  @media screen and (max-width: 800px) {
+    height: 150px;
+
   }
 `
 const Home = () => {
   return (
     <Wrapper>
       <EventBanner>
+       <Swiper
+          spaceBetween={50}
+          slidesPerView={1}
+          onSlideChange={() => console.log('slide change')}
+          onSwiper={(swiper) => console.log(swiper)}
+          autoplay={{delay: 1000}} 
+          speed={2000}
+          modules={[Autoplay]} 
+        >
+          <SwiperSlide><img alt='그림' src={'https://media.istockphoto.com/vectors/red-carpet-event-banner-design-template-vector-id638184328'}/></SwiperSlide>
+          <SwiperSlide><img alt='그림' src={'https://resource.miricanvas.com/image/web/templates/main/type_thumbnail/web_banner_hor.jpeg?1.9.36hotfix6_1651219226372'}/></SwiperSlide>
+          <SwiperSlide><img alt='그림' src={'https://blog.kakaocdn.net/dn/bv1duH/btqZqot50kj/DEgWpku3mpMibIotilkqjK/img.jpg'}/></SwiperSlide>
+      </Swiper>
       </EventBanner>
       <FlexBox>
-        <TopLeft><span>My Laundry</span></TopLeft>
+        <TopLeft><span className='black' >My Laundry</span></TopLeft>
         <TopRight><span>Okay Laundry</span></TopRight>
       </FlexBox>
       <FlexBox>
