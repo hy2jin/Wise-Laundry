@@ -35,7 +35,8 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
-    
+    private MultipartHttpServletRequest img;
+
 
     @ApiOperation(value = "로그인", notes = "<strong>이름과 패스워드</strong>를 통해 로그인 한다.")
     @ApiResponses({
@@ -78,7 +79,8 @@ public class UserController {
 
     // 회원정보 수정
     @PutMapping(value = "/update", consumes= {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.TEXT_PLAIN_VALUE})
-    public ResponseEntity<? extends BaseResponseBody> update(@RequestPart @ApiParam(value="회원수정 정보", required = true) UserUpdatePostReq userUpdateInfo, @RequestPart @ApiParam(value = "image", required = false) MultipartHttpServletRequest img, @RequestHeader @ApiParam(value = "JWT Token 값") String token){
+    public ResponseEntity<? extends BaseResponseBody> update(@RequestPart @ApiParam(value="회원수정 정보", required = true) UserUpdatePostReq userUpdateInfo, @RequestPart @ApiParam(value = "image", allowEmptyValue = true) MultipartHttpServletRequest img, @RequestHeader @ApiParam(value = "JWT Token 값") String token){
+        this.img = img;
         // JWT Token 확인
         JWTVerifier verifier = JwtTokenUtil.getVerifier();
         JwtTokenUtil.handleError(token);
