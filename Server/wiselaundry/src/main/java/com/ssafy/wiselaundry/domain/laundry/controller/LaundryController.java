@@ -39,8 +39,8 @@ public class LaundryController {
         if(list != null && !list.isEmpty()) {
             return ResponseEntity.status(200).body(LaundryAllRes.of(200, "Success", list));
         }else {
-            log.error("userId doesn't exist");
-            return ResponseEntity.status(403).body(LaundryAllRes.of(403, "userId doesn't exist", null));
+            log.error("laundry doesn't exist");
+            return ResponseEntity.status(200).body(LaundryAllRes.of(200, "laundry doesn't exist", null));
         }
     }
 
@@ -82,8 +82,8 @@ public class LaundryController {
         if(laundryService.modifyLaundryDetails(laundryModifyPostRep,request )== 1) {
             return ResponseEntity.status(200).body(BaseResponseBody.of(201, "Success"));
         }else {
-            log.error("laundry doesn't exist");
-            return ResponseEntity.status(403).body(BaseResponseBody.of(403, "laundry doesn't exist"));
+            log.error("laundry update fail");
+            return ResponseEntity.status(403).body(BaseResponseBody.of(403, "laundry update fail"));
         }
 
 
@@ -112,8 +112,8 @@ public class LaundryController {
         if(list != null && !list.isEmpty()) {
             return ResponseEntity.status(200).body(LaundryAllRes.of(200, "Success", list));
         }else {
-            log.error("cloth doesn't exist");
-            return ResponseEntity.status(403).body(LaundryAllRes.of(403, "cloth doesn't exist", null));
+            log.error("All cloth doesn't exist");
+            return ResponseEntity.status(200).body(LaundryAllRes.of(200, "All cloth doesn't exist", null));
         }
     }
 
@@ -126,8 +126,8 @@ public class LaundryController {
         if(list != null && !list.isEmpty()) {
             return ResponseEntity.status(200).body(CareLabelsAllRes.of(200, "Success", list));
         }else {
-            log.error("cloth doesn't exist");
-            return ResponseEntity.status(403).body(CareLabelsAllRes.of(403, "cloth doesn't exist", null));
+            log.error("carelabel doesn't exist");
+            return ResponseEntity.status(200).body(CareLabelsAllRes.of(200, "carelabel doesn't exist", null));
         }
     }
 }

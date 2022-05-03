@@ -18,7 +18,9 @@ const KakaoLogin = () => {
     if (isKakao === 'true') {
       // console.log(code, '코드 확인')
       sessionStorage.setItem('kakao', 'false')
-      
+      window.location.replace("/home")
+      // eslint-disable-next-line no-restricted-globals
+      // location.reload();
       // sessionStorage.setItem('newPage', 'true')
       getKakaoLogin(code)
       .then((res) => {
@@ -39,7 +41,7 @@ const KakaoLogin = () => {
       // navigate('/home')
     } else {
       sessionStorage.setItem('kakao', 'true')
-      window.location.replace("/")
+      
     }
   }, []);
 
