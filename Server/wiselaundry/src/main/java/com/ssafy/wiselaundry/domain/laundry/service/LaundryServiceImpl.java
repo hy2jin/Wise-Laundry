@@ -146,18 +146,18 @@ public class LaundryServiceImpl implements LaundryService{
         laundryRepository.save(laundry);
 
         //케어라벨
-        for(int i = 0; i < userLaundryRegisterPostReq.getCareLabelName().length; i++) {
-            String careLabel = userLaundryRegisterPostReq.getCareLabelName()[i];
-            CareLabels findCareLabel = careLabelsRepository.findByCareLabelName(careLabel);
+        for(int i = 0; i < userLaundryRegisterPostReq.getCareLabels().size(); i++) {
+            CareLabels careLabel = userLaundryRegisterPostReq.getCareLabels().get(i);
+//            CareLabels findCareLabel = careLabelsRepository.findByCareLabelName(careLabel.getCareLabelName());
 
-            if(findCareLabel == null){
-                findCareLabel = CareLabels.builder().careLabel(careLabel).careLabelName(careLabel).build();
-                careLabelsRepository.save(findCareLabel);
-
-            }
+//            if(findCareLabel == null){
+//                findCareLabel = CareLabels.builder().careLabel(careLabel).careLabelName(careLabel).build();
+//                careLabelsRepository.save(findCareLabel);
+//
+//            }
 
             laundryCareLabelsRepository.save(LaundryCareLabels.builder()
-                    .careLabel(findCareLabel)
+                    .careLabel(careLabel)
                     .laundry(laundry)
                     .build());
         }
@@ -275,18 +275,18 @@ public class LaundryServiceImpl implements LaundryService{
         laundryInfoRepository.deleteByLaundry(laundry);
 
         //케어라벨
-        for(int i = 0; i < laundryModifyPostRep.getCareLabelName().length; i++) {
-            String careLabel = laundryModifyPostRep.getCareLabelName()[i];
-            CareLabels findCareLabel = careLabelsRepository.findByCareLabelName(careLabel);
+        for(int i = 0; i < laundryModifyPostRep.getCareLabels().size(); i++) {
+            CareLabels careLabel = laundryModifyPostRep.getCareLabels().get(i);
+//            CareLabels findCareLabel = careLabelsRepository.findByCareLabelName(careLabel.getCareLabelName());
 
-            if(findCareLabel == null){
-                findCareLabel = CareLabels.builder().careLabel(careLabel).careLabelName(careLabel).build();
-                careLabelsRepository.save(findCareLabel);
-
-            }
+//            if(findCareLabel == null){
+//                findCareLabel = CareLabels.builder().careLabel(careLabel).careLabelName(careLabel).build();
+//                careLabelsRepository.save(findCareLabel);
+//
+//            }
 
             laundryCareLabelsRepository.save(LaundryCareLabels.builder()
-                    .careLabel(findCareLabel)
+                    .careLabel(careLabel)
                     .laundry(laundry)
                     .build());
         }

@@ -1,9 +1,12 @@
 package com.ssafy.wiselaundry.domain.laundry.request;
 
+import com.ssafy.wiselaundry.domain.laundry.db.entity.CareLabels;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,7 +16,7 @@ public class LaundryModifyPostRep {
     int laundryId;
 
     @ApiModelProperty(name = "케어라벨")
-    String[] careLabelName;
+    List<CareLabels> careLabels;
 
     @ApiModelProperty(name = "옷 정보")
     String[] laundryInfo;
