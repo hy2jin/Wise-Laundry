@@ -26,8 +26,8 @@ const CommunityAll = () => {
   const [theme, setTheme] = useRecoilState(themeState)
   const [inputText, setInputText] = useState('')
   const [boards, setBoards] = useState<Istate["board"][]>([])
-  const [currentPage, setCurrentPage] = useState(1)
-  const [totalPage, setTotalPage] = useState(5)
+  const [lastBoardId, setLastBoardId] = useState(-1)
+  const [endflag, setEndFlag] = useState(false)
 
   const navigate = useNavigate()
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {

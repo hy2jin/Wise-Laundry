@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+import { userState } from '../../store/state/user';
 import { themeState } from '../../store/state/theme';
 import { getCommunityDetail, postComment, delComment, delBoard } from '../../store/api/community';
 import defaultImg from './images/ironing.png'
@@ -39,7 +40,7 @@ interface Istate {
 const CommunityDetail = () => {
   const { boardId } = useParams()
   const navigate = useNavigate()
-  const [userId, setUserId] = useState()
+  const [user, setUser] = useRecoilState(userState)
   const [theme, setTheme] = useRecoilState(themeState)
   const [inputText, setInputText] = useState('')
   const [board, setBoard] = useState<Istate['board']>({
@@ -95,7 +96,7 @@ const CommunityDetail = () => {
   }
   const createComment = () => {
     const data = {
-      userId: userId,
+      userId: user.userId,
       boardId: boardId,
       commentContent: inputText
     }
@@ -145,12 +146,8 @@ const CommunityDetail = () => {
   useEffect(() => {
     getCommunityDetail(Number(boardId))
     .then(res => {
-      setBoard(res)
       // console.log('🎲getCommunityDetail: ', res);
-      const tmp = sessionStorage.getItem('userInfo')
-      if (!!tmp) {
-        setUserId(JSON.parse(tmp).userId)
-      }
+      setBoard(res)
     })
     .catch(err => {
       console.log('getCommunityDetail err:💧', err)
@@ -199,7 +196,7 @@ const CommunityDetail = () => {
               <p className='nick' title={comment.userNick}>{comment.userNick}</p>
               <div className='content' style={{backgroundColor: `${theme.listBgColor[i%3]}`}}>
                 <p>{comment.commentContent}</p>
-                {comment.userId === userId && 
+                {comment.userId === user.userId && 
                 <RemoveCircleOutlineIcon onClick={() => deleteComment(comment.commentId)} />
                 }
               </div>
@@ -218,7 +215,7 @@ const CommunityDetail = () => {
       </Board>
       <Btns>
         <button className='active' onClick={() => navigate('/community')}><span />목록</button>
-        {board.userId === userId && <>
+        {board.userId === user.userId && <>
         <button className='active' onClick={() => navigate(`/board/${board.boardId}`)}><span />수정</button>
         <button className='inactive' onClick={() => deleteBoard()}><span />삭제</button>
         </>}
