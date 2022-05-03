@@ -19,7 +19,7 @@ const Wrapper = styled.div `
 const Logobox = styled.span `
   position: absolute;
   right: 0;
-  top: 8vh;
+  top: 0;
 
   img {
     height: 25vh;
@@ -38,7 +38,7 @@ const ImgBox = styled.div `
   justify-content: center;
   flex-wrap: nowrap;
   align-items: baseline;
-  margin-bottom: 80px;
+  margin-bottom: 5vh;
 `
 
 const SmallBox = styled.div `

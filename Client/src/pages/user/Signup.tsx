@@ -58,7 +58,7 @@ const SmallBox = styled.div `
 
   @media screen and (max-width: 800px) {
     position: relative;
-    bottom: 13vh;
+    bottom: 5vh;
 
     .ConfirmBtn {
     border: none;
@@ -193,7 +193,7 @@ const ImgBox = styled.div `
   justify-content: center;
   flex-wrap: nowrap;
   align-items: baseline;
-  margin-bottom: 80px;
+  margin-bottom: 5vh;
 `
 
 const FormBox = styled.div `
