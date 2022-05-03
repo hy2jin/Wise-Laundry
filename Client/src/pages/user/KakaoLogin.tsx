@@ -27,9 +27,19 @@ const KakaoLogin = () => {
         sessionStorage.setItem('kakao', 'false')
         const token = res.accessToken;
         sessionStorage.setItem("token", `${token}`);
-        // window.location.replace("/home")
-        // console.log(token, 'jwt 토큰 확인')
-        navigate('/home')
+        getUserInfo()
+        .then((res) => {
+          console.log(res, '💐카카오 유저정보💐')
+          const userInfo = {...res};
+          delete userInfo.message
+          delete userInfo.statusCode
+          sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+          setUser(userInfo)
+          navigate('/home')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
       })
   
       .catch((err) => {
@@ -47,25 +57,6 @@ const KakaoLogin = () => {
       location.reload();
     }
   }, []);
-
-  // 로그인 후 로그인 페이지로 뒤로가기 방지
-  useEffect(() => {
-    if (isLogin) {
-      getUserInfo()
-        .then((res) => {
-          console.log(res, '💐유저정보💐')
-          const userInfo = {...res};
-          delete userInfo.message
-          delete userInfo.statusCode
-          sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
-          setUser(userInfo)
-          navigate('/home')
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
-  },[isLogin])
 
   
 
