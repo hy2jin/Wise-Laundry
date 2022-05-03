@@ -17,7 +17,8 @@ const Wrapper = styled.div`
   .ProfileImg {
     width: 10vw;
     border-radius: 100vh;
-    border: 2px solid #333333;
+    border: 2px solid #818080;
+    margin-left: 2vh;
     cursor: pointer;
   }
 

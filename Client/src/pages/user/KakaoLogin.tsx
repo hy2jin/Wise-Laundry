@@ -23,7 +23,7 @@ const KakaoLogin = () => {
         console.log('로그인 성공')
         sessionStorage.setItem('kakao', 'false')
         const token = res.accessToken;
-        sessionStorage.setItem("jwt", `${token}`);
+        sessionStorage.setItem("token", `${token}`);
         // console.log(token, 'jwt 토큰 확인')
         navigate('/home')
         window.history.forward()
@@ -47,7 +47,7 @@ const KakaoLogin = () => {
   //     console.log(isLogin, '여기 확인')
   //     // sessionStorage
   //     // console.log(, '토큰 확인')
-  //     getUserInfo()
+  //     getUserInfo(email)
   //       .then((res) => {
   //         console.log(res, '💐유저정보💐')
   //         setUser(res.user)

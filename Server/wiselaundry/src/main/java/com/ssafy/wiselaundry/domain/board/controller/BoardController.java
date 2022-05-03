@@ -62,6 +62,7 @@ public class BoardController {
                             .userId(comment.getUser().getUserId())
                             .userNick(comment.getUser().getUserNick())
                             .userImg(comment.getUser().getUserImg())
+                            .kakaoImg(comment.getUser().getKakaoImg())
                             .commentId(comment.getCommentId())
                             .commentDate(comment.getCommentDate())
                             .build());
@@ -76,6 +77,7 @@ public class BoardController {
                 .userId(board.getUser().getUserId())
                 .userNick(board.getUser().getUserNick())
                 .userImg(board.getUser().getUserImg())
+                .kakaoImg(board.getUser().getKakaoImg())
                 .comments(commentDetailResList)
                 .build();
 

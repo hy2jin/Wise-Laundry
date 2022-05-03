@@ -13,7 +13,7 @@ import java.util.HashMap;
  *	유저 관련 비즈니스 로직 처리를 위한 서비스 인터페이스 정의.
  */
 public interface UserService {
-	User createUser(UserRegisterPostReq userRegisterInfo);
+	User createUser(UserRegisterPostReq userRegisterInfo, MultipartHttpServletRequest img);
 	User createKakaoUser(HashMap info);
 	User updateUser(UserUpdatePostReq userUpdatePostReq, MultipartHttpServletRequest img);
 	User findByUserId(int userId);

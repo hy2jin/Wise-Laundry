@@ -3,13 +3,11 @@ package com.ssafy.wiselaundry.domain.laundry.service;
 import com.ssafy.wiselaundry.domain.laundry.db.bean.LaundryAll;
 import com.ssafy.wiselaundry.domain.laundry.db.bean.LaundryDetail;
 import com.ssafy.wiselaundry.domain.laundry.db.bean.LaundryDetails;
-import com.ssafy.wiselaundry.domain.laundry.db.bean.LaundryModifys;
 import com.ssafy.wiselaundry.domain.laundry.db.entity.*;
 import com.ssafy.wiselaundry.domain.laundry.db.repository.*;
 import com.ssafy.wiselaundry.domain.laundry.request.LaundryModifyPostRep;
 import com.ssafy.wiselaundry.domain.laundry.request.UserLaundryRegisterPostReq;
 import com.ssafy.wiselaundry.domain.user.db.entity.User;
-import com.ssafy.wiselaundry.domain.user.db.repository.UserRepository;
 import com.ssafy.wiselaundry.domain.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import org.apache.commons.io.FilenameUtils;
-import javax.swing.filechooser.FileSystemView;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,6 +61,7 @@ public class LaundryServiceImpl implements LaundryService{
     public List<String> findInfoDetail(int laundryId) {
         return laundryRepositorySpp.infoDetailsByLaundryId(laundryId);
     }
+
     //내 옷장 전체 검색
     @Override
     public List<LaundryAll> findUserLaundryAll(int userId) {
@@ -90,7 +89,7 @@ public class LaundryServiceImpl implements LaundryService{
                 .laundryImg(laundry.getLaundryImg())
                 .laundryOwnerId(laundry.getUser().getUserId())
                 .laundryOwnerNick(laundry.getUser().getUserNick())
-                .careLabel(findCareLabelDetail(laundry.getLaundryId()))
+                .careLabels(laundryRepositorySpp.careLabelsByLaundryId(laundry.getLaundryId()))
                 .laundryInfo(findInfoDetail(laundry.getLaundryId()))
                 .laundryMemo(laundry.getLaundryMemo())
                 .build();
@@ -214,10 +213,10 @@ public class LaundryServiceImpl implements LaundryService{
 
     //내 옷 수정
     @Override
-    public LaundryModifys modifyLaundryDetails(LaundryModifyPostRep laundryModifyPostRep, MultipartHttpServletRequest request) {
+    public int modifyLaundryDetails(LaundryModifyPostRep laundryModifyPostRep, MultipartHttpServletRequest request) {
         Laundry laundry = laundryRepository.findByLaundryId(laundryModifyPostRep.getLaundryId());
         if(laundry == null){
-            return null;
+            return 0;
         }
 
         List<MultipartFile> fileList = request.getFiles("file");
@@ -306,12 +305,12 @@ public class LaundryServiceImpl implements LaundryService{
                     .build());
         }
 
-        return LaundryModifys.builder()
-                .laundryId(findLaundryDetails(laundryModifyPostRep.getLaundryId()).getLaundryId())
-                .careLabel(findLaundryDetails(laundryModifyPostRep.getLaundryId()).getCareLabel())
-                .laundryInfo(findLaundryDetails(laundryModifyPostRep.getLaundryId()).getLaundryInfo())
-                .laundryMemo(findLaundryDetails(laundryModifyPostRep.getLaundryId()).getLaundryMemo())
-                .build();
+        return 1;
 
+    }
+
+    @Override
+    public List<CareLabels> findCareLabelsAll() {
+        return careLabelsRepository.findAll();
     }
 }

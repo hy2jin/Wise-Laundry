@@ -39,6 +39,15 @@ public class LaundryRepositorySpp {
                 .fetch();
     }
 
+    //옷 디테일 조회
+    public List<CareLabels> careLabelsByLaundryId(int laundryId){
+        return jpaQueryFactory.select(qCareLabels)
+                .from(qLaundryCareLabels)
+                .leftJoin(qCareLabels).on(qCareLabels.careLabelId.eq(qLaundryCareLabels.careLabel.careLabelId))
+                .where(qLaundryCareLabels.laundry.laundryId.eq(laundryId))
+                .fetch();
+    }
+
     //옷 설명 조회
     public List<String> infoDetailsByLaundryId(int laundryId){
         return jpaQueryFactory.select(qInfo.laundryInfo)

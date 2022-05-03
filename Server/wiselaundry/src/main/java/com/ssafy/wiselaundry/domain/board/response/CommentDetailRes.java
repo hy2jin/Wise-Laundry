@@ -20,6 +20,9 @@ public class CommentDetailRes extends BaseResponseBody{
     @ApiModelProperty(value = "유저 이미지", required = true )
     private String userImg;
 
+    @ApiModelProperty(value = "kakao 이미지", required = true, example = "")
+    private String kakaoImg;
+
     @ApiModelProperty(value = "유저 닉네임", required = true, example = "댓글 작성자 닉네임입니다.")
     private String userNick;
 
@@ -34,13 +37,14 @@ public class CommentDetailRes extends BaseResponseBody{
 
     @Builder
     public CommentDetailRes(int userId, String userImg, String userNick, int commentId, String commentContent,
-                            LocalDateTime commentDate, Integer statusCode, String message){
+                            LocalDateTime commentDate,String kakaoImg ,Integer statusCode, String message){
         this.userId = userId;
         this.userImg = userImg;
         this.userNick = userNick;
         this.commentId = commentId;
         this.commentContent = commentContent;
         this.commentDate = commentDate;
+        this.kakaoImg = kakaoImg;
         this.setStatusCode(statusCode);
         this.setMessage(message);
     }
@@ -53,6 +57,7 @@ public class CommentDetailRes extends BaseResponseBody{
                 .commentContent(body.getCommentContent())
                 .commentDate(body.getCommentDate())
                 .commentId(body.getCommentId())
+                .kakaoImg(body.getKakaoImg())
                 .build();
     }
 

@@ -32,6 +32,9 @@ public class BoardSearchDetailRes extends BaseResponseBody {
     @ApiModelProperty(value = "유저 프로필 사진", required = true)
     private String userImg;
 
+    @ApiModelProperty(value = "kakao 이미지", required = true, example = "")
+    private String kakaoImg;
+
     @ApiModelProperty(value = "게시글 제목", required = true, example = "게시글 제목입니다.")
     private String boardName;
 
@@ -50,7 +53,7 @@ public class BoardSearchDetailRes extends BaseResponseBody {
     @Builder
     public BoardSearchDetailRes(int boardId, int userId, String userNick, String userImg, String boardName,
                                 List<BoardImg> boardImgs, String boardContent, LocalDateTime boardDate,
-                                List<CommentDetailRes> comments, Integer statusCode, String message) {
+                                List<CommentDetailRes> comments, String kakaoImg,Integer statusCode, String message) {
         this.boardId = boardId;
         this.userId = userId;
         this.userNick = userNick;
@@ -60,6 +63,7 @@ public class BoardSearchDetailRes extends BaseResponseBody {
         this.boardContent = boardContent;
         this.boardDate = boardDate;
         this.comments = comments;
+        this.kakaoImg = kakaoImg;
         this.setMessage(message);
         this.setStatusCode(statusCode);
     }
@@ -75,7 +79,8 @@ public class BoardSearchDetailRes extends BaseResponseBody {
                 .boardImgs(body.getBoardImgs())
                 .boardContent(body.getBoardContent())
                 .boardDate(body.getBoardDate())
-                .comments(body.comments)
+                .comments(body.getComments())
+                .kakaoImg(body.getKakaoImg())
                 .message(message)
                 .statusCode(statusCode)
                 .build();
