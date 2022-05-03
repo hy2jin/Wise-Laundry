@@ -36,15 +36,25 @@ const Title = styled.div`
     height: 100px;
     text-align: center;
     cursor: pointer;
+    @media screen and (max-width: 800px) {
+      width: 80px;
+      height: 80px;
+  }
   }
   p{
     margin-top: 15px;
     margin-bottom: 0;
     font-size: 25px;
+    @media screen and (max-width: 800px) {
+      font-size: 15px;
+  }
   }
   #filter{
     color : white;
     background-color: #63a1ff ;
+  }
+  @media screen and (max-width: 800px) {
+    width:100%;
   }
  
 `
@@ -55,7 +65,7 @@ const SearchBox = styled.article`
   justify-content: center;
  
   @media screen and (max-width: 800px) {
-    width: 450px;
+    width: 90%;
   }
 `
 const SearchBar = styled.section`
@@ -67,7 +77,7 @@ const SearchBar = styled.section`
   border-radius: 10px;
   box-shadow: 0 8px 16px 0 rgb(32 32 32 / 8%);
   input {
-    width: 100%;
+    width: 90%;
     border: none;
     font-size: 1rem;
     background-color: white;
@@ -79,7 +89,7 @@ const SearchBar = styled.section`
     color: #333;
   }
   @media screen and (max-width: 800px) {
-    width: 300px;
+    width: 200px;
   }
 `
 
@@ -98,6 +108,9 @@ const SubmitBtn = styled.div`
     font-size: 1.8rem;
     margin-top: 12px;
     color: white;
+  }
+  @media screen and (max-width: 800px) {
+    margin-left: 20px;
   }
 `
 

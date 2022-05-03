@@ -149,8 +149,8 @@ const Label:React.FC<Iprops> = ({label,color,idx,setCareLabels,careLabels}) => {
   }
   return (
     <Wrapper color={color} >
-      { label.careLabelName!=='' ? 
-      <p onDoubleClick={()=>{getdelete()}}>{label.careLabelName}</p>:  
+      { label.careLabel!=='' ? 
+      <p onClick={()=>{getdelete()}}>{label.careLabel}</p>:  
       <div className='plus' onClick={()=>{setShowModal(true)}}>+</div>}
       {showModal && 
         <Modal>

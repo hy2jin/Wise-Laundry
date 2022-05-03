@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import styled,{ThemeProvider} from 'styled-components'
 import { useRecoilState } from 'recoil'
 import { themeState } from './store/state/theme'
+import { loginState,userState } from './store/state/user'
 import Header from './components/Header'
 import Home from './pages/main/Home'
 import Near from './pages/Near/Near'
@@ -61,6 +62,16 @@ declare global {
 
 const App= (props:any) => {
   const [theme, setTheme] = useRecoilState(themeState)
+  const [isLogin,setIsLogin] = useRecoilState(loginState)
+  const [user,setUser] = useRecoilState(userState)
+  useEffect(()=>{
+    const newuser = sessionStorage.getItem('userInfo')||""
+    if (newuser!==""){
+      setUser(JSON.parse(newuser))
+      setIsLogin(true)
+    }
+  },[])
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>

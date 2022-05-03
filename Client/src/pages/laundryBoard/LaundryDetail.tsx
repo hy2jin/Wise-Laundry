@@ -259,7 +259,7 @@ const LaundryDetail = () => {
               <div className='title'>세탁 주의 사항</div>
               <div className='careLabel'>
               {laundry.careLabels.map((label,idx)=>{
-                return(<Label key={idx} className='label'> {label.careLabelName}</Label>)})}
+                return(<Label key={idx} className='label'> {label.careLabel}</Label>)})}
               </div>
             </LabelBox>
             <Info>

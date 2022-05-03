@@ -8,6 +8,8 @@ import LinkedCameraIcon from '@mui/icons-material/LinkedCamera';
 import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
 import ForumIcon from '@mui/icons-material/Forum';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import { useRecoilState } from 'recoil'
+import { userState } from '../store/state/user'
 const Wrapper = styled.div`
   .backIcon{
     position: fixed; 
@@ -83,7 +85,7 @@ const FooterNav = styled.nav`
 
 const Header = () => {
   const [themeCheck,setThemeCheck] = useState(false)
-
+  const [user,setUser] = useRecoilState(userState)
   const navigate = useNavigate()
   if (window.location.pathname === '/') 
   return null;
@@ -99,7 +101,7 @@ const Header = () => {
         <Link to='/near'>NEAR</Link>
         <Link to='/home'><img src='https://cdn-icons-png.flaticon.com/512/3238/3238630.png' alt='logo'/></Link>
         <Link to='/community'>COMMUNITY</Link>
-        <Link to='/profile'>PROFILE</Link>
+        <Link to='/profile'>{user.userNick}님</Link>
         <ToggleTop className='toggle' ><ToggleSwitch themeCheck={themeCheck} setThemeCheck={setThemeCheck} /></ToggleTop>
       </HeaderNav>
       <FooterNav>

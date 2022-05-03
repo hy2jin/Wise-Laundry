@@ -213,11 +213,14 @@ const LaundryUpdate = () => {
         })
       ],{type:'application/json'})
     )
-    formdata.append('file',file)
-    UpdateLaundry(formdata)
-    navigate(`/laundry/${laundryId}`)
+    if(file!==undefined){
+      formdata.append('file',file)
+    }
+    UpdateLaundry(formdata).then((res)=>{
+      navigate(`/laundry/${laundryId}`)
+    })
   }
-
+ 
   useEffect(()=>{
     getCareLabel().then((res)=>{
       setCareLabelsstate(res.list)

@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const baseURL = process.env.REACT_APP_BASEURL
-const token = sessionStorage.getItem('jwt')
+const token = sessionStorage.getItem('token')
 
 const apiClient = axios.create({
   baseURL: baseURL,
@@ -13,7 +13,8 @@ const apiClient = axios.create({
 const fileApiClient = axios.create({
   baseURL: baseURL,
   headers: {
-    'Content-Type': 'multipart/form-data'
+    'Content-Type': 'multipart/form-data',
+    'Authorization':`Bearer ${token}`
   },
 });
 

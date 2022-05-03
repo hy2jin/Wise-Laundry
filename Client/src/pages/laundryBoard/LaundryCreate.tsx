@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Label from './Label';
 import Info from './Info';
 import ImgBox from './ImgBox';
-import { AddLaundry } from '../../store/api/laundry';
+import { AddLaundry, getCareLabel } from '../../store/api/laundry';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store/state/user';
+import { labelState } from '../../store/state/laundry';
 
 const Wrapper = styled.article`
   width: 70vw;
@@ -180,6 +181,8 @@ const LaundryCreate = () => {
   const [laundryMemo,setLaundryMemo] = useState('')
   const [user,setUser] = useRecoilState(userState)
   const [file, setFile] = useState<any>();
+  const [careLabelsstate,setCareLabelsstate] =useRecoilState(labelState)
+
   const navigate = useNavigate()
   const submitLaundry = ()=>{
     const formdata = new FormData()
@@ -187,7 +190,7 @@ const LaundryCreate = () => {
       new Blob([
         JSON.stringify({
           'laundryInfo':laundryInfo,
-          'careLabelName':careLabels,
+          'careLabels':careLabels,
           'laundryMemo':laundryMemo,
           'userId':user.userId,
         })
@@ -200,6 +203,11 @@ const LaundryCreate = () => {
       navigate(`/laundry`)
     })
   }
+  useEffect(()=>{
+    getCareLabel().then((res)=>{
+      setCareLabelsstate(res.list)
+    })
+  },[])
   return (
     <Wrapper>
       <DetailBox>
