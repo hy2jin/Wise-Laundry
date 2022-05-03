@@ -344,8 +344,8 @@ const Profile = () => {
     const Uuser =JSON.parse(sessionStorage.getItem('userInfo')|| "" )
     setUser(Uuser)
     setNickname(Uuser.userNick)
-    if (user.kakaoImg !== null) {
-      if (user.userImg !== null) {
+    if (Uuser.kakaoImg !== null) {
+      if (Uuser.userImg !== null) {
         setProfileImg(`/images/${Uuser.userImg}`)
       } else {
         setProfileImg(Uuser.kakaoImg)
