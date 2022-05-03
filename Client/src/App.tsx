@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes,  } from 'react-router-dom'
 import styled,{ThemeProvider} from 'styled-components'
 import { useRecoilState } from 'recoil'
 import { themeState } from './store/state/theme'
@@ -70,13 +70,16 @@ const App= (props:any) => {
       setUser(JSON.parse(newuser))
       setIsLogin(true)
     }
+    else{
+      setIsLogin(false)
+    }
   },[])
 
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <Wrapper>
-          <Header/>
+          {isLogin &&<Header/>}
           <Routes>
             <Route path='/' element={<Start />}/>
             <Route path='/home' element={<Home />}/>
