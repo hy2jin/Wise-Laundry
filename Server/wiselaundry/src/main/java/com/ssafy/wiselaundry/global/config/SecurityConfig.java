@@ -75,6 +75,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()                                                         //요청에 의한 보안검사 시작
                 .antMatchers("/api/user/login").permitAll() // 로그인 허용
                 .antMatchers("/api/user/signup").permitAll() // 회원가입 허용
+                .antMatchers("/api/user/emailcheck").permitAll() // 회원가입 허용
+                .antMatchers("/api/user/nickcheck").permitAll() // 회원가입 허용
                 .antMatchers("/api/oauth/login").permitAll()//카카오 허용
                 .antMatchers("/api/**").authenticated()  //api 로 시작하는 URL 모두 JWT 필요
                 .anyRequest().permitAll() // Swagger사용을 위해 모든 URL 허용
