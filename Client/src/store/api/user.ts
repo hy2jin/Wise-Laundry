@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 const baseURL = process.env.REACT_APP_BASEURL
 
@@ -131,3 +132,35 @@ export const putUpdateUserInfo = async (formdata:any) => {
   return response.data
 }
 
+apiClient.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err.response && (err.response.status === 401 || err.response.status === 403)) {
+      sessionStorage.clear()
+      Swal.fire({
+        icon: 'error',
+        text: '로그인 후 사용해주세요',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'red',
+      })
+      .then(() => window.location.href = '/login')
+    }
+    return Promise.reject(err)
+  }
+)
+apiNoneTokenClient.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err.response && (err.response.status === 401 || err.response.status === 403)) {
+      sessionStorage.clear()
+      Swal.fire({
+        icon: 'error',
+        text: '로그인 후 사용해주세요',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'red',
+      })
+      .then(() => window.location.href = '/login')
+    }
+    return Promise.reject(err)
+  }
+)

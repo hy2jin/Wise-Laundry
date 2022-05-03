@@ -1,4 +1,5 @@
 import axios from "axios"
+import Swal from 'sweetalert2'
 
 const baseURL = process.env.REACT_APP_BASEURL
 
@@ -69,7 +70,6 @@ export const getSearch = async (word: string) => {
 
 // 🌼🌼🌼게시글 작성⭕
 export const postBoard = async (form: any) => {
-  // const response = await apiClient.post<any>(
   const { data } = await apiImageClient.post<any>(
     '/community/create',
     form
@@ -134,3 +134,35 @@ export const delComment = async (commentId: number) => {
   return data
 }
 
+apiClient.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err.response && (err.response.status === 401 || err.response.status === 403)) {
+      sessionStorage.clear()
+      Swal.fire({
+        icon: 'error',
+        text: '로그인 후 사용해주세요',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'red',
+      })
+      .then(() => window.location.href = '/login')
+    }
+    return Promise.reject(err)
+  }
+)
+apiImageClient.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err.response && (err.response.status === 401 || err.response.status === 403)) {
+      sessionStorage.clear()
+      Swal.fire({
+        icon: 'error',
+        text: '로그인 후 사용해주세요',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'red',
+      })
+      .then(() => window.location.href = '/login')
+    }
+    return Promise.reject(err)
+  }
+)
