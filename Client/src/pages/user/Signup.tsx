@@ -17,7 +17,7 @@ const Wrapper = styled.div `
 const Logobox = styled.span `
   position: absolute;
   right: 0;
-  top: 8vh;
+  top: 0;
 
   img {
     height: 25vh;

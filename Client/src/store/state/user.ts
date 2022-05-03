@@ -3,6 +3,7 @@ import { atom } from "recoil";
 interface Istate{
   user:{
     kakaoImg: string|null,
+    // 패스워드 빼주기
     password: string|null,
     userEmail: string,
     userId: number,

@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { putUpdateUserInfo } from '../../store/api/user';
+import { getUserInfo, putUpdateUserInfo } from '../../store/api/user';
+import { userState } from '../../store/state/user';
 
 
 const Wrapper = styled.div `
@@ -44,6 +47,7 @@ const SmallBox = styled.div `
   .BtnPosition {
     margin-top: 0.5rem;
     display: flex;
+    flex-flow: column;
   }
 
   .ConfirmBtn {
@@ -54,6 +58,17 @@ const SmallBox = styled.div `
     font-size: 1rem;
     background-color: ${props => props.theme.activeBtnColor};
     color: white;
+  }
+
+  .CancleBtn {
+    border: none;
+    width : 100%;
+    height: 5.5vh;
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: ${props => props.theme.inactiveBtnColor};
+    color: white;
+    margin-top: 0.5rem;
   }
 
 
@@ -76,6 +91,11 @@ const SmallBox = styled.div `
       background-color: ${props => props.theme.activeBtnColor};
       color: white;
     }
+
+    .CancleBtn {
+      font-size: 0.9rem;
+      
+    }
   }
 `
 
@@ -86,6 +106,10 @@ const ModalBox = styled.div `
   flex-flow: nowrap column;
 
   .ConfirmBtnBox {
+    width: 100%;
+  }
+
+  .CancleBtnBox {
     width: 100%;
   }
 
@@ -210,14 +234,13 @@ const InputForm = styled.section`
 
 interface IProps {
   setModalOn: React.Dispatch<React.SetStateAction<boolean>>
-  setPassword: React.Dispatch<React.SetStateAction<string>>
-  email: any
-  nickname: any
-  file: any
 }
 
 
-const PasswordModal:React.FC<IProps> = ({setModalOn, email, nickname, file}) => {
+const PasswordModal:React.FC<IProps> = ({setModalOn}) => {
+  const navigate = useNavigate()
+  const [user, setUser] = useRecoilState(userState)
+
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState("")
   
@@ -225,33 +248,44 @@ const PasswordModal:React.FC<IProps> = ({setModalOn, email, nickname, file}) => 
 
   const [allowedPassword, setAllowedPassword] = useState(false)
 
+
+
   const onClose = () => {
     // event.preventDefault();
-    setModalOn(false);
-    console.log('모달 닫기')
+    // console.log('모달 닫기')
+    if (!paswordChecked) {
+      alert('비밀번호를 입력해주세요')
+    } else {
+      setModalOn(false);
+      const formdata = new FormData()
+      formdata.append('userUpdateInfo',
+        new Blob([
+          JSON.stringify({
+            // 유저 정보 받은걸로 바꿔주기
+            'userEmail': user.userEmail,
+            'userNick': user.userNick,
+            'password': password,
+          })
+        ],{type:'application/json'})
+      )
 
-    const formdata = new FormData()
-    formdata.append('userUpdateInfo',
-      new Blob([
-        JSON.stringify({
-          // 유저 정보 받은걸로 바꿔주기
-          'userEmail': email,
-          'userNick': nickname,
-          'password': password,
-        })
-      ],{type:'application/json'})
-    )
-    if(file!==undefined){
-      formdata.append('file', file)
+      putUpdateUserInfo(formdata)
+      .then((res) => {
+        console.log('비밀번호 수정 성공')
+        console.log(password, '비밀번호 확인')
+        // navigate('/login')
+        // setUser()
+        }
+      )
+      .catch((err) => console.log(err))
     }
+  }
 
-    putUpdateUserInfo(formdata)
-    .then(() => {
-      console.log('회원정보 수정 성공')
-      // navigate('/login')
-      }
-    )
-    .catch((err) => console.log(err))
+
+
+  const onCancleUpdate = () => {
+    setModalOn(false);
+    console.log('변경 취소')
   }
 
   
@@ -323,6 +357,9 @@ const PasswordModal:React.FC<IProps> = ({setModalOn, email, nickname, file}) => 
           <div className="BtnPosition">
             <div className='ConfirmBtnBox'>
               <button className="ConfirmBtn" onClick={onClose}>확인</button>
+            </div>
+            <div className='CancleBtnBox'>
+              <button className="CancleBtn" onClick={onCancleUpdate}>취소</button>
             </div>
           </div>
           </div>

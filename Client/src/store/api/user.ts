@@ -155,7 +155,7 @@ apiNoneTokenClient.interceptors.response.use(
       sessionStorage.clear()
       Swal.fire({
         icon: 'error',
-        text: '로그인 후 사용해주세요',
+        text: '로그인 정보를 확인해주세요',
         confirmButtonText: '확인',
         confirmButtonColor: 'red',
       })
