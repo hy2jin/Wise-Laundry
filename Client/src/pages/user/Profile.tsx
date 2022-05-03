@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store/state/user';
 import { AltRouteTwoTone } from '@mui/icons-material';
+import defaultImg from './images/profile-image.png'
 
 // interface Istate{
 //   user:{
@@ -274,21 +275,6 @@ const Profile = () => {
 
   // const [kakaoProfileImg, setKakaoProfileImg] = useState('')
 
-  // useEffect(() => {
-  //   if (user.kakaoImg !== null) {
-  //     if (user.userImg !== null) {
-  //       setProfileImg(`/images/${user.userImg}`)
-  //     } else {
-  //       setProfileImg(user.kakaoImg)
-  //     }
-  //   } else {
-  //     setProfileImg('')
-  //   }
-  // },[])
-
-  
-
-
   const passwordChangeModal = () => {
     setModalOn(true);
     console.log(modalOn,' 모달 열기')
@@ -344,15 +330,21 @@ const Profile = () => {
     const Uuser =JSON.parse(sessionStorage.getItem('userInfo')|| "" )
     setUser(Uuser)
     setNickname(Uuser.userNick)
-    if (Uuser.kakaoImg !== null) {
-      if (Uuser.userImg !== null) {
-        setProfileImg(`/images/${Uuser.userImg}`)
-      } else {
-        setProfileImg(Uuser.kakaoImg)
-      }
-    } else {
-      setProfileImg('')
-    }
+    let profileImg2 = Uuser.userImg ? `/images/${Uuser.userImg}` : Uuser.kakaoImg
+    profileImg2 = profileImg2 || defaultImg
+    setProfileImg(profileImg2)
+    // if (Uuser.kakaoImg !== null) {
+    //   if (Uuser.userImg !== null) {
+    //     setProfileImg(`/images/${Uuser.userImg}`)
+    //     console.log(Uuser.userImg, '1')
+    //   } else {
+    //     setProfileImg(Uuser.kakaoImg)
+    //     console.log(Uuser.userImg, '2')
+    //   }
+    // } else {
+    //   setProfileImg('')
+    //   console.log(Uuser.userImg, '3')
+    // }
   },[])
 
   const onHandelNick = (e: React.ChangeEvent<HTMLInputElement>) => {
