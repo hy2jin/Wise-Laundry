@@ -10,17 +10,27 @@ const baseURL = process.env.REACT_APP_BASEURL
 //   return config
 // }
 
-const token = sessionStorage.getItem('jwt')
+const token = sessionStorage.getItem('token')
 
 const apiClient = axios.create({
   baseURL: baseURL,
   headers:{
     "Content-type": "application/json",
-    // 'Authorization':`Bearer ${token}`
-    'toekn':`Bearer ${token}`,
+    'Authorization':`Bearer ${token}`
+    // 'token':`Bearer ${token}`,
     // 'token': `${token}`,
   }
 })
+
+apiClient.interceptors.request.use(
+  function CustomInterceptorRequest(config){
+    return {...config,
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+      }
+    }
+  }
+)
 
 const apiNoneTokenClient = axios.create({
   baseURL: baseURL,
@@ -59,7 +69,7 @@ export const postSignUp = async (formdata:any) => {
   return response.data
 }
 
-export const getNickcheck =async (userNick: string) => {
+export const getNickcheck = async (userNick: string) => {
   const response = await apiNoneTokenClient.get<any>(
     '/user/nickcheck',
   )
@@ -67,7 +77,7 @@ export const getNickcheck =async (userNick: string) => {
   return response.data
 }
 
-export const getEmailcheck =async (userEmail: string) => {
+export const getEmailcheck = async (userEmail: string) => {
   const response = await apiNoneTokenClient.get<any>(
     `/user/emailcheck?email=${userEmail}`,
   )
@@ -75,15 +85,15 @@ export const getEmailcheck =async (userEmail: string) => {
   return response.data
 }
 
-export const getUserInfo =async (userEmail: string) => {
+export const getUserInfo = async () => {
   const response = await apiClient.get<any>(
-    `/user/info?email=${userEmail}`,
+    '/user/info',
   )
   console.log('유저 정보 불러오기')
   return response.data
 }
 
-export const getKakaoLogin =async (code:any) => {
+export const getKakaoLogin = async (code:any) => {
   const response = await apiNoneTokenClient.get<any>(
     `https://xn--ok0by6qomhppbr9ieqr.com/api/oauth/login?code=${code}`,
   )
@@ -91,7 +101,7 @@ export const getKakaoLogin =async (code:any) => {
   return response.data
 }
 
-export const getNicknamecheck =async (userNick: string) => {
+export const getNicknamecheck = async (userNick: string) => {
   const response = await apiNoneTokenClient.get<any>(
     `/user/nickcheck?nick=${userNick}`,
   )
@@ -99,17 +109,25 @@ export const getNicknamecheck =async (userNick: string) => {
   return response.data
 }
 
-export const putUpdateUserInfo =async (password: string, userEmail: string, userNick: string) => {
+// export const putUpdateUserInfo =async (password: string, userEmail: string, userNick: string) => {
+//   const response = await apiClient.put<any>(
+//     `/user/update`,
+//     {
+//       'password': password,
+//       'userEmail': userEmail,
+//       'userNick': userNick,
+//     }
+//   )
+//   console.log('회원정보 변경 중')
+//   return response.data
+// }
+
+export const putUpdateUserInfo = async (formdata:any) => {
   const response = await apiClient.put<any>(
-    `/user/update`,
-    {
-      'password': password,
-      'userEmail': userEmail,
-      'userNick': userNick,
-    }
+    '/user/update',
+    formdata
   )
-  console.log('회원정보 변경 중')
+  console.log('회원 정보 변경 중')
   return response.data
 }
-
 

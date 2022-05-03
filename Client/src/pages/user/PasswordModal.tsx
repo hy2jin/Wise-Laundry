@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { putUpdateUserInfo } from '../../store/api/user';
 
 
 const Wrapper = styled.div `
@@ -88,10 +89,80 @@ const ModalBox = styled.div `
     width: 100%;
   }
 
+  .PasswordCheckMessage {
+    position: relative;
+    bottom: 4vh;
+    left: 0.5vw;
+    color: red;
+    font-size: 0.75rem;
+  }
+
+  .PasswordCheckMessage2 {
+    position: relative;
+    bottom: 4vh;
+    left: 0.5vw;
+    color: blue;
+    font-size: 0.75rem;
+  }
+
+  .PasswordAllowedMsg {
+    position: relative;
+    bottom: 4vh;
+    left: 0.5vw;
+    color: blue;
+    font-size: 0.75rem;
+  }
+
+  .PasswordNotAllowedMsg {
+    position: relative;
+    bottom: 4vh;
+    left: 0.5vw;
+    color: red;
+    font-size: 0.75rem;
+  }
+
+
+
   @media screen and (max-width: 800px) {
     .ConfirmBtnBox {
       width: 100%;
       margin-left: 0;
+    }
+
+    .PasswordCheckMessage {
+      position: relative;
+      /* bottom: 4vh; */
+      top: 0.1vh;
+      left: 0.7vw;
+      color: red;
+      font-size: 0.5rem;
+    }
+
+    .PasswordCheckMessage2 {
+      position: relative;
+      /* bottom: 4vh; */
+      top: 0.1vh;
+      left: 0.7vw;
+      color: blue;
+      font-size: 0.5rem;
+    }
+
+    .PasswordAllowedMsg {
+      position: relative;
+      /* bottom: 4vh; */
+      top: 0.1vh;
+      left: 0.7vw;
+      color: blue;
+      font-size: 0.5rem;
+    }
+
+    .PasswordNotAllowedMsg {
+      position: relative;
+      /* bottom: 4vh; */
+      top: 0.1vh;
+      left: 0.7vw;
+      color: red;
+      font-size: 0.5rem;
     }
   }
 `
@@ -139,15 +210,59 @@ const InputForm = styled.section`
 
 interface IProps {
   setModalOn: React.Dispatch<React.SetStateAction<boolean>>
+  setPassword: React.Dispatch<React.SetStateAction<string>>
 }
 
 
 const PasswordModal:React.FC<IProps> = ({setModalOn}) => {
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState("")
+  
+  const [paswordChecked, setPaswordChecked] = useState(false)
+
+  const [allowedPassword, setAllowedPassword] = useState(false)
 
   const onClose = () => {
     // event.preventDefault();
     setModalOn(false);
     console.log('모달 닫기')
+
+  //   putUpdateUserInfo(formdata)
+  //   .then(() => {
+  //     console.log('회원정보 수정 성공')
+  //     // navigate('/login')
+  //     }
+  //   )
+  //   .catch((err) => console.log(err))
+  }
+
+  
+  // 비밀번호 정규식 확인
+  const passwordVaildCheck = (pwd: string) => {
+    setAllowedPassword(false)
+    const regPass = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/
+    if (regPass.test(pwd)) {
+      setAllowedPassword(true)
+    }
+  }
+
+  // 비밀번호 확인
+  const onPasswordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value)
+    passwordVaildCheck(e.target.value)
+    setPaswordChecked(false)
+    if (confirmPassword === e.target.value && allowedPassword) {
+      setPaswordChecked(true)
+    }
+  }
+
+  // 비밀번호 확인 확인
+  const onConfirmPasswordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setConfirmPassword(e.target.value)
+    setPaswordChecked(false)
+    if (password === e.target.value && allowedPassword) {
+      setPaswordChecked(true)
+    }
   }
 
 
@@ -160,16 +275,32 @@ const PasswordModal:React.FC<IProps> = ({setModalOn}) => {
             <label htmlFor="editPassword">
               <span className='LabelTitle'>변경 할 비밀번호</span>
             <InputForm>
-              <input type="text" name="editPasswordInput" placeholder="변경 할 비밀번호를 입력하세요" />
+              <input 
+                type="password" 
+                id='password'
+                name="editPasswordInput" 
+                placeholder="변경 할 비밀번호를 입력하세요"
+                value={password}
+                onChange={(e) => onPasswordHandler(e)} 
+              />
             </InputForm>
+              {!password ? <p></p> : allowedPassword ? <p className='PasswordAllowedMsg'>사용가능한 비밀번호 입니다</p> : <p className='PasswordNotAllowedMsg'>영문, 숫자, 특수기호 포함 8글자 이상 입력해 주세요</p>}
             </label>
           </div>
           <div>
             <label htmlFor="editPasswordConfirm">
             <span className='LabelTitle'>변경 할 비밀번호 확인</span>
             <InputForm>
-              <input type="text" name="editPasswordConfirmInput" placeholder="변경 할 비밀번호를 한 번 더 입력하세요" />
+              <input 
+                type="password"
+                id='passwordCheck'
+                name="editPasswordConfirmInput" 
+                placeholder="변경 할 비밀번호를 한 번 더 입력하세요"
+                value={confirmPassword}
+                onChange={e => onConfirmPasswordHandler(e)}
+              />
             </InputForm>
+              {!confirmPassword ? <p></p>: paswordChecked ? <div className="PasswordCheckMessage2">패스워드가 일치합니다</div> : <div className="PasswordCheckMessage">패스워드가 일치하지 않습니다</div>}
             </label>
           <div className="BtnPosition">
             <div className='ConfirmBtnBox'>

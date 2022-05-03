@@ -213,15 +213,12 @@ const Login = () => {
       // console.log(token, 'jwt 토큰 확인')
       // window.history.forward()
       setOnLogin(true)
-      
+      // navigate('/home')
     })
 
     .catch((err) => {
       console.log(err)
     })
-    // eslint-disable-next-line no-restricted-globals
-    // history.go(1)
-    // 😢두번 누르면 다시 뒤로 돌아감;;😥
   }
   
   useEffect(() => {
@@ -233,14 +230,14 @@ const Login = () => {
       console.log(onLogin, '여기 확인')
       // sessionStorage
       // console.log(, '토큰 확인')
-      getUserInfo(email)
+      getUserInfo()
         .then((res) => {
           console.log(res, '💐유저정보💐')
           setUser(res.user)
           navigate('/home')
         })
         .catch((err) => {
-          console.log(err, '에러')
+          console.log(err)
         })
     }
   },[onLogin])

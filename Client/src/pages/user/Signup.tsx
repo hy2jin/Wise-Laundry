@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import logo from './images/logo2.png';
-import profile from './images/profile-image.png';
-import camera from './images/camera-free-icon-font.png';
 import { useNavigate } from 'react-router-dom';
 import { postSignUp, getEmailcheck, getNicknamecheck } from '../../store/api/user';
 // import { dividerClasses } from '@mui/material';
@@ -196,33 +194,6 @@ const ImgBox = styled.div `
   flex-wrap: nowrap;
   align-items: baseline;
   margin-bottom: 80px;
-
-  .ProfileImg {
-    width: 10vw;
-    border-radius: 100vh;
-    border: 1px solid #333333;
-    cursor: pointer;
-  }
-
-  .cameraImg {
-    width: 1.5vw;
-    max-width: 800px;
-    height: 2.5vh;
-  }
-
-  @media screen and (max-width: 800px) {
-    margin-bottom: 5vh;
-
-    .ProfileImg {
-      width: 15vw;
-      margin-left: 5vw;
-    }
-
-    .cameraImg {
-      width: 2.5vw;
-      height: 2.3vh;
-    }
-  }
 `
 
 const FormBox = styled.div `
@@ -374,17 +345,17 @@ const FormBox = styled.div `
   }
 `
 
-interface Istate{
-  user:{
-    kakaoImg: string|null,
-    password: string|null,
-    userEmail: string,
-    userId: number,
-    userImg: string|null,
-    userNick: string,
-  },
-  isLogin: boolean,
-}
+// interface Istate{
+//   user:{
+//     kakaoImg: string|null,
+//     password: string|null,
+//     userEmail: string,
+//     userId: number,
+//     userImg: string|null,
+//     userNick: string,
+//   },
+//   isLogin: boolean,
+// }
 
 
 const Signup = () => {

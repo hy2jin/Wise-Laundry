@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import logo from './images/logo2.png';
-import profile from './images/profile-image.png';
-import camera from './images/camera-free-icon-font.png';
 import PasswordModal from './PasswordModal';
+import UserImgBox from './UserImgBox';
+import { getNicknamecheck, putUpdateUserInfo } from '../../store/api/user';
 
 
 const Wrapper = styled.div `
@@ -35,32 +35,6 @@ const ImgBox = styled.div `
   flex-wrap: nowrap;
   align-items: baseline;
   margin-bottom: 80px;
-
-  .ProfileImg {
-    width: 10vw;
-    border-radius: 100vh;
-    border: 1px solid #333333;
-    margin-left: 2vh;
-    cursor: pointer;
-  }
-
-  .cameraImg {
-    width: 1.5vw;
-    height: 2.5vh;
-  }
-
-  @media screen and (max-width: 800px) {
-    margin-bottom: 5vh;
-    
-    .ProfileImg {
-      width: 18vw;
-    }
-
-    .cameraImg {
-      width: 3vw;
-      height: 2vh;
-    }
-  }
 `
 
 const SmallBox = styled.div `
@@ -234,11 +208,94 @@ const InputForm = styled.section`
 `
 
 const Profile = () => {
+  const [email, setEmail] = useState('')
+  const [nickname, setNickname] = useState('')
+  const [password, setPassword] = useState('')
+
+  const [usingEmail, setUsingEmail] = useState('!@#$Q!@#QWER')
+  const [usingNickname, setUsingNickname] = useState('!@#$Q!@#QWER')
+  
+  const [nickChecked, setNickChecked] = useState(false)
+
   const [modalOn, setModalOn] = useState(false);
+
+  const [file, setFile] = useState<any>();
 
   const passwordChangeModal = () => {
     setModalOn(true);
     console.log(modalOn,' 모달 열기')
+  }
+
+  // 회원 정보 불러오기
+  // setEmail()
+  // setPassword()
+  // setNicknam()
+  // setConfirmPassword()
+  
+
+  const updateUser = () => {
+    console.log('정보 변경 실행')
+
+    const formdata = new FormData()
+    formdata.append('userUpdateInfo',
+      new Blob([
+        JSON.stringify({
+          // 유저 정보 받은걸로 바꿔주기
+          'userEmail': email,
+          'userNick': nickname,
+          'password': password,
+        })
+      ],{type:'application/json'})
+    )
+    if(file!==undefined){
+      formdata.append('file', file)
+    }
+
+    putUpdateUserInfo(formdata)
+    .then(() => {
+      console.log('회원정보 수정 성공')
+      // navigate('/login')
+      }
+    )
+    .catch((err) => console.log(err))
+  }
+
+
+  const onHandelNick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNickname(e.target.value)
+    setNickChecked(false)
+    if (usingNickname === e.target.value) {
+      setNickChecked(true)
+    }
+  }
+
+  // 닉네임 중복 확인
+  const nicknameDuplicationCheck = () => {
+    if (nickname.length > 6 || nickname.length < 2) {
+      alert('2글자 이상 6글자 이하로 입력해주세요')
+    } else {
+      getNicknamecheck(nickname)
+      .then((res) => {
+        const nickCheckMessage = res.message
+        if (nickname) {
+          if (nickCheckMessage === 'Unavailable') {
+            setNickChecked(false)
+            alert('사용중인 닉네임 입니다.')
+          } else {
+            setNickChecked(true)
+            setUsingNickname(nickname)
+            alert('사용가능한 닉네임 입니다.')
+          }
+        } else {
+          alert('닉네임을 입력해주세요')
+          setNickChecked(false)
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+        setNickChecked(false)
+      })
+    }
   }
 
 
@@ -253,8 +310,7 @@ const Profile = () => {
           <h1>EDIT</h1>
 
           <ImgBox>
-            <img className='ProfileImg' src={profile} alt="프로필 업로드" />
-            <img className='cameraImg' src={camera} alt="카메라 아이콘" />
+            <UserImgBox userImg='' file={file} setFile={setFile} />
           </ImgBox>
 
           <div className='NickBox'>
@@ -262,17 +318,18 @@ const Profile = () => {
             <span className='LabelTitle'>닉네임</span>
               <InputForm>
                 <input type='text' id='nickName'
-                  
                   placeholder='닉네임을 입력하세요'
+                  value={nickname}
+                  onChange={(e) => onHandelNick(e)}
                 />
-                <button className='ConfirmBtn'>확인</button>
+                <button className='ConfirmBtn' onClick={() => nicknameDuplicationCheck()}>확인</button>
               </InputForm>
             </label>
           </div>
 
           <div className='BtnPosition'>
             <div className='SaveBtnBox'>
-              <button className="SaveBtn">확인</button>
+              <button className="SaveBtn" onClick={updateUser}>확인</button>
             </div>
             <div className='EditPasswordBox'>
               <button className="EditPasswordBtn" onClick={passwordChangeModal}>비밀번호 수정</button>
@@ -280,7 +337,7 @@ const Profile = () => {
           </div>
         </EditForm>
       </SmallBox>
-      {modalOn && <PasswordModal setModalOn={setModalOn}/>}
+      {modalOn && <PasswordModal setModalOn={setModalOn} setPassword={setPassword}/>}
     </Wrapper>
   );
 };
