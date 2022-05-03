@@ -211,10 +211,13 @@ const InputForm = styled.section`
 interface IProps {
   setModalOn: React.Dispatch<React.SetStateAction<boolean>>
   setPassword: React.Dispatch<React.SetStateAction<string>>
+  email: any
+  nickname: any
+  file: any
 }
 
 
-const PasswordModal:React.FC<IProps> = ({setModalOn}) => {
+const PasswordModal:React.FC<IProps> = ({setModalOn, email, nickname, file}) => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState("")
   
@@ -227,13 +230,28 @@ const PasswordModal:React.FC<IProps> = ({setModalOn}) => {
     setModalOn(false);
     console.log('모달 닫기')
 
-  //   putUpdateUserInfo(formdata)
-  //   .then(() => {
-  //     console.log('회원정보 수정 성공')
-  //     // navigate('/login')
-  //     }
-  //   )
-  //   .catch((err) => console.log(err))
+    const formdata = new FormData()
+    formdata.append('userUpdateInfo',
+      new Blob([
+        JSON.stringify({
+          // 유저 정보 받은걸로 바꿔주기
+          'userEmail': email,
+          'userNick': nickname,
+          'password': password,
+        })
+      ],{type:'application/json'})
+    )
+    if(file!==undefined){
+      formdata.append('file', file)
+    }
+
+    putUpdateUserInfo(formdata)
+    .then(() => {
+      console.log('회원정보 수정 성공')
+      // navigate('/login')
+      }
+    )
+    .catch((err) => console.log(err))
   }
 
   

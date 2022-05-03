@@ -48,9 +48,9 @@ const Wrapper = styled.div`
 `
 
 interface IProps {
-  file:any
-  setFile:React.Dispatch<any>
-  userImg:string
+  file: any
+  setFile: React.Dispatch<any>
+  userImg: string
 }
 
 const UserImgBox:React.FC<IProps>= ({file, setFile, userImg}) => {

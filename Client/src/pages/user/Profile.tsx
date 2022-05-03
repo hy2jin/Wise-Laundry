@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import logo from './images/logo2.png';
 import PasswordModal from './PasswordModal';
 import UserImgBox from './UserImgBox';
-import { getNicknamecheck, putUpdateUserInfo } from '../../store/api/user';
+import { getNicknamecheck, getUserInfo, putUpdateUserInfo } from '../../store/api/user';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { userState } from '../../store/state/user';
+import { profile } from 'console';
 
 
 const Wrapper = styled.div `
@@ -220,19 +224,34 @@ const Profile = () => {
   const [modalOn, setModalOn] = useState(false);
 
   const [file, setFile] = useState<any>();
+  // const [profileImg, setProfileImg] = useState('')
+  // const [kakaoProfileImg, setKakaoProfileImg] = useState('')
+
+  const [user, setUser] = useRecoilState(userState)
+
+  
+  const navigate = useNavigate();
 
   const passwordChangeModal = () => {
     setModalOn(true);
     console.log(modalOn,' 모달 열기')
   }
 
-  // 회원 정보 불러오기
-  // setEmail()
-  // setPassword()
-  // setNicknam()
-  // setConfirmPassword()
-  
+  // 회원정보 불러오기
+  useEffect(() => {
+    getUserInfo()
+    .then((res) => {
+      console.log(res, '프로필에서 유저정보')
+      setUser(res.user)
+      setEmail(res.user.userEmail)
+      
+    })
+  },[])
 
+  // 👉👉이미지 변경할 때 카카오 이미지가 null 이면 userImg 보여주고
+  // 아니면 카카오 보여주고 사진 변경은 userImg만 가능하게! 👈👈
+
+  // 회원 정보 변경
   const updateUser = () => {
     console.log('정보 변경 실행')
 
@@ -240,7 +259,6 @@ const Profile = () => {
     formdata.append('userUpdateInfo',
       new Blob([
         JSON.stringify({
-          // 유저 정보 받은걸로 바꿔주기
           'userEmail': email,
           'userNick': nickname,
           'password': password,
@@ -298,7 +316,8 @@ const Profile = () => {
     }
   }
 
-
+  // let userSrc = profile ? `/images/${profile}` : `/images/${kakaoProfileImg}`
+  // userSrc = userSrc || defaultImg
 
   return (
     <Wrapper>
@@ -308,11 +327,11 @@ const Profile = () => {
       <SmallBox>
         <EditForm>
           <h1>EDIT</h1>
-
+    
+          {/* <img src={`/images/${profile}`} alt="프로필이미지" /> */}
           <ImgBox>
             <UserImgBox userImg='' file={file} setFile={setFile} />
           </ImgBox>
-
           <div className='NickBox'>
             <label htmlFor='nickName'>
             <span className='LabelTitle'>닉네임</span>
@@ -337,7 +356,7 @@ const Profile = () => {
           </div>
         </EditForm>
       </SmallBox>
-      {modalOn && <PasswordModal setModalOn={setModalOn} setPassword={setPassword}/>}
+      {modalOn && <PasswordModal setModalOn={setModalOn} setPassword={setPassword} email={email} nickname={nickname} file={file} />}
     </Wrapper>
   );
 };
