@@ -44,7 +44,7 @@ const KakaoLogin = () => {
       sessionStorage.setItem('kakao', 'true')
       console.log('카카오')
       // eslint-disable-next-line no-restricted-globals
-      // location.reload();
+      location.reload();
     }
   }, []);
 
