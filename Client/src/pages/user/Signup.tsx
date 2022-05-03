@@ -345,18 +345,6 @@ const FormBox = styled.div `
   }
 `
 
-// interface Istate{
-//   user:{
-//     kakaoImg: string|null,
-//     password: string|null,
-//     userEmail: string,
-//     userId: number,
-//     userImg: string|null,
-//     userNick: string,
-//   },
-//   isLogin: boolean,
-// }
-
 
 const Signup = () => {
   const [email, setEmail] = useState('')
@@ -378,11 +366,6 @@ const Signup = () => {
   
   const navigate = useNavigate();
 
-  
-
-  // 이메일, 닉네임 확인하는거
-  // 체크는했는데 이메일을 또 바꾸는 걸 방지하기
-  // 바꾸면 확인했던거 다시 false로 바꾸면 됨
 
   const isValid = () => {
     var check = false

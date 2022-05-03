@@ -48,20 +48,6 @@ const KakaoLogin = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (isLogin) {
-      console.log(isLogin, '여기 확인')
-      // sessionStorage
-      // console.log(, '토큰 확인')
-      getUserInfo()
-        .then((res) => {
-          console.log(res, '😱카카오 유저정보')
-          setUser(res.user)
-          navigate('/home')
-        })
-    }
-  },[isLogin])
-
   // 로그인 후 로그인 페이지로 뒤로가기 방지
   useEffect(() => {
     if (isLogin) {
