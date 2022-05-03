@@ -19,7 +19,7 @@ const Wrapper = styled.div `
 const Logobox = styled.span `
   position: absolute;
   right: 0;
-  top: 0;
+  top: 8vh;
 
   img {
     height: 25vh;
@@ -294,9 +294,9 @@ const Profile = () => {
       formdata.append('userUpdateInfo',
         new Blob([
           JSON.stringify({
-            'userEmail': null,
+            'userEmail': user.userEmail,
             'userNick': nickname,
-            'password': null,
+            'password': '',
           })
         ],{type:'application/json'})
       )
@@ -307,28 +307,27 @@ const Profile = () => {
       putUpdateUserInfo(formdata)
       .then(() => {
         console.log('닉네임 수정 성공')
-        setEditCheck(true)
+        alert('변경되었습니다')
+        // setEditCheck(true)
+        getUserInfo()
+          .then((res) => {
+            console.log(res, '프로필 유저정보')
+            const userInfo = {...res};
+            delete userInfo.message
+            delete userInfo.statusCode
+            sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+            setUser(userInfo)
+            // navigate('/home')
+          })
+          .catch((err) => {
+            console.log(err)
+          })
         // navigate('/login')
         }
       )
       .catch((err) => console.log(err))
     }
   }
-
-  useEffect(() => {
-    if (editCheck) {
-      getUserInfo()
-      .then((res) => {
-        console.log(res, '💐프로필 유저정보💐')
-        const userInfo = res.user;
-        sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
-        setUser(res.user)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    }
-  },[editCheck])
 
   const onHandelNick = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value)
@@ -373,9 +372,6 @@ const Profile = () => {
     alert('로그아웃 되었습니다')
     navigate('/home')
   }
-
-  // let userSrc = profile ? `/images/${profile}` : `/images/${kakaoProfileImg}`
-  // userSrc = userSrc || defaultImg
 
   return (
     <Wrapper>

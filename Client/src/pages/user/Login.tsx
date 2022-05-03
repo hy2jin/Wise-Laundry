@@ -7,6 +7,7 @@ import { useRecoilState } from 'recoil';
 import { loginState, userState } from '../../store/state/user';
 
 
+
 const Wrapper = styled.div `
   display: flex;
   justify-content: center;
@@ -200,6 +201,8 @@ const Login = () => {
   
   const [isLogin, setIsLogin] = useRecoilState(loginState)
 
+  const [user, setUser] = useRecoilState(userState)
+
   const navigate = useNavigate();
   
 
@@ -209,6 +212,7 @@ const Login = () => {
       console.log('로그인 성공')
       const token = res.accessToken;
       sessionStorage.setItem("token", `${token}`);
+      
       // console.log(token, 'jwt 토큰 확인')
       // setOnLogin(true)
       setIsLogin(true)
@@ -233,7 +237,7 @@ const Login = () => {
           delete userInfo.message
           delete userInfo.statusCode
           sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
-
+          setUser(userInfo)
           navigate('/home')
         })
         .catch((err) => {
