@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Api("유저 API")
@@ -27,31 +26,57 @@ public class BoardController {
     @Autowired
     BoardService boardService;
 
-
-    @ApiOperation(value = "모든 게시글 조회", notes = "모든 게시글을 가져다 준다.")
+    @ApiOperation(value = "기본 게시글 조회", notes = "기본 게시글을 가져다 준다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = List.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
-    @GetMapping("/all")
-    public ResponseEntity<? extends BaseResponseBody> boardSearchAll() {
-        List<Board> boards = boardService.boardSearchAll();
+    @GetMapping("/all/{size}/{boardId}")
+    public ResponseEntity<? extends BaseResponseBody> boardSearchAll(@PathVariable("size") int size, @PathVariable("boardId") int boardId) {
+        if (boardId == -1){
+            boardId = Integer.MAX_VALUE;
+        }
+        List<Board> boards = boardService.boardSearchAll(size, boardId);
         List<BoardSearchAllRes> boardSearchAllResList = new ArrayList<>();
-
+        boolean endFlag;
         for (Board board: boards) {
             boardSearchAllResList.add(BoardSearchAllRes.boardToBoardSearchAllRes(board));
         }
-        Collections.reverse(boardSearchAllResList);
-        return ResponseEntity.status(200).body(BoardSearchAllListRes.of(200, "Success", boardSearchAllResList));
+
+        endFlag = boards.get(boards.size() - 1) == boardService.searchLast();
+        return ResponseEntity.status(200).body(BoardSearchAllListRes.of(200, "Success", boardSearchAllResList, endFlag));
     }
 
 
-    @ApiOperation(value = "게시판 ID로 게시글 조회", notes = "게시글 하나에 대해서만 상세히 반환")
+    @ApiOperation(value = "게시글 keyword 로 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공", response = List.class),
+            @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
+    })
+    @GetMapping("/search/{keyword}/{size}/{boardId}")
+    public ResponseEntity<? extends BaseResponseBody> boardSearchKeyword(@PathVariable("keyword")String keyword,
+                                                                         @PathVariable("size")int size,
+                                                                         @PathVariable("boardId")int boardId) {
+        if (boardId == -1) boardId = Integer.MAX_VALUE;
+
+        List<Board> boards = boardService.boardSearchKeyword(keyword, size, boardId);
+        List<BoardSearchAllRes> boardSearchAllResList = new ArrayList<>();
+
+        boolean endFlag;
+        for (Board board: boards) {
+            boardSearchAllResList.add(BoardSearchAllRes.boardToBoardSearchAllRes(board));
+        }
+
+        endFlag = boards.get(boards.size() - 1) == boardService.searchLast();
+        return ResponseEntity.status(200).body(BoardSearchAllListRes.of(200, "Success", boardSearchAllResList, endFlag));
+    }
+
+    @ApiOperation(value = "상세 조회")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = BoardSearchDetailRes.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
-    @GetMapping("/{boardId}")
+    @GetMapping("/{keyword}")
     public ResponseEntity<? extends BaseResponseBody> boardSearchDetail(@ApiParam(value = "게시판 번호") @PathVariable("boardId") int boardId) {
         Board board = boardService.boardSearchById(boardId);
         List<CommentDetailRes> commentDetailResList = new ArrayList<>();

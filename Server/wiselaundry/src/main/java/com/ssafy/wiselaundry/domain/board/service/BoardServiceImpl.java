@@ -2,9 +2,8 @@ package com.ssafy.wiselaundry.domain.board.service;
 
 import com.ssafy.wiselaundry.domain.board.db.entity.Board;
 import com.ssafy.wiselaundry.domain.board.db.entity.BoardImg;
-import com.ssafy.wiselaundry.domain.board.db.entity.Comments;
 import com.ssafy.wiselaundry.domain.board.db.repository.BoardRepository;
-import com.ssafy.wiselaundry.domain.board.db.repository.CommentsRepository;
+import com.ssafy.wiselaundry.domain.board.db.repository.BoardRepositorySpp;
 import com.ssafy.wiselaundry.domain.board.request.BoardCreateReq;
 import com.ssafy.wiselaundry.domain.board.request.BoardUpdateReq;
 import com.ssafy.wiselaundry.domain.user.db.entity.User;
@@ -30,6 +29,9 @@ public class BoardServiceImpl implements BoardService{
     BoardRepository boardRepository;
 
     @Autowired
+    BoardRepositorySpp boardRepositorySpp;
+
+    @Autowired
     BoardImgService boardImgService;
 
     @Autowired
@@ -42,8 +44,13 @@ public class BoardServiceImpl implements BoardService{
     private String uploadPath;
 
     @Override
-    public List<Board> boardSearchAll() {
-        return boardRepository.findAll();
+    public List<Board> boardSearchAll(int size, int boardId) {
+        return boardRepositorySpp.boardPagination(size, boardId);
+    }
+
+    @Override
+    public Board searchLast() {
+        return boardRepositorySpp.boardSearchLast();
     }
 
     @Override
@@ -107,6 +114,12 @@ public class BoardServiceImpl implements BoardService{
     public void boardDelete(int boardId) {
         Board deleteBoard = boardRepository.findById(boardId).get();
         boardRepository.delete(deleteBoard);
+    }
+
+    @Override
+    public List<Board> boardSearchKeyword(String keyword, int size, int boardId) {
+
+        return boardRepositorySpp.boardSearchByKeyword(keyword, size, boardId);
     }
 
     /**

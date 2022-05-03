@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -37,7 +37,7 @@ interface IProps {
 }
 
 const ImgBox:React.FC<IProps>= ({file,setFile,laundryImg}) => {
-  const [fileSrc, setFileSrc] = useState<string>(laundryImg);
+  const [fileSrc, setFileSrc] = useState<string>('');
   const encodeMainFileToBasek64 = (fileBlob: any) => {
     const reader: any = new FileReader();
     if (fileBlob) {
@@ -49,7 +49,9 @@ const ImgBox:React.FC<IProps>= ({file,setFile,laundryImg}) => {
       };
     });
   };
-
+  useEffect(()=>{
+    setFileSrc(laundryImg)
+  },[laundryImg])
   const handleFileOnChange = (e: React.ChangeEvent) => {
     setFile((e.target as HTMLInputElement).files?.item(0));
     console.log((e.target as HTMLInputElement).files?.item(0));
