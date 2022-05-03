@@ -6,7 +6,7 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { themeState } from '../../store/state/theme';
-import { getCommunityAll } from '../../store/api/community';
+import { getCommunityAll, getSearch } from '../../store/api/community';
 import defaultImg from './images/ironing.png'
 
 interface Istate {
@@ -33,7 +33,7 @@ const CommunityAll = () => {
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       console.log(inputText, '검색요청 보냅니다아🎷')
-      setInputText('')
+      // getSearch(inputText)
     }
   }
   const imageOnErrorHandler = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
@@ -46,7 +46,7 @@ const CommunityAll = () => {
       setBoards(res.list)
     })
     .catch(err => {
-      console.log('getCommunityAll err:🎲 ', err)
+      console.log('getCommunityAll err:💧 ', err)
     })
   }, [])
 

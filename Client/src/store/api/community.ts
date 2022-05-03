@@ -1,27 +1,45 @@
 import axios from "axios"
 
 const baseURL = process.env.REACT_APP_BASEURL
-const token = sessionStorage.getItem('token')
 
 const apiClient = axios.create({
   baseURL: baseURL,
   headers: {
     "Content-type": "application/json",
-    'Authorization': `Bearer ${token}`
   },
 })
 const apiImageClient = axios.create({
   baseURL: baseURL,
   headers: {
     "Content-type": "multipart/form-data",
-    'Authorization': `Bearer ${token}`
   },
 })
 
+apiClient.interceptors.request.use(
+  function CustomInterceptorRequest(config){
+    return {...config,
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+      }
+    }
+  }
+)
+apiImageClient.interceptors.request.use(
+  function CustomInterceptorRequest(config){
+    return {...config,
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+      }
+    }
+  }
+)
+
 // 🌼🌼🌼게시글 전체 => Infinite Scroll 수정 필요
+// export const getCommunityAll = async (boardId: number) => {
 export const getCommunityAll = async () => {
   const { data } = await apiClient.get<any>(
     '/community/all', 
+    // `/community/all/${10}/${boardId}`, 
   )
   console.log('🌼getCommunityAll: ', data)
   return data
@@ -39,6 +57,14 @@ export const getCommunityDetail = async (boardId: number) => {
   delete res.statusCode
   // console.log('🌼res: ', res);
   return res
+}
+
+// 🌼🌼🌼검색⭕
+export const getSearch = async (word: string) => {
+  const response = await apiClient.get<any>(
+    `/community/search/${word}`
+    )
+  console.log('🌼getSearch: ', response);
 }
 
 // 🌼🌼🌼게시글 작성⭕

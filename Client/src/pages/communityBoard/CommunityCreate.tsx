@@ -41,22 +41,26 @@ const CommunityCreate = () => {
   }
   const makeFormData = () => {
     let formData = new FormData()
-    const newData = {
-      ...board,
-      userId: 36
+    const tmp = sessionStorage.getItem('userInfo')
+    if (!!tmp) {
+      const { userId } = JSON.parse(tmp)
+      const newData = {
+        ...board,
+        userId
+      }
+      formData.append(
+        "body",
+        new Blob([JSON.stringify(newData)], {type: "application/json"})
+      )
+      if (fileList != null) {
+        Array.from(fileList).forEach((f, i) => {
+          if (i < 5) {
+            formData.append("file", f)
+          }
+        })
+      }
+      return formData
     }
-    formData.append(
-      "body",
-      new Blob([JSON.stringify(newData)], {type: "application/json"})
-    )
-    if (fileList != null) {
-      Array.from(fileList).forEach((f, i) => {
-        if (i < 5) {
-          formData.append("file", f)
-        }
-      })
-    }
-    return formData
   }
   const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()

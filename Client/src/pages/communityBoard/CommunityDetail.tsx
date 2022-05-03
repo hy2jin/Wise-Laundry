@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { userState } from '../../store/state/user';
 import { themeState } from '../../store/state/theme';
 import { getCommunityDetail, postComment, delComment, delBoard } from '../../store/api/community';
 import defaultImg from './images/ironing.png'
@@ -39,7 +38,7 @@ interface Istate {
 const CommunityDetail = () => {
   const { boardId } = useParams()
   const navigate = useNavigate()
-  const [user, setUser] = useRecoilState(userState)
+  const [userId, setUserId] = useState()
   const [theme, setTheme] = useRecoilState(themeState)
   const [inputText, setInputText] = useState('')
   const [board, setBoard] = useState<Istate['board']>({
@@ -79,13 +78,12 @@ const CommunityDetail = () => {
       navigate('/community')
     })
     .catch(err => {
-      console.log('deleteBoard error:🎲', err)
+      console.log('deleteBoard error:💧', err)
     })
   }
   const createComment = () => {
     const data = {
-      userId: 75,
-      // userId: user.userId,
+      userId: userId,
       boardId: boardId,
       commentContent: inputText
     }
@@ -95,7 +93,7 @@ const CommunityDetail = () => {
       setBoard({...board, comments: [...board.comments, res]})
     })
     .catch(err => {
-      console.log('createComment error:🎲', err)
+      console.log('createComment error:💧', err)
     })
     setInputText('')
   }
@@ -127,10 +125,14 @@ const CommunityDetail = () => {
     getCommunityDetail(Number(boardId))
     .then(res => {
       setBoard(res)
-      console.log('🎲getCommunityDetail: ', res);
+      // console.log('🎲getCommunityDetail: ', res);
+      const tmp = sessionStorage.getItem('userInfo')
+      if (!!tmp) {
+        setUserId(JSON.parse(tmp).userId)
+      }
     })
     .catch(err => {
-      console.log('getCommunityDetail err:🎲', err)
+      console.log('getCommunityDetail err:💧', err)
     })
   }, [boardId])
 
@@ -176,7 +178,7 @@ const CommunityDetail = () => {
               <p className='nick' title={comment.userNick}>{comment.userNick}</p>
               <div className='content' style={{backgroundColor: `${theme.listBgColor[i%3]}`}}>
                 <p>{comment.commentContent}</p>
-                {comment.userId === 10 && 
+                {comment.userId === userId && 
                 <RemoveCircleOutlineIcon onClick={() => deleteComment(comment.commentId)} />
                 }
               </div>
@@ -195,8 +197,7 @@ const CommunityDetail = () => {
       </Board>
       <Btns>
         <button className='active' onClick={() => navigate('/community')}><span />목록</button>
-        {board.userId === 10 && <>
-        {/* {board.userId === user.userId && <> */}
+        {board.userId === userId && <>
         <button className='active' onClick={() => navigate(`/board/${board.boardId}`)}><span />수정</button>
         <button className='inactive' onClick={() => deleteBoard()}><span />삭제</button>
         </>}
