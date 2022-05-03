@@ -9,6 +9,15 @@ import { useRecoilState } from 'recoil';
 import { userState } from '../../store/state/user';
 import { AltRouteTwoTone } from '@mui/icons-material';
 
+// interface Istate{
+//   user:{
+//     kakaoImg?: string|null,
+//     userEmail?: string|null,
+//     userId?: number|null,
+//     userImg?: string|null,
+//     userNick?: string|null,
+//   }
+// }
 
 const Wrapper = styled.div `
   display: flex;
@@ -247,10 +256,12 @@ const InputForm = styled.section`
 
 const Profile = () => {
   const [user, setUser] = useRecoilState(userState)
+  // const [user, setUser] = useState<Istate['user']>({})
+
   const navigate = useNavigate();
 
-  const [nickname, setNickname] = useState(user.userNick)
-  const [usingNickname, setUsingNickname] = useState(user.userNick)
+  const [nickname, setNickname] = useState('')
+  const [usingNickname, setUsingNickname] = useState('')
   const [nickChecked, setNickChecked] = useState(true)
 
   const [profileImg, setProfileImg] = useState('')
@@ -263,17 +274,17 @@ const Profile = () => {
 
   // const [kakaoProfileImg, setKakaoProfileImg] = useState('')
 
-  useEffect(() => {
-    if (user.kakaoImg !== null) {
-      if (user.userImg !== null) {
-        setProfileImg(`/images/${user.userImg}`)
-      } else {
-        setProfileImg(user.kakaoImg)
-      }
-    } else {
-      setProfileImg('')
-    }
-  },[])
+  // useEffect(() => {
+  //   if (user.kakaoImg !== null) {
+  //     if (user.userImg !== null) {
+  //       setProfileImg(`/images/${user.userImg}`)
+  //     } else {
+  //       setProfileImg(user.kakaoImg)
+  //     }
+  //   } else {
+  //     setProfileImg('')
+  //   }
+  // },[])
 
   
 
@@ -328,6 +339,21 @@ const Profile = () => {
       .catch((err) => console.log(err))
     }
   }
+
+  useEffect(() => {
+    const Uuser =JSON.parse(sessionStorage.getItem('userInfo')|| "" )
+    setUser(Uuser)
+    setNickname(Uuser.userNick)
+    if (user.kakaoImg !== null) {
+      if (user.userImg !== null) {
+        setProfileImg(`/images/${Uuser.userImg}`)
+      } else {
+        setProfileImg(Uuser.kakaoImg)
+      }
+    } else {
+      setProfileImg('')
+    }
+  },[])
 
   const onHandelNick = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value)
