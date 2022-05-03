@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -37,6 +38,7 @@ const CommunityAll = () => {
     if (e.key === 'Enter') {
       getSearch(inputText, lastBoardId)
       .then(res => {
+        console.log('🎲getSearch: ', res);
         setBoards(res.list)
         setEndFlag(res.endFlag)
       })
@@ -52,16 +54,18 @@ const CommunityAll = () => {
   const getMoreBoard = async () => {
     setFetching(true)
     if (!!inputText) {
-      getSearch(inputText, lastBoardId)
-      .then(res => {
-        console.log('🎲res: ', res);
-        setBoards([...boards, res.list])
-        setEndFlag(res.endFlag)
-      })
-      .catch(err => console.log('getSearch err:💧 ', err))
+      console.log('🎲back endFlag 수정 필요')
+      // getSearch(inputText, lastBoardId)
+      // .then(res => {
+      //   console.log('🎲More getSearch: ', res);
+      //   setBoards([...boards, res.list])
+      //   setEndFlag(res.endFlag)
+      // })
+      // .catch(err => console.log('More getSearch err:💧 ', err))
     } else {
       getCommunityAll(lastBoardId)
       .then(res => {
+        console.log('🎲More getCommunityAll: ', res);
         const newBoard = [...boards].concat(res.list)
         setBoards(newBoard)
         setEndFlag(res.endFlag)
@@ -72,7 +76,7 @@ const CommunityAll = () => {
           setLastBoardId(-1)
         }
       })
-      .catch(err => console.log('getMoreAllBoard err:💧 ', err))
+      .catch(err => console.log('More getCommunityAll err:💧 ', err))
     }
     setFetching(false)
   }
@@ -101,6 +105,7 @@ const CommunityAll = () => {
   useEffect(() => {
     getCommunityAll(lastBoardId)
     .then(res => {
+      console.log('🎲getCommunityAll: ', res);
       setBoards(res.list)
       setEndFlag(res.endFlag)
       if (!!!res.endFlag) {

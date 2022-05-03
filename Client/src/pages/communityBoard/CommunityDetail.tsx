@@ -107,6 +107,7 @@ const CommunityDetail = () => {
     }
     postComment(data)
     .then(res => {
+      console.log('🎲postComment: ', res);
       setBoard({...board, comments: [...board.comments, res]})
     })
     .catch(err => console.log('createComment error:💧', err))
@@ -148,7 +149,7 @@ const CommunityDetail = () => {
   useEffect(() => {
     getCommunityDetail(Number(boardId))
     .then(res => {
-      // console.log('🎲getCommunityDetail: ', res);
+      console.log('🎲getCommunityDetail: ', res);
       setBoard(res)
     })
     .catch(err => console.log('getCommunityDetail err:💧', err))

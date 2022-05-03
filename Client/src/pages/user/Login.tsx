@@ -5,7 +5,7 @@ import logo from './images/logo2.png';
 import { getUserInfo, postLogin } from '../../store/api/user';
 import { useRecoilState } from 'recoil';
 import { loginState, userState } from '../../store/state/user';
-
+import Swal from 'sweetalert2'
 
 
 const Wrapper = styled.div `
@@ -212,7 +212,13 @@ const Login = () => {
       console.log('로그인 성공')
       const token = res.accessToken;
       sessionStorage.setItem("token", `${token}`);
-      
+      // alert('로그인 되었습니다')
+      Swal.fire({
+        icon: 'success',
+        text: '로그인 되었습니다',
+        showConfirmButton: false,
+        timer: 1000
+      })
       // console.log(token, 'jwt 토큰 확인')
       // setOnLogin(true)
       setIsLogin(true)

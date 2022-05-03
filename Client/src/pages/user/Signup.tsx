@@ -7,6 +7,7 @@ import { postSignUp, getEmailcheck, getNicknamecheck } from '../../store/api/use
 import { userState } from '../../store/state/user';
 import { useRecoilState } from 'recoil';
 import UserImgBox from './UserImgBox';  
+import Swal from 'sweetalert2'
 
 
 const Wrapper = styled.div `
@@ -420,6 +421,12 @@ const Signup = () => {
     postSignUp(formdata)
     .then(() => {
       console.log('회원가입성공')
+      Swal.fire({
+        icon: 'success',
+        text: '👕 가입되었습니다 🩳',
+        showConfirmButton: false,
+        timer: 1000
+      })
       navigate('/login')
       }
     )
