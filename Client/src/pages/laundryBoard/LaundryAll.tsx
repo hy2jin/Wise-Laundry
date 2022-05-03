@@ -124,6 +124,9 @@ const LaundryBox = styled.section`
     margin-left: 1vw;
     margin-right: 1vw;
   }
+  .no{
+    font-size: 2rem;
+  }
 `
 
 
@@ -175,10 +178,14 @@ const LaundryAll = () => {
       </Header>
       <LaundryBox>
         {filter==='my' ? 
-          myLaundries!==null&&
+          (myLaundries!==null?
           myLaundries.map((laundry,idx)=>{return(<section key={laundry.laundryId}><LaundryCard  laundry={laundry}/></section>)}):
-          allLaundries!==null&&
+          <p className='no'>아직 등록된 옷이 없어요</p> )
+          :
+          (allLaundries!==null?
           allLaundries.map((laundry,idx)=>{return(<section key={laundry.laundryId}><LaundryCard  laundry={laundry}/></section>)})
+          :
+          <p className='no'>아직 등록된 옷이 없어요</p>)
         }
       </LaundryBox>
     </Wrapper>

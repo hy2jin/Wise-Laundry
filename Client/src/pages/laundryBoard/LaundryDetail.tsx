@@ -79,13 +79,19 @@ const Info = styled.div`
 `
 const LabelBox = styled.div`
   margin: auto;
-  margin-top: 70px;
+  margin-top: 20px;
   width: 80%;
+  height: 180px;
+  overflow-y: auto;
   .careLabel{
     display: flex;
     flex-wrap:wrap;
     margin-top: 20px;
     justify-content: center;
+  }
+  @media screen and (max-width: 800px) { 
+    height: auto;
+
   }
 `
 const Label = styled.div`

@@ -23,7 +23,7 @@ const Wrapper = styled.article`
 `
 const DetailBox = styled.section`
   background-color: ${props => props.theme.containerColor};
-  height: 600px;
+  height: 650px;
   box-shadow: ${props => props.theme.boxShadowBox} ;
   border-radius: 10px;
   margin-top: 10vh;
@@ -67,7 +67,7 @@ const InfoBox = styled.div`
   }
   .title{
     text-align: center;
-    margin-top: 30px;
+    /* margin-top: 30px; */
     font-size: 1.2rem;
     color : ${props => props.theme.activeBtnColor}
   }
@@ -96,16 +96,21 @@ const Infos = styled.div`
   width: 80%;
   height: 120px;
   overflow-y:auto;
+  @media screen and (max-width: 800px) {
+    height: auto;
+  }
 `
 const LabelBox = styled.div`
   margin: auto;
   margin-top: 50px;
   width: 80%;
-  height: 150px;
+  height: 200px;
   overflow-y: auto;
   @media screen and (max-width: 800px) {
       overflow-y: visible;
-    }
+      min-height: 150px;
+      height: auto;
+  }
   .careLabel{
     display: flex;
     flex-wrap:wrap;
