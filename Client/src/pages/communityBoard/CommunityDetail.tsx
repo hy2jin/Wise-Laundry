@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2'
 import styled from 'styled-components';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -72,13 +73,24 @@ const CommunityDetail = () => {
     }
   }
   const deleteBoard = () => {
-    delBoard(Number(boardId))
-    .then(() => {
-      // console.log(`${boardId}번 글 삭제 성공🎲`);
-      navigate('/community')
+    Swal.fire({
+      title: `${board.boardName}`,
+      text: '글을 삭제하겠습니까?',
+      confirmButtonText: '삭제',
+      confirmButtonColor: 'red',
+      showDenyButton: true,
+      denyButtonText: `아니요`,
+      denyButtonColor: `gray`,
     })
-    .catch(err => {
-      console.log('deleteBoard error:💧', err)
+    .then(({ value }) => {
+      if (value) {
+        delBoard(Number(boardId))
+        .then(() => {
+          // console.log(`${boardId}번 글 삭제 성공🎲`);
+          navigate('/community')
+        })
+        .catch(err => console.log('deleteBoard error:💧', err))
+      }
     })
   }
   const createComment = () => {
@@ -100,9 +112,18 @@ const CommunityDetail = () => {
   const deleteComment = (commentId: number) => {
     delComment(commentId)
     .then(() => {
-      const newComments = board.comments.filter(c => c.commentId !== commentId)
-      setBoard({...board, comments: newComments})
+      Swal.fire({
+        icon: 'success',
+        text: '댓글을 삭제했습니다',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      .then(() => {
+        const newComments = board.comments.filter(c => c.commentId !== commentId)
+        setBoard({...board, comments: newComments})
+      })
     })
+    .catch(err => console.log('deleteComment error:💧', err))
   }
   const changeIdx = (num: number) => {
     const idx = imgIdx + num
@@ -241,6 +262,7 @@ const Wrapper = styled.article`
   @media screen and (max-width: 800px) {
     width: 80vw;
     padding: 0;
+    padding-top: 5rem;
   }
   `
 const Board = styled.section`

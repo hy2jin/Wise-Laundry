@@ -129,7 +129,7 @@ const Wrapper = styled.article`
     margin-top: 1.5rem;
   }
   @media screen and (max-width: 800px) {
-    padding-top: 0;
+    padding-top: 5rem;
     padding-bottom: 70px;
     .title {
       font-size: 1.5rem;

@@ -1,5 +1,6 @@
 /* eslint-disable array-callback-return */
 import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2'
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getCommunityUpdate, putBoard } from '../../store/api/community';
@@ -48,7 +49,12 @@ const CommunityUpdate = () => {
         })
         setNewImgs(nowImageUrlList)
       } else {
-        alert('최대 5개의 이미지만 올릴 수 있습니다')
+        Swal.fire({
+          icon: 'warning',
+          text: '최대 5개의 이미지만 올릴 수 있습니다',
+          confirmButtonText: '확인',
+          confirmButtonColor: 'orange',
+        })
       }
     }
   }
@@ -73,6 +79,14 @@ const CommunityUpdate = () => {
     const form = makeFormData()
     putBoard(form)
     .then(res => {
+      Swal.fire({
+        icon: 'success',
+        title: `${board.boardName}`,
+        text: '글을 수정했습니다',
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1500
+      })
       // console.log('🎲res: ', res);
       navigate(`/community/${boardId}`)
     })
@@ -175,6 +189,10 @@ const Wrapper = styled.article`
         right: 0;
       }
     }
+  }
+  @media screen and (max-width: 800px) {
+    margin-top: 0;
+    padding-top: 5rem;
   }
 `
 const TitleInput = styled.label`
