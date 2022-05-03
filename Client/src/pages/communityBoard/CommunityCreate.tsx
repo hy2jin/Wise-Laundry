@@ -18,6 +18,8 @@ interface Istate {
 }
 
 const CommunityCreate = () => {
+
+  const navigate = useNavigate()
   const [user, setUser] = useRecoilState(userState)
   const [board, setBoard] = useState<Istate['board']>({
     boardName: '',
@@ -25,7 +27,6 @@ const CommunityCreate = () => {
   })
   const [viewImgs, setViewImgs] = useState<Istate['viewImgs']>([])
   const [fileList, setFileList] = useState<FileList | undefined>()
-  const navigate = useNavigate()
 
   const onChangeFiles= (e: React.ChangeEvent<HTMLInputElement>) => {
     const { target: { files } } = e
@@ -48,6 +49,7 @@ const CommunityCreate = () => {
       }
     }
   }
+
   const makeFormData = () => {
     let formData = new FormData()
     const newData = {
@@ -67,26 +69,35 @@ const CommunityCreate = () => {
     }
     return formData
   }
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
-    const form = makeFormData()
-    postBoard(form)
-    .then(res => {
+    if (!!!board.boardName.trim() || !!!board.boardContent.trim()) {
       Swal.fire({
-        icon: 'success',
-        title: `${board.boardName}`,
-        text: '글을 작성했습니다',
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 1500
+        icon: 'warning',
+        text: '빈 칸을 채워주세요',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'orange',
       })
-      // console.log('🎲res: ', res);
-      navigate(`/community/${res.boardId}`)
-    })
-    .catch(err => {
-      console.log('postBoard err:💧', err)
-    })
+    } else {
+      const form = makeFormData()
+      postBoard(form)
+      .then(res => {
+        Swal.fire({
+          icon: 'success',
+          title: `${board.boardName}`,
+          text: '글을 작성했습니다',
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        // console.log('🎲res: ', res);
+        navigate(`/community/${res.boardId}`)
+      })
+      .catch(err => console.log('postBoard err:💧', err))
+    }
   }
+
   const throwImg = (idx: number) => {
     setViewImgs(viewImgs.filter((v, i) => i !== idx))
     if (fileList) {

@@ -42,7 +42,7 @@ export const getCommunityAll = async () => {
     '/community/all', 
     // `/community/all/${10}/${boardId}`, 
   )
-  console.log('🌼getCommunityAll: ', data)
+  // console.log('🌼getCommunityAll: ', data)
   return data
 }
 
@@ -51,9 +51,8 @@ export const getCommunityDetail = async (boardId: number) => {
   const { data } = await apiClient.get<any>(
     `/community/${boardId}`,
   )
-  console.log('🌼getCommunityDetail: ', data)
+  // console.log('🌼getCommunityDetail: ', data)
   const imgs = data.boardImgs.map((img: { boardImg: string }) => `/images/${img.boardImg}`)
-  // console.log('🌼imgs: ', imgs);
   const res = {...data, boardImgs: imgs}
   delete res.statusCode
   // console.log('🌼res: ', res);
@@ -74,7 +73,7 @@ export const postBoard = async (form: any) => {
     '/community/create',
     form
   )
-  console.log('🌼postBoard: ', data);
+  // console.log('🌼postBoard: ', data);
   return data
 }
 
@@ -83,27 +82,26 @@ export const getCommunityUpdate = async (boardId: number) => {
   const { data } = await apiClient.get<any>(
     `/community/${boardId}`,
   )
-  console.log('🌼getCommunityUpdate: ', data)
+  // console.log('🌼getCommunityUpdate: ', data)
   const imgs = data.boardImgs.map((img: { boardImg: string }) => img.boardImg)
-  // console.log('🌼imgs: ', imgs);
   const res = {
     boardId: data.boardId,
     boardContent: data.boardContent,
     boardImgs: imgs,
     boardName: data.boardName
   }
-  console.log('🌼res: ', res);
+  // console.log('🌼res: ', res);
   return res
 }
 
 // 🌼🌼🌼게시글 수정⭕
 export const putBoard = async (form: any) => {
-  const response = await apiClient.put<any>(
+  const { data } = await apiClient.put<any>(
     '/community/update',
     form
   )
-  console.log('🌼putBoard: ', response.data);
-  return response.data
+  // console.log('🌼putBoard: ', data);
+  return data
 }
 
 // 🌼🌼🌼게시글 삭제⭕

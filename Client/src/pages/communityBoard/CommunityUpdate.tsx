@@ -17,7 +17,9 @@ interface Istate {
 }
 
 const CommunityUpdate = () => {
+
   const { boardId } = useParams()
+  const navigate = useNavigate()
   const [board, setBoard] = useState<Istate['board']>({
     boardId: 0,
     boardName: '',
@@ -27,7 +29,6 @@ const CommunityUpdate = () => {
   const [newImgs, setNewImgs] = useState<Istate['viewImgs']>([])
   const [deleteImgs, setDeleteImgs] = useState<Istate['viewImgs']>([])
   const [fileList, setFileList] = useState<FileList | undefined>()
-  const navigate = useNavigate()
 
   useEffect(() => {
     getCommunityUpdate(Number(boardId))
@@ -58,13 +59,13 @@ const CommunityUpdate = () => {
       }
     }
   }
+
   const makeFormData = () => {
     let formData = new FormData()
     const newData = {
       ...board,
       deleteImgs
     }
-    console.log('🎲newData: ', newData);
     formData.append(
       "body",
       new Blob([JSON.stringify(newData)], {type: "application/json"})
@@ -74,30 +75,40 @@ const CommunityUpdate = () => {
     }
     return formData
   }
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
-    const form = makeFormData()
-    putBoard(form)
-    .then(res => {
+    if (!!!board.boardName.trim() || !!!board.boardContent.trim()) {
       Swal.fire({
-        icon: 'success',
-        title: `${board.boardName}`,
-        text: '글을 수정했습니다',
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 1500
+        icon: 'warning',
+        text: '빈 칸을 채워주세요',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'orange',
       })
-      // console.log('🎲res: ', res);
-      navigate(`/community/${boardId}`)
-    })
-    .catch(err => {
-      console.log('postBoard err:💧', err)
-    })
+    } else {
+      const form = makeFormData()
+      putBoard(form)
+      .then(res => {
+        Swal.fire({
+          icon: 'success',
+          title: `${board.boardName}`,
+          text: '글을 수정했습니다',
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        // console.log('🎲res: ', res);
+        navigate(`/community/${boardId}`)
+      })
+      .catch(err => console.log('postBoard err:💧', err))
+    }
   }
+
   const throwOriginImg = (idx: number) => {
     setDeleteImgs([...deleteImgs, originImgs[idx]])
     setOriginImgs(originImgs.filter((v, i) => i !== idx))
   }
+
   const throwNewImg = (idx: number) => {
     setNewImgs(newImgs.filter((v, i) => i !== idx))
     if (fileList) {

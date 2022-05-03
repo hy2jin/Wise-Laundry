@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import SearchIcon from '@mui/icons-material/Search';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import CancelIcon from '@mui/icons-material/Cancel';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { themeState } from '../../store/state/theme';
@@ -23,19 +24,21 @@ interface Istate {
 }
 
 const CommunityAll = () => {
+
+  const navigate = useNavigate()
   const [theme, setTheme] = useRecoilState(themeState)
   const [inputText, setInputText] = useState('')
   const [boards, setBoards] = useState<Istate["board"][]>([])
   const [lastBoardId, setLastBoardId] = useState(-1)
   const [endflag, setEndFlag] = useState(false)
 
-  const navigate = useNavigate()
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       console.log(inputText, '검색요청 보냅니다아🎷')
       // getSearch(inputText)
     }
   }
+
   const imageOnErrorHandler = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     e.currentTarget.src = defaultImg;
   };
@@ -45,9 +48,7 @@ const CommunityAll = () => {
     .then(res => {
       setBoards(res.list)
     })
-    .catch(err => {
-      console.log('getCommunityAll err:💧 ', err)
-    })
+    .catch(err => console.log('getCommunityAll err:💧 ', err))
   }, [])
 
   return (
@@ -60,8 +61,9 @@ const CommunityAll = () => {
           <SearchIcon />
         </label>
         <div />
-        <input value={inputText} placeholder='Search title or laundry, and Press Enter' id='search'
+        <input value={inputText} placeholder='Search title, and Press Enter' id='search'
           onChange={e => setInputText(e.target.value)} onKeyUp={e => handleKeyUp(e)} />
+        <CancelIcon onClick={() => setInputText('')} style={{color: '#cccccc', cursor: 'pointer'}} />
       </SearchBar>
       <section>
         {boards.map((board, i) => {
@@ -161,12 +163,13 @@ const SearchBar = styled.section`
     border: none;
     width: 100%;
     font-size: 1rem;
+    letter-spacing: .1rem;
     background-color: ${props => props.theme.bgColor};
     color: ${props => props.theme.fontColor};
     &:focus { outline: none; }
     &::placeholder { 
       font-size: 0.8rem;
-      color: #a9a9a9; 
+      color: #a9a9a9;
     }
   }
 `
