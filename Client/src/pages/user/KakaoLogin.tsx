@@ -18,17 +18,16 @@ const KakaoLogin = () => {
     if (isKakao === 'true') {
       // console.log(code, '코드 확인')
       sessionStorage.setItem('kakao', 'false')
-      window.location.replace("/home")
-      // eslint-disable-next-line no-restricted-globals
-      // location.reload();
+      
       // sessionStorage.setItem('newPage', 'true')
       getKakaoLogin(code)
       .then((res) => {
-        console.log('로그인 성공')
+        console.log('카카오 로그인 성공')
         
         sessionStorage.setItem('kakao', 'false')
         const token = res.accessToken;
         sessionStorage.setItem("token", `${token}`);
+        // window.location.replace("/home")
         // console.log(token, 'jwt 토큰 확인')
         navigate('/home')
       })
@@ -36,12 +35,16 @@ const KakaoLogin = () => {
       .catch((err) => {
         console.log(err)
         sessionStorage.setItem('kakao', 'false')
+        console.log('카카오 로그인 실패')
+        // window.location.replace("/login")
       })
       setIsLogin(true)
       // navigate('/home')
     } else {
       sessionStorage.setItem('kakao', 'true')
-      
+      console.log('카카오')
+      // eslint-disable-next-line no-restricted-globals
+      location.reload();
     }
   }, []);
 
@@ -65,6 +68,8 @@ const KakaoLogin = () => {
       navigate('/home')
     }
   },[isLogin])
+
+
   
 
   return (
