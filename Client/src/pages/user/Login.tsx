@@ -15,7 +15,7 @@ const Wrapper = styled.div `
 const Logobox = styled.span `
   position: absolute;
   right: 0;
-  top: 8vh;
+  top: 0;
 
   img {
     height: 25vh;max-width: 800px
@@ -197,8 +197,6 @@ const InputForm = styled.section`
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  // const [onLogin, setOnLogin] = useState(false)
-  const [user, setUser] = useRecoilState(userState)
   
   const [isLogin, setIsLogin] = useRecoilState(loginState)
 
@@ -222,10 +220,6 @@ const Login = () => {
     })
   }
   
-  useEffect(() => {
-    // setOnLogin(false)
-    setIsLogin(false)
-  },[])
 
   useEffect(() => {
     if (isLogin) {
@@ -237,7 +231,7 @@ const Login = () => {
           console.log(res, '💐유저정보💐')
           const userInfo = res.user;
           sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
-          setUser(res.user)
+
           navigate('/home')
         })
         .catch((err) => {
@@ -245,21 +239,7 @@ const Login = () => {
         })
     }
   },[isLogin])
-  //   if (onLogin) {
-  //     console.log(onLogin, '여기 확인')
-  //     // sessionStorage
-  //     // console.log(, '토큰 확인')
-  //     getUserInfo()
-  //       .then((res) => {
-  //         console.log(res, '💐유저정보💐')
-  //         setUser(res.user)
-  //         navigate('/home')
-  //       })
-  //       .catch((err) => {
-  //         console.log(err)
-  //       })
-  //   }
-  // },[onLogin])
+
 
   const onKeyupEnter = (e: { key: string; }) => {
     if (e.key === 'Enter') {

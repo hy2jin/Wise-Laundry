@@ -1,5 +1,6 @@
 /* eslint-disable array-callback-return */
 import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2'
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getCommunityUpdate, putBoard } from '../../store/api/community';
@@ -16,7 +17,9 @@ interface Istate {
 }
 
 const CommunityUpdate = () => {
+
   const { boardId } = useParams()
+  const navigate = useNavigate()
   const [board, setBoard] = useState<Istate['board']>({
     boardId: 0,
     boardName: '',
@@ -26,7 +29,6 @@ const CommunityUpdate = () => {
   const [newImgs, setNewImgs] = useState<Istate['viewImgs']>([])
   const [deleteImgs, setDeleteImgs] = useState<Istate['viewImgs']>([])
   const [fileList, setFileList] = useState<FileList | undefined>()
-  const navigate = useNavigate()
 
   useEffect(() => {
     getCommunityUpdate(Number(boardId))
@@ -48,17 +50,22 @@ const CommunityUpdate = () => {
         })
         setNewImgs(nowImageUrlList)
       } else {
-        alert('최대 5개의 이미지만 올릴 수 있습니다')
+        Swal.fire({
+          icon: 'warning',
+          text: '최대 5개의 이미지만 올릴 수 있습니다',
+          confirmButtonText: '확인',
+          confirmButtonColor: 'orange',
+        })
       }
     }
   }
+
   const makeFormData = () => {
     let formData = new FormData()
     const newData = {
       ...board,
       deleteImgs
     }
-    console.log('🎲newData: ', newData);
     formData.append(
       "body",
       new Blob([JSON.stringify(newData)], {type: "application/json"})
@@ -68,22 +75,40 @@ const CommunityUpdate = () => {
     }
     return formData
   }
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
-    const form = makeFormData()
-    putBoard(form)
-    .then(res => {
-      // console.log('🎲res: ', res);
-      navigate(`/community/${boardId}`)
-    })
-    .catch(err => {
-      console.log('postBoard err:💧', err)
-    })
+    if (!!!board.boardName.trim() || !!!board.boardContent.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        text: '빈 칸을 채워주세요',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'orange',
+      })
+    } else {
+      const form = makeFormData()
+      putBoard(form)
+      .then(res => {
+        Swal.fire({
+          icon: 'success',
+          title: `${board.boardName}`,
+          text: '글을 수정했습니다',
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        // console.log('🎲res: ', res);
+        navigate(`/community/${boardId}`)
+      })
+      .catch(err => console.log('postBoard err:💧', err))
+    }
   }
+
   const throwOriginImg = (idx: number) => {
     setDeleteImgs([...deleteImgs, originImgs[idx]])
     setOriginImgs(originImgs.filter((v, i) => i !== idx))
   }
+
   const throwNewImg = (idx: number) => {
     setNewImgs(newImgs.filter((v, i) => i !== idx))
     if (fileList) {
@@ -175,6 +200,10 @@ const Wrapper = styled.article`
         right: 0;
       }
     }
+  }
+  @media screen and (max-width: 800px) {
+    margin-top: 0;
+    padding-top: 5rem;
   }
 `
 const TitleInput = styled.label`

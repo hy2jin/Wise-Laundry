@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes,  } from 'react-router-dom'
 import styled,{ThemeProvider} from 'styled-components'
 import { useRecoilState } from 'recoil'
 import { themeState } from './store/state/theme'
@@ -45,7 +46,7 @@ const Wrapper = styled.div`
     padding-top:10px;
   }
   input[type=password] {
-    font-family:'Malgun gothic', dotum, sans-serif;
+    font-family: 'Malgun gothic', 'dotum', 'sans-serif';
     &::placeholder {
       font-family: 'twayair';
     }
@@ -60,15 +61,18 @@ declare global {
   }
 }
 
-const App= (props:any) => {
+const App= (props: any) => {
   const [theme, setTheme] = useRecoilState(themeState)
-  const [isLogin,setIsLogin] = useRecoilState(loginState)
-  const [user,setUser] = useRecoilState(userState)
-  useEffect(()=>{
+  const [isLogin, setIsLogin] = useRecoilState(loginState)
+  const [user, setUser] = useRecoilState(userState)
+  useEffect(() => {
     const newuser = sessionStorage.getItem('userInfo')||""
-    if (newuser!==""){
+    if (!!newuser) {
       setUser(JSON.parse(newuser))
       setIsLogin(true)
+    }
+    else {
+      setIsLogin(false)
     }
   },[])
 
@@ -76,7 +80,7 @@ const App= (props:any) => {
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <Wrapper>
-          <Header/>
+          {isLogin && <Header />}
           <Routes>
             <Route path='/' element={<Start />}/>
             <Route path='/home' element={<Home />}/>

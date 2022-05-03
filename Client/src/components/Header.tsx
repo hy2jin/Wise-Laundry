@@ -15,12 +15,16 @@ const Wrapper = styled.div`
     position: fixed; 
     cursor: pointer;
   }
+  position: sticky;
+  top:0;
+  z-index: 2;
 `
 const HeaderNav = styled.nav`
+ 
   background-color: ${props => props.theme.navColor}; 
   width: 100%; 
-  height: 8vh;
-  line-height: 8vh;
+  height: 80px;
+  line-height: 80px;
   display: flex;
   justify-content: space-around;
   border-radius: 0 0 15px 15px;
@@ -32,8 +36,8 @@ const HeaderNav = styled.nav`
     color: ${props => props.theme.fontColor};
   }
   img {
-    margin-top: 5px;
-    height: 6vh;
+    margin-top: 15px;
+    height: 50px;
     cursor: pointer;
   }
   .toggle{
@@ -81,7 +85,7 @@ const FooterNav = styled.nav`
     justify-content: space-around;
   }
 `
-  
+
 
 const Header = () => {
   const [themeCheck,setThemeCheck] = useState(false)
@@ -95,15 +99,15 @@ const Header = () => {
       <span className='backIcon'>
         <MobileBack/>
       </span>
-      <HeaderNav>
-        <Link to='/laundry'>MY LAUNDRY</Link>
-        <Link to='/okaylaundry'>OKAY LAUNDRY</Link>
-        <Link to='/near'>NEAR</Link>
-        <Link to='/home'><img src='https://cdn-icons-png.flaticon.com/512/3238/3238630.png' alt='logo'/></Link>
-        <Link to='/community'>COMMUNITY</Link>
-        <Link to='/profile'>{user.userNick}님</Link>
-        <ToggleTop className='toggle' ><ToggleSwitch themeCheck={themeCheck} setThemeCheck={setThemeCheck} /></ToggleTop>
-      </HeaderNav>
+        <HeaderNav>
+          <Link to='/laundry'>MY LAUNDRY</Link>
+          <Link to='/okaylaundry'>OKAY LAUNDRY</Link>
+          <Link to='/near'>NEAR</Link>
+          <Link to='/home'><img src='https://cdn-icons-png.flaticon.com/512/3238/3238630.png' alt='logo'/></Link>
+          <Link to='/community'>COMMUNITY</Link>
+          <Link to='/profile'>{user.userNick}님</Link>
+          <ToggleTop className='toggle' ><ToggleSwitch themeCheck={themeCheck} setThemeCheck={setThemeCheck} /></ToggleTop>
+        </HeaderNav>
       <FooterNav>
         <Link to='/laundry'><IronIcon/></Link>
         <Link to='/okaylaundry'><LinkedCameraIcon/></Link>

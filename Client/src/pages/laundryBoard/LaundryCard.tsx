@@ -36,10 +36,11 @@ const ImgWrapper = styled.article`
 `
 const LabelBox = styled.div`
   width: 230px;
-  height: 80px;
+  height: 90px;
   margin: auto;
   display: flex;
   flex-wrap: wrap;
+  overflow-y: hidden;
 `
 const Label = styled.div`
   color: black;

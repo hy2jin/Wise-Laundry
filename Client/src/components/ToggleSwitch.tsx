@@ -17,7 +17,7 @@ width: 60px;
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
-  background: #d2f784  ;
+  background: #5f7c91;
   border-radius: 20px;
   position: relative;
   outline: 0;
@@ -64,11 +64,11 @@ width: 60px;
 
 /* Checked State */
 .input_wrapper input[type="checkbox"]:checked{
-  background: #315e7f;
+  background: #7ba0fd;
 }
 
 .input_wrapper input[type="checkbox"]:checked:after{
-  left: calc(100% - 30px);
+  left: calc(100% - 28px);
 }
 
 .input_wrapper input[type="checkbox"]:checked + .is_checked{

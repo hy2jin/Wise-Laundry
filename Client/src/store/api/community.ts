@@ -1,29 +1,48 @@
 import axios from "axios"
+import Swal from 'sweetalert2'
 
 const baseURL = process.env.REACT_APP_BASEURL
-const token = sessionStorage.getItem('token')
 
 const apiClient = axios.create({
   baseURL: baseURL,
   headers: {
     "Content-type": "application/json",
-    'Authorization': `Bearer ${token}`
   },
 })
 const apiImageClient = axios.create({
   baseURL: baseURL,
   headers: {
     "Content-type": "multipart/form-data",
-    'Authorization': `Bearer ${token}`
   },
 })
 
+apiClient.interceptors.request.use(
+  function CustomInterceptorRequest(config){
+    return {...config,
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+      }
+    }
+  }
+)
+apiImageClient.interceptors.request.use(
+  function CustomInterceptorRequest(config){
+    return {...config,
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+      }
+    }
+  }
+)
+
 // 🌼🌼🌼게시글 전체 => Infinite Scroll 수정 필요
+// export const getCommunityAll = async (boardId: number) => {
 export const getCommunityAll = async () => {
   const { data } = await apiClient.get<any>(
     '/community/all', 
+    // `/community/all/${10}/${boardId}`, 
   )
-  console.log('🌼getCommunityAll: ', data)
+  // console.log('🌼getCommunityAll: ', data)
   return data
 }
 
@@ -32,23 +51,29 @@ export const getCommunityDetail = async (boardId: number) => {
   const { data } = await apiClient.get<any>(
     `/community/${boardId}`,
   )
-  console.log('🌼getCommunityDetail: ', data)
+  // console.log('🌼getCommunityDetail: ', data)
   const imgs = data.boardImgs.map((img: { boardImg: string }) => `/images/${img.boardImg}`)
-  // console.log('🌼imgs: ', imgs);
   const res = {...data, boardImgs: imgs}
   delete res.statusCode
   // console.log('🌼res: ', res);
   return res
 }
 
+// 🌼🌼🌼검색⭕
+export const getSearch = async (word: string) => {
+  const response = await apiClient.get<any>(
+    `/community/search/${word}`
+    )
+  console.log('🌼getSearch: ', response);
+}
+
 // 🌼🌼🌼게시글 작성⭕
 export const postBoard = async (form: any) => {
-  // const response = await apiClient.post<any>(
   const { data } = await apiImageClient.post<any>(
     '/community/create',
     form
   )
-  console.log('🌼postBoard: ', data);
+  // console.log('🌼postBoard: ', data);
   return data
 }
 
@@ -57,27 +82,26 @@ export const getCommunityUpdate = async (boardId: number) => {
   const { data } = await apiClient.get<any>(
     `/community/${boardId}`,
   )
-  console.log('🌼getCommunityUpdate: ', data)
+  // console.log('🌼getCommunityUpdate: ', data)
   const imgs = data.boardImgs.map((img: { boardImg: string }) => img.boardImg)
-  // console.log('🌼imgs: ', imgs);
   const res = {
     boardId: data.boardId,
     boardContent: data.boardContent,
     boardImgs: imgs,
     boardName: data.boardName
   }
-  console.log('🌼res: ', res);
+  // console.log('🌼res: ', res);
   return res
 }
 
 // 🌼🌼🌼게시글 수정⭕
 export const putBoard = async (form: any) => {
-  const response = await apiClient.put<any>(
+  const { data } = await apiClient.put<any>(
     '/community/update',
     form
   )
-  console.log('🌼putBoard: ', response.data);
-  return response.data
+  // console.log('🌼putBoard: ', data);
+  return data
 }
 
 // 🌼🌼🌼게시글 삭제⭕
@@ -108,3 +132,35 @@ export const delComment = async (commentId: number) => {
   return data
 }
 
+apiClient.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err.response && (err.response.status === 401 || err.response.status === 403)) {
+      sessionStorage.clear()
+      Swal.fire({
+        icon: 'error',
+        text: '로그인 후 사용해주세요',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'red',
+      })
+      .then(() => window.location.href = '/login')
+    }
+    return Promise.reject(err)
+  }
+)
+apiImageClient.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err.response && (err.response.status === 401 || err.response.status === 403)) {
+      sessionStorage.clear()
+      Swal.fire({
+        icon: 'error',
+        text: '로그인 후 사용해주세요',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'red',
+      })
+      .then(() => window.location.href = '/login')
+    }
+    return Promise.reject(err)
+  }
+)

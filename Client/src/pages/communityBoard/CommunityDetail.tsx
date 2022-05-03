@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2'
 import styled from 'styled-components';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -37,6 +38,7 @@ interface Istate {
 }
 
 const CommunityDetail = () => {
+
   const { boardId } = useParams()
   const navigate = useNavigate()
   const [user, setUser] = useRecoilState(userState)
@@ -67,45 +69,66 @@ const CommunityDetail = () => {
   })
   const [imgIdx, setImgIdx] = useState(0)
 
+  let boardSrc = board.userImg ? `/images/${board.userImg}` : board.kakaoImg
+  boardSrc = boardSrc || defaultImg
+
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       createComment()
     }
   }
+
   const deleteBoard = () => {
-    delBoard(Number(boardId))
-    .then(() => {
-      // console.log(`${boardId}번 글 삭제 성공🎲`);
-      navigate('/community')
+    Swal.fire({
+      title: `${board.boardName}`,
+      text: '글을 삭제하겠습니까?',
+      confirmButtonText: '삭제',
+      confirmButtonColor: 'red',
+      showDenyButton: true,
+      denyButtonText: `아니요`,
+      denyButtonColor: `gray`,
     })
-    .catch(err => {
-      console.log('deleteBoard error:🎲', err)
+    .then(({ value }) => {
+      if (value) {
+        delBoard(Number(boardId))
+        .then(() => {
+          navigate('/community')
+        })
+        .catch(err => console.log('deleteBoard error:💧', err))
+      }
     })
   }
+
   const createComment = () => {
     const data = {
-      userId: 75,
-      // userId: user.userId,
+      userId: user.userId,
       boardId: boardId,
       commentContent: inputText
     }
-    console.log('comment data: 🎲', data);
     postComment(data)
     .then(res => {
       setBoard({...board, comments: [...board.comments, res]})
     })
-    .catch(err => {
-      console.log('createComment error:🎲', err)
-    })
+    .catch(err => console.log('createComment error:💧', err))
     setInputText('')
   }
+
   const deleteComment = (commentId: number) => {
     delComment(commentId)
     .then(() => {
+      Swal.fire({
+        icon: 'success',
+        text: '댓글을 삭제했습니다',
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1000
+      })
       const newComments = board.comments.filter(c => c.commentId !== commentId)
       setBoard({...board, comments: newComments})
     })
+    .catch(err => console.log('deleteComment error:💧', err))
   }
+
   const changeIdx = (num: number) => {
     const idx = imgIdx + num
     const maxIdx = board.boardImgs.length - 1
@@ -117,21 +140,18 @@ const CommunityDetail = () => {
       setImgIdx(idx)
     }
   }
+
   const imageOnErrorHandler = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     e.currentTarget.src = defaultImg;
   };
-  let boardSrc = board.userImg ? `/images/${board.userImg}` : board.kakaoImg
-  boardSrc = boardSrc || defaultImg
 
   useEffect(() => {
     getCommunityDetail(Number(boardId))
     .then(res => {
+      // console.log('🎲getCommunityDetail: ', res);
       setBoard(res)
-      console.log('🎲getCommunityDetail: ', res);
     })
-    .catch(err => {
-      console.log('getCommunityDetail err:🎲', err)
-    })
+    .catch(err => console.log('getCommunityDetail err:💧', err))
   }, [boardId])
 
   return (
@@ -176,7 +196,7 @@ const CommunityDetail = () => {
               <p className='nick' title={comment.userNick}>{comment.userNick}</p>
               <div className='content' style={{backgroundColor: `${theme.listBgColor[i%3]}`}}>
                 <p>{comment.commentContent}</p>
-                {comment.userId === 10 && 
+                {comment.userId === user.userId && 
                 <RemoveCircleOutlineIcon onClick={() => deleteComment(comment.commentId)} />
                 }
               </div>
@@ -195,8 +215,7 @@ const CommunityDetail = () => {
       </Board>
       <Btns>
         <button className='active' onClick={() => navigate('/community')}><span />목록</button>
-        {board.userId === 10 && <>
-        {/* {board.userId === user.userId && <> */}
+        {board.userId === user.userId && <>
         <button className='active' onClick={() => navigate(`/board/${board.boardId}`)}><span />수정</button>
         <button className='inactive' onClick={() => deleteBoard()}><span />삭제</button>
         </>}
@@ -240,6 +259,7 @@ const Wrapper = styled.article`
   @media screen and (max-width: 800px) {
     width: 80vw;
     padding: 0;
+    padding-top: 5rem;
   }
   `
 const Board = styled.section`

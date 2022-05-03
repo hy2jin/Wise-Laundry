@@ -7,7 +7,7 @@ import { getNicknamecheck, getUserInfo, putUpdateUserInfo } from '../../store/ap
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store/state/user';
-import { profile } from 'console';
+import { AltRouteTwoTone } from '@mui/icons-material';
 
 
 const Wrapper = styled.div `
@@ -68,9 +68,19 @@ const SmallBox = styled.div `
     color: white;
   }
 
+  .logoutBtn {
+    border: none;
+    width : 100%;
+    height: 5.5vh;
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: #f17388;
+    color: white;
+  }
+
   @media screen and (max-width: 800px) {
     position: relative;
-    bottom: 13vh;
+    /* bottom: 13vh; */
 
     .EditPasswordBtn {
       border: none;
@@ -89,6 +99,10 @@ const SmallBox = styled.div `
       font-size: 1rem;
       background-color: ${props => props.theme.activeBtnColor};
       color: white;
+    }
+
+    .logoutBtn {
+      margin-top: 0.5rem;
     }
   }
 `
@@ -117,13 +131,22 @@ const EditForm = styled.div `
     display: flex;
   }
 
+  .BtnPosition2 {
+    margin-top: 0.8rem;
+    display: flex;
+  }
+
   .SaveBtnBox {
     width: 100%;
   }
   
   .EditPasswordBox {
     width: 100%;
-    margin-top: 0.5rem;
+  }
+
+  .logoutBox {
+    width: 100%;
+    margin-left: 0.8vw;
   }
 
 
@@ -147,6 +170,17 @@ const EditForm = styled.div `
 
     .EditPasswordBox {
       margin-top: 0;
+    }
+
+    .BtnPosition2 {
+      display: flex;
+      flex-flow: column;
+      margin-top: 0;
+    }
+
+    .logoutBox {
+      
+      margin-left: 0;
     }
   }
 `
@@ -212,72 +246,89 @@ const InputForm = styled.section`
 `
 
 const Profile = () => {
-  const [email, setEmail] = useState('')
-  const [nickname, setNickname] = useState('')
-  const [password, setPassword] = useState('')
+  const [user, setUser] = useRecoilState(userState)
+  const navigate = useNavigate();
 
-  const [usingEmail, setUsingEmail] = useState('!@#$Q!@#QWER')
-  const [usingNickname, setUsingNickname] = useState('!@#$Q!@#QWER')
-  
-  const [nickChecked, setNickChecked] = useState(false)
+  const [nickname, setNickname] = useState(user.userNick)
+  const [usingNickname, setUsingNickname] = useState(user.userNick)
+  const [nickChecked, setNickChecked] = useState(true)
+
+  const [profileImg, setProfileImg] = useState('')
 
   const [modalOn, setModalOn] = useState(false);
 
   const [file, setFile] = useState<any>();
-  // const [profileImg, setProfileImg] = useState('')
+
+  const [editCheck, setEditCheck] = useState(false)
+
   // const [kakaoProfileImg, setKakaoProfileImg] = useState('')
 
-  const [user, setUser] = useRecoilState(userState)
+  useEffect(() => {
+    if (user.kakaoImg !== null) {
+      if (user.userImg !== null) {
+        setProfileImg(`/images/${user.userImg}`)
+      } else {
+        setProfileImg(user.kakaoImg)
+      }
+    } else {
+      setProfileImg('')
+    }
+  },[])
 
   
-  const navigate = useNavigate();
+
 
   const passwordChangeModal = () => {
     setModalOn(true);
     console.log(modalOn,' 모달 열기')
   }
 
-  // 회원정보 불러오기
-  useEffect(() => {
-    getUserInfo()
-    .then((res) => {
-      console.log(res, '프로필에서 유저정보')
-      setUser(res.user)
-      setEmail(res.user.userEmail)
-      
-    })
-  },[])
-
-  // 👉👉이미지 변경할 때 카카오 이미지가 null 이면 userImg 보여주고
-  // 아니면 카카오 보여주고 사진 변경은 userImg만 가능하게! 👈👈
 
   // 회원 정보 변경
   const updateUser = () => {
-    console.log('정보 변경 실행')
-
-    const formdata = new FormData()
-    formdata.append('userUpdateInfo',
-      new Blob([
-        JSON.stringify({
-          'userEmail': email,
-          'userNick': nickname,
-          'password': password,
-        })
-      ],{type:'application/json'})
-    )
-    if(file!==undefined){
-      formdata.append('file', file)
-    }
-
-    putUpdateUserInfo(formdata)
-    .then(() => {
-      console.log('회원정보 수정 성공')
-      // navigate('/login')
+    if (!nickChecked) {
+      alert('변경할 닉네임을 입력해주세요')
+    } else {
+      console.log('정보 변경 실행')
+      const formdata = new FormData()
+      formdata.append('userUpdateInfo',
+        new Blob([
+          JSON.stringify({
+            'userEmail': null,
+            'userNick': nickname,
+            'password': null,
+          })
+        ],{type:'application/json'})
+      )
+      if(file!==undefined){
+        formdata.append('file', file)
       }
-    )
-    .catch((err) => console.log(err))
+
+      putUpdateUserInfo(formdata)
+      .then(() => {
+        console.log('닉네임 수정 성공')
+        setEditCheck(true)
+        // navigate('/login')
+        }
+      )
+      .catch((err) => console.log(err))
+    }
   }
 
+  useEffect(() => {
+    if (editCheck) {
+      getUserInfo()
+      .then((res) => {
+        console.log(res, '💐프로필 유저정보💐')
+        const userInfo = res.user;
+        sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+        setUser(res.user)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
+  },[editCheck])
 
   const onHandelNick = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value)
@@ -316,6 +367,13 @@ const Profile = () => {
     }
   }
 
+  const onLogout = () => {
+    console.log('로그아웃!!')
+    sessionStorage.clear()
+    alert('로그아웃 되었습니다')
+    navigate('/home')
+  }
+
   // let userSrc = profile ? `/images/${profile}` : `/images/${kakaoProfileImg}`
   // userSrc = userSrc || defaultImg
 
@@ -330,7 +388,7 @@ const Profile = () => {
     
           {/* <img src={`/images/${profile}`} alt="프로필이미지" /> */}
           <ImgBox>
-            <UserImgBox userImg='' file={file} setFile={setFile} />
+            <UserImgBox userImg={profileImg} file={file} setFile={setFile} />
           </ImgBox>
           <div className='NickBox'>
             <label htmlFor='nickName'>
@@ -350,13 +408,18 @@ const Profile = () => {
             <div className='SaveBtnBox'>
               <button className="SaveBtn" onClick={updateUser}>확인</button>
             </div>
+          </div>
+          <div className='BtnPosition2'>
             <div className='EditPasswordBox'>
               <button className="EditPasswordBtn" onClick={passwordChangeModal}>비밀번호 수정</button>
+            </div>
+            <div className='logoutBox'>
+              <button className="logoutBtn" onClick={onLogout}>로그아웃</button>
             </div>
           </div>
         </EditForm>
       </SmallBox>
-      {modalOn && <PasswordModal setModalOn={setModalOn} setPassword={setPassword} email={email} nickname={nickname} file={file} />}
+      {modalOn && <PasswordModal setModalOn={setModalOn} />}
     </Wrapper>
   );
 };

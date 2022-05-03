@@ -8,6 +8,7 @@ const KakaoLogin = () => {
   // 인가코드
   const [isLogin, setIsLogin] = useRecoilState(loginState)
   const [user, setUser] = useRecoilState(userState)
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -17,10 +18,12 @@ const KakaoLogin = () => {
     if (isKakao === 'true') {
       // console.log(code, '코드 확인')
       sessionStorage.setItem('kakao', 'false')
+      
       // sessionStorage.setItem('newPage', 'true')
       getKakaoLogin(code)
       .then((res) => {
         console.log('로그인 성공')
+        
         sessionStorage.setItem('kakao', 'false')
         const token = res.accessToken;
         sessionStorage.setItem("token", `${token}`);
@@ -33,8 +36,10 @@ const KakaoLogin = () => {
         sessionStorage.setItem('kakao', 'false')
       })
       setIsLogin(true)
+      // navigate('/home')
     } else {
       sessionStorage.setItem('kakao', 'true')
+      window.location.replace("/")
     }
   }, []);
 

@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { labelState as labelStore } from '../../store/state/laundry'
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close'
+import Swal from 'sweetalert2';
 const Wrapper = styled.section`
   cursor: pointer;
   color: black;
@@ -15,6 +16,7 @@ const Wrapper = styled.section`
   align-items: center;
   font-size: 0.8rem;
   p{
+    padding: 1px;
     margin-top: 1px;
   }
   input{
@@ -131,18 +133,34 @@ const Label:React.FC<Iprops> = ({label,color,idx,setCareLabels,careLabels}) => {
     const newCareLabels = careLabels.filter((label,index)=>index!==idx)
     setCareLabels(newCareLabels)
   }
+  useEffect(()=>{
+    searchLabel()
+  },[value])
   const selectLabel = (label:any)=>{
-    setCareLabels([...careLabels,label])
-    setShowModal(false)
+    var flag =true
+    careLabels.map((labels)=>{
+      if(labels.careLabel===label.careLabel){
+        Swal.fire('이미 있는 라벨입니다.')
+        flag=false
+      }
+    })
+    if (flag){
+      setCareLabels([...careLabels,label])
+      setShowModal(false)
+      setValue('')
+    }
   }
-  const searchLabel = (e:any)=>{
-    setValue(e.target.value)
-    if(value===''){setShowLabel(labelstate)}
+  const searchLabel = ()=>{
+    if(value===''){
+      setShowLabel(labelstate)
+    }
     else{
       var newshow:Iprops['careLabels'] = []
       labelstate.map((label)=>{
         if(label.careLabel.includes(value))
-        {newshow.push(label)
+        {
+          newshow.push(label)
+          console.log(value)
       }})
       setShowLabel(newshow)
     }
@@ -156,11 +174,11 @@ const Label:React.FC<Iprops> = ({label,color,idx,setCareLabels,careLabels}) => {
         <Modal>
           <CloseIcon onClick={()=>{setShowModal(false)}} className='close'/>
           <InputBox>
-            <input value={value} onChange={(e)=>{searchLabel(e)}}/>
+            <input value={value} onChange={(e)=>{setValue(e.target.value)}}/>
             <div className='submitBtn'><SearchIcon/></div>
           </InputBox>
           <Labels>
-            {labelstate.map((label,idx)=>{return(
+            {showLabel.map((label,idx)=>{return(
               <LabelBox onClick={()=>{selectLabel(label)}} key={idx} color={colors[idx%10]}>
                 {label.careLabel}
               </LabelBox>

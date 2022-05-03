@@ -124,13 +124,16 @@ const LaundryBox = styled.section`
     margin-left: 1vw;
     margin-right: 1vw;
   }
+  .no{
+    font-size: 2rem;
+  }
 `
 
 
 const LaundryAll = () => {
   const [allLaundries,setAllLaundries] = useState<Istate['laundry'][]>([])
   const [myLaundries,setMyLaundries] = useState<Istate['laundry'][]>([])
-  const [filter,setFilter] = useState('my') // my <=> all
+  const [filter,setFilter] = useState('all') // my <=> all
   const [inputText,setInputText] = useState('')
   const handleEnter = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.code === "Enter") {
@@ -138,6 +141,7 @@ const LaundryAll = () => {
     }
   };
   const [user,getUser] = useRecoilState(userState)
+
   useEffect(()=>{
     getProductAll().then((res)=>{
       setAllLaundries(res.list)
@@ -151,13 +155,13 @@ const LaundryAll = () => {
     <Wrapper>
       <Header>
         <Title>
-          <div onClick={()=>{setFilter('my')}} id={filter==='my'?'filter':''} className='box'>
-            <p>나만의 </p>
-            <p>옷장</p>
-          </div>
           <div id={filter==='all'?'filter':''}onClick={()=>{setFilter('all')}} className='box'>
           <p>모두의</p>
           <p>옷장</p>
+          </div>
+          <div onClick={()=>{setFilter('my')}} id={filter==='my'?'filter':''} className='box'>
+            <p>나만의 </p>
+            <p>옷장</p>
           </div>
         </Title>
         <SearchBox>
@@ -174,8 +178,14 @@ const LaundryAll = () => {
       </Header>
       <LaundryBox>
         {filter==='my' ? 
+          (myLaundries!==null?
           myLaundries.map((laundry,idx)=>{return(<section key={laundry.laundryId}><LaundryCard  laundry={laundry}/></section>)}):
+          <p className='no'>아직 등록된 옷이 없어요</p> )
+          :
+          (allLaundries!==null?
           allLaundries.map((laundry,idx)=>{return(<section key={laundry.laundryId}><LaundryCard  laundry={laundry}/></section>)})
+          :
+          <p className='no'>아직 등록된 옷이 없어요</p>)
         }
       </LaundryBox>
     </Wrapper>
