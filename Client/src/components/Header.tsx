@@ -23,8 +23,8 @@ const HeaderNav = styled.nav`
  
   background-color: ${props => props.theme.navColor}; 
   width: 100%; 
-  height: 8vh;
-  line-height: 8vh;
+  height: 80px;
+  line-height: 80px;
   display: flex;
   justify-content: space-around;
   border-radius: 0 0 15px 15px;
@@ -36,8 +36,8 @@ const HeaderNav = styled.nav`
     color: ${props => props.theme.fontColor};
   }
   img {
-    margin-top: 5px;
-    height: 6vh;
+    margin-top: 15px;
+    height: 50px;
     cursor: pointer;
   }
   .toggle{
