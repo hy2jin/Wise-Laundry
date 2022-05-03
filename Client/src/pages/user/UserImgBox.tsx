@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import profile from './images/profile-image.png';
 // import camera from './images/camera-free-icon-font.png';
@@ -67,6 +67,8 @@ const UserImgBox:React.FC<IProps>= ({file, setFile, userImg}) => {
     });
   };
 
+  
+
   const handleFileOnChange = (e: React.ChangeEvent) => {
     setFile((e.target as HTMLInputElement).files?.item(0));
     console.log((e.target as HTMLInputElement).files?.item(0));
@@ -74,6 +76,13 @@ const UserImgBox:React.FC<IProps>= ({file, setFile, userImg}) => {
       encodeMainFileToBasek64((e.target as HTMLInputElement).files?.item(0));
     }
   };
+
+  useEffect(() => {
+    setFileSrc(userImg)
+    console.log(fileSrc, '여기 프로필 이미지')
+  },[userImg])
+
+
   const imageOnErrorHandler = (
     // 사진이 오류날 시 기본 사진
     event: React.SyntheticEvent<HTMLImageElement, Event>

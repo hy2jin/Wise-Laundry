@@ -30,12 +30,60 @@ const CommunityAll = () => {
   const [inputText, setInputText] = useState('')
   const [boards, setBoards] = useState<Istate["board"][]>([])
   const [lastBoardId, setLastBoardId] = useState(-1)
-  const [endflag, setEndFlag] = useState(false)
+  const [endFlag, setEndFlag] = useState(false)
+  const [fetching, setFetching] = useState(false)
 
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      console.log(inputText, '검색요청 보냅니다아🎷')
-      // getSearch(inputText)
+      getSearch(inputText, lastBoardId)
+      .then(res => {
+        setBoards(res.list)
+        setEndFlag(res.endFlag)
+      })
+      .catch(err => console.log('getSearch err:💧 ', err))
+    }
+  }
+
+  const onClickCancel = () => {
+    setInputText('')
+    setLastBoardId(-1)
+  }
+
+  const getMoreBoard = async () => {
+    setFetching(true)
+    if (!!inputText) {
+      getSearch(inputText, lastBoardId)
+      .then(res => {
+        console.log('🎲res: ', res);
+        setBoards([...boards, res.list])
+        setEndFlag(res.endFlag)
+      })
+      .catch(err => console.log('getSearch err:💧 ', err))
+    } else {
+      getCommunityAll(lastBoardId)
+      .then(res => {
+        const newBoard = [...boards].concat(res.list)
+        setBoards(newBoard)
+        setEndFlag(res.endFlag)
+        if (!!!res.endFlag) {
+          const lastIdx = res.list.length - 1
+          setLastBoardId(res.list[lastIdx].boardId)
+        } else {
+          setLastBoardId(-1)
+        }
+      })
+      .catch(err => console.log('getMoreAllBoard err:💧 ', err))
+    }
+    setFetching(false)
+  }
+
+  const handleScroll = () => {
+    const veiw = document.documentElement
+    const scrollHeight = veiw.scrollHeight
+    const scrollTop  = veiw.scrollTop 
+    const clientHeight  = veiw.clientHeight
+    if (scrollTop + clientHeight >= scrollHeight && !fetching && !endFlag) {
+      getMoreBoard()
     }
   }
 
@@ -44,9 +92,23 @@ const CommunityAll = () => {
   };
 
   useEffect(() => {
-    getCommunityAll()
+    window.addEventListener("scroll", handleScroll)
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  })
+
+  useEffect(() => {
+    getCommunityAll(lastBoardId)
     .then(res => {
       setBoards(res.list)
+      setEndFlag(res.endFlag)
+      if (!!!res.endFlag) {
+        const lastIdx = res.list.length - 1
+        setLastBoardId(res.list[lastIdx].boardId)
+      } else {
+        setLastBoardId(-1)
+      }
     })
     .catch(err => console.log('getCommunityAll err:💧 ', err))
   }, [])
@@ -63,7 +125,7 @@ const CommunityAll = () => {
         <div />
         <input value={inputText} placeholder='Search title, and Press Enter' id='search'
           onChange={e => setInputText(e.target.value)} onKeyUp={e => handleKeyUp(e)} />
-        <CancelIcon onClick={() => setInputText('')} style={{color: '#cccccc', cursor: 'pointer'}} />
+        <CancelIcon onClick={() => onClickCancel()} style={{color: '#cccccc', cursor: 'pointer'}} />
       </SearchBar>
       <section>
         {boards.map((board, i) => {
@@ -77,7 +139,9 @@ const CommunityAll = () => {
                 <div className='name'>{board.boardName}</div>
                 <p className='comment'><ChatBubbleOutlineIcon /><span>{board.commentCnt}</span></p>
               </div>
+              {/* {!!board.boardDate && */}
               <p className='date'>{board.boardDate[0]}.{board.boardDate[1]}.{board.boardDate[2]}</p>
+              {/* } */}
             </EachBoard>
           )
         }

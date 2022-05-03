@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import { deleteLaundry, getLaundryDetail } from '../../store/api/laundry';
 import Swal from 'sweetalert2';
+import { useRecoilState } from 'recoil';
+import { userState } from '../../store/state/user';
 
 const Wrapper = styled.article`
   width: 70vw;
@@ -216,6 +218,7 @@ const LaundryDetail = () => {
   const [laundry,setLaundry] = useState<Istate['laundry']>()
   const navigate = useNavigate()
   const {laundryId} = useParams()
+  const [user,setUser] = useRecoilState(userState)
   useEffect(()=>{
     getLaundryDetail(Number(laundryId)).then((res)=>{
       setLaundry(res.list)
@@ -286,12 +289,13 @@ const LaundryDetail = () => {
             </Memo>
           </InfoBox>
         </Top>
+        {user.userId ===laundry.laundryOwnerId &&
         <ButtonBox>
           <button className='updateBtn' onClick={()=>{navigate(`/laundry/${laundryId}/update`)}}>수정하기</button>
           <button className='deleteBtn' 
           onClick={()=>{ goDelete()}}>
             삭제하기</button>
-        </ButtonBox>
+        </ButtonBox>}
       </DetailBox>
       }
     </Wrapper>

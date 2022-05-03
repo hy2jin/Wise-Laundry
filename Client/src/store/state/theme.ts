@@ -30,7 +30,7 @@ export const DARKMODE = {
 export const LIGHTMODE = {
   bgColor: 'white',
   fontColor: '#121212',
-  navColor: '#a0b9fd',
+  navColor: '#E9F2FF',
   activeBtnColor: '#96BDF3',
   hoverActiveBtnColor: '#83b5fb',
   inactiveBtnColor: '#bdbdbd',

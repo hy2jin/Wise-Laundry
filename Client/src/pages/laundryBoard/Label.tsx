@@ -126,16 +126,17 @@ const Label:React.FC<Iprops> = ({label,color,idx,setCareLabels,careLabels}) => {
   ['#cffbb2','#90fdec','#f4ffac','#fea5e6','#fdce8d',
   '#8fdab9','#acd682','#bac3f0','#d8db86','#db829b']
   const [labelstate,setLabelState] = useRecoilState(labelStore)
-  const [showLabel,setShowLabel] = useState(labelstate)
+  const [showLabel,setShowLabel] = useState<Iprops['careLabels']>([])
   const [showModal,setShowModal] = useState(false)
   const [value,setValue] = useState('')
   const getdelete = ()=>{
     const newCareLabels = careLabels.filter((label,index)=>index!==idx)
     setCareLabels(newCareLabels)
   }
+  
   useEffect(()=>{
     searchLabel()
-  },[value])
+  },[value,labelstate])
   const selectLabel = (label:any)=>{
     var flag =true
     careLabels.map((labels)=>{
@@ -178,7 +179,7 @@ const Label:React.FC<Iprops> = ({label,color,idx,setCareLabels,careLabels}) => {
             <div className='submitBtn'><SearchIcon/></div>
           </InputBox>
           <Labels>
-            {showLabel.map((label,idx)=>{return(
+            {labelstate.length>0 && showLabel.map((label,idx)=>{return(
               <LabelBox onClick={()=>{selectLabel(label)}} key={idx} color={colors[idx%10]}>
                 {label.careLabel}
               </LabelBox>
