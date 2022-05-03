@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService{
             return null;
         }else{
             user.setUserNick(userUpdateInfo.getUserNick());
-            if(!userUpdateInfo.getPassword().equals("")||!userUpdateInfo.getPassword().equals(null)){
+            if(!userUpdateInfo.getPassword().equals(null)||!userUpdateInfo.getPassword().equals("")){
                 user.setPassword(passwordEncoder.encode(userUpdateInfo.getPassword()));
             }
             if (img.getFile("file")!=null) {

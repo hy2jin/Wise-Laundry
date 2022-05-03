@@ -12,17 +12,21 @@ import lombok.Setter;
 @ApiModel("UserInfoGetRes")
 public class UserInfoGetRes extends BaseResponseBody {
 
-    @ApiModelProperty(name = "회원 Email", example = "ssafy@ssafy.com")
-    User user;
+
+    @ApiModelProperty(name = "회원 이메일", example = "ssafy@ssafy.com")
+    String userEmail;
+    @ApiModelProperty(name = "회원 닉네임", example = "PrinceOfSsafy")
+    String userNick;
+    @ApiModelProperty(name = "회원 프로필 이미지", example = "user/exampleserverimgaddress.jpg")
+    String userImg;
 
     public static UserInfoGetRes of(Integer statusCode, String message, User user) {
-
-        user.setPassword(null);
-
         UserInfoGetRes res = new UserInfoGetRes();
         res.setStatusCode(statusCode);
         res.setMessage(message);
-        res.setUser(user);
+        res.setUserEmail(user.getUserEmail());
+        res.setUserNick(user.getUserNick());
+        res.setUserImg(user.getUserImg());
         return res;
     }
 }
