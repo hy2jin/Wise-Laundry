@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const KakaoLogin = () => {
   // 인가코드
   const [isLogin, setIsLogin] = useRecoilState(loginState)
-  // const [user, setUser] = useRecoilState(userState)
+  const [user, setUser] = useRecoilState(userState)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -26,10 +26,6 @@ const KakaoLogin = () => {
         sessionStorage.setItem("token", `${token}`);
         // console.log(token, 'jwt 토큰 확인')
         navigate('/home')
-        window.history.forward()
-        // setTimeout(() => {
-        //   window.location.href='https://슬기로운세탁.com/'
-        // }, 1000); 
       })
   
       .catch((err) => {
@@ -42,23 +38,26 @@ const KakaoLogin = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (isLogin) {
-  //     console.log(isLogin, '여기 확인')
-  //     // sessionStorage
-  //     // console.log(, '토큰 확인')
-  //     getUserInfo(email)
-  //       .then((res) => {
-  //         console.log(res, '💐유저정보💐')
-  //         setUser(res.user)
-  //         navigate('/home')
-  //       })
-  //   }
-  // },[isLogin])
+  useEffect(() => {
+    if (isLogin) {
+      console.log(isLogin, '여기 확인')
+      // sessionStorage
+      // console.log(, '토큰 확인')
+      getUserInfo()
+        .then((res) => {
+          console.log(res, '😱카카오 유저정보')
+          setUser(res.user)
+          navigate('/home')
+        })
+    }
+  },[isLogin])
 
   // 로그인 후 로그인 페이지로 뒤로가기 방지
-  // eslint-disable-next-line no-restricted-globals
-  history.go(1)
+  useEffect(() => {
+    if (isLogin) {
+      navigate('/home')
+    }
+  },[isLogin])
   
 
   return (

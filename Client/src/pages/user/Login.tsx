@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import logo from './images/logo2.png';
 import { getUserInfo, postLogin } from '../../store/api/user';
 import { useRecoilState } from 'recoil';
-import { userState } from '../../store/state/user';
+import { loginState, userState } from '../../store/state/user';
 
 
 const Wrapper = styled.div `
@@ -197,9 +197,10 @@ const InputForm = styled.section`
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  
-  const [onLogin, setOnLogin] = useState(false)
+  // const [onLogin, setOnLogin] = useState(false)
   const [user, setUser] = useRecoilState(userState)
+  
+  const [isLogin, setIsLogin] = useRecoilState(loginState)
 
   const navigate = useNavigate();
   
@@ -211,8 +212,8 @@ const Login = () => {
       const token = res.accessToken;
       sessionStorage.setItem("token", `${token}`);
       // console.log(token, 'jwt 토큰 확인')
-      // window.history.forward()
-      setOnLogin(true)
+      // setOnLogin(true)
+      setIsLogin(true)
       // navigate('/home')
     })
 
@@ -222,17 +223,20 @@ const Login = () => {
   }
   
   useEffect(() => {
-    setOnLogin(false)
+    // setOnLogin(false)
+    setIsLogin(false)
   },[])
 
   useEffect(() => {
-    if (onLogin) {
-      console.log(onLogin, '여기 확인')
+    if (isLogin) {
+      console.log(isLogin, '여기 확인')
       // sessionStorage
       // console.log(, '토큰 확인')
       getUserInfo()
         .then((res) => {
           console.log(res, '💐유저정보💐')
+          const userInfo = res.user;
+          sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
           setUser(res.user)
           navigate('/home')
         })
@@ -240,7 +244,22 @@ const Login = () => {
           console.log(err)
         })
     }
-  },[onLogin])
+  },[isLogin])
+  //   if (onLogin) {
+  //     console.log(onLogin, '여기 확인')
+  //     // sessionStorage
+  //     // console.log(, '토큰 확인')
+  //     getUserInfo()
+  //       .then((res) => {
+  //         console.log(res, '💐유저정보💐')
+  //         setUser(res.user)
+  //         navigate('/home')
+  //       })
+  //       .catch((err) => {
+  //         console.log(err)
+  //       })
+  //   }
+  // },[onLogin])
 
   const onKeyupEnter = (e: { key: string; }) => {
     if (e.key === 'Enter') {
@@ -249,8 +268,12 @@ const Login = () => {
   }
 
   // 로그인 후 로그인 페이지로 뒤로가기 방지
-  // eslint-disable-next-line no-restricted-globals
-  history.go(1)
+  useEffect(() => {
+    if (isLogin) {
+      navigate('/home')
+    }
+  },[isLogin])
+
 
 
   const CLIENT_ID = "9c4b740a32c840080fcfd4249ec3b331";
