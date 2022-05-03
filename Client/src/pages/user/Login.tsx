@@ -229,7 +229,9 @@ const Login = () => {
       getUserInfo()
         .then((res) => {
           console.log(res, '💐유저정보💐')
-          const userInfo = res.user;
+          const userInfo = {...res};
+          delete userInfo.message
+          delete userInfo.statusCode
           sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
 
           navigate('/home')
