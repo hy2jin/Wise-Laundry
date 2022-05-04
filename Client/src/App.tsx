@@ -21,8 +21,6 @@ import LaundryCreate from './pages/laundryBoard/LaundryCreate'
 import Start from './pages/main/Start'
 import KakaoLogin from './pages/user/KakaoLogin'
 import NotFound from './pages/notfound/NotFound'
-import Yas from './pages/Near/Yas'
-import Practice from './pages/Near/Practice'
 import CommunityUpdate from './pages/communityBoard/CommunityUpdate'
 import LaundryUpdate from './pages/laundryBoard/LaundryUpdate'
 
