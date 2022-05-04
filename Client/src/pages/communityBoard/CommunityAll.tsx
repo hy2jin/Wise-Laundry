@@ -34,41 +34,42 @@ const CommunityAll = () => {
   const [endFlag, setEndFlag] = useState(false)
   const [fetching, setFetching] = useState(false)
 
-  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      getSearch(inputText, lastBoardId)
-      .then(res => {
-        console.log('🎲getSearch: ', res);
-        setBoards(res.list)
-        setEndFlag(res.endFlag)
-      })
-      .catch(err => console.log('getSearch err:💧 ', err))
-    }
-  }
-
-  const onClickCancel = () => {
-    setInputText('')
-    setLastBoardId(-1)
-  }
-
-  const getMoreBoard = async () => {
+  const getBoard = async (first: boolean, lastId: number, keyword: string) => {
     setFetching(true)
-    if (!!inputText) {
-      console.log('🎲back endFlag 수정 필요')
-      // getSearch(inputText, lastBoardId)
-      // .then(res => {
-      //   console.log('🎲More getSearch: ', res);
-      //   setBoards([...boards, res.list])
-      //   setEndFlag(res.endFlag)
-      // })
-      // .catch(err => console.log('More getSearch err:💧 ', err))
+    if (!!keyword) {
+      getSearch(keyword, lastBoardId)
+      .then(res => {
+        if (first) {
+          console.log('🎲getSearch: ', res);
+          setBoards(res.list)
+          setEndFlag(res.endFlag)
+        } else {
+          console.log('🎲More getSearch: ', res);
+          const newBoard = [...boards].concat(res.list)
+          setBoards(newBoard)
+          setEndFlag(res.endFlag)
+        }
+        if (!!!res.endFlag) {
+          const lastIdx = res.list.length - 1
+          setLastBoardId(res.list[lastIdx].boardId)
+        } else {
+          setLastBoardId(-1)
+        }
+      })
+      .catch(err => console.log('More getSearch err:💧 ', err))
     } else {
       getCommunityAll(lastBoardId)
       .then(res => {
-        console.log('🎲More getCommunityAll: ', res);
-        const newBoard = [...boards].concat(res.list)
-        setBoards(newBoard)
-        setEndFlag(res.endFlag)
+        if (first) {
+          console.log('🎲getCommunityAll: ', res);
+          setBoards(res.list)
+          setEndFlag(res.endFlag)
+        } else {
+          console.log('🎲More getCommunityAll: ', res);
+          const newBoard = [...boards].concat(res.list)
+          setBoards(newBoard)
+          setEndFlag(res.endFlag)
+        }
         if (!!!res.endFlag) {
           const lastIdx = res.list.length - 1
           setLastBoardId(res.list[lastIdx].boardId)
@@ -81,19 +82,31 @@ const CommunityAll = () => {
     setFetching(false)
   }
 
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      getBoard(true, -1, inputText)
+    }
+  }
+
+  const onClickCancel = () => {
+    setInputText('')
+    setLastBoardId(-1)
+    getBoard(true, -1, '')
+  }
+
+  const imageOnErrorHandler = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = defaultImg;
+  }
+
   const handleScroll = () => {
     const veiw = document.documentElement
     const scrollHeight = veiw.scrollHeight
     const scrollTop  = veiw.scrollTop 
     const clientHeight  = veiw.clientHeight
-    if (scrollTop + clientHeight >= scrollHeight && !fetching && !endFlag) {
-      getMoreBoard()
+    if (!endFlag && scrollTop + clientHeight >= scrollHeight && !fetching) {
+      getBoard(false, lastBoardId, inputText)
     }
   }
-
-  const imageOnErrorHandler = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.src = defaultImg;
-  };
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll)
@@ -103,19 +116,7 @@ const CommunityAll = () => {
   })
 
   useEffect(() => {
-    getCommunityAll(lastBoardId)
-    .then(res => {
-      console.log('🎲getCommunityAll: ', res);
-      setBoards(res.list)
-      setEndFlag(res.endFlag)
-      if (!!!res.endFlag) {
-        const lastIdx = res.list.length - 1
-        setLastBoardId(res.list[lastIdx].boardId)
-      } else {
-        setLastBoardId(-1)
-      }
-    })
-    .catch(err => console.log('getCommunityAll err:💧 ', err))
+    getBoard(true, -1, '')
   }, [])
 
   return (
