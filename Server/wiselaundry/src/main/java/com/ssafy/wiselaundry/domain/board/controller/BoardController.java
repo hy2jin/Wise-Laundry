@@ -77,7 +77,7 @@ public class BoardController {
             @ApiResponse(code = 200, message = "성공", response = BoardSearchDetailRes.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
-    @GetMapping("/{keyword}")
+    @GetMapping("/{boardId}")
     public ResponseEntity<? extends BaseResponseBody> boardSearchDetail(@ApiParam(value = "게시판 번호") @PathVariable("boardId") int boardId) {
         Board board = boardService.boardSearchById(boardId);
         List<CommentDetailRes> commentDetailResList = new ArrayList<>();
