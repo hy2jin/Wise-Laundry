@@ -74,7 +74,11 @@ const CommunityDetail = () => {
 
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      createComment()
+      if (inputText.trim()) {
+        createComment()
+      } else {
+        setInputText('')
+      }
     }
   }
 

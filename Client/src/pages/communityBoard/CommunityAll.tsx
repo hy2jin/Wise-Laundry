@@ -84,7 +84,11 @@ const CommunityAll = () => {
 
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      getBoard(true, -1, inputText)
+      if (!!inputText.trim()) {
+        getBoard(true, -1, inputText)
+      } else {
+        setInputText('')
+      }
     }
   }
 
@@ -133,7 +137,8 @@ const CommunityAll = () => {
           onChange={e => setInputText(e.target.value)} onKeyUp={e => handleKeyUp(e)} />
         <CancelIcon onClick={() => onClickCancel()} style={{color: '#cccccc', cursor: 'pointer'}} />
       </SearchBar>
-      <section>
+      {!!boards.length
+      ? <section>
         {boards.map((board, i) => {
           let boardSrc = board.userImg ? `/images/${board.userImg}` : board.kakaoImg
           boardSrc = boardSrc || defaultImg
@@ -153,6 +158,10 @@ const CommunityAll = () => {
         }
         )}
       </section>
+      : <section className='no-boards'>
+          게시글이 없습니다❌
+      </section>
+      }
     </Wrapper>
   );
 };
@@ -199,6 +208,9 @@ const Wrapper = styled.article`
   section {
     padding: 0.8rem;
     margin-top: 1.5rem;
+    &.no-boards {
+      text-align: center;
+    }
   }
   @media screen and (max-width: 800px) {
     padding-top: 5rem;
