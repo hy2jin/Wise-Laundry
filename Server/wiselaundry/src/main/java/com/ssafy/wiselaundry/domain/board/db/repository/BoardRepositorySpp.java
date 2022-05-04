@@ -44,4 +44,15 @@ public class BoardRepositorySpp {
                 .orderBy(board.boardId.asc())
                 .fetchFirst();
     }
+
+    public Board boardSearchByKeywordLast(String keyword) {
+        return queryFactory
+                .select(board)
+                .from(board)
+                .where(
+                        board.boardName.contains(keyword)
+                )
+                .orderBy(board.boardId.asc())
+                .fetchFirst();
+    }
 }

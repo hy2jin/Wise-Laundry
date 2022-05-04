@@ -54,6 +54,11 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
+    public Board searchByKeywordLast(String keyword) {
+        return boardRepositorySpp.boardSearchByKeywordLast(keyword);
+    }
+
+    @Override
     public Board boardSearchById(int boardId) {
         return boardRepository.findById(boardId).get();
     }
