@@ -36,10 +36,8 @@ apiImageClient.interceptors.request.use(
 )
 
 // 🌼🌼🌼게시글 전체 => Infinite Scroll 수정 필요
-// export const getCommunityAll = async (boardId: number) => {
 export const getCommunityAll = async (lastBoardId: number) => {
   const { data } = await apiClient.get<any>(
-    // '/community/all', 
     `/community/all/${10}/${lastBoardId}`, 
   )
   console.log('🌼getCommunityAll: ', data)
