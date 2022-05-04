@@ -39,6 +39,9 @@ const KakaoLogin = () => {
               sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
               setUser(userInfo)
               navigate('/home')
+              
+              
+              window.location.reload();
             })
             .catch((err) => {
               console.log(err)
@@ -58,8 +61,8 @@ const KakaoLogin = () => {
     } else {
       sessionStorage.setItem('kakao', 'true')
       console.log('카카오')
-      // eslint-disable-next-line no-restricted-globals
-      location.reload();
+      
+      window.location.reload();
     }
   }, []);
 
