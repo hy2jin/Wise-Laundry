@@ -333,18 +333,6 @@ const Profile = () => {
     let profileImg2 = Uuser.userImg ? `/images/${Uuser.userImg}` : Uuser.kakaoImg
     profileImg2 = profileImg2 || defaultImg
     setProfileImg(profileImg2)
-    // if (Uuser.kakaoImg !== null) {
-    //   if (Uuser.userImg !== null) {
-    //     setProfileImg(`/images/${Uuser.userImg}`)
-    //     console.log(Uuser.userImg, '1')
-    //   } else {
-    //     setProfileImg(Uuser.kakaoImg)
-    //     console.log(Uuser.userImg, '2')
-    //   }
-    // } else {
-    //   setProfileImg('')
-    //   console.log(Uuser.userImg, '3')
-    // }
   },[])
 
   const onHandelNick = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -399,8 +387,6 @@ const Profile = () => {
       <SmallBox>
         <EditForm>
           <h1>EDIT</h1>
-    
-          {/* <img src={`/images/${profile}`} alt="프로필이미지" /> */}
           <ImgBox>
             <UserImgBox userImg={profileImg} file={file} setFile={setFile} />
           </ImgBox>
