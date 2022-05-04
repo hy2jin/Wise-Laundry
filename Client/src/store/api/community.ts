@@ -40,7 +40,7 @@ export const getCommunityAll = async (lastBoardId: number) => {
   const { data } = await apiClient.get<any>(
     `/community/all/${10}/${lastBoardId}`, 
   )
-  console.log('🌼getCommunityAll: ', data)
+  // console.log('🌼getCommunityAll: ', data)
   return data
 }
 
@@ -49,11 +49,11 @@ export const getCommunityDetail = async (boardId: number) => {
   const { data } = await apiClient.get<any>(
     `/community/${boardId}`,
   )
-  console.log('🌼getCommunityDetail: ', data)
+  // console.log('🌼getCommunityDetail: ', data)
   const imgs = data.boardImgs.map((img: { boardImg: string }) => `/images/${img.boardImg}`)
   const res = {...data, boardImgs: imgs}
   delete res.statusCode
-  console.log('🌼res: ', res);
+  // console.log('🌼res: ', res);
   return res
 }
 
@@ -62,7 +62,7 @@ export const getSearch = async (keyword: string, lastBoardId: number) => {
   const { data } = await apiClient.get<any>(
     `/community/search/${keyword}/${10}/${lastBoardId}`
     )
-  console.log('🌼getSearch: ', data);
+  // console.log('🌼getSearch: ', data);
   return data
 }
 
@@ -72,7 +72,7 @@ export const postBoard = async (form: any) => {
     '/community/create',
     form
   )
-  console.log('🌼postBoard: ', data);
+  // console.log('🌼postBoard: ', data);
   return data
 }
 
@@ -81,7 +81,7 @@ export const getCommunityUpdate = async (boardId: number) => {
   const { data } = await apiClient.get<any>(
     `/community/${boardId}`,
   )
-  console.log('🌼getCommunityUpdate: ', data)
+  // console.log('🌼getCommunityUpdate: ', data)
   const imgs = data.boardImgs.map((img: { boardImg: string }) => img.boardImg)
   const res = {
     boardId: data.boardId,
@@ -89,7 +89,7 @@ export const getCommunityUpdate = async (boardId: number) => {
     boardImgs: imgs,
     boardName: data.boardName
   }
-  console.log('🌼res: ', res);
+  // console.log('🌼res: ', res);
   return res
 }
 
@@ -99,7 +99,7 @@ export const putBoard = async (form: any) => {
     '/community/update',
     form
   )
-  console.log('🌼putBoard: ', data);
+  // console.log('🌼putBoard: ', data);
   return data
 }
 
@@ -108,7 +108,7 @@ export const delBoard = async (boardId: number) => {
   const { data } = await apiClient.delete<any>(
     `/community/${boardId}`,
   )
-  console.log('🌼delBoard: ', data)
+  // console.log('🌼delBoard: ', data)
   return data
 }
 
@@ -118,7 +118,7 @@ export const postComment = async (form: any) => {
     '/community/comment/create',
     form
   )
-  console.log('🌼postComment: ', data)
+  // console.log('🌼postComment: ', data)
   return data
 }
 
@@ -127,7 +127,7 @@ export const delComment = async (commentId: number) => {
   const { data } = await apiClient.delete<any>(
     `/community/comment/${commentId}`,
   )
-  console.log('🌼delComment: ', data)
+  // console.log('🌼delComment: ', data)
   return data
 }
 
