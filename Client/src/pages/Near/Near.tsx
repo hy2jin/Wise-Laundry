@@ -5,9 +5,13 @@ import markerdata from './data.json'
 const {kakao} = window
 
 const Wrapper = styled.section`
+ 
+`
+const MapWrapper = styled.div`
   width: 100vw; 
   height: 100vh;
 `
+
 
 const Near =() =>{
   const [lat,setLat] = useState(37.624915253753194)
@@ -40,7 +44,7 @@ const Near =() =>{
     let container = document.getElementById("map");
     let options = {
       center: new kakao.maps.LatLng(lat, long),
-      level:3,
+      level:2,
     };
 
     //map
@@ -66,8 +70,8 @@ const Near =() =>{
   };
 
   return (
-  <Wrapper id="map">
-
+  <Wrapper >
+    <MapWrapper id="map"/>
   </Wrapper>
   );
 }

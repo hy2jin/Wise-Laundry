@@ -3,6 +3,7 @@ import { getKakaoLogin, getUserInfo } from '../../store/api/user';
 import { useRecoilState } from 'recoil';
 import { loginState, userState } from '../../store/state/user';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 const KakaoLogin = () => {
   // 인가코드
@@ -28,6 +29,13 @@ const KakaoLogin = () => {
           const token = res.accessToken;
           sessionStorage.setItem("token", `${token}`);
           console.log(token, '🎆토큰 1')
+
+          Swal.fire({
+            icon: 'success',
+            text: '로그인 되었습니다',
+            showConfirmButton: false,
+            timer: 1000
+          })
         
         
           getUserInfo()
@@ -66,25 +74,25 @@ const KakaoLogin = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (isLogin) {
-      console.log(isLogin, '카카오로그인에서 확인')
+  // useEffect(() => {
+  //   if (isLogin) {
+  //     console.log(isLogin, '카카오로그인에서 확인')
 
-      getUserInfo()
-        .then((res) => {
-          console.log(res, '🍫유저정보 카카오 222🍫')
-          const userInfo = {...res};
-          delete userInfo.message
-          delete userInfo.statusCode
-          sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
-          setUser(userInfo)
-          navigate('/home')
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
-  },[isLogin])
+  //     getUserInfo()
+  //       .then((res) => {
+  //         console.log(res, '🍫유저정보 카카오 222🍫')
+  //         const userInfo = {...res};
+  //         delete userInfo.message
+  //         delete userInfo.statusCode
+  //         sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+  //         setUser(userInfo)
+  //         navigate('/home')
+  //       })
+  //       .catch((err) => {
+  //         console.log(err)
+  //       })
+  //   }
+  // },[isLogin])
   
 
   return (

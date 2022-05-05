@@ -7,7 +7,7 @@ import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 const Wrapper = styled.div`
 
   img {
-    width: 10vw;
+    width: 11vw;
     aspect-ratio: 1/1;
     border-radius: 100vh;
     /* border: none; */

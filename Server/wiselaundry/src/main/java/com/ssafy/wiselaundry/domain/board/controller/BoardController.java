@@ -62,12 +62,13 @@ public class BoardController {
         List<Board> boards = boardService.boardSearchKeyword(keyword, size, boardId);
         List<BoardSearchAllRes> boardSearchAllResList = new ArrayList<>();
 
-        boolean endFlag;
+        boolean endFlag = true;
         for (Board board: boards) {
             boardSearchAllResList.add(BoardSearchAllRes.boardToBoardSearchAllRes(board));
         }
+        if(!boards.isEmpty())
+            endFlag = boards.get(boards.size() - 1) == boardService.searchByKeywordLast(keyword);
 
-        endFlag = boards.get(boards.size() - 1) == boardService.searchLast();
         return ResponseEntity.status(200).body(BoardSearchAllListRes.of(200, "Success", boardSearchAllResList, endFlag));
     }
 
@@ -76,7 +77,7 @@ public class BoardController {
             @ApiResponse(code = 200, message = "성공", response = BoardSearchDetailRes.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
-    @GetMapping("/{keyword}")
+    @GetMapping("/{boardId}")
     public ResponseEntity<? extends BaseResponseBody> boardSearchDetail(@ApiParam(value = "게시판 번호") @PathVariable("boardId") int boardId) {
         Board board = boardService.boardSearchById(boardId);
         List<CommentDetailRes> commentDetailResList = new ArrayList<>();
