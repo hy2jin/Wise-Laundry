@@ -4,6 +4,7 @@ import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { getUserInfo, putUpdateUserInfo } from '../../store/api/user';
 import { userState } from '../../store/state/user';
+import Swal from 'sweetalert2'
 
 
 const Wrapper = styled.div `
@@ -272,7 +273,13 @@ const PasswordModal:React.FC<IProps> = ({setModalOn}) => {
       putUpdateUserInfo(formdata)
       .then((res) => {
         console.log('비밀번호 수정 성공')
-        console.log(password, '비밀번호 확인')
+        // console.log(password, '비밀번호 확인')
+        Swal.fire({
+          icon: 'success',
+          text: '변경 되었습니다',
+          showConfirmButton: false,
+          timer: 1000
+        })
         // navigate('/login')
         // setUser()
         }

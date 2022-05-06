@@ -9,16 +9,9 @@ import { useRecoilState } from 'recoil';
 import { userState } from '../../store/state/user';
 import { AltRouteTwoTone } from '@mui/icons-material';
 import defaultImg from './images/profile-image.png'
+import Swal from 'sweetalert2'
 
-// interface Istate{
-//   user:{
-//     kakaoImg?: string|null,
-//     userEmail?: string|null,
-//     userId?: number|null,
-//     userImg?: string|null,
-//     userNick?: string|null,
-//   }
-// }
+
 
 const Wrapper = styled.div `
   display: flex;
@@ -304,7 +297,13 @@ const Profile = () => {
       putUpdateUserInfo(formdata)
       .then(() => {
         console.log('닉네임 수정 성공')
-        alert('변경되었습니다')
+
+        Swal.fire({
+          icon: 'success',
+          text: '변경 되었습니다',
+          showConfirmButton: false,
+          timer: 1000
+        })
         // setEditCheck(true)
         getUserInfo()
           .then((res) => {
@@ -373,9 +372,15 @@ const Profile = () => {
   }
 
   const onLogout = () => {
-    console.log('로그아웃!!')
+    // console.log('로그아웃!!')
     sessionStorage.clear()
-    alert('로그아웃 되었습니다')
+    Swal.fire({
+      icon: 'success',
+      text: '로그아웃 되었습니다',
+      showConfirmButton: false,
+      // confirmButtonColor: 'red',
+      timer: 1000
+    })
     navigate('/home')
   }
 
