@@ -12,6 +12,9 @@ import { getCommunityDetail, postComment, delComment, delBoard } from '../../sto
 import defaultImg from './images/ironing.png'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Navigation } from "swiper";
+
 
 interface Istate {
   board: {
@@ -165,11 +168,25 @@ const CommunityDetail = () => {
         <BoardContent>
           {board.boardImgs.length > 0 ?
           <div className='top'>
-            <img src={board.boardImgs[imgIdx]} alt={`사진${imgIdx+1}`} />
+            <Swiper
+              pagination={{
+                type: "fraction",
+              }}
+              navigation={true}
+              modules={[Pagination, Navigation]}
+              className="mySwiper"
+            >
+              {board.boardImgs.map((v, i) => 
+              <SwiperSlide key={i}>
+                <img src={v} alt={`사진${i+1}`} />
+              </SwiperSlide>
+              )}
+            </Swiper>
+            {/* <img src={board.boardImgs[imgIdx]} alt={`사진${imgIdx+1}`} />
             {board.boardImgs.length > 1 && <>
             <ArrowBackIosNewIcon className='left' onClick={() => changeIdx(-1)} />
             <ArrowForwardIosIcon className='right' onClick={() => changeIdx(1)} />
-            </>}
+            </>} */}
           </div> :
           <div className='top-no'>
             이미지가 없습니다❌
