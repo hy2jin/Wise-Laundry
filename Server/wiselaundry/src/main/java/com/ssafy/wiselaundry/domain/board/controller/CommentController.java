@@ -34,18 +34,16 @@ public class CommentController {
     public ResponseEntity<? extends BaseResponseBody> commentsCreate(@RequestBody CommentCreateReq body) {
         Comments comment = commentService.commentCreate(body);
 
-        List<CommentDetailRes> list = new ArrayList<>();
-
         CommentDetailRes commentDetailRes = CommentDetailRes.builder()
                 .commentDate(comment.getCommentDate())
                 .commentId(comment.getCommentId())
                 .commentContent(comment.getCommentContent())
                 .userNick(comment.getUser().getUserNick())
                 .userImg(comment.getUser().getUserImg())
+                .kakaoImg(comment.getUser().getKakaoImg())
                 .userId(comment.getUser().getUserId())
                 .build();
 
-        list.add(commentDetailRes);
         return ResponseEntity.status(200).body(CommentDetailRes.of(200,"success", commentDetailRes));
     }
 
