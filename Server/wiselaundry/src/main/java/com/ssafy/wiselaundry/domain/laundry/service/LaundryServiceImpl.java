@@ -68,11 +68,11 @@ public class LaundryServiceImpl implements LaundryService{
         List<LaundryDetail> list = laundryRepositorySpp.laundryDetailByUserId(userId);
         List<LaundryAll> userLaundryAlls = new ArrayList<>();
         for(int i = 0; i < list.size(); i++){
-
             userLaundryAlls.add(LaundryAll.builder()
                     .laundryId(list.get(i).getLaundryId())
                     .laundryImg(list.get(i).getLaundryImg())
                     .careLabel(findCareLabelDetail(list.get(i).getLaundryId()))
+                    .laundryInfo(findInfoDetail(list.get(i).getLaundryId()))
                     .build());
         }
         return userLaundryAlls;
@@ -206,6 +206,7 @@ public class LaundryServiceImpl implements LaundryService{
                     .laundryId(list.get(i).getLaundryId())
                     .laundryImg(list.get(i).getLaundryImg())
                     .careLabel(findCareLabelDetail(list.get(i).getLaundryId()))
+                    .laundryInfo(findInfoDetail(list.get(i).getLaundryId()))
                     .build());
         }
         return userLaundryAlls;
