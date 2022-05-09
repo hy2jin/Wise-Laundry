@@ -27,10 +27,12 @@ public class WeatherServiceImpl implements WeatherService  {
     ApiKeyRepository apiKeyRepository;
 
     private String[] timeSet = {"2300", "2300", "2300", "2300", "0200", "0200", "0500", "0500", "0500", "0800", "0800", "0800", "1100", "1100", "1100", "1400", "1400", "1400", "1700", "1700", "1700", "2000", "2000", "2000"};
+    private double[] seasons = {0, 10, 10, 5, 4, 2.1, 2, 1.6, 1, 1.4, 2, 3.9, 10};
 
     @Override
     public JSONObject weatherInfo(int nx, int ny) throws IOException, ParseException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        DateTimeFormatter formatMonth = DateTimeFormatter.ofPattern("MM");
         JSONObject res = new JSONObject();
         String today;
         LocalDate now;
@@ -42,6 +44,7 @@ public class WeatherServiceImpl implements WeatherService  {
         int intTime = Integer.parseInt(time);
         // 3시 이전일 경우 전날 기준으로 수행
         now = intTime<=3?LocalDate.now().minusDays(1L):LocalDate.now();
+        int month = Integer.parseInt(now.format(formatMonth));
         today = now.format(formatter);
         time = timeSet[intTime];
 
@@ -106,7 +109,7 @@ public class WeatherServiceImpl implements WeatherService  {
                 }
                 case 3:{
                     temp.put("weather","partly_cloudy");
-                    sky = 70;
+                    sky = 75;
                     break;
                 }
                 case 4:{
@@ -123,13 +126,14 @@ public class WeatherServiceImpl implements WeatherService  {
             // 기온
             temp.put("temperature",Integer.parseInt(map.get(key).get("TMP").toString()));
             // 빨래지수
-            int laundry = (((100 - (int)temp.get("humidity"))/70)*100+
-                        (100 - (int)temp.get("chanceOfRain"))+
-                        ((int)temp.get("temperature")/25)*100+
-                        (int)(((double)temp.get("wind")/15)*100)+
-                        sky
-                        )/5;
-            temp.put("laundry",laundry);
+            double laundry = (((int)temp.get("temperature"))*((double)temp.get("wind"))*seasons[month]*sky/100)/(int)temp.get("humidity");
+//            int laundry = (((100 - (int)temp.get("humidity"))/70)*100+
+//                        (100 - (int)temp.get("chanceOfRain"))+
+//                        ((int)temp.get("temperature")/25)*100+
+//                        (int)(((double)temp.get("wind")/15)*100)+
+//                        sky
+//                        )/5;
+            temp.put("laundry",Math.ceil((int)(laundry*100))>=95?95:Math.ceil((int)(laundry*100)));
             ret.put(key,temp);
         }
         return ret;
