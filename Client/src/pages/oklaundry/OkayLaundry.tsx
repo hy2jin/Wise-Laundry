@@ -1,135 +1,235 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import tack from './images/laundryLabel.jpg'
-const Wrapper = styled.article`
-  padding-top: 2vh;
-  width: 70vw;
-  margin: auto;
-  background-color: ${props => props.theme.bgColor};
-  svg{
-    margin: 30px 0;
-    font-size: 4vh;
-    color: ${props => props.theme.fontColor};
-  }
-  @media screen and (max-width: 800px) {
-    width: 90vw;
-  }
-  /* height: 120vh; */
+
+const Wrapper = styled.section`
+ width: 70vw;
+ height: 120vh;
+ margin: auto;
+ margin-top: 5vh;
+ *{
+  font-family: 'Malgun gothic';
+  font-weight: 600;
+ }
+ @media screen and (max-width:1200px) {
+  width: 95vw;
+  height: auto;
   padding-bottom: 10vh;
+ }
 
 `
-const ContainerBox = styled.section`
-  background-color: ${props => props.theme.containerColor};
-  height: 650px;
-  box-shadow: ${props => props.theme.boxShadowBox} ;
-  border-radius: 50px 0 50px 0;
-  margin-top: 5vh;
-  .title{
-    font-size: 4vw;
-    text-align: center;
-    padding-top: 50px;
-  }
-  img{
-    height: 450px;
-    width: 25vw;
-    margin-left: 5vw;
-    margin-top: 5vh;
-    border-radius: 10px;
-    border: 2px solid #6b6b6b;
-  }
-  @media screen and (max-width: 1000px) {
-    height: auto;
-    margin-top: 5vh;
-    img{
-      height: 380px;
-      width: 30vw;
-      margin-top: 10vh;
-      margin-left:5vw;
-    }
-    .title{
-      font-size: 30px;
-    }
-  }
-  @media screen and (max-width: 800px) {
-    height: auto;
-    img{
-      height: 350px;
-      width: 80%;
-      margin-top: 5vh;
-      margin-left:10vw;
-    }
-    .title{
-      font-size: 30px;
-    }
-  }
-`
-const FlexBox = styled.div`
+
+const Title = styled.article`
+  text-align: center;
   display: flex;
+  .empty{
+    flex:2;
+  }
+  .name{
+    flex:6;
+  }
+  .big{
+    font-size: 2.5rem;
+    margin-top: 50px;
+    display: flex;
+    justify-content:center;
+    div{
+      margin: 7px;
+    }
+  }
+  .btnbox{
+    flex:2;
+  }
+  .small{
+    font-size: 1.5rem;
+    margin-top: 25px;
+  }
   @media screen and (max-width: 800px) {
     display: inline;
+    .big{
+    font-size: 2rem;
+    margin-top: 50px;
+    display:inline-block ;
+    }
+    .small{
+      font-size: 1.2rem;
+      margin-top: 50px;
+    }
   }
 `
-const InformBox = styled.div`
-  width: 30vw;
+const Navbar = styled.article`
   margin: auto;
-  margin-top: 5vh;
-  
+  margin-top: 100px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 450px;
-  .inform{
-    overflow-y: auto;
-    height: 45vh;
-    flex:9;
-  }
-  @media screen and (max-width: 800px) {
-    font-size: 14px;
-    width: 80vw;
-    height: auto;
+  width: 90%;
+  div{
+    font-size: 1.3rem;
+    flex:1;
     text-align: center;
+    cursor: pointer;
+    padding-bottom: 15px;
+    color: #a6a4a4;
+    &#step{
+      color: ${props => props.theme.fontColor};
+      border-bottom: 8px solid #275788;
+    }
   }
-  padding-bottom: 5vh;
+  @media screen and (max-width: 1200px) {
+    margin-top: 60px;
+    width: 100%;
+    div{
+    font-size: 0.7rem;
+    }
+  }
+`
+const Bar = styled.div`
+  border: 1px solid #275788;
+  width: 90%;
+  margin: auto;
+  /* margin-top: 15px; */
+  @media screen and (max-width: 1200px) {
+    width: 100%;
+  }
 `
 const Button = styled.button`
-  background-color: ${props => props.theme.activeBtnColor};
-  &:hover{
-      background-color: ${props=>props.theme.hoverActiveBtnColor};
-    }
-  width: 30vw;
+  width: 100px;
   height: 50px;
+  background-color: #E2DCDC;
   border: none;
-  border-radius: 10px;
-  margin: auto;
   cursor: pointer;
-  color: white;
-
-  @media screen and (max-width: 800px) {
+  border-radius: 10px 0 10px 0;
+  font-size: 2rem;
+  margin-top: 70px;
+  font-family: 'Times New Roman', Times, serif;
+`
+const IntroBox = styled.div`
+  width: 100%;
+  height: 600px;
+  margin: auto;
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-around;
+  div{
     margin-top: 50px;
-    width: 70vw;
   }
+  @media screen and (max-width: 1200px) {
+    display: inline-block;
+  }
+  .left{
+    .title{
+      font-family: 'Times New Roman', Times, serif;
+      font-style: italic;
+      font-size: 3rem;
+      margin-left: 30px;
+      color: #c6c6c6;
+    }
+    .normal{
+      margin-top: 30px;
+    }
+    .bold{
+      font-weight: 1200;
+      margin-top: 50px;
+      font-size: 1.4rem;
+    }
+    @media screen and (max-width: 1200px) {
+      text-align: center;
+    }
+  }
+  .right{
+    img{
+      width: 500px;
+      height: 400px;
+    }
+    @media screen and (max-width: 1200px) {
+      text-align: center;
+      margin: auto;
+      margin-top: 50px;
+      img{
+        width: 300px;
+        height: 250px;
+      }
+    }
+  }
+  
 `
 const OkayLaundry = () => {
+  const [step,setStep] = useState(1)
   return (
     <Wrapper>
-      <ContainerBox>
-        <div className='title'>Okay Laundry</div>
-        <FlexBox>
-          <img src={tack} alt='tack'/>
-          <InformBox>
-            <div className='inform'>
-              <p>Okay Laundry(어케 빨래)는 </p>
-              <p>육성재 Company만의 머신러닝을 이용한 인공지능 기술입니다.  </p>
-              <p>웹, 모바일의 카메라를 이용해 세탁을 원하는 </p>
-              <p>  의류의 택을 좌측의 예시처럼 찍어주세요. </p>
-              <p>흔들리거나 흐릿한 이미지일 경우 인식하지 못할 수 있습니다. </p>
-              <p>(단 숫자,문자는 직접 기입해주셔야 합니다.)</p>
-              <p>Okay Laundry로 인식하면 내 세탁으로 손 쉽게 등록할 수 있습니다. </p>
-            </div>
-            <Button>📷 카메라 ON</Button>
-          </InformBox>
-        </FlexBox>
-      </ContainerBox>
+      <Title>
+        <div className='empty'/>
+        <div className='namebox'>
+          <div className='big'><div>슬기로운  세탁 생활</div> <div>시작하기</div></div>
+          <div  className='small'>지금부터 당신의 빨래를 관리하세요 </div>
+        </div>
+        <div className='btnbox'><Button>start</Button></div>
+      </Title>
+      <Navbar>
+        <div id={step===1?'step':''} onClick={()=>{setStep(1)}}>1. 촬영하기</div>
+        <div id={step===2?'step':''} onClick={()=>{setStep(2)}}>2. 택 선택하기</div>
+        <div id={step===3?'step':''} onClick={()=>{setStep(3)}}>3. 내 옷장 등록</div>
+        <div id={step===4?'step':''} onClick={()=>{setStep(4)}}>4. 옷장 관리</div>
+      </Navbar>
+      <Bar/>
+      
+      {step===1&&
+      <IntroBox id='step1'>
+        <div className='left'>
+          <div className='title'>Step 1.</div>
+          <div className='bold'> 계획적인 세탁을 위한 첫번째 단계.</div>
+          <div className='normal'>휴대폰이나 컴퓨터의 카메라를 이용해</div>
+          <div className='normal'>세탁물의 세탁 라벨을 촬영해 주세요.</div>
+        </div>
+        <div className='right'>
+          <img src='https://cdn.discordapp.com/attachments/959138551587536989/973243201471271022/unknown.png' alt='img'/>
+        </div>
+      </IntroBox>}
+      {step===2&&
+      <IntroBox id='step2'>
+        <div className='left'>
+          <div className='title'>Step 2.</div>
+          <div className='bold'> 완벽한 세탁을 위한 두번째 단계.</div>
+          <div className='normal'>슬기로운 세탁생활이 세탁 라벨을 인식하고  </div>
+          <div className='normal'>알려드릴 것입니다.</div>
+          <div className='normal'>일치하는 라벨을 선택하고 확인을 눌러주세요.</div>
+        </div>
+        <div className='right'>
+          <img src='https://cdn.discordapp.com/attachments/964573732481925130/973264921242513499/unknown.png' alt='img'/>
+        </div>
+      </IntroBox>}
+      {step===3&&
+      <IntroBox id='step3'>
+        <div className='left'>
+        
+
+
+
+
+
+
+
+          <div className='title'>Step 3.</div>
+          <div className='bold'> 체계적인 세탁을 위한 세번째 단계.</div>
+          <div className='normal'>등록된 라벨을 활용해 내 옷장에 저장!</div>
+          <div className='normal'>#해시태그 #내옷장 #정보공유</div>
+          <div className='normal'>태그를 추가하여 사람들과 공유해 보세요</div>
+        </div>
+        <div className='right'>
+          <img src='https://cdn.discordapp.com/attachments/964573732481925130/973266980524159076/unknown.png' alt='img'/>
+        </div>
+      </IntroBox>}
+      {step===4&&
+      <IntroBox id='step4'>
+        <div className='left'>
+          <div className='title'>Step 4.</div>
+          <div className='bold'> 최고의 세탁을 위한 마지막 단계.</div>
+          <div className='normal'>옷장 관리를 통해 </div>
+          <div className='normal'>내 옷의 세탁 라벨을 무제한으로 확인하고</div>
+          <div className='normal'>메모를 통해 기록을 남겨보세요</div>
+        </div>
+        <div className='right'>
+          <img src='https://cdn.discordapp.com/attachments/964573732481925130/973266837817151488/unknown.png' alt='img'/>
+        </div>
+      </IntroBox>}
     </Wrapper>
   );
 };

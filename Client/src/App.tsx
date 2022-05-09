@@ -36,6 +36,12 @@ const Wrapper = styled.div`
     font-weight: normal;
     font-style: normal;
   } 
+  @font-face {
+    font-family: 'Times New Roman', sans-serif;
+    src: url('http://fonts.cdnfonts.com/css/times-new-roman') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  } 
   * {  
     font-family: 'twayair';
   }
