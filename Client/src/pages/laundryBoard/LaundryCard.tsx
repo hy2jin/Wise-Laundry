@@ -7,7 +7,9 @@ interface Iprops{
     laundryId: number
     careLabel: string[]
     laundryImg: string
+    laundryInfo:string[]
   },
+  filter:string
 }
 
 const Wrapper = styled.section`
@@ -41,13 +43,15 @@ const LabelBox = styled.div`
   display: flex;
   flex-wrap: wrap;
   overflow-y: hidden;
+  align-items: center;
+  justify-content: center;
 `
 const Label = styled.div`
   color: black;
   height:1rem;
   margin: 10px 5px 0 5px;
   padding: 2px 5px 2px 5px;
-  border-radius: 10px;
+  border-radius:5px 0 5px 0;
   font-size: 0.8rem;
   background-color: #b3eaef;
   align-items: center;
@@ -58,7 +62,7 @@ const Label = styled.div`
     background-color: #cffbb2;
   }
   &:nth-child(2){
-    background-color: #90fdec;
+    background-color: #8ad1c6;
   }
   &:nth-child(3){
     background-color: #f4ffac;
@@ -70,10 +74,10 @@ const Label = styled.div`
     background-color: #fdce8d;
   }
   &:nth-child(6){
-    background-color: #ccffa8;
+    background-color: #a3b2fa;
   }
   &:nth-child(7){
-    background-color: #90faea;
+    background-color: #c2d096;
   }
   &:nth-child(8){
     background-color: #eaf69d;
@@ -93,8 +97,14 @@ const imageOnErrorHandler = (
     "https://www.pngplay.com/wp-content/uploads/12/Basic-Half-Sleeve-T-Shirt-PNG-Free-File-Download.png";
 };
 
-
-const LaundryCard:React.FC<Iprops>= ({laundry}) => {
+const Info = styled.div`
+  color: black;
+  margin:0 5px 0 5px;
+  padding: 0 5px 0 5px;
+  font-size: 1rem;
+  /* align-items: center; */
+`
+const LaundryCard:React.FC<Iprops>= ({laundry,filter}) => {
   const navigate = useNavigate()
   const src = `/images/${laundry.laundryImg}`
   // console.log(`/images/${laundry.laundryImg}`)
@@ -103,13 +113,22 @@ const LaundryCard:React.FC<Iprops>= ({laundry}) => {
       <ImgWrapper>
         <img src={src} alt='사진' onError={imageOnErrorHandler}/>
       </ImgWrapper>
+      {filter==="my"&&
       <LabelBox>
         {laundry.careLabel.map(((label,idx)=>{
           return(
             <Label key={idx}><p>{label}</p></Label>
           )
         }))}
-      </LabelBox>
+      </LabelBox>}
+      {filter==="all"&&
+      <LabelBox>
+        {laundry.laundryInfo.map(((label,idx)=>{
+          return(
+            <Info key={idx}><p>#{label}</p></Info>
+          )
+        }))}
+      </LabelBox>}
     </Wrapper>
   )
 }

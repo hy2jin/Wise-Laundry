@@ -11,7 +11,7 @@ const Wrapper = styled.section`
   height:1rem;
   margin: 10px 5px 0 5px;
   padding: 2px 5px 2px 5px;
-  border-radius: 10px;
+  border-radius:5px 0 5px 0;
   background-color: ${props=>props.color};
   align-items: center;
   font-size: 0.8rem;

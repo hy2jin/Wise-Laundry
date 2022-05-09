@@ -23,16 +23,22 @@ import KakaoLogin from './pages/user/KakaoLogin'
 import NotFound from './pages/notfound/NotFound'
 import CommunityUpdate from './pages/communityBoard/CommunityUpdate'
 import LaundryUpdate from './pages/laundryBoard/LaundryUpdate'
+import Weather from './pages/oklaundry/Weather'
 
 const Wrapper = styled.div`
   width: 100%;
   min-height: 100vh;
-  /* height: 100vh; */
   background-color: ${props => props.theme.bgColor}; 
   color :  ${props => props.theme.fontColor}; 
   @font-face {
     font-family: 'twayair';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_tway@1.0/twayair.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  } 
+  @font-face {
+    font-family: 'Times New Roman', sans-serif;
+    src: url('http://fonts.cdnfonts.com/css/times-new-roman') format('woff');
     font-weight: normal;
     font-style: normal;
   } 
@@ -97,6 +103,7 @@ const App= (props: any) => {
             <Route path='/*' element={<NotFound />} />
             <Route path='/laundry/:laundryId/update' element={<LaundryUpdate />}/>
             <Route path='/laundry/create' element={<LaundryCreate />}/>
+            <Route path='/weather' element={<Weather />}/>
           </Routes>
         </Wrapper>
       </ThemeProvider>

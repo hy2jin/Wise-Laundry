@@ -2,16 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectFade,Autoplay } from 'swiper';
-import img1 from './images/1.jpg'
-import img2 from './images/2.jpg'
-import img3 from './images/3.jpg'
-import img4 from './images/4.jpg'
-import img5 from './images/5.jpg'
 import nearImg from './images/near.jpg'
-import timerImg from './images/timer.jpg'
+import sunnyImg from './images/sunny.jpg'
 import comImg from './images/community.jpeg'
 import washerImg from './images/washer.jpeg'
 import clothImg from './images/cloth.jpeg'
+import banner1 from './images/banner1.png'
+import { useNavigate } from 'react-router-dom';
 const Wrapper = styled.div`
   margin: auto;
   article{
@@ -107,20 +104,20 @@ const FlexBox = styled.article`
     margin-top: 50px;
   }
 `
-const TimerBox = styled.article`
+const WeatherBox = styled.article`
   height: 250px;
   width: 85vw;
   margin: auto;
-  background:url(${timerImg}) center;
+  background:url(${sunnyImg}) center;
   margin-top: 50px;
   background-position: 0% 80%;
   margin-bottom: 50px;
   @media screen and (max-width: 800px) {
     height: 150px;
-
   }
 `
 const Home = () => {
+  const navigate = useNavigate()
   return (
     <Wrapper>
       <EventBanner>
@@ -133,20 +130,20 @@ const Home = () => {
           speed={2000}
           modules={[Autoplay]} 
         >
-          <SwiperSlide><img alt='그림' src={'https://media.istockphoto.com/vectors/red-carpet-event-banner-design-template-vector-id638184328'}/></SwiperSlide>
+          <SwiperSlide><img alt='그림' src={banner1}/></SwiperSlide>
           <SwiperSlide><img alt='그림' src={'https://resource.miricanvas.com/image/web/templates/main/type_thumbnail/web_banner_hor.jpeg?1.9.36hotfix6_1651219226372'}/></SwiperSlide>
           <SwiperSlide><img alt='그림' src={'https://blog.kakaocdn.net/dn/bv1duH/btqZqot50kj/DEgWpku3mpMibIotilkqjK/img.jpg'}/></SwiperSlide>
       </Swiper>
       </EventBanner>
       <FlexBox>
-        <TopLeft><span className='black' >My Laundry</span></TopLeft>
-        <TopRight><span>Okay Laundry</span></TopRight>
+        <TopLeft onClick={()=>{navigate('/laundry')}}><span className='black' >My Laundry</span></TopLeft>
+        <TopRight onClick={()=>{navigate('/okayLaundry')}}><span>Okay Laundry</span></TopRight>
       </FlexBox>
       <FlexBox>
-        <BotLeft><span>Community</span></BotLeft>
-        <BotRight><span>Near</span></BotRight>
+        <BotLeft onClick={()=>{navigate('/community')}}><span>Community</span></BotLeft>
+        <BotRight onClick={()=>{navigate('/near')}}><span>Near</span></BotRight>
       </FlexBox>
-      <TimerBox><span>Timer</span></TimerBox>
+      <WeatherBox onClick={()=>{navigate('/weather')}}><span className='black'>Weather</span></WeatherBox>
     </Wrapper>
   )
 }
