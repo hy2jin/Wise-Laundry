@@ -69,6 +69,7 @@ public class CommentDetailRes extends BaseResponseBody{
                 .commentContent(body.getCommentContent())
                 .commentDate(body.getCommentDate())
                 .commentId(body.getCommentId())
+                .kakaoImg(body.getKakaoImg())
                 .statusCode(statusCode)
                 .message(message)
                 .build();

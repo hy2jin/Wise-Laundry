@@ -382,6 +382,7 @@ const Profile = () => {
       timer: 1000
     })
     navigate('/home')
+    window.location.reload();
   }
 
   return (
