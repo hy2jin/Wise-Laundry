@@ -59,8 +59,6 @@ const SmallBox = styled.div `
 
   @media screen and (max-width: 800px) {
     position: relative;
-    bottom: 5vh;
-
     .ConfirmBtn {
     border: none;
     width : 100%;
@@ -288,18 +286,24 @@ const FormBox = styled.div `
       justify-content: center;
       flex-flow: column;
       margin-left: 0;
+      margin-top: 10px;
+
     }
 
     .NickBox {
       margin-left: 0;
+      margin-top: 10px;
     }
 
     .PasswordCheckBox {
       margin-left: 0;
+      margin-top: 10px;
     }
 
     .LoginBtnBox {
       margin-left: 0;
+      margin-top: 10px;
+
     }
 
     .BtnPosition {

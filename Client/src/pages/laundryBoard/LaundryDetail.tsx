@@ -59,9 +59,14 @@ const InfoBox = styled.div`
   .inform{
     display: flex;
     flex-wrap: wrap;
-    margin-top: 40px;
+    margin-top: 20px;
     justify-content: center;
     padding-right: 20px;
+    height: 70px;
+    overflow-y: auto;
+    @media screen and (max-width: 800px) { 
+    height: auto;
+    }
   }
   .title{
     text-align: center;
@@ -108,35 +113,51 @@ const Label = styled.div`
   p{
     margin-top: 1px;
   }
-  &:nth-child(1){
+  
+  &#label1{
     background-color: #cffbb2;
   }
-  &:nth-child(2){
+  &#label2{
     background-color: #90fdec;
   }
-  &:nth-child(3){
+  &#label3{
     background-color: #f4ffac;
   }
-  &:nth-child(4){
+  &#label4{
     background-color: #fea5e6;
   }
-  &:nth-child(5){
+  &#label5{
     background-color: #fdce8d;
   }
-  &:nth-child(6){
+  &#label6{
     background-color: #ccffa8;
   }
-  &:nth-child(7){
+  &#label7{
     background-color: #90faea;
   }
-  &:nth-child(8){
+  &#label8{
     background-color: #eaf69d;
   }
-  &:nth-child(9){
+  &#label9{
     background-color: #fba7e5;
   }
-  &:nth-child(10){
-    background-color: #ffd59b;
+  &#label10{
+    background-color: #fc6ce4;
+  }
+  &#label11{
+    background-color: #e3a44c;
+  }
+  &#label12{
+    background-color: #cccfa3;
+  }
+  &#label13{
+    background-color: #5fbe7a;
+  }
+  &#label14{
+    background-color: #b49bff;
+  }
+  &#label15{
+    background-color: #7346fd;
   }
 `
 const ButtonBox = styled.div`
@@ -179,9 +200,9 @@ const ButtonBox = styled.div`
     }
   }
   .deleteBtn{
-    background-color:${props => props.theme.inactiveBtnColor};
+    background-color:#f17388;
     &:hover{
-      background-color: ${props=>props.theme.hoverInactiveBtnColor};
+      background-color: #f45872;
     }
   }
 `
@@ -268,7 +289,7 @@ const LaundryDetail = () => {
               <div className='title'>세탁 주의 사항</div>
               <div className='careLabel'>
               {laundry.careLabels.map((label,idx)=>{
-                return(<Label key={idx} className='label'> {label.careLabel}</Label>)})}
+                return(<Label id={`label${String(label.careLabelId)}`} key={idx} className='label'> {label.careLabel}</Label>)})}
               </div>
             </LabelBox>
             <Info>

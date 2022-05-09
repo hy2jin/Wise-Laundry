@@ -69,8 +69,6 @@ const SmallBox = styled.div `
 
   @media screen and (max-width: 800px) {
     position: relative;
-    bottom: 13vh;
-
     .SignupBtn {
       margin-top: 0.5rem;
     }
