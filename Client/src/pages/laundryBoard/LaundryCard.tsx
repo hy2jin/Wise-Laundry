@@ -51,7 +51,7 @@ const Label = styled.div`
   height:1rem;
   margin: 10px 5px 0 5px;
   padding: 2px 5px 2px 5px;
-  border-radius: 10px;
+  border-radius:5px 0 5px 0;
   font-size: 0.8rem;
   background-color: #b3eaef;
   align-items: center;

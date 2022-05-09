@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.article`
   /* background-color: #6274fd; */
-  background:linear-gradient(#6274fd,#2f387c) ;
+  background:linear-gradient(#8c99fa,#4a57b6) ;
   height: 100vh;
   width: 100vw;
   .title{

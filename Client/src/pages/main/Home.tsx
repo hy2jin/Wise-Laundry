@@ -3,11 +3,12 @@ import styled from 'styled-components'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectFade,Autoplay } from 'swiper';
 import nearImg from './images/near.jpg'
-import timerImg from './images/timer.jpg'
+import sunnyImg from './images/sunny.jpg'
 import comImg from './images/community.jpeg'
 import washerImg from './images/washer.jpeg'
 import clothImg from './images/cloth.jpeg'
 import banner1 from './images/banner1.png'
+import { useNavigate } from 'react-router-dom';
 const Wrapper = styled.div`
   margin: auto;
   article{
@@ -103,20 +104,20 @@ const FlexBox = styled.article`
     margin-top: 50px;
   }
 `
-const TimerBox = styled.article`
+const WeatherBox = styled.article`
   height: 250px;
   width: 85vw;
   margin: auto;
-  background:url(${timerImg}) center;
+  background:url(${sunnyImg}) center;
   margin-top: 50px;
   background-position: 0% 80%;
   margin-bottom: 50px;
   @media screen and (max-width: 800px) {
     height: 150px;
-
   }
 `
 const Home = () => {
+  const navigate = useNavigate()
   return (
     <Wrapper>
       <EventBanner>
@@ -135,14 +136,14 @@ const Home = () => {
       </Swiper>
       </EventBanner>
       <FlexBox>
-        <TopLeft><span className='black' >My Laundry</span></TopLeft>
-        <TopRight><span>Okay Laundry</span></TopRight>
+        <TopLeft onClick={()=>{navigate('/laundry')}}><span className='black' >My Laundry</span></TopLeft>
+        <TopRight onClick={()=>{navigate('/okayLaundry')}}><span>Okay Laundry</span></TopRight>
       </FlexBox>
       <FlexBox>
-        <BotLeft><span>Community</span></BotLeft>
-        <BotRight><span>Near</span></BotRight>
+        <BotLeft onClick={()=>{navigate('/community')}}><span>Community</span></BotLeft>
+        <BotRight onClick={()=>{navigate('/near')}}><span>Near</span></BotRight>
       </FlexBox>
-      <TimerBox><span>Timer</span></TimerBox>
+      <WeatherBox onClick={()=>{navigate('/weather')}}><span className='black'>Weather</span></WeatherBox>
     </Wrapper>
   )
 }

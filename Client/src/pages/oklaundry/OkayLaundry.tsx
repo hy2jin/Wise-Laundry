@@ -22,7 +22,7 @@ const ContainerBox = styled.section`
   background-color: ${props => props.theme.containerColor};
   height: 650px;
   box-shadow: ${props => props.theme.boxShadowBox} ;
-  border-radius: 10px;
+  border-radius: 50px 0 50px 0;
   margin-top: 5vh;
   .title{
     font-size: 4vw;
