@@ -112,7 +112,7 @@ const CommunityDetail = () => {
     }
     postComment(data)
     .then(res => {
-      console.log('🎲postComment: ', res);
+      // console.log('🎲postComment: ', res);
       setBoard({...board, comments: [...board.comments, res]})
     })
     .catch(err => console.log('createComment error:💧', err))
@@ -154,7 +154,7 @@ const CommunityDetail = () => {
   useEffect(() => {
     getCommunityDetail(Number(boardId))
     .then(res => {
-      console.log('🎲getCommunityDetail: ', res);
+      // console.log('🎲getCommunityDetail: ', res);
       // const testImgs = [
       //   'https://i1.sndcdn.com/artworks-W7SabP4lUpcuE7G5-TIxM7Q-t500x500.jpg',
       //   'https://images.coplusk.net/project_images/208626/image/2019-11-27-210127-burger.jpg',

@@ -91,7 +91,7 @@ const CommunityCreate = () => {
           showConfirmButton: false,
           timer: 1500
         })
-        console.log('🎲postBoard: ', res);
+        // console.log('🎲postBoard: ', res);
         navigate(`/community/${res.boardId}`)
       })
       .catch(err => console.log('postBoard err:💧', err))
