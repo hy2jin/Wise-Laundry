@@ -11,6 +11,7 @@ import { AltRouteTwoTone } from '@mui/icons-material';
 import defaultImg from './images/profile-image.png'
 import Swal from 'sweetalert2'
 import { userInfo } from 'os';
+import KakaoLogin from './KakaoLogin';
 
 
 
@@ -270,7 +271,10 @@ const Profile = () => {
   // const [kakaoProfileImg, setKakaoProfileImg] = useState('')
 
   const passwordChangeModal = () => {
-    if (user.kakaoImg !== null) {
+    const check = sessionStorage.getItem('kakao')
+    console.log(check, '카카오 확인')
+    
+    if (sessionStorage.getItem('kakao') !== null) {
       Swal.fire({
         icon: 'error',
         text: '카카오 로그인은 비밀번호를 변경할 수 없습니다',
