@@ -16,6 +16,7 @@ interface Itheme {
   boardDateColor: string
   scrollThumbColor: string
   scrollThumbHoverColor: string
+  scrollNavColor: string
 }
 // 2번 색을 지정해준다 => main 색들 넣어주고 다른곳에서 
 // color : ${props => props.theme.fontColor}; 이런식으로 사용하기
@@ -34,6 +35,7 @@ export const DARKMODE = {
   boardDateColor: '#bbbbbb',
   scrollThumbColor: '#999999',
   scrollThumbHoverColor: '#cccccc',
+  scrollNavColor: '#2757880',
 }
 export const LIGHTMODE = {
   bgColor: 'white',
@@ -50,6 +52,7 @@ export const LIGHTMODE = {
   boardDateColor: '#777777',
   scrollThumbColor: '#cccccc',
   scrollThumbHoverColor: '#999999',
+  scrollNavColor: '#e9f2ff0',
 }
 
 export const themeState = atom<Itheme>({

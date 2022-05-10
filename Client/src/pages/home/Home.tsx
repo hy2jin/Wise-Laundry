@@ -62,7 +62,9 @@ const EventBanner = styled.div`
   margin: auto;
   img{
     width: 100vw;
-    height: 35vh;
+    /* height: 35vh; */
+    height: 40vh;
+    padding-bottom: 5vh;
     object-fit: cover;
     @media screen and (max-width: 800px) {
       width: 100vw;

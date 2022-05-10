@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Link, useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { userState } from '../store/state/user'
+import { themeState } from '../store/state/theme'
 import ToggleSwitch from './ToggleSwitch'
 import LogoW from './images/logoW.png'
 import LogoB from './images/logoB.png'
@@ -16,8 +17,28 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [themeCheck, setThemeCheck] = useState(false)
   const [user, setUser] = useRecoilState(userState)
+  const [theme, setTheme] = useRecoilState(themeState)
+
+  const handleScroll = () => {
+    const veiw = document.documentElement
+    const scrollTop  = veiw.scrollTop 
+    if (theme.scrollNavColor===theme.navColor&&!!!scrollTop) {
+      setTheme({...theme, scrollNavColor: `${themeCheck ? '#2757880' : '#2757880'}`})
+    } else if ((theme.scrollNavColor==='#2757880'||theme.scrollNavColor==='#e9f2ff0')&&!!scrollTop) {
+      setTheme({...theme, scrollNavColor: theme.navColor})
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll)
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  })
+
   if (window.location.pathname === '/') 
   return null;
+
 
   return (
     <Wrapper>
@@ -51,7 +72,7 @@ const Wrapper = styled.div`
   z-index: 2;
 `
 const HeaderNav = styled.nav`
-  background-color: ${props => props.theme.navColor}; 
+  background-color: ${props => props.theme.scrollNavColor};
   width: 100%; 
   height: 80px;
   line-height: 80px;
