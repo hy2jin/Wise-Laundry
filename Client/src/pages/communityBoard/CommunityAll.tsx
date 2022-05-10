@@ -5,21 +5,23 @@ import styled from 'styled-components';
 import SearchIcon from '@mui/icons-material/Search';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import CancelIcon from '@mui/icons-material/Cancel';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { themeState } from '../../store/state/theme';
-import { getCommunityAll, getSearch } from '../../store/api/community';
+import { getCommunityAll, getSearch, getView } from '../../store/api/community';
 import defaultImg from './images/ironing.png'
 
 interface Istate {
   board: {
-    boardId: number,
     userId: number,
     userNick: string,
     userImg: string,
     kakaoImg: string,
+    boardId: number,
+    view: number,
     boardName: string,
-    boardDate: string,
+    boardDate: number[],
     commentCnt: number
   }
 }
@@ -30,24 +32,47 @@ const CommunityAll = () => {
   const [theme, setTheme] = useRecoilState(themeState)
   const [inputText, setInputText] = useState('')
   const [boards, setBoards] = useState<Istate["board"][]>([])
+  const [sortBtn, setSortBtn] = useState(false)
   const [lastBoardId, setLastBoardId] = useState(-1)
   const [endFlag, setEndFlag] = useState(false)
   const [fetching, setFetching] = useState(false)
 
-  const getBoard = async (first: boolean, lastId: number, keyword: string) => {
+  const getBoard = async (first: boolean, lastId: number, keyword: string, isSort: boolean) => {
     setFetching(true)
-    if (!!keyword) {
-      getSearch(keyword, lastBoardId)
+    // 조회순 요청
+    if (isSort) {
+      setSortBtn(true)
+      getView(lastId)
+      .then(res => {
+        if (first) {
+          console.log('🎲getView: ', res)
+          setBoards(res.list)
+        } else {
+          console.log('🎲More getView: ', res)
+          const newBoard = [...boards].concat(res.list)
+          setBoards(newBoard)
+        }
+        if (!!!res.endFlag) {
+          const lastIdx = res.list.length - 1
+          setLastBoardId(res.list[lastIdx].boardId)
+        } else {
+          setLastBoardId(-1)
+        }
+        setEndFlag(res.endFlag)
+      })
+    }
+    // 검색 요청
+    else if (!!keyword) {
+      setSortBtn(false)
+      getSearch(keyword, lastId)
       .then(res => {
         if (first) {
           console.log('🎲getSearch: ', res);
           setBoards(res.list)
-          setEndFlag(res.endFlag)
         } else {
           console.log('🎲More getSearch: ', res);
           const newBoard = [...boards].concat(res.list)
           setBoards(newBoard)
-          setEndFlag(res.endFlag)
         }
         if (!!!res.endFlag) {
           const lastIdx = res.list.length - 1
@@ -55,20 +80,22 @@ const CommunityAll = () => {
         } else {
           setLastBoardId(-1)
         }
+        setEndFlag(res.endFlag)
       })
       .catch(err => console.log('More getSearch err:💧 ', err))
-    } else {
-      getCommunityAll(lastBoardId)
+    }
+    // 일반 요청
+    else {
+      setSortBtn(false)
+      getCommunityAll(lastId)
       .then(res => {
         if (first) {
           console.log('🎲getCommunityAll: ', res);
           setBoards(res.list)
-          setEndFlag(res.endFlag)
         } else {
           console.log('🎲More getCommunityAll: ', res);
           const newBoard = [...boards].concat(res.list)
           setBoards(newBoard)
-          setEndFlag(res.endFlag)
         }
         if (!!!res.endFlag) {
           const lastIdx = res.list.length - 1
@@ -76,6 +103,7 @@ const CommunityAll = () => {
         } else {
           setLastBoardId(-1)
         }
+        setEndFlag(res.endFlag)
       })
       .catch(err => console.log('More getCommunityAll err:💧 ', err))
     }
@@ -85,7 +113,7 @@ const CommunityAll = () => {
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       if (!!inputText.trim()) {
-        getBoard(true, -1, inputText)
+        getBoard(true, -1, inputText, false)
       } else {
         setInputText('')
       }
@@ -95,7 +123,7 @@ const CommunityAll = () => {
   const onClickCancel = () => {
     setInputText('')
     setLastBoardId(-1)
-    getBoard(true, -1, '')
+    getBoard(true, -1, '', false)
   }
 
   const imageOnErrorHandler = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
@@ -108,7 +136,7 @@ const CommunityAll = () => {
     const scrollTop  = veiw.scrollTop 
     const clientHeight  = veiw.clientHeight
     if (!endFlag && scrollTop + clientHeight >= scrollHeight && !fetching) {
-      getBoard(false, lastBoardId, inputText)
+      getBoard(false, lastBoardId, inputText, sortBtn)
     }
   }
 
@@ -120,13 +148,16 @@ const CommunityAll = () => {
   })
 
   useEffect(() => {
-    getBoard(true, -1, '')
+    getBoard(true, -1, '', false)
   }, [])
 
   return (
     <Wrapper>
-      <p className='title'>질문 게시판
-        <button onClick={() => navigate('/board')}><span />질문하기</button>
+      <p className='title'>
+        <span>게시판</span>
+        <TopBtn className='left' onClick={() => console.log('조회순으로 조회')}><span />조회순</TopBtn>
+        {/* <TopBtn className='left' onClick={() => getBoard(true, -1, '', true)}><span />조회순</TopBtn> */}
+        <TopBtn className='right' onClick={() => navigate('/board')}><span />질문하기</TopBtn>
       </p>
       <SearchBar>
         <label htmlFor='search'>
@@ -138,7 +169,7 @@ const CommunityAll = () => {
         <CancelIcon onClick={() => onClickCancel()} style={{color: '#cccccc', cursor: 'pointer'}} />
       </SearchBar>
       {!!boards.length
-      ? <section>
+      ? <section className='boards'>
         {boards.map((board, i) => {
           let boardSrc = board.userImg ? `/images/${board.userImg}` : board.kakaoImg
           boardSrc = boardSrc || defaultImg
@@ -148,11 +179,12 @@ const CommunityAll = () => {
               <p className='nick'>{board.userNick}</p>
               <div className='board' onClick={() => navigate(`/community/${board.boardId}`)} style={{ backgroundColor: `${theme.listBgColor[i%3]}`}}>
                 <div className='name'>{board.boardName}</div>
-                <p className='comment'><ChatBubbleOutlineIcon /><span>{board.commentCnt}</span></p>
+                <p>
+                  <span className='comment'><ChatBubbleOutlineIcon /><span> {board.commentCnt}</span></span>
+                  <span className='view'><RemoveRedEyeIcon /><span> {board.view}</span></span>
+                </p>
               </div>
-              {/* {!!board.boardDate && */}
               <p className='date'>{board.boardDate[0]}.{board.boardDate[1]}.{board.boardDate[2]}</p>
-              {/* } */}
             </EachBoard>
           )
         }
@@ -176,49 +208,28 @@ const Wrapper = styled.article`
     text-align: center;
     font-size: 2.5rem;
     position: relative;
-    button {
-      user-select: none;
-      position: absolute;
-      right: 1%;
-      height: 100%;
-      padding: 0 1.5rem;
-      z-index: 1;
-      border: none;
-      border-radius: 4px;
-      overflow: hidden;
-      color: white;
-      background-color: ${props => props.theme.activeBtnColor};
-      span {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        transition: 0.5s;
-        right: 100%;
-        top: 0;
-        z-index: -1;
-        background-color: ${props => props.theme.hoverActiveBtnColor};
-      }
-      &:hover {
-        span {
-          right: 1%;
-        }
-      }
-    }
   }
-  section {
+  .boards {
     padding: 0.8rem;
-    margin-top: 1.5rem;
-    &.no-boards {
-      text-align: center;
-    }
+  }
+  .no-boards {
+    text-align: center;
+    margin: 2rem 0;
   }
   @media screen and (max-width: 800px) {
+    width: auto;
+    margin: 0;
     padding-top: 5rem;
     padding-bottom: 70px;
+    .boards {
+      padding: 0;
+    }
     .title {
+      height: 2rem;
       font-size: 1.5rem;
-      button {
-        padding: 0 .3rem;
+      margin: 0 1rem;
+      span {
+      line-height: 2rem;
       }
     }
   }
@@ -228,6 +239,8 @@ const SearchBar = styled.section`
   border: 2px solid #ACAAAA;
   border-radius: 10px;
   display: flex;
+  padding: 0.8rem;
+  margin-top: 1.5rem;
   svg {
     user-select: none;
     font-size: 1.8rem;
@@ -254,6 +267,13 @@ const SearchBar = styled.section`
       color: #a9a9a9;
     }
   }
+  @media screen and (max-width: 800px) {
+    margin: 1rem 1rem .5rem  1rem;
+    padding: .8rem;
+    input {
+      &::placeholder {letter-spacing: 0;}
+    }
+  }
 `
 const EachBoard = styled.div`
   cursor: default;
@@ -267,9 +287,10 @@ const EachBoard = styled.div`
     border-radius: 50%;
     margin: 0 1rem;
   }
-  .nick,
-  .date {
-    width: 5rem;
+  .nick {
+    width: 7rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .board {
     cursor: pointer;
@@ -280,7 +301,7 @@ const EachBoard = styled.div`
     border-radius: 10px;
     padding: 0 1rem;
     margin: 0 1rem;
-    width: 70vw;
+    width: 90vw;
     height: 100%;
     .name {
       overflow: hidden;
@@ -289,15 +310,72 @@ const EachBoard = styled.div`
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
     }
+    .view {
+      margin-left: .5rem;
+    }
     svg {
       font-size: 0.8rem;
     }
   }
-  @media screen  and (max-width: 800px) {
+  @media screen and (max-width: 800px) {
     .nick,
-    .date,
-    .comment {
+    .date {
       display: none;
+    }
+    .board {
+      height: 150%;
+      margin-left: 0;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: flex-start;
+    }
+  }
+`
+const TopBtn = styled.button`
+  user-select: none;
+  position: absolute;
+  height: 100%;
+  padding: 0 1.5rem;
+  z-index: 1;
+  border: none;
+  border-radius: 4px;
+  overflow: hidden;
+  color: white;
+  background-color: ${props => props.theme.activeBtnColor};
+  span {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transition: 0.5s;
+    right: 100%;
+    top: 0;
+    z-index: -1;
+    background-color: ${props => props.theme.hoverActiveBtnColor};
+  }
+  &.right {
+    right: 0;
+  }
+  &.left {
+    left: 0;
+    /* background-color: ${props => props.theme.inactiveBtnColor}; */
+    background-color: #cccccc;
+    span {
+      /* background-color: ${props => props.theme.hoverInactiveBtnColor}; */
+      background-color: #bbbbbb;
+    }
+  }
+  &:hover {
+    span {
+      right: 1%;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    padding: 0 1rem;
+    &.left {
+      left: auto;
+      right: 0;
+      top: -2.5rem;
+      padding: 0 1.35rem;
     }
   }
 `
