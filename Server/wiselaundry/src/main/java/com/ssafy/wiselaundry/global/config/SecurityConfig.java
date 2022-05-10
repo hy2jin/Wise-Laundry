@@ -79,8 +79,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/user/nickcheck").permitAll() // 회원가입 허용
                 .antMatchers("/api/oauth/login").permitAll()// 카카오 허용
                 .antMatchers("/api/weather/**").permitAll()// 날씨 허용
-                .antMatchers("/api/**").authenticated()  // api 로 시작하는 URL 모두 JWT 필요
-                .anyRequest().permitAll() // Swagger사용을 위해 모든 URL 허용
+//                .antMatchers("/api/**").authenticated()  // api 로 시작하는 URL 모두 JWT 필요
+//                .anyRequest().permitAll() // Swagger사용을 위해 모든 URL 허용
                 .and().cors();
     }
 }

@@ -20,6 +20,6 @@ public interface BoardService {
     void boardViewIncrement(int boardId);
 
     List<Board> boardSearchAll(int size, int boardId);
-    List<Board> boardOrderByViewDesc(int size, int boardId);
+    List<Board> boardOrderByViewDesc(int size, int offset);
     List<Board> boardSearchKeyword(String keyword, int size, int boardId);
 }

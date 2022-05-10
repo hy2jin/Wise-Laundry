@@ -75,13 +75,12 @@ public class BoardController {
             @ApiResponse(code = 201, message = "성공", response = BaseResponseBody.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
-    @GetMapping("/{size}/{boardId}")
+    @GetMapping("/{size}/{offset}")
     public ResponseEntity<? extends BaseResponseBody> boardSortViewDesc(@ApiParam @PathVariable("size") int size,
-                                                                        @ApiParam @PathVariable("boardId") int boardId) {
+                                                                        @ApiParam @PathVariable("offset") int offset) {
         boolean endFlag = true;
-        if (boardId == -1) boardId = Integer.MAX_VALUE;
 
-        List<Board> boardList = boardService.boardOrderByViewDesc(size, boardId);
+        List<Board> boardList = boardService.boardOrderByViewDesc(size, offset);
         List<BoardSearchAllRes> boardSearchAllResList = new ArrayList<>();
         Board last = boardService.boardOrderByViewDescLast();
 

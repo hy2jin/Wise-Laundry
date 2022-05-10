@@ -38,15 +38,13 @@ public class BoardRepositorySpp {
                 .fetch();
     }
 
-    public List<Board> boardViewOrderByDesc(int size, int boardId) {
+    public List<Board> boardViewOrderByDesc(int size, int offset) {
         return queryFactory
                 .select(board)
                 .from(board)
-                .where(
-                        board.boardId.lt(boardId)
-                )
                 .orderBy(board.view.desc())
-                .limit(size)
+                .offset(offset)
+                .limit(offset+size)
                 .fetch();
     }
 
