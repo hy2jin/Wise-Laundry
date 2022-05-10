@@ -5,7 +5,7 @@ import styled from 'styled-components'
 interface Iprops{
   laundry:{
     laundryId: number
-    careLabel: string[]
+    careLabel: {careLabelId: number, careLabelName:string, careLabel:string}[]
     laundryImg: string
     laundryInfo:string[]
   },
@@ -58,35 +58,50 @@ const Label = styled.div`
   p{
     margin-top: 1px;
   }
-  &:nth-child(1){
-    background-color: #cffbb2;
+  &#label1{
+    background-color: #82d64a;
   }
-  &:nth-child(2){
-    background-color: #8ad1c6;
+  &#label2{
+    background-color: #f2be70;
   }
-  &:nth-child(3){
+  &#label3{
     background-color: #f4ffac;
   }
-  &:nth-child(4){
+  &#label4{
     background-color: #fea5e6;
   }
-  &:nth-child(5){
+  &#label5{
     background-color: #fdce8d;
   }
-  &:nth-child(6){
-    background-color: #a3b2fa;
+  &#label6{
+    background-color: #ccffa8;
   }
-  &:nth-child(7){
-    background-color: #c2d096;
+  &#label7{
+    background-color: #5bc9b9;
   }
-  &:nth-child(8){
+  &#label8{
     background-color: #eaf69d;
   }
-  &:nth-child(9){
+  &#label9{
     background-color: #fba7e5;
   }
-  &:nth-child(10){
-    background-color: #ffd59b;
+  &#label10{
+    background-color: #fc6ce4;
+  }
+  &#label11{
+    background-color: #e3a44c;
+  }
+  &#label12{
+    background-color: #cccfa3;
+  }
+  &#label13{
+    background-color: #5fbe7a;
+  }
+  &#label14{
+    background-color: #b49bff;
+  }
+  &#label15{
+    background-color: #7346fd;
   }
 `
 const imageOnErrorHandler = (
@@ -107,7 +122,6 @@ const Info = styled.div`
 const LaundryCard:React.FC<Iprops>= ({laundry,filter}) => {
   const navigate = useNavigate()
   const src = `/images/${laundry.laundryImg}`
-  // console.log(`/images/${laundry.laundryImg}`)
   return (
     <Wrapper onClick={()=>{navigate(`${laundry.laundryId}`)}}>
       <ImgWrapper>
@@ -117,15 +131,15 @@ const LaundryCard:React.FC<Iprops>= ({laundry,filter}) => {
       <LabelBox>
         {laundry.careLabel.map(((label,idx)=>{
           return(
-            <Label key={idx}><p>{label}</p></Label>
+            <Label  id={`label${String(label.careLabelId)}`} key={idx}><p>{label.careLabel}</p></Label>
           )
         }))}
       </LabelBox>}
       {filter==="all"&&
       <LabelBox>
-        {laundry.laundryInfo.map(((label,idx)=>{
+        {laundry.laundryInfo.map(((info,idx)=>{
           return(
-            <Info key={idx}><p>#{label}</p></Info>
+            <Info key={idx}><p>#{info}</p></Info>
           )
         }))}
       </LabelBox>}

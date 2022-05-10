@@ -10,7 +10,7 @@ interface Istate{
   laundry:{
     laundryId: number
     laundryImg: string
-    careLabel: string[]
+    careLabel: {careLabelId: number, careLabelName:string, careLabel:string}[]
     laundryInfo: string[]
   }
 }
@@ -132,31 +132,64 @@ const LaundryBox = styled.section`
 
 
 const LaundryAll = () => {
+  const [allRaw,setAllRaw] = useState<Istate['laundry'][]>([])
+  const [myRaw,setMyRaw] = useState<Istate['laundry'][]>([])
+
   const [allLaundries,setAllLaundries] = useState<Istate['laundry'][]>([])
   const [myLaundries,setMyLaundries] = useState<Istate['laundry'][]>([])
+
+
   const [filter,setFilter] = useState('all') // my <=> all
   const [inputText,setInputText] = useState('')
-  const [user,getUser] = useRecoilState(userState)
-  const [laundries,setLaundries] = useState<Istate['laundry'][]>([])
   
   const handleEnter = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.code === "Enter"){
       search()
     }
   }
+  useEffect(()=>{
+    const userId = JSON.parse(sessionStorage.getItem('userInfo')||"").userId
+    getProductMine(userId).then((res)=>{
+      if(res.list===null){
+        setMyLaundries([])
+        setMyRaw([])
+      }
+      else{
+        setMyLaundries(res.list)
+        setMyRaw(res.list)
+      }
+    })
+    getProductAll().then((res)=>{
+      if(res.list===null){
+        setAllLaundries([])
+        setAllRaw([])
+      }
+      else{
+        setAllLaundries(res.list)
+      setAllRaw(res.list)
+      }
+    })
+  },[])
+
   const search = ()=>{
     if (inputText===""){ // 검색창이 비었고
       if (filter==='all'){ // 전체 목록이라면
-        setLaundries(allLaundries) // 초기화
+        if(allRaw!==[])
+          setAllLaundries(allRaw)
+          else
+            setAllLaundries([])
       }
       else{ 
-        setLaundries(myLaundries) 
+        if(myRaw!==[])
+          setMyLaundries(myRaw)
+        else setMyLaundries([])
       }
     }
     else{ // 인풋창이 차있고
       if (filter==='all') { // all 일때
         var newlist:Istate['laundry'][] =[]
-        allLaundries.map((each)=>{
+        if(allRaw!==[]){
+          allRaw.map((each)=>{
           each.laundryInfo.map(info=>{
             if ( info.includes(inputText)){
               if(!newlist.includes(each)){
@@ -164,42 +197,46 @@ const LaundryAll = () => {
               }
             }
           })
-        })
-        setLaundries(newlist)
+        })}
+        setAllLaundries(newlist)
         }
-    if (filter=='my'){
+
+    if (filter==='my'){
       var newlist:Istate['laundry'][] =[]
-      myLaundries.map((each)=>{
+      if(myRaw!==[]){
+        myRaw.map((each)=>{
         each.careLabel.map(info=>{
-          if ( info.includes(inputText)){
+          if ( info.careLabel.includes(inputText)){
             if(!newlist.includes(each)){
               newlist.push(each)
             }
           }
         })
-      })
-      setLaundries(newlist)
+      })}
+      setMyLaundries(newlist)
       }
     }
   }
-  useEffect(()=>{
-    getProductAll().then((res)=>{
-      setAllLaundries(res.list)
-      setLaundries(res.list)
-    })
-    getProductMine(user.userId).then((res)=>{
-      setMyLaundries(res.list)
-      setMyLaundries(res.list)
-    })
-  },[])
+  
+
   useEffect(()=>{
     if(filter==='all'){
-      setLaundries(allLaundries)
-    }
+      if(allRaw===[])
+        setAllLaundries([])
+      else
+        setAllLaundries(allRaw)
+      }
     else{
-      setLaundries(myLaundries)
+      if(myRaw===[]){
+        setMyLaundries([])    
+      }
+      else
+        setMyLaundries(myRaw)
     }
   },[filter])
+  useEffect(()=>{
+    console.log(myLaundries)
+  },[])
   return (
     <Wrapper>
       <Header>
@@ -226,15 +263,17 @@ const LaundryAll = () => {
 
       </Header>
       <LaundryBox>
-        {filter==='my' ? 
-          (laundries!==[]?
-            laundries.map((laundry,idx)=>{return(<section key={laundry.laundryId}><LaundryCard filter={filter}  laundry={laundry}/></section>)}):
-          <p className='no'>아직 등록된 옷이 없어요</p> )
-          :
-          (laundries!==[]?
-            laundries.map((laundry,idx)=>{return(<section key={laundry.laundryId}><LaundryCard filter={filter}   laundry={laundry}/></section>)})
-          :
-          <p className='no'>아직 등록된 옷이 없어요</p>)
+        {filter==='my' &&
+          (myLaundries.length===0?
+            <p className='no'>아직 등록된 옷이 없어요</p> :
+            myLaundries.map((laundry,idx)=>{return(<LaundryCard filter={filter} key={laundry.laundryId}  laundry={laundry}/>)})
+        )}
+        
+        {filter==='all'&&
+          (allLaundries.length===0?
+            <p className='no'>아직 등록된 옷이 없어요</p>
+            :
+            allLaundries.map((laundry,idx)=>{return(<LaundryCard key={laundry.laundryId} filter={filter}   laundry={laundry}/>)}))
         }
       </LaundryBox>
     </Wrapper>

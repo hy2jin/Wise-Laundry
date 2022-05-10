@@ -119,17 +119,17 @@ const Label = styled.div`
   padding: 5px 5px 3px 5px;
   border-radius:5px 0 5px 0;
   font-size: 0.8rem;
-  background-color: #b3eaef;
+  background-color: #e9f9fb;
   align-items: center;
   p{
     margin-top: 1px;
   }
   
   &#label1{
-    background-color: #cffbb2;
+    background-color: #82d64a;
   }
   &#label2{
-    background-color: #90fdec;
+    background-color: #f2be70;
   }
   &#label3{
     background-color: #f4ffac;
@@ -144,7 +144,7 @@ const Label = styled.div`
     background-color: #ccffa8;
   }
   &#label7{
-    background-color: #90faea;
+    background-color: #5bc9b9;
   }
   &#label8{
     background-color: #eaf69d;
@@ -210,6 +210,7 @@ const ButtonBox = styled.div`
 `
 const Memo = styled.div`
   margin-top: 50px;
+  text-align: center;
   .mtitle{
     text-align: center;
     margin: auto;
@@ -232,7 +233,7 @@ const Memo = styled.div`
     @media screen and (max-width: 800px) { 
     height: auto;
     width: 60%;
-  }
+    }
   }
 `
 interface Istate{

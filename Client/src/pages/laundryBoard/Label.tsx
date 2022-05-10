@@ -147,7 +147,6 @@ const Label:React.FC<Iprops> = ({label,color,idx,setCareLabels,careLabels}) => {
     })
     if (flag){
       setCareLabels([...careLabels,label])
-      setShowModal(false)
       setValue('')
     }
   }
