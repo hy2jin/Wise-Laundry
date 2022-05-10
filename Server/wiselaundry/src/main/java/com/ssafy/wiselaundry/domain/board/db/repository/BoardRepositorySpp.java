@@ -38,6 +38,24 @@ public class BoardRepositorySpp {
                 .fetch();
     }
 
+    public List<Board> boardViewOrderByDesc(int size, int boardId) {
+        return queryFactory
+                .select(board)
+                .from(board)
+                .where(
+                        board.boardId.lt(boardId)
+                )
+                .orderBy(board.view.desc())
+                .fetch();
+    }
+
+    public Board boardViewOrderByDescLast() {
+        return queryFactory
+                .selectFrom(board)
+                .orderBy(board.view.asc())
+                .fetchFirst();
+    }
+
     public Board boardSearchLast() {
         return queryFactory
                 .selectFrom(board)

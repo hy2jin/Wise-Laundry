@@ -33,9 +33,8 @@ public class BoardController {
     })
     @GetMapping("/all/{size}/{boardId}")
     public ResponseEntity<? extends BaseResponseBody> boardSearchAll(@PathVariable("size") int size, @PathVariable("boardId") int boardId) {
-        if (boardId == -1){
-            boardId = Integer.MAX_VALUE;
-        }
+        if (boardId == -1) boardId = Integer.MAX_VALUE;
+
         List<Board> boards = boardService.boardSearchAll(size, boardId);
         List<BoardSearchAllRes> boardSearchAllResList = new ArrayList<>();
         boolean endFlag;
@@ -47,16 +46,15 @@ public class BoardController {
         return ResponseEntity.status(200).body(BoardSearchAllListRes.of(200, "Success", boardSearchAllResList, endFlag));
     }
 
-
     @ApiOperation(value = "게시글 keyword 로 조회")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = List.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
     @GetMapping("/search/{keyword}/{size}/{boardId}")
-    public ResponseEntity<? extends BaseResponseBody> boardSearchKeyword(@PathVariable("keyword")String keyword,
-                                                                         @PathVariable("size")int size,
-                                                                         @PathVariable("boardId")int boardId) {
+    public ResponseEntity<? extends BaseResponseBody> boardSearchKeyword(@ApiParam @PathVariable("keyword")String keyword,
+                                                                         @ApiParam @PathVariable("size")int size,
+                                                                         @ApiParam @PathVariable("boardId")int boardId) {
         if (boardId == -1) boardId = Integer.MAX_VALUE;
 
         List<Board> boards = boardService.boardSearchKeyword(keyword, size, boardId);
@@ -68,6 +66,31 @@ public class BoardController {
         }
         if(!boards.isEmpty())
             endFlag = boards.get(boards.size() - 1) == boardService.searchByKeywordLast(keyword);
+
+        return ResponseEntity.status(200).body(BoardSearchAllListRes.of(200, "Success", boardSearchAllResList, endFlag));
+    }
+
+    @ApiOperation(value = "게시글 조회순으로 정렬", notes = "게시글 조회수 내림차순으로 정렬")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "성공", response = BaseResponseBody.class),
+            @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
+    })
+    @GetMapping("/{size}/{boardId}")
+    public ResponseEntity<? extends BaseResponseBody> boardSortViewDesc(@ApiParam @PathVariable("size") int size,
+                                                                        @ApiParam @PathVariable("boardId") int boardId) {
+        boolean endFlag = true;
+        if (boardId == -1) boardId = Integer.MAX_VALUE;
+
+        List<Board> boardList = boardService.boardOrderByViewDesc(size, boardId);
+        List<BoardSearchAllRes> boardSearchAllResList = new ArrayList<>();
+        Board last = boardService.boardOrderByViewDescLast();
+
+        if(!boardList.isEmpty())
+            endFlag = boardList.get(boardList.size() -1) == last;
+
+        for (Board board: boardList) {
+            boardSearchAllResList.add(BoardSearchAllRes.boardToBoardSearchAllRes(board));
+        }
 
         return ResponseEntity.status(200).body(BoardSearchAllListRes.of(200, "Success", boardSearchAllResList, endFlag));
     }
@@ -111,6 +134,7 @@ public class BoardController {
     }
 
 
+
     @ApiOperation(value = "게시글 작성", notes = "게시글 하나 생성")
     @ApiResponses({
             @ApiResponse(code = 201, message = "성공", response = BaseResponseBody.class),
@@ -139,6 +163,16 @@ public class BoardController {
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "수정 완료"));
     }
 
+    @ApiOperation(value = "게시글 조회수 변경", notes = "게시글 조회수를 하나 올린다.")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "성공", response = BaseResponseBody.class),
+            @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
+    })
+    @PutMapping("/{boardId}")
+    public ResponseEntity<? extends BaseResponseBody> boardViewIncrement(@ApiParam @PathVariable("boardId") int boardId) {
+        boardService.boardViewIncrement(boardId);
+        return ResponseEntity.status(201).body(BaseResponseBody.of(201, "증가 완료"));
+    }
 
     @ApiOperation(value = "게시글 삭제", notes = "게시글 삭제")
     @ApiResponses({

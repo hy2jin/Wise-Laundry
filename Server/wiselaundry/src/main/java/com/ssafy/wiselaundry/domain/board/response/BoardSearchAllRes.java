@@ -26,6 +26,9 @@ public class BoardSearchAllRes {
     @ApiModelProperty(value = "게시글 ID", required = true, example = "게시글 ID")
     private int boardId;
 
+    @ApiModelProperty(value = "조회수", required = true, example = "게시글 조회수")
+    private int view;
+
     @ApiModelProperty(value = "게시글 제목", required = true, example = "게시글 제목입니다.")
     private String boardName;
 
@@ -36,7 +39,8 @@ public class BoardSearchAllRes {
     private int commentCnt;
 
     @Builder
-    public BoardSearchAllRes(int userId, String userNick, int boardId, String boardName, LocalDateTime boardDate, String userImg, int commentCnt, String kakaoImg, String message, Integer statusCode) {
+    public BoardSearchAllRes(int userId, String userNick, int boardId, String boardName, LocalDateTime boardDate,
+                             int view, String userImg, int commentCnt, String kakaoImg, String message, Integer statusCode) {
         this.userId = userId;
         this.userNick = userNick;
         this.userImg = userImg;
@@ -44,6 +48,7 @@ public class BoardSearchAllRes {
         this.boardName = boardName;
         this.boardDate = boardDate;
         this.commentCnt = commentCnt;
+        this.view = view;
         this.kakaoImg = kakaoImg;
     }
 
@@ -57,6 +62,7 @@ public class BoardSearchAllRes {
                 .boardId(board.getBoardId())
                 .boardName(board.getBoardName())
                 .boardDate(board.getBoardDate())
+                .view(board.getView())
                 .commentCnt(board.getComments().size())
                 .build();
     }

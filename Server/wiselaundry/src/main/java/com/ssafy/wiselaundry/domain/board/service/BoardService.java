@@ -8,14 +8,18 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.util.List;
 
 public interface BoardService {
-    List<Board> boardSearchAll(int size, int boardId);
-
     Board searchLast();
     Board searchByKeywordLast(String keyword);
     Board boardSearchById(int boardId);
+    Board boardOrderByViewDescLast();
+
     int boardCreate(BoardCreateReq body, MultipartHttpServletRequest request);
+
     void boardUpdate(BoardUpdateReq body, MultipartHttpServletRequest request);
     void boardDelete(int boardId);
+    void boardViewIncrement(int boardId);
 
+    List<Board> boardSearchAll(int size, int boardId);
+    List<Board> boardOrderByViewDesc(int size, int boardId);
     List<Board> boardSearchKeyword(String keyword, int size, int boardId);
 }
