@@ -44,6 +44,10 @@ public class Board{
     @Column(name = "board_dt")
     private LocalDateTime boardDate;
 
+    @ApiModelProperty(value = "조회수", example = "0")
+    @Column(name = "view", columnDefinition = "integer default 0")
+    private int view;
+
     @JsonManagedReference
     @ApiModelProperty(value = "게시글 댓글", required = false, example = "게시글 댓글")
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -55,13 +59,14 @@ public class Board{
     private List<BoardImg> boardImgs = new ArrayList<BoardImg>();
 
     @Builder
-    Board(int boardId, User user, String boardName, List<BoardImg> boardImgs, List<Comments> comments, String boardContent, LocalDateTime boardDate) {
+    Board(int boardId, User user, String boardName, List<BoardImg> boardImgs, List<Comments> comments,
+          LocalDateTime boardDate, String boardContent) {
         this.boardId = boardId;
         this.user = user;
         this.boardName = boardName;
         this.boardImgs = boardImgs;
         this.comments = comments;
-        this.boardContent = boardContent;
         this.boardDate = boardDate;
+        this.boardContent = boardContent;
     }
 }

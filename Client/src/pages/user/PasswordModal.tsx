@@ -252,8 +252,6 @@ const PasswordModal:React.FC<IProps> = ({setModalOn}) => {
 
 
   const onClose = () => {
-    // event.preventDefault();
-    // console.log('모달 닫기')
     if (!paswordChecked) {
       alert('비밀번호를 입력해주세요')
     } else {
@@ -272,16 +270,12 @@ const PasswordModal:React.FC<IProps> = ({setModalOn}) => {
 
       putUpdateUserInfo(formdata)
       .then((res) => {
-        console.log('비밀번호 수정 성공')
-        // console.log(password, '비밀번호 확인')
         Swal.fire({
           icon: 'success',
           text: '변경 되었습니다',
           showConfirmButton: false,
           timer: 1000
         })
-        // navigate('/login')
-        // setUser()
         }
       )
       .catch((err) => console.log(err))
@@ -292,7 +286,6 @@ const PasswordModal:React.FC<IProps> = ({setModalOn}) => {
 
   const onCancleUpdate = () => {
     setModalOn(false);
-    console.log('변경 취소')
   }
 
   

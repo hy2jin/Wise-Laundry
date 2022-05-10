@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.swing.filechooser.FileSystemView;
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -46,6 +47,16 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public List<Board> boardSearchAll(int size, int boardId) {
         return boardRepositorySpp.boardPagination(size, boardId);
+    }
+
+    @Override
+    public List<Board> boardOrderByViewDesc(int size, int boardId) {
+        return boardRepositorySpp.boardViewOrderByDesc(size, boardId);
+    }
+
+    @Override
+    public Board boardOrderByViewDescLast() {
+        return boardRepositorySpp.boardViewOrderByDescLast();
     }
 
     @Override
@@ -119,6 +130,13 @@ public class BoardServiceImpl implements BoardService{
     public void boardDelete(int boardId) {
         Board deleteBoard = boardRepository.findById(boardId).get();
         boardRepository.delete(deleteBoard);
+    }
+
+    @Override
+    @Transactional
+    public void boardViewIncrement(int boardId) {
+        Board board = boardRepository.findById(boardId).get();
+        board.setView(board.getView() + 1);
     }
 
     @Override

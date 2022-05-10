@@ -71,7 +71,7 @@ public class LaundryServiceImpl implements LaundryService{
             userLaundryAlls.add(LaundryAll.builder()
                     .laundryId(list.get(i).getLaundryId())
                     .laundryImg(list.get(i).getLaundryImg())
-                    .careLabel(findCareLabelDetail(list.get(i).getLaundryId()))
+                    .careLabel(laundryRepositorySpp.careLabelsByLaundryId(list.get(i).getLaundryId()))
                     .laundryInfo(findInfoDetail(list.get(i).getLaundryId()))
                     .build());
         }
@@ -205,7 +205,7 @@ public class LaundryServiceImpl implements LaundryService{
             userLaundryAlls.add(LaundryAll.builder()
                     .laundryId(list.get(i).getLaundryId())
                     .laundryImg(list.get(i).getLaundryImg())
-                    .careLabel(findCareLabelDetail(list.get(i).getLaundryId()))
+                    .careLabel(laundryRepositorySpp.careLabelsByLaundryId(list.get(i).getLaundryId()))
                     .laundryInfo(findInfoDetail(list.get(i).getLaundryId()))
                     .build());
         }
