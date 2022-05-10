@@ -10,6 +10,7 @@ import { userState } from '../../store/state/user';
 import { AltRouteTwoTone } from '@mui/icons-material';
 import defaultImg from './images/profile-image.png'
 import Swal from 'sweetalert2'
+import { userInfo } from 'os';
 
 
 
@@ -269,8 +270,20 @@ const Profile = () => {
   // const [kakaoProfileImg, setKakaoProfileImg] = useState('')
 
   const passwordChangeModal = () => {
-    setModalOn(true);
-    console.log(modalOn,' 모달 열기')
+    if (user.kakaoImg === null) {
+      Swal.fire({
+        icon: 'error',
+        text: '카카오 로그인은 비밀번호를 변경할 수 없습니다',
+        confirmButtonText: '확인',
+        confirmButtonColor: 'red',
+      })
+      setModalOn(false);
+    } else {
+      setModalOn(true);
+      console.log(modalOn,' 모달 열기')
+    }
+    
+    // console.log(user,'인포')
   }
 
 

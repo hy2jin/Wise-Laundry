@@ -18,7 +18,7 @@ const Wrapper = styled.section`
   cursor: pointer;
   margin: auto;
   margin-top: 8vh;
-  border-radius: 10px;
+  border-radius: 3px;
   box-shadow: ${props => props.theme.boxShadowBox};
   
   &:hover{
