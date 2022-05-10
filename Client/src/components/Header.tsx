@@ -8,6 +8,8 @@ import LinkedCameraIcon from '@mui/icons-material/LinkedCamera';
 import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
 import ForumIcon from '@mui/icons-material/Forum';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import HomeIcon from '@mui/icons-material/Home';
 import { useRecoilState } from 'recoil'
 import { userState } from '../store/state/user'
 const Wrapper = styled.div`
@@ -100,17 +102,21 @@ const Header = () => {
         <MobileBack/>
       </span>
         <HeaderNav>
-          <Link to='/laundry'>MY LAUNDRY</Link>
           <Link to='/okaylaundry'>OKAY LAUNDRY</Link>
+          <Link to='/laundry'>MY LAUNDRY</Link>
           <Link to='/near'>NEAR</Link>
+          <Link to='/weather'>WHEATHER</Link>
           <Link to='/home'><img src='https://cdn-icons-png.flaticon.com/512/3238/3238630.png' alt='logo'/></Link>
           <Link to='/community'>COMMUNITY</Link>
           <Link to='/profile'>{user.userNick}님</Link>
+          <Link to='/profile'>LOGOUT</Link>
           <ToggleTop className='toggle' ><ToggleSwitch themeCheck={themeCheck} setThemeCheck={setThemeCheck} /></ToggleTop>
         </HeaderNav>
       <FooterNav>
         <Link to='/laundry'><IronIcon/></Link>
         <Link to='/okaylaundry'><LinkedCameraIcon/></Link>
+        <Link to='/weather'><WbSunnyIcon/></Link>
+        <Link to='/home'><HomeIcon/></Link>
         <Link to='/near'><LocalLaundryServiceIcon/></Link>
         <Link to='/community'><ForumIcon/></Link>
         <Link to='/profile'><AssignmentIndIcon/></Link>

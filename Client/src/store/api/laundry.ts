@@ -45,7 +45,7 @@ export const getProductMine = async (userId:number) => {
   const response = await apiClient.get<any>(
     `/laundry/${userId}/all`, 
   );
-  console.log('실행한다~')
+  console.log(userId,'번 호출')
   return response.data
 }
 

@@ -271,9 +271,6 @@ const Profile = () => {
   // const [kakaoProfileImg, setKakaoProfileImg] = useState('')
 
   const passwordChangeModal = () => {
-    const check = sessionStorage.getItem('kakao')
-    console.log(check, '카카오 확인')
-    
     if (sessionStorage.getItem('kakao') !== null) {
       Swal.fire({
         icon: 'error',
@@ -282,13 +279,11 @@ const Profile = () => {
         confirmButtonColor: 'red',
       })
       setModalOn(false);
-      console.log('모달 열면 안됨')
+      // console.log('모달 열면 안됨')
     } else {
       setModalOn(true);
       console.log(modalOn,' 모달 열기')
     }
-    
-    // console.log(user,'인포')
   }
 
 

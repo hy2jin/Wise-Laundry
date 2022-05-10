@@ -68,7 +68,7 @@ const Near =() =>{
   const nearLocation = (x:any,y:any)=>{
     let tmp:IState['data'][] = []
     datas.map((el)=>{
-      if(Math.abs(el.위도-x)<=0.02 && Math.abs(el.경도-y)<=0.02 ){
+      if(Math.abs(el.위도-x)<=0.04 && Math.abs(el.경도-y)<=0.04 ){
         tmp.push(el)
       }
     })
