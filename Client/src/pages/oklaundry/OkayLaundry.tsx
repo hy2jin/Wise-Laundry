@@ -7,8 +7,7 @@ const Wrapper = styled.section`
  margin: auto;
  margin-top: 5vh;
  *{
-  font-family: 'Malgun gothic';
-  font-weight: 600;
+  /* font-weight: 600; */
  }
  @media screen and (max-width:1200px) {
   width: 95vw;
@@ -97,9 +96,9 @@ const Button = styled.button`
   border: none;
   cursor: pointer;
   border-radius: 10px 0 10px 0;
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin-top: 70px;
-  font-family: 'Times New Roman', Times, serif;
+  /* font-family: 'Times New Roman', Times, serif; */
 `
 const IntroBox = styled.div`
   width: 100%;
@@ -128,7 +127,7 @@ const IntroBox = styled.div`
     .bold{
       font-weight: 1200;
       margin-top: 50px;
-      font-size: 1.4rem;
+      font-size: 1.5rem;
     }
     @media screen and (max-width: 1200px) {
       text-align: center;
