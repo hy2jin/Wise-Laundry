@@ -42,16 +42,16 @@ public class BoardRepositorySpp {
         return queryFactory
                 .select(board)
                 .from(board)
-                .orderBy(board.view.desc())
+                .orderBy(board.view.desc(), board.boardId.desc())
                 .offset(offset)
-                .limit(offset+size)
+                .limit(size)
                 .fetch();
     }
 
     public Board boardViewOrderByDescLast() {
         return queryFactory
                 .selectFrom(board)
-                .orderBy(board.view.asc())
+                .orderBy(board.view.asc(), board.boardId.asc())
                 .fetchFirst();
     }
 
