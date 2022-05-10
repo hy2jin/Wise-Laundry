@@ -46,6 +46,7 @@ public class BoardRepositorySpp {
                         board.boardId.lt(boardId)
                 )
                 .orderBy(board.view.desc())
+                .limit(size)
                 .fetch();
     }
 
