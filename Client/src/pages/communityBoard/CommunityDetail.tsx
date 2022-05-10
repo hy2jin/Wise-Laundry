@@ -155,13 +155,13 @@ const CommunityDetail = () => {
     getCommunityDetail(Number(boardId))
     .then(res => {
       console.log('🎲getCommunityDetail: ', res);
-      const testImgs = [
-        'https://i1.sndcdn.com/artworks-W7SabP4lUpcuE7G5-TIxM7Q-t500x500.jpg',
-        'https://images.coplusk.net/project_images/208626/image/2019-11-27-210127-burger.jpg',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf7WOLBD7t1VG3rkJq4CuLa8LDfuvcsUXutZ3hbV33SGPaW7_aFgN9S_IZITCsIGr9EiM&usqp=CAU'
-      ]
-      setBoard({...res, boardImgs: testImgs})
-      // setBoard(res)
+      // const testImgs = [
+      //   'https://i1.sndcdn.com/artworks-W7SabP4lUpcuE7G5-TIxM7Q-t500x500.jpg',
+      //   'https://images.coplusk.net/project_images/208626/image/2019-11-27-210127-burger.jpg',
+      //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf7WOLBD7t1VG3rkJq4CuLa8LDfuvcsUXutZ3hbV33SGPaW7_aFgN9S_IZITCsIGr9EiM&usqp=CAU'
+      // ]
+      // setBoard({...res, boardImgs: testImgs})
+      setBoard(res)
     })
     .then(() => {
       putView(Number(boardId))

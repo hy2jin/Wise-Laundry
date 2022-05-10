@@ -2,6 +2,7 @@ import axios from "axios"
 import Swal from 'sweetalert2'
 
 const baseURL = process.env.REACT_APP_BASEURL
+const boardSize: number = 10
 
 const apiClient = axios.create({
   baseURL: baseURL,
@@ -38,7 +39,7 @@ apiImageClient.interceptors.request.use(
 // 🌼🌼🌼게시글 전체⭕
 export const getCommunityAll = async (lastBoardId: number) => {
   const { data } = await apiClient.get<any>(
-    `/community/all/${10}/${lastBoardId}`, 
+    `/community/all/${boardSize}/${lastBoardId}`, 
   )
   // console.log('🌼getCommunityAll: ', data)
   return data
@@ -60,7 +61,7 @@ export const getCommunityDetail = async (boardId: number) => {
 // 🌼🌼🌼검색⭕
 export const getSearch = async (keyword: string, lastBoardId: number) => {
   const { data } = await apiClient.get<any>(
-    `/community/search/${keyword}/${10}/${lastBoardId}`
+    `/community/search/${keyword}/${boardSize}/${lastBoardId}`
     )
   // console.log('🌼getSearch: ', data);
   return data
@@ -131,16 +132,16 @@ export const delComment = async (commentId: number) => {
   return data
 }
 
-// 🌼🌼🌼조회순 조회
-export const getView = async (lastBoardId: number) => {
+// 🌼🌼🌼조회순 조회⭕
+export const getView = async (offset: number) => {
   const { data } = await apiClient.get<any>(
-    `/community/${10}/${lastBoardId}`, 
+    `/community/${boardSize}/${offset}`, 
   )
   // console.log('🌼getView: ', data)
   return data
 }
 
-// 🌼🌼🌼조회수 증가
+// 🌼🌼🌼조회수 증가⭕
 export const putView = async (boardId: number) => {
   const { data } = await apiClient.put<any>(
     `/community/${boardId}`
