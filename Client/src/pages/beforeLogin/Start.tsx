@@ -180,7 +180,7 @@ const Start = () => {
       setShowLogin(true)
     }, 10000);
   },[])
- 
+
   return (
     <Wrapper>
       <div className={titleUp ? 'up':'title'} >
