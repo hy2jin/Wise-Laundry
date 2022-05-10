@@ -76,7 +76,7 @@ const InfoBox = styled.div`
     margin-top: 40px;
     font-size: 1.2rem;
     width: 200px;
-    color : ${props => props.theme.activeBtnColor};
+    color : ${props => props.theme.titleColor};
     padding-bottom: 15px;
     border-bottom: 2px solid #275788;
   }
@@ -210,13 +210,13 @@ const ButtonBox = styled.div`
 `
 const Memo = styled.div`
   margin-top: 50px;
-  text-align: center;
+    text-align: center;
   .mtitle{
     text-align: center;
     margin: auto;
     font-size: 1.2rem;
     width: 200px;
-    color : ${props => props.theme.activeBtnColor};
+    color : ${props => props.theme.titleColor};
     padding-bottom: 15px;
     border-bottom: 2px solid #275788;
   }

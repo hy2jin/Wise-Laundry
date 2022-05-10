@@ -8,6 +8,7 @@ import comImg from './images/community.jpeg'
 import washerImg from './images/washer.jpeg'
 import clothImg from './images/cloth.jpeg'
 import banner1 from './images/banner1.png'
+import banner2 from './images/banner2.png'
 import { useNavigate } from 'react-router-dom';
 const Wrapper = styled.div`
   margin: auto;
@@ -132,7 +133,7 @@ const Home = () => {
         >
           <SwiperSlide><img alt='그림' src={banner1}/></SwiperSlide>
           <SwiperSlide><img alt='그림' src={'https://resource.miricanvas.com/image/web/templates/main/type_thumbnail/web_banner_hor.jpeg?1.9.36hotfix6_1651219226372'}/></SwiperSlide>
-          <SwiperSlide><img alt='그림' src={'https://blog.kakaocdn.net/dn/bv1duH/btqZqot50kj/DEgWpku3mpMibIotilkqjK/img.jpg'}/></SwiperSlide>
+          <SwiperSlide><img alt='그림' src={banner2}/></SwiperSlide>
       </Swiper>
       </EventBanner>
       <FlexBox>
