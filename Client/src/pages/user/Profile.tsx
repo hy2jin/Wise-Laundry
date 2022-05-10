@@ -270,7 +270,7 @@ const Profile = () => {
   // const [kakaoProfileImg, setKakaoProfileImg] = useState('')
 
   const passwordChangeModal = () => {
-    if (user.kakaoImg === null) {
+    if (user.kakaoImg !== null) {
       Swal.fire({
         icon: 'error',
         text: '카카오 로그인은 비밀번호를 변경할 수 없습니다',
@@ -278,6 +278,7 @@ const Profile = () => {
         confirmButtonColor: 'red',
       })
       setModalOn(false);
+      console.log('모달 열면 안됨')
     } else {
       setModalOn(true);
       console.log(modalOn,' 모달 열기')
