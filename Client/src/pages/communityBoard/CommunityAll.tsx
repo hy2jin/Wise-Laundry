@@ -37,29 +37,38 @@ const CommunityAll = () => {
   const [endFlag, setEndFlag] = useState(false)
   const [fetching, setFetching] = useState(false)
 
+  const changeLastIdx = (flag: boolean, array: Istate["board"][]) => {
+    if (!!!flag) {
+      const lastIdx = array.length - 1
+      setLastBoardId(array[lastIdx].boardId)
+    } else {
+      setLastBoardId(-1)
+    }
+    setEndFlag(flag)
+  }
+
   const getBoard = async (first: boolean, lastId: number, keyword: string, isSort: boolean) => {
     setFetching(true)
     // 조회순 요청
     if (isSort) {
       setSortBtn(true)
-      getView(lastId)
-      .then(res => {
-        if (first) {
+      setLastBoardId(-1)
+      if (first) {
+        getView(0)
+        .then(res => {
           console.log('🎲getView: ', res)
           setBoards(res.list)
-        } else {
+          changeLastIdx(res.endFlag, res.list)
+        })
+      } else {
+        getView(boards.length)
+        .then(res => {
           console.log('🎲More getView: ', res)
           const newBoard = [...boards].concat(res.list)
           setBoards(newBoard)
-        }
-        if (!!!res.endFlag) {
-          const lastIdx = res.list.length - 1
-          setLastBoardId(res.list[lastIdx].boardId)
-        } else {
-          setLastBoardId(-1)
-        }
-        setEndFlag(res.endFlag)
-      })
+          changeLastIdx(res.endFlag, res.list)
+        })
+      }
     }
     // 검색 요청
     else if (!!keyword) {
@@ -74,13 +83,7 @@ const CommunityAll = () => {
           const newBoard = [...boards].concat(res.list)
           setBoards(newBoard)
         }
-        if (!!!res.endFlag) {
-          const lastIdx = res.list.length - 1
-          setLastBoardId(res.list[lastIdx].boardId)
-        } else {
-          setLastBoardId(-1)
-        }
-        setEndFlag(res.endFlag)
+        changeLastIdx(res.endFlag, res.list)
       })
       .catch(err => console.log('More getSearch err:💧 ', err))
     }
@@ -97,13 +100,7 @@ const CommunityAll = () => {
           const newBoard = [...boards].concat(res.list)
           setBoards(newBoard)
         }
-        if (!!!res.endFlag) {
-          const lastIdx = res.list.length - 1
-          setLastBoardId(res.list[lastIdx].boardId)
-        } else {
-          setLastBoardId(-1)
-        }
-        setEndFlag(res.endFlag)
+        changeLastIdx(res.endFlag, res.list)
       })
       .catch(err => console.log('More getCommunityAll err:💧 ', err))
     }
@@ -155,8 +152,8 @@ const CommunityAll = () => {
     <Wrapper>
       <p className='title'>
         <span>게시판</span>
-        <TopBtn className='left' onClick={() => console.log('조회순으로 조회')}><span />조회순</TopBtn>
-        {/* <TopBtn className='left' onClick={() => getBoard(true, -1, '', true)}><span />조회순</TopBtn> */}
+        {/* <TopBtn className='left' onClick={() => console.log('조회순으로 조회')}><span />조회순</TopBtn> */}
+        <TopBtn className='left' onClick={() => getBoard(true, -1, '', true)}><span />조회순</TopBtn>
         <TopBtn className='right' onClick={() => navigate('/board')}><span />질문하기</TopBtn>
       </p>
       <SearchBar>
@@ -316,6 +313,9 @@ const EachBoard = styled.div`
     svg {
       font-size: 0.8rem;
     }
+  }
+  .date {
+    color: ${props => props.theme.boardDateColor};
   }
   @media screen and (max-width: 800px) {
     .nick,

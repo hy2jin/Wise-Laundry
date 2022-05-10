@@ -41,7 +41,7 @@ const CommunityUpdate = () => {
   const onChangeFiles= (e: React.ChangeEvent<HTMLInputElement>) => {
     const { target: { files } } = e
     if (files != null) {
-      if (files.length + newImgs.length + originImgs.length < 5) {
+      if (files.length + newImgs.length + originImgs.length < 6) {
         setFileList(files)
         const nowImageUrlList = [...newImgs]
         Array.from(files).map((file: File) => {
@@ -251,13 +251,6 @@ const ImgBox = styled.label`
 
   overflow-x: scroll;
   overflow-y: hidden;
-  &::-webkit-scrollbar {
-    height: .5rem;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #D8D8D8;
-    border-radius: 10px;
-  }
 
   .imgbtn {
     cursor: pointer;

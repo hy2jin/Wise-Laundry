@@ -58,22 +58,21 @@ const Wrapper = styled.div`
   button {
     cursor: pointer;
   }
-  *{
+
+  * {
       &::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-      background: #ffffff;
+      height: .4rem;
+      width: .4rem;
     }
     &::-webkit-scrollbar-thumb {
       border-radius: 3.5px;
-      background-color: #ced4da;
-
+      background-color: ${props => props.theme.scrollThumbColor};
       &:hover {
-        background-color: #adb5bd;
+        background-color: ${props => props.theme.scrollThumbHoverColor};
       }
     }
     &::-webkit-scrollbar-track {
-      background: #ffffff;
+      background-color: ${props => props.theme.bgColor};
     }
   }
 
