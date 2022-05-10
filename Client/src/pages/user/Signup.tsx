@@ -367,7 +367,6 @@ const Signup = () => {
   const [allowedPassword, setAllowedPassword] = useState(false)
 
   const [file, setFile] = useState<any>();
-  // const [user, setUser] = useRecoilState(userState)
   
   const navigate = useNavigate();
 
@@ -404,9 +403,6 @@ const Signup = () => {
     }
   }
 
-  // const ImgUpload = () => {
-    
-  // }
 
   const requireBtn = () => {
     const formdata = new FormData()
@@ -424,7 +420,6 @@ const Signup = () => {
     }
     postSignUp(formdata)
     .then(() => {
-      console.log('회원가입성공')
       Swal.fire({
         icon: 'success',
         text: '👕 가입되었습니다 🩳',
@@ -552,8 +547,6 @@ const Signup = () => {
           <h1>SIGNUP</h1>
           <ImgBox>
             <UserImgBox userImg='' file={file} setFile={setFile} />
-            {/* <img className='ProfileImg' src={profile} alt="프로필 업로드" /> */}
-            {/* <img className='cameraImg' src={camera} alt="카메라 아이콘" /> */}
           </ImgBox>
           {/* <section> */}
           <FormBox>

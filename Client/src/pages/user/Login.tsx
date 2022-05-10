@@ -191,8 +191,6 @@ const InputForm = styled.section`
 `
 
 
-// const {Kakao}=window;
-
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -207,20 +205,15 @@ const Login = () => {
   const onSubmit = () => {
     postLogin(email, password)
     .then((res) => {
-      console.log('로그인 성공')
       const token = res.accessToken;
       sessionStorage.setItem("token", `${token}`);
-      // alert('로그인 되었습니다')
       Swal.fire({
         icon: 'success',
         text: '로그인 되었습니다',
         showConfirmButton: false,
         timer: 1000
       })
-      // console.log(token, 'jwt 토큰 확인')
-      // setOnLogin(true)
       setIsLogin(true)
-      // navigate('/home')
     })
 
     .catch((err) => {
@@ -231,12 +224,8 @@ const Login = () => {
 
   useEffect(() => {
     if (isLogin) {
-      console.log(isLogin, '여기 확인')
-      // sessionStorage
-      // console.log(, '토큰 확인')
       getUserInfo()
         .then((res) => {
-          console.log(res, '💐유저정보💐')
           const userInfo = {...res};
           delete userInfo.message
           delete userInfo.statusCode
@@ -268,7 +257,6 @@ const Login = () => {
 
   const CLIENT_ID = "9c4b740a32c840080fcfd4249ec3b331";
   const REDIRECT_URI = "https://슬기로운세탁.com/oauth";
-  // const REDIRECT_URI = "http://k6e104.p.ssafy.io:3000/oauth";
   const KAKAO_AUTH_URL=`https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   
 
@@ -276,13 +264,6 @@ const Login = () => {
     sessionStorage.setItem('kakao', 'false')
   }
 
-  // const query = queryString.parse(window.location.search);
-  
-  // const goKakaoLogin = () => {
-  //   navigate(KAKAO_AUTH_URL)
-  // }
-
-  // ⭐getUserInfo 로 받아온 값 store에 user에 등록해주기⭐
 
   return (
     <Wrapper>

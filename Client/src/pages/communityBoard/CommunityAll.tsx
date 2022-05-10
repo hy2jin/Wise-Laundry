@@ -56,14 +56,14 @@ const CommunityAll = () => {
       if (first) {
         getView(0)
         .then(res => {
-          console.log('🎲getView: ', res)
+          // console.log('🎲getView: ', res)
           setBoards(res.list)
           changeLastIdx(res.endFlag, res.list)
         })
       } else {
         getView(boards.length)
         .then(res => {
-          console.log('🎲More getView: ', res)
+          // console.log('🎲More getView: ', res)
           const newBoard = [...boards].concat(res.list)
           setBoards(newBoard)
           changeLastIdx(res.endFlag, res.list)
@@ -76,10 +76,10 @@ const CommunityAll = () => {
       getSearch(keyword, lastId)
       .then(res => {
         if (first) {
-          console.log('🎲getSearch: ', res);
+          // console.log('🎲getSearch: ', res);
           setBoards(res.list)
         } else {
-          console.log('🎲More getSearch: ', res);
+          // console.log('🎲More getSearch: ', res);
           const newBoard = [...boards].concat(res.list)
           setBoards(newBoard)
         }
@@ -93,10 +93,10 @@ const CommunityAll = () => {
       getCommunityAll(lastId)
       .then(res => {
         if (first) {
-          console.log('🎲getCommunityAll: ', res);
+          // console.log('🎲getCommunityAll: ', res);
           setBoards(res.list)
         } else {
-          console.log('🎲More getCommunityAll: ', res);
+          // console.log('🎲More getCommunityAll: ', res);
           const newBoard = [...boards].concat(res.list)
           setBoards(newBoard)
         }
@@ -152,7 +152,6 @@ const CommunityAll = () => {
     <Wrapper>
       <p className='title'>
         <span>게시판</span>
-        {/* <TopBtn className='left' onClick={() => console.log('조회순으로 조회')}><span />조회순</TopBtn> */}
         <TopBtn className='left' onClick={() => getBoard(true, -1, '', true)}><span />조회순</TopBtn>
         <TopBtn className='right' onClick={() => navigate('/board')}><span />질문하기</TopBtn>
       </p>

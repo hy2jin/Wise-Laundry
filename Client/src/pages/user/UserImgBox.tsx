@@ -83,7 +83,6 @@ const UserImgBox:React.FC<IProps>= ({file, setFile, userImg}) => {
 
   useEffect(() => {
     setFileSrc(userImg)
-    console.log(fileSrc, '여기 프로필 이미지')
   },[userImg])
 
 
