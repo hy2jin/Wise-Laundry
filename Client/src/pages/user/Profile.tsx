@@ -277,6 +277,7 @@ const Profile = () => {
         confirmButtonText: '확인',
         confirmButtonColor: 'red',
       })
+      setModalOn(false);
     } else {
       setModalOn(true);
       console.log(modalOn,' 모달 열기')
