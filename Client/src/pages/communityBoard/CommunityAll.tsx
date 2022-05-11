@@ -215,15 +215,14 @@ const Wrapper = styled.article`
   @media screen and (max-width: 800px) {
     width: auto;
     margin: 0;
-    padding-top: 5rem;
-    padding-bottom: 70px;
+    padding: 0;
     .boards {
-      padding: 0;
+      padding: .8rem 0;
     }
     .title {
       height: 2rem;
       font-size: 1.5rem;
-      margin: 0 1rem;
+      margin: 3vh 1rem;
       span {
       line-height: 2rem;
       }
@@ -356,10 +355,8 @@ const TopBtn = styled.button`
   }
   &.left {
     left: 0;
-    /* background-color: ${props => props.theme.inactiveBtnColor}; */
     background-color: #cccccc;
     span {
-      /* background-color: ${props => props.theme.hoverInactiveBtnColor}; */
       background-color: #bbbbbb;
     }
   }
@@ -369,13 +366,7 @@ const TopBtn = styled.button`
     }
   }
   @media screen and (max-width: 800px) {
-    padding: 0 1rem;
-    &.left {
-      left: auto;
-      right: 0;
-      top: -2.5rem;
-      padding: 0 1.35rem;
-    }
+    padding: 0 .7rem;
   }
 `
 
