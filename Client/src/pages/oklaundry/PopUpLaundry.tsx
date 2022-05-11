@@ -6,27 +6,40 @@ const Wrapper = styled.div `
   min-height: 100vh;
   display: flex;
   flex-flow: wrap;
-  justify-content: center;
+  /* justify-content: center; */
+  transform: translate(0, 0);
+  overflow-y: auto;
+  top: 50px;
+  /* top: 0; */
+  left: 100px;
   position: relative;
+  /* position: fixed; */
   bottom: 13vh;
+
+  @media screen and (max-width: 800px) {
+    justify-content: center;
+    left: 0;
+  }
 `
 const PopUpBox = styled.div `
-  /* min-height: 100vh; */
   display: flex;
   flex-flow: nowrap column;
-  justify-content: center;
-  width: 30vw;
+  width: 35vw;
+  top: 30px;
   aspect-ratio: 1/1;
+  position: fixed;
 
   .popUpImg {
-    width: 30vw;
+    /* position: relative; */
+    width: 35vw;
     aspect-ratio: 1/1;
+    box-shadow: ${props => props.theme.boxShadowBox};
   }
   
   .allDayCloseBtn {
     border: none;
     width : 100%;
-    height: 6vh;
+    height: 60px;
     font-size: 0.9rem;
     color: white;
     /* color: ${props => props.theme.fontColor}; */
@@ -36,7 +49,7 @@ const PopUpBox = styled.div `
   .closeBtn {
     border: none;
     width : 100%;
-    height: 6vh;
+    height: 60px;
     font-size: 0.9rem;
     background-color: ${props => props.theme.inactiveBtnColor};
     color: white;
@@ -44,30 +57,28 @@ const PopUpBox = styled.div `
 
   @media screen and (max-width: 800px) {
     position: relative;
-    /* display: flex;
-    justify-content: center;
-    align-content: center; */
-    width: 50vw;
+    width: 75vw;
 
     .popUpImg {
-      width: 50vw;
+      width: 75vw;
       aspect-ratio: 1/1;
     }
 
     .allDayCloseBtn {
-      font-size: 0.5rem;
-      height: 4vh;
+      font-size: 0.7rem;
+      height: 40px;
     }
 
     .closeBtn {
-      font-size: 0.5rem;
-      height: 4vh;
+      font-size: 0.7rem;
+      height: 40px;
     }
   }
 `
 
 const BtnPositon = styled.div `
   display: flex;
+  box-shadow: ${props => props.theme.boxShadowBox};
 
   .allDayBtnPosition {
     width: 100%;
@@ -98,7 +109,7 @@ const PopUpLaundry:React.FC<IProps> = ({showPopUp, setShowPopUp}) => {
     let now = new Date()
     sessionStorage.setItem('expirePopUp', `${now}`)
     setShowPopUp(false)
-    console.log(now,'모달에서 이거 뜨나?')
+    // console.log(now,'모달에서 이거 뜨나?')
   }
   
     return (
