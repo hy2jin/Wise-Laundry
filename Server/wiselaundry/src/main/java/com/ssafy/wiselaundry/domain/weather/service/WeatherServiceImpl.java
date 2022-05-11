@@ -30,7 +30,7 @@ public class WeatherServiceImpl implements WeatherService  {
     private double[] seasons = {0, 10, 10, 5, 4, 2.1, 2, 1.6, 1, 1.4, 2, 3.9, 10};
 
     @Override
-    public JSONObject weatherInfo(int nx, int ny) throws IOException, ParseException {
+    public JSONArray weatherInfo(int nx, int ny) throws IOException, ParseException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         DateTimeFormatter formatMonth = DateTimeFormatter.ofPattern("MM");
         JSONObject res = new JSONObject();
@@ -48,10 +48,13 @@ public class WeatherServiceImpl implements WeatherService  {
         today = now.format(formatter);
         time = timeSet[intTime];
 
+        //
+        int aor = (time.equals("0800")||time.equals("1100"))?109:108;
+
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + apiKey); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
-        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("48", "UTF-8")); /*한 페이지 결과 수*/
+        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("108", "UTF-8")); /*한 페이지 결과 수*/
         urlBuilder.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); /*요청자료형식(XML/JSON)JSON*/
         urlBuilder.append("&" + URLEncoder.encode("base_date","UTF-8") + "=" + URLEncoder.encode(today, "UTF-8")); /*발표 날짜*/
         urlBuilder.append("&" + URLEncoder.encode("base_time","UTF-8") + "=" + URLEncoder.encode(time, "UTF-8")); /*발표시간(정시단위) -> 0600 */
@@ -88,9 +91,11 @@ public class WeatherServiceImpl implements WeatherService  {
             map.put(key, map.getOrDefault(key, new HashMap<String, Integer>()));
             map.get(key).put(w.get("category").toString(), w.get("fcstValue"));
         }
-        JSONObject ret= new JSONObject();
+        JSONArray ret= new JSONArray();
         for(String key:map.keySet()){
             HashMap temp = new HashMap();
+            // 날짜
+            temp.put("time", key);
             // 습도
             temp.put("humidity",Integer.parseInt(map.get(key).get("REH").toString()));
             // 풍량
@@ -134,7 +139,7 @@ public class WeatherServiceImpl implements WeatherService  {
 //                        sky
 //                        )/5;
             temp.put("laundry",Math.ceil((int)(laundry*100))>=95?95:Math.ceil((int)(laundry*100)));
-            ret.put(key,temp);
+            ret.add(temp);
         }
         return ret;
     }

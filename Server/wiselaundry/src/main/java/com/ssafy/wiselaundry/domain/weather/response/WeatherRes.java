@@ -5,6 +5,7 @@ import com.ssafy.wiselaundry.global.model.response.BaseResponseBody;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 @Getter
@@ -12,9 +13,9 @@ import org.json.simple.JSONObject;
 @ApiModel("WeatherRes")
 public class WeatherRes extends BaseResponseBody {
 
-    JSONObject weathers;
+    JSONArray weathers;
 
-    public static WeatherRes of(Integer statusCode, String message, JSONObject info){
+    public static WeatherRes of(Integer statusCode, String message, JSONArray info){
         WeatherRes res = new WeatherRes();
         res.setStatusCode(statusCode);
         res.setMessage(message);

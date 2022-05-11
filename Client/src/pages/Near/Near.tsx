@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import myMark from './images/marker.png'
-import datas from './data'
+import datas from './data.js'
 
 const {kakao} = window
 
@@ -67,7 +67,7 @@ const Near =() =>{
   }
   const nearLocation = (x:any,y:any)=>{
     let tmp:IState['data'][] = []
-    datas.map((el)=>{
+    datas.map((el:any)=>{
       if(Math.abs(el.위도-x)<=0.04 && Math.abs(el.경도-y)<=0.04 ){
         tmp.push(el)
       }
