@@ -3,17 +3,13 @@ import styled from 'styled-components';
 
 
 const Wrapper = styled.div `
-  min-height: 100vh;
   display: flex;
   flex-flow: wrap;
-  /* justify-content: center; */
   transform: translate(0, 0);
   overflow-y: auto;
-  top: 50px;
-  /* top: 0; */
-  left: 100px;
-  position: relative;
-  /* position: fixed; */
+  top: 10vh;
+  left: 150px;
+  position: fixed;
   bottom: 13vh;
 
   @media screen and (max-width: 800px) {
@@ -24,14 +20,11 @@ const Wrapper = styled.div `
 const PopUpBox = styled.div `
   display: flex;
   flex-flow: nowrap column;
-  width: 35vw;
-  top: 30px;
+  width: 30vw;
   aspect-ratio: 1/1;
-  position: fixed;
 
   .popUpImg {
-    /* position: relative; */
-    width: 35vw;
+    width: 30vw;
     aspect-ratio: 1/1;
     box-shadow: ${props => props.theme.boxShadowBox};
   }

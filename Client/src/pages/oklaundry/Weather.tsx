@@ -11,7 +11,6 @@ import washer from './images/headerlogo.png'
 
 
 const Wrapper = styled.div `
-  
 `
 
 const SmallBox = styled.div `
@@ -241,11 +240,6 @@ const GraphBox = styled.div `
 `
 
 
-const LaundryModal = styled.div `
-
-`
-
-
 const Weather = () => {
   const [showPopUp, setShowPopUp] = useState(false)
 
@@ -311,9 +305,7 @@ const Weather = () => {
       <GraphBox>
         <h3>그래프 자리</h3>
       </GraphBox>
-      <LaundryModal>
-        {showPopUp && <PopUpLaundry showPopUp={showPopUp} setShowPopUp={setShowPopUp} />}
-      </LaundryModal>
+      {showPopUp && <PopUpLaundry showPopUp={showPopUp} setShowPopUp={setShowPopUp} />}
     </Wrapper>
   )
 }
