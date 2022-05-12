@@ -36,6 +36,8 @@ public class QBoard extends EntityPathBase<Board> {
 
     public final com.ssafy.wiselaundry.domain.user.db.entity.QUser user;
 
+    public final NumberPath<Integer> view = createNumber("view", Integer.class);
+
     public QBoard(String variable) {
         this(Board.class, forVariable(variable), INITS);
     }
