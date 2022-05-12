@@ -90,8 +90,8 @@ const CommunityDetail = () => {
       confirmButtonText: '삭제',
       confirmButtonColor: 'red',
       showDenyButton: true,
-      denyButtonText: `아니요`,
-      denyButtonColor: `gray`,
+      denyButtonText: '아니요',
+      denyButtonColor: 'gray',
     })
     .then(({ value }) => {
       if (value) {

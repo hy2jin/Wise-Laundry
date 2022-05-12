@@ -41,7 +41,7 @@ const OkayStart = () => {
 
       newMy.map(nv => {
         const lab = defaultLabels.filter(dv => dv.careLabelName === nv)
-        console.log('🎲🎲lab:\n', lab[0]);
+        // console.log('🎲🎲lab:\n', lab[0]);
         setCareLabels([...careLabels, lab[0]])
         return lab[0]
       })
@@ -64,7 +64,20 @@ const OkayStart = () => {
       })
       .then(() => navigate('/laundry/create'))
     } else {
-      console.log('로그인으로 ㄱㄱ')
+      Swal.fire({
+        icon: 'warning',
+        text: '로그인 후 사용 가능합니다',
+        confirmButtonText: '로그인',
+        confirmButtonColor: 'orange',
+        showDenyButton: true,
+        denyButtonText: `취소`,
+        denyButtonColor: `gray`,
+      })
+      .then(({ value }) => {
+        if (value) {
+          navigate('/login')
+        }
+      })
     }
   }
 

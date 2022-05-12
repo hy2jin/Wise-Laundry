@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Link, useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
-import { userState } from '../store/state/user'
+import { userState, loginState } from '../store/state/user'
 import { themeState } from '../store/state/theme'
 import ToggleSwitch from './ToggleSwitch'
 import LogoW from './images/logoW.png'
@@ -17,6 +17,7 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [themeCheck, setThemeCheck] = useState(false)
   const [user, setUser] = useRecoilState(userState)
+  const [isLogin] = useRecoilState(loginState)
   const [theme, setTheme] = useRecoilState(themeState)
 
   const handleScroll = () => {
@@ -43,6 +44,8 @@ const Header = () => {
   return (
     <Wrapper>
       <HeaderNav>
+      {isLogin ?
+      <>
         <Link to='/laundry'>MY LAUNDRY</Link>
         <Link to='/weather'>WHEATHER</Link>
         <Link to='/community'>COMMUNITY</Link>
@@ -50,6 +53,15 @@ const Header = () => {
         <Link to='/near'>NEAR</Link>
         <Link to='/profile'>{user.userNick}님</Link>
         <ToggleTop className='toggle' ><ToggleSwitch themeCheck={themeCheck} setThemeCheck={setThemeCheck} /></ToggleTop>
+      </>:
+      <>
+        <Link to='/weather'>WHEATHER</Link>
+        <Link to='/near'>NEAR</Link>
+        <Link to='/home'><img src={themeCheck ? LogoW : LogoB} alt='logo'/></Link>
+        <Link to='/login'>LOGIN</Link>
+        <ToggleTop className='toggle' ><ToggleSwitch themeCheck={themeCheck} setThemeCheck={setThemeCheck} /></ToggleTop>
+      </>
+      }
       </HeaderNav>
       <HamburgerNav>
         <img onClick={() => {setMenuOpen(false);navigate('/home')}} src={themeCheck ? LogoW : LogoB} alt='logo'/>
@@ -75,9 +87,9 @@ const HeaderNav = styled.nav`
   width: 100%; 
   height: 80px;
   line-height: 80px;
+  border-radius: 0 0 15px 15px;
   display: flex;
   justify-content: space-around;
-  border-radius: 0 0 15px 15px;
   a {
     flex: 1;
     text-decoration:none;

@@ -15,10 +15,10 @@ export const userState = atom<Istate['user']>({
   key : 'user',
   default: {
     kakaoImg: null,
-    userEmail: 'aaa@bbb.com',
+    userEmail: '',
     userId: 0,
-    userImg: 'https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/944/eabb97e854d5e5927a69d311701cc211_res.jpeg',
-    userNick: 'laun',
+    userImg: '',
+    userNick: '',
   },
 })
 

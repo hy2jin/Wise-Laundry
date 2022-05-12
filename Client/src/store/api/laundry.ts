@@ -32,7 +32,13 @@ fileApiClient.interceptors.request.use(
       }
     }
   }
-)
+  )
+const apiNoTokenClient = axios.create({
+  baseURL: baseURL,
+  headers: {
+    "Content-type": "application/json"
+  },
+}); 
 
 export const getProductAll = async () => {
   const response = await apiClient.get<any>(
@@ -80,7 +86,7 @@ export const UpdateLaundry = async (formdata:any) => {
   return response.data
 }
 export const getCareLabel = async ()=>{
-  const response = await fileApiClient.get<any>(
+  const response = await apiNoTokenClient.get<any>(
     '/laundry/carelabel'
   )
   return response.data
