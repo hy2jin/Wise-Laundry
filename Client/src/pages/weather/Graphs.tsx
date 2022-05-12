@@ -16,6 +16,7 @@ const Wrapper =  styled.article`
   }
 `
 const Graph = styled.div`
+  cursor: pointer;
   position: relative;
   margin: 20px;
   flex: 1;
@@ -74,8 +75,9 @@ interface IProps {
     date2: number;
   }[][]
   date:string[]
+  setDataPick:React.Dispatch<React.SetStateAction<number>>
 }
-const Graphs:React.FC<IProps> = ({fourDatas,graphData,date}) => {
+const Graphs:React.FC<IProps> = ({fourDatas,graphData,date,setDataPick}) => {
   const colors =['red','blue','purple','orange']
   const changeDate = (date:any)=>{
     var tmp = date.slice(8)
@@ -117,7 +119,7 @@ const Graphs:React.FC<IProps> = ({fourDatas,graphData,date}) => {
     <Wrapper>     
         {[0,1,2,3].map((ele)=>
           {return(
-            <Graph key={ele}>
+            <Graph onClick={()=>{setDataPick(ele)}} key={ele}>
               <div className='score'>{fourDatas[ele].laundry}점</div>
               <div className='date'>{changeDate(date[ele])}</div>
               <ScoreBox>

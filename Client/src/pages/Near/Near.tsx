@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import myMark from './images/marker.png'
-import datas from './data'
+import datass from './data'
 
 const {kakao} = window
 
@@ -41,13 +41,13 @@ const Near =() =>{
   const [lat,setLat] = useState(37.624915253753194)
   const [long,setLong]= useState(127.15122688059974)
   const [markdata,setMarkdata] = useState<IState['data'][]>([])
-
+  const [datas,setDatas] = useState(datass)
   useEffect(() => {
     getLocation()
   }, []);
   useEffect(()=>{
     mapscript();
-  },[lat,long])
+  },[markdata])
   
   const getLocation = async()=>{ // 내 위치 찾기 ✨
     if (navigator.geolocation) { // GPS를 지원하면

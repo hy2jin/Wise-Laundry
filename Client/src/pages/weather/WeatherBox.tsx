@@ -2,29 +2,49 @@ import { Slider  } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import PopUpLaundry from './PopUpLaundry';
-import sun1 from './images/해.png'
 import sun2 from './images/해2.png'
-import water from './images/물방울3.png'
-import rain from './images/비.png'
-import washer from './images/headerlogo.png'
-
-
+import water from './images/습도.png'
+import rain from './images/우산2.png'
+import washer from './images/세탁기2.png'
+import wind from './images/바람.png'
+import rainy from './images/비구름2.png'
+import cloud from './images/구름.png'
+import smallcloud from './images/구름조금.png'
+import Rain from './Rain';
+import Cloud from './Cloud';
+import PartlyCloud from './PartlyCloud';
 
 const Wrapper = styled.div `
+  position: relative;
   display: flex;
   width: 80vw;
   height: 70vh;
   background-color: ${props => props.theme.activeBtnColor};
-  background: rgb(255,255,255);
   background: ${props => props.theme.weatherColor};
+  /* background:linear-gradient(170deg,#aad9ff,#8bc6f7,#36a4ff,#75c0fe);//홍 */
+  background-size: 400% 400%;
+  animation : backgoundChange 5s ease-in infinite;
   box-shadow: ${props=>props.theme.boxShadowBox};
-  border-radius: 25px;
+  border-radius: 15px;
   margin: auto;
   margin-top: 5vh;
   @media screen and (max-width: 800px) {
     height: 60vh;
     flex-flow: nowrap column;
   }
+  @keyframes backgoundChange {
+    0%{
+      background-position: 0 50%;
+    }
+    50%{
+      background-position: 100% 50%;
+    }
+    100%{
+      background-position: 0 50%;
+    }
+  }
+  overflow-y: hidden;
+  overflow-x: hidden; 
 `
 
 const LeftPart = styled.div`
@@ -62,8 +82,10 @@ const LeftImgPart = styled.div `
 
   .weatherImg {
     height: 25vh;
-    aspect-ratio: 1.3/1;
+    aspect-ratio: 1/1;
     margin-bottom: 7vh;
+    animation: motion 0.6s linear 0s infinite alternate; 
+
   }
 
   .temperature {
@@ -71,17 +93,21 @@ const LeftImgPart = styled.div `
     text-align: center;
     padding-bottom: 3vh;
   }
-
+  @keyframes motion {
+    0% {}
+    100% {
+      transform: translateY(-20px);
+    }
+  }
   @media screen and (max-width: 800px) {
     flex-flow: nowrap row;
     height: 10vh;
-    /* background-color: red; */
     width: 80vw;
     margin-top: 1.5vh;
     .weatherImg {
       height: 11vh;
-      aspect-ratio: 1.3/1;
       margin-bottom: 0;
+      margin-top: 0;
     }
     .temperature {
       font-size: 2rem;
@@ -154,9 +180,9 @@ const ScorePart = styled.article`
   #progress3::-webkit-progress-value 
   { 
     border-radius:10px; 
-    background: #56aaff; 
-    background: -webkit-linear-gradient(to right, #8ac3fb, #56aaff); 
-    background: linear-gradient(to right, #8ac3fb, #56aaff); 
+    background: #ff5959; 
+    background: -webkit-linear-gradient(to right, #ff9b9b, #ff5959); 
+    background: linear-gradient(to right, #ff9b9b, #ff5959); 
   }
   
   #progress4::-webkit-progress-value 
@@ -183,6 +209,8 @@ interface IProps{
 
 const WeatherBox:React.FC<IProps>= ({data}) => {
   const [showPopUp, setShowPopUp] = useState(false)
+  //sunny,cloudy,partly_cloudy,rain
+
   useEffect(() => {
     const popUpNotShow = sessionStorage.getItem('expirePopUp') || ''; // ISO
     const popUpNotShowUNIX = Date.parse(popUpNotShow); // UNIX
@@ -233,16 +261,19 @@ const WeatherBox:React.FC<IProps>= ({data}) => {
         return ''
     }
   }
-  useEffect(()=>{
-    console.log(data)
-  },[])
 
   return (
-      <Wrapper>
+      <Wrapper >
+        {data.weather==='cloudy' &&<Cloud/>}
+        {data.weather==='partly_cloudy' &&<PartlyCloud/>}
+        {data.weather==='rain' &&<Rain/>}
           <LeftPart>
             <div className='weatherTime'>{changeDate(String(data.time))} </div>
             <LeftImgPart>
-              <img className='weatherImg' src={sun2} alt="" />
+              {data.weather==='sunny' &&<img className='weatherImg' src={sun2} alt="" />}
+              {data.weather==='cloudy' &&<img className='weatherImg' src={cloud} alt="" />}
+              {data.weather==='partly_cloudy' &&<img className='weatherImg' src={smallcloud} alt="" />}
+              {data.weather==='rain' &&<img className='weatherImg' src={rainy} alt="" />}
               <div className='temperature'>{data.temperature}℃</div>
             </LeftImgPart>
           </LeftPart>
@@ -250,10 +281,11 @@ const WeatherBox:React.FC<IProps>= ({data}) => {
             <ScorePart>
               <img className='Img' src={washer} alt="" />
               <progress id="progress1" value={data.laundry} max="100"/>
+              :{data.laundry}점
             </ScorePart>
             <ScorePart>
               <progress id="progress2" value={data.wind} max="15"/>
-              <img className='Img' src={sun1} alt="" />
+              <img className='Img' src={wind} alt="" />
             </ScorePart>
             <ScorePart>
               <progress id="progress3" value={data.humidity} max="100"/>
