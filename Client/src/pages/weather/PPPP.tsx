@@ -239,8 +239,7 @@ const PPPP = () => {
         </IsLoading>
     }
     {!isLoading &&
-    <GraphWrapper>
-          
+    <GraphWrapper>     
     {[0,1,2,3].map((ele)=>
       {return(
         <Graph key={ele}>

@@ -27,7 +27,8 @@ public class WeatherServiceImpl implements WeatherService  {
     ApiKeyRepository apiKeyRepository;
 
     private String[] timeSet = {"2300", "2300", "2300", "2300", "0200", "0200", "0500", "0500", "0500", "0800", "0800", "0800", "1100", "1100", "1100", "1400", "1400", "1400", "1700", "1700", "1700", "2000", "2000", "2000"};
-    private double[] seasons = {0, 10, 10, 5, 4, 2.1, 2, 1.6, 1, 1.4, 2, 3.9, 10};
+    private double[] seasons_min = {0, 0, 1.8, 5.1, 10.1, 14.4, 18.2, 21.8, 23.9, 20, 14.5, 8.3, 1.5};
+    private double[] seasons_max = {0, 8.1, 10.5, 13.8, 18.4, 21.6, 24.9, 27, 29.6, 26.4, 22.8, 16.6, 9.8};
 
     @Override
     public JSONArray weatherInfo(int nx, int ny) throws IOException, ParseException {
@@ -104,41 +105,44 @@ public class WeatherServiceImpl implements WeatherService  {
             temp.put("wind",wind);
             // 강수확률
             temp.put("chanceOfRain",Integer.parseInt(map.get(key).get("POP").toString()));
-            // 하늘상태
+            // 하늘상태(날씨) => sunny, partly_clody, clody, rainy
             int sky = Integer.parseInt(map.get(key).get("SKY").toString());
             switch (sky){
                 case 1:{
                     temp.put("weather","sunny");
-                    sky = 100;
+                    sky = 90;
                     break;
                 }
                 case 3:{
                     temp.put("weather","partly_cloudy");
-                    sky = 75;
+                    sky = 70;
                     break;
                 }
                 case 4:{
                     temp.put("weather","cloudy");
-                    sky = 30;
+                    sky = 50;
                     break;
                 }
             }
             if(Integer.parseInt(map.get(key).get("PTY").toString())>0){
                 temp.put("weather","rainy");
-                sky=0;
+                sky=20;
                 break;
             }
             // 기온
             temp.put("temperature",Integer.parseInt(map.get(key).get("TMP").toString()));
-            // 빨래지수
-            double laundry = (((int)temp.get("temperature"))*((double)temp.get("wind"))*seasons[month]*sky/100)/(int)temp.get("humidity");
-//            int laundry = (((100 - (int)temp.get("humidity"))/70)*100+
-//                        (100 - (int)temp.get("chanceOfRain"))+
-//                        ((int)temp.get("temperature")/25)*100+
-//                        (int)(((double)temp.get("wind")/15)*100)+
-//                        sky
-//                        )/5;
-            temp.put("laundry",Math.ceil((int)(laundry*100))>=95?95:Math.ceil((int)(laundry*100)));
+            // 빨래지수 (0~100)
+            // 기온, 날씨, 습도, 바람, 월(month)
+            double laundry_t = ((((int)temp.get("temperature")-seasons_min[month])<0?0:((int)temp.get("temperature")-seasons_min[month]))/(seasons_max[month]-seasons_min[month])) * 100;
+            laundry_t = laundry_t<50?laundry_t+50:laundry_t;
+
+            double laundry_w = ((double)temp.get("wind")/5 + 0.5) * 100;
+
+            double laundry_h = (120 - (int)temp.get("humidity"));
+
+            double laundry = (sky + laundry_h + laundry_w + laundry_t)/4;
+
+            temp.put("laundry",Math.ceil((int)laundry)>=95?95:Math.ceil((int)(laundry)));
             ret.add(temp);
         }
         return ret;
