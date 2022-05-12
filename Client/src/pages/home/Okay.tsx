@@ -78,6 +78,7 @@ let classesDir = {
   }
 }
 
+
 class OkayStart extends Component {
   videoRef = createRef<HTMLVideoElement>();
   canvasRef = createRef<HTMLCanvasElement>();
@@ -121,7 +122,8 @@ class OkayStart extends Component {
   detectFrame = (video: HTMLVideoElement | null, model: tf.GraphModel) => {
     tf.engine().startScope();
     model.executeAsync(this.process_input(video)).then(predictions => {
-      console.log(model.outputNodes)
+      // console.log(model.outputNodes)
+      // 🍀인자가 두개? 한개? -> video는 안되는거 확인함
       // this.renderPredictions(predictions, video);
       this.renderPredictions(predictions);
       requestAnimationFrame(() => {
@@ -167,24 +169,26 @@ class OkayStart extends Component {
 
   renderPredictions = (predictions: any) => {
     if (this.canvasRef.current) {
-      console.log(predictions)
+      // console.log(predictions)
       const ctx = this.canvasRef.current.getContext("2d");
       if (ctx) {
-
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    
+
         // Font options.
         const font = "16px sans-serif";
         ctx.font = font;
         ctx.textBaseline = "top";
-    
+
         //Getting predictions
         const boxes = predictions[7].arraySync(); //detection_boxes
         const scores = predictions[1].arraySync(); //identity_4:0
         const classes = predictions[4].dataSync(); //identity_2:0
     
-        console.log(classes)
+        // console.log(classes)
         const detections = this.buildDetectedObjects(scores, threshold, boxes, classes, classesDir);
+        if (detections.length > 0) {
+          console.log('🎲🎲🎲🎲🎲🎲🎲🎲detections: ', detections);
+        }
     
         detections.forEach((item: any) => {
           const x = item['bbox'][0];
@@ -217,38 +221,58 @@ class OkayStart extends Component {
   };
 
   render() {
+    const browserWidth = window.innerWidth;
     return (
       <Wrapper>
         <video
-          style={{height: '600px', width: "500px"}}
           className="size"
           autoPlay
           playsInline
           muted
           ref={this.videoRef}
-          width="600"
-          height="500"
+          width={browserWidth > 800 ? '600' : '310'}
+          height={browserWidth > 800 ? '500' : '300'}
           id="frame"
         />
         <canvas
           className="size"
           ref={this.canvasRef}
-          width="600"
-          height="500"
+          width={browserWidth > 800 ? '600' : '310'}
+          height={browserWidth > 800 ? '500' : '300'}
         />
       </Wrapper>
     );
   }
 }
 
-const Wrapper = styled.article`
+const Wrapper = styled.section`
   position: relative;
-  width: 80vw;
+  width: 600px;
+  height: 600px;
+  margin: auto;
+  video {
+    height: 600px;
+    width: 500px;
+  }
   .size {
-    /* position: fixed; */
     position: absolute;
     top: 0;
-    left: 0;
+    left: 50px;
+  }
+  @media screen and (max-width: 800px) {
+    width: 310px;
+    height: 310px;
+    video {
+      height: 310px;
+      width: 300px;
+    }
+    canvas {
+      height: 300px;
+      width: 310px;
+    }
+    .size {
+      left: 5px;
+    }
   }
 `
 

@@ -45,7 +45,7 @@ const Nav = styled.article`
   top: 49px;
   animation: slider 1.5s;
   background-color: ${props => props.theme.navColor}; 
-  height: 95vh;
+  height: calc(100vh - 49px);
   width: 100%;
 `
 const Menu = styled.div`

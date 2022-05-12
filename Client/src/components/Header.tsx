@@ -71,6 +71,7 @@ const Wrapper = styled.div`
 `
 const HeaderNav = styled.nav`
   background-color: ${props => props.theme.scrollNavColor};
+  transition: ease-out .5s;
   width: 100%; 
   height: 80px;
   line-height: 80px;
