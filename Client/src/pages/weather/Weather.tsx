@@ -43,6 +43,8 @@ const Weather = () => {
   const navigate = useNavigate()
   const [date,setDate] = useState<string[]>([])
   const [count,setCount] = useState(0)
+  const [dataPick,setDataPick] = useState(0)
+
   useEffect(()=>{
     changeData()
     getLocation()
@@ -178,7 +180,6 @@ const Weather = () => {
     })
     setGraphData(newGraph)
     setDate(newDate)
-    
   }
   const changeData = ()=>{ // 그래프 변동시키기
     const array = [... new Array(20)].map((_,i)=>i)
@@ -189,15 +190,19 @@ const Weather = () => {
       setIsLoading(false)
     },4100)
   }
-   
+
   
   return (
     <Wrapper>
       {isLoading ?<LoadingGraph count={count}/> :
+      fourDatas.length>0 ?
     <LoadingEnd>
-      <WeatherBox data ={fourDatas[0]}/>
-      <Graphs fourDatas={fourDatas} graphData={graphData} date={date} />
-    </LoadingEnd>}
+      <WeatherBox data ={fourDatas[dataPick]}/>
+      <Graphs fourDatas={fourDatas} setDataPick ={setDataPick} graphData={graphData} date={date} />
+    </LoadingEnd>
+  :
+  <h1>데이터없음</h1>  
+  }
     </Wrapper>
   )
 }
