@@ -623,7 +623,7 @@ const Signup = () => {
                   <button className="SignupBtn" id='SignupBtn' onClick={() => onSubmit()}>가입하기</button>
                 </div>
                 <div className='LoginBtnBox'>
-                  <button className="LoginBtn" onClick={() => navigate('/home')} >취소</button>
+                  <button className="LoginBtn" onClick={() => navigate('/login')} >취소</button>
                 </div>
               </div>
           </FormBox>

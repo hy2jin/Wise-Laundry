@@ -242,8 +242,7 @@ const CommunityDetail = () => {
 
 const Wrapper = styled.article`
   width: 50vw;
-  margin: auto;
-  padding: 3rem 0;
+  margin: 3rem auto;
   button {
     user-select: none;
     position: relative;
@@ -274,8 +273,6 @@ const Wrapper = styled.article`
   }
   @media screen and (max-width: 800px) {
     width: 80vw;
-    padding: 0;
-    padding-top: 5rem;
   }
   `
 const Board = styled.section`
@@ -439,7 +436,6 @@ const Btns = styled.section`
     }
   }
   @media screen and (max-width: 800px) {
-    padding-bottom: 70px;
     button {
       height: 4vh;
     }

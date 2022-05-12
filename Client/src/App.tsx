@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Route, Routes,  } from 'react-router-dom'
 import styled,{ThemeProvider} from 'styled-components'
 import { useRecoilState } from 'recoil'
 import { themeState } from './store/state/theme'
 import { loginState,userState } from './store/state/user'
 import Header from './components/Header'
-import Home from './pages/main/Home'
+import Home from './pages/home/Home'
 import Near from './pages/Near/Near'
-import OkayLaundry from './pages/oklaundry/OkayLaundry'
+import Okay from './pages/home/Okay'
 import CommunityAll from './pages/communityBoard/CommunityAll'
 import CommunityDetail from './pages/communityBoard/CommunityDetail'
 import CommunityCreate from './pages/communityBoard/CommunityCreate'
@@ -18,12 +18,13 @@ import Signup from './pages/user/Signup'
 import Profile from './pages/user/Profile'
 import Login from './pages/user/Login'
 import LaundryCreate from './pages/laundryBoard/LaundryCreate'
-import Start from './pages/main/Start'
+import Start from './pages/beforeLogin/Start'
 import KakaoLogin from './pages/user/KakaoLogin'
 import NotFound from './pages/notfound/NotFound'
 import CommunityUpdate from './pages/communityBoard/CommunityUpdate'
 import LaundryUpdate from './pages/laundryBoard/LaundryUpdate'
 import Weather from './pages/oklaundry/Weather'
+import PPPP from './pages/oklaundry/PPPP'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -80,6 +81,7 @@ const Wrapper = styled.div`
 declare global {
   interface Window {
     kakao: any;
+    stream: any;
   }
 }
 
@@ -107,21 +109,22 @@ const App= (props: any) => {
             <Route path='/' element={<Start />}/>
             <Route path='/home' element={<Home />}/>
             <Route path='/near' element={<Near />}/>
-            <Route path='/okaylaundry' element={<OkayLaundry />}/>
+            <Route path='/okay' element={<Okay />}/>
             <Route path='/community' element={<CommunityAll />}/>
             <Route path='/community/:boardId' element={<CommunityDetail />}/>
             <Route path='/board' element={<CommunityCreate />}/>
             <Route path='/board/:boardId' element={<CommunityUpdate />}/>
             <Route path='/laundry' element={<LaundryAll />}/>
+            <Route path='/laundry/create' element={<LaundryCreate />}/>
             <Route path='/laundry/:laundryId' element={<LaundryDetail />}/>
+            <Route path='/laundry/:laundryId/update' element={<LaundryUpdate />}/>
             <Route path='/profile' element={<Profile />}/>
             <Route path='/signup' element={<Signup />}/>
             <Route path='/login' element={<Login />}/>
             <Route path="/oauth" element={<KakaoLogin />}/>
-            <Route path='/*' element={<NotFound />} />
-            <Route path='/laundry/:laundryId/update' element={<LaundryUpdate />}/>
-            <Route path='/laundry/create' element={<LaundryCreate />}/>
             <Route path='/weather' element={<Weather />}/>
+            <Route path='/*' element={<NotFound />} />
+            <Route path='/PPPP' element={<PPPP />} />
           </Routes>
         </Wrapper>
       </ThemeProvider>

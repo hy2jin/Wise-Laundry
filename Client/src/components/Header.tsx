@@ -1,29 +1,77 @@
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {Link, useNavigate} from 'react-router-dom'
-import ToggleSwitch from './ToggleSwitch'
-import MobileBack from './MobileBack'
-import IronIcon from '@mui/icons-material/Iron';
-import LinkedCameraIcon from '@mui/icons-material/LinkedCamera';
-import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
-import ForumIcon from '@mui/icons-material/Forum';
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-import WbSunnyIcon from '@mui/icons-material/WbSunny';
-import HomeIcon from '@mui/icons-material/Home';
+import { Link, useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { userState } from '../store/state/user'
-const Wrapper = styled.div`
-  .backIcon{
-    position: fixed; 
-    cursor: pointer;
+import { themeState } from '../store/state/theme'
+import ToggleSwitch from './ToggleSwitch'
+import LogoW from './images/logoW.png'
+import LogoB from './images/logoB.png'
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
+import SlideMenu from './SlideMenu'
+
+
+const Header = () => {
+  const navigate = useNavigate()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [themeCheck, setThemeCheck] = useState(false)
+  const [user, setUser] = useRecoilState(userState)
+  const [theme, setTheme] = useRecoilState(themeState)
+
+  const handleScroll = () => {
+    const veiw = document.documentElement
+    const scrollTop  = veiw.scrollTop 
+    if (theme.scrollNavColor===theme.navColor&&!!!scrollTop) {
+      setTheme({...theme, scrollNavColor: `${themeCheck ? '#2757880' : '#2757880'}`})
+    } else if ((theme.scrollNavColor==='#2757880'||theme.scrollNavColor==='#e9f2ff0')&&!!scrollTop) {
+      setTheme({...theme, scrollNavColor: theme.navColor})
+    }
   }
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll)
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  })
+
+  if (window.location.pathname === '/') 
+  return null;
+
+
+  return (
+    <Wrapper>
+      <HeaderNav>
+        <Link to='/laundry'>MY LAUNDRY</Link>
+        <Link to='/weather'>WHEATHER</Link>
+        <Link to='/community'>COMMUNITY</Link>
+        <Link to='/home'><img src={themeCheck ? LogoW : LogoB} alt='logo'/></Link>
+        <Link to='/near'>NEAR</Link>
+        <Link to='/profile'>{user.userNick}님</Link>
+        <ToggleTop className='toggle' ><ToggleSwitch themeCheck={themeCheck} setThemeCheck={setThemeCheck} /></ToggleTop>
+      </HeaderNav>
+      <HamburgerNav>
+        <img onClick={() => {setMenuOpen(false);navigate('/home')}} src={themeCheck ? LogoW : LogoB} alt='logo'/>
+        {menuOpen ? <>
+          <CloseIcon onClick={() => setMenuOpen(false)} />
+          <SlideMenu setMenuOpen={setMenuOpen} themeCheck={themeCheck} setThemeCheck={setThemeCheck} /></>
+          :
+          <MenuIcon onClick={() => setMenuOpen(true)} />
+        }
+      </HamburgerNav>
+    </Wrapper>
+  )
+}
+
+const Wrapper = styled.div`
   position: sticky;
   top:0;
   z-index: 2;
 `
 const HeaderNav = styled.nav`
- 
-  background-color: ${props => props.theme.navColor}; 
+  background-color: ${props => props.theme.scrollNavColor};
+  transition: ease-out .5s;
   width: 100%; 
   height: 80px;
   line-height: 80px;
@@ -51,79 +99,24 @@ const HeaderNav = styled.nav`
     display: none;
   }
 `
-
-const ToggleTop = styled.div`
-    border: none;
-    cursor: pointer;
-    color: ${props => props.theme.fontColor};
-    margin-top: 11px;
-    @media screen and (max-width: 800px) {
-      margin-top: 20px;
-    }
-`
-
-const FooterNav = styled.nav`
-  background-color: ${props => props.theme.navColor}; 
-  width: 100%;
-  bottom: 0;
-  height: 70px;
-  z-index: 1;
-  border-radius: 15px 15px 0 0;
-  display : none;
-  position: fixed;
-  a {
-    flex:1;
-    text-decoration:none;
-    text-align: center;
-    padding-top: 20px;
-    font-size: 1.5vh;
-    color: ${props => props.theme.fontColor};
-    img {
-      height: 30px;
-    }
+const HamburgerNav = styled.nav`
+  display: none;
+  position: relative;
+  background-color: ${props => props.theme.navColor};
+  svg {
+    margin-right: .5rem;
   }
+
   @media screen and (max-width: 800px) {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    align-items: center;
   }
 `
-
-
-const Header = () => {
-  const [themeCheck,setThemeCheck] = useState(false)
-  const [user,setUser] = useRecoilState(userState)
-  const navigate = useNavigate()
-  if (window.location.pathname === '/') 
-  return null;
- 
-  return (
-    <Wrapper>
-      <span className='backIcon'>
-        <MobileBack/>
-      </span>
-        <HeaderNav>
-          <Link to='/okaylaundry'>OKAY LAUNDRY</Link>
-          <Link to='/laundry'>MY LAUNDRY</Link>
-          <Link to='/near'>NEAR</Link>
-          <Link to='/weather'>WHEATHER</Link>
-          <Link to='/home'><img src='https://cdn-icons-png.flaticon.com/512/3238/3238630.png' alt='logo'/></Link>
-          <Link to='/community'>COMMUNITY</Link>
-          <Link to='/profile'>{user.userNick}님</Link>
-          <Link to='/profile'>LOGOUT</Link>
-          <ToggleTop className='toggle' ><ToggleSwitch themeCheck={themeCheck} setThemeCheck={setThemeCheck} /></ToggleTop>
-        </HeaderNav>
-      <FooterNav>
-        <Link to='/laundry'><IronIcon/></Link>
-        <Link to='/okaylaundry'><LinkedCameraIcon/></Link>
-        <Link to='/weather'><WbSunnyIcon/></Link>
-        <Link to='/home'><HomeIcon/></Link>
-        <Link to='/near'><LocalLaundryServiceIcon/></Link>
-        <Link to='/community'><ForumIcon/></Link>
-        <Link to='/profile'><AssignmentIndIcon/></Link>
-        <ToggleTop ><ToggleSwitch themeCheck={themeCheck} setThemeCheck={setThemeCheck}/></ToggleTop>
-      </FooterNav>
-    </Wrapper>
-  )
-}
-
+const ToggleTop = styled.div`
+  border: none;
+  cursor: pointer;
+  color: ${props => props.theme.fontColor};
+  margin-top: 11px;
+`
 export default Header
