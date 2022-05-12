@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import myMark from './images/marker.png'
-import datas from './data.js'
+import datas from './data'
 
 const {kakao} = window
 

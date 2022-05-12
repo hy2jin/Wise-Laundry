@@ -45,7 +45,6 @@ export const getProductMine = async (userId:number) => {
   const response = await apiClient.get<any>(
     `/laundry/${userId}/all`, 
   );
-  console.log(userId,'번 호출')
   return response.data
 }
 
@@ -62,7 +61,6 @@ export const deleteLaundry = async (laundryId:number) => {
   const response = await apiClient.delete<any>(
     `/laundry/${laundryId}/`, 
   );
-  console.log('삭제되었다.')
   return response.data
 }
 
@@ -71,7 +69,6 @@ export const AddLaundry = async (formdata:any) => {
     '/laundry',
     formdata
   )
-  console.log('등록되었다!')
   return response.data
 }
 
@@ -80,14 +77,12 @@ export const UpdateLaundry = async (formdata:any) => {
     '/laundry/',
     formdata
   )
-  console.log('수정되었다!')
   return response.data
 }
 export const getCareLabel = async ()=>{
   const response = await fileApiClient.get<any>(
     '/laundry/carelabel'
   )
-  console.log('CARELABEL')
   return response.data
 }
 

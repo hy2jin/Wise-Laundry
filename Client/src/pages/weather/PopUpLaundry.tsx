@@ -2,22 +2,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 
-const Wrapper = styled.div `
-  display: flex;
-  flex-flow: wrap;
-  transform: translate(0, 0);
-  overflow-y: auto;
+const PopUpBox = styled.div `
   top: 10vh;
   left: 150px;
   position: fixed;
-  bottom: 13vh;
-
+  z-index: 5;
   @media screen and (max-width: 800px) {
-    justify-content: center;
-    left: 0;
+    left: 10vw;
   }
-`
-const PopUpBox = styled.div `
   display: flex;
   flex-flow: nowrap column;
   width: 30vw;
@@ -26,7 +18,6 @@ const PopUpBox = styled.div `
   .popUpImg {
     width: 30vw;
     aspect-ratio: 1/1;
-    box-shadow: ${props => props.theme.boxShadowBox};
   }
   
   .allDayCloseBtn {
@@ -35,7 +26,6 @@ const PopUpBox = styled.div `
     height: 60px;
     font-size: 0.9rem;
     color: white;
-    /* color: ${props => props.theme.fontColor}; */
     background-color: ${props => props.theme.activeBtnColor};
   }
 
@@ -49,7 +39,6 @@ const PopUpBox = styled.div `
   }
 
   @media screen and (max-width: 800px) {
-    position: relative;
     width: 75vw;
 
     .popUpImg {
@@ -71,7 +60,6 @@ const PopUpBox = styled.div `
 
 const BtnPositon = styled.div `
   display: flex;
-  box-shadow: ${props => props.theme.boxShadowBox};
 
   .allDayBtnPosition {
     width: 100%;
@@ -82,7 +70,6 @@ const BtnPositon = styled.div `
   }
 
   @media screen and (max-width: 800px) {
-
     .closeBtnPosition {
       margin-left: 0;
     }
@@ -102,13 +89,11 @@ const PopUpLaundry:React.FC<IProps> = ({showPopUp, setShowPopUp}) => {
     let now = new Date()
     sessionStorage.setItem('expirePopUp', `${now}`)
     setShowPopUp(false)
-    // console.log(now,'모달에서 이거 뜨나?')
   }
   
     return (
       <>
-      {showPopUp ? (
-        <Wrapper>
+        {showPopUp && 
           <PopUpBox>
             <img className='popUpImg' src="https://t1.daumcdn.net/cfile/blog/99FFF5505D075BC932" alt="" />
             <BtnPositon>
@@ -119,11 +104,7 @@ const PopUpLaundry:React.FC<IProps> = ({showPopUp, setShowPopUp}) => {
                 <button className='closeBtn' onClick={() => setShowPopUp(false)}>닫기</button>
               </div>
             </BtnPositon>
-          </PopUpBox>
-        </Wrapper>
-      ) : (
-        ''
-      )}
+          </PopUpBox>}
       </>
     );
   }

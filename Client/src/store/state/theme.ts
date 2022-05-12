@@ -17,10 +17,12 @@ interface Itheme {
   scrollThumbColor: string
   scrollThumbHoverColor: string
   scrollNavColor: string
+  weatherColor:string
+  weatherBox:string
   labelListColor: string[]
 }
 // 2번 색을 지정해준다 => main 색들 넣어주고 다른곳에서 
-// color : ${props => props.theme.fontColor}; 이런식으로 사용하기
+// color : ${props => props.theme.weatherBox}; 이런식으로 사용하기
 export const DARKMODE = {
   bgColor: '#1D262B',
   fontColor: 'white',
@@ -37,6 +39,8 @@ export const DARKMODE = {
   scrollThumbColor: '#999999',
   scrollThumbHoverColor: '#cccccc',
   scrollNavColor: '#2757880',
+  weatherColor:'linear-gradient(180deg, rgba(59,59,133,1) 0%, rgba(13,127,150,1) 100%)',
+  weatherBox:'#97b0d1',
   labelListColor: ['#cffbb2', '#90fdec', '#f4ffac', '#fea5e6', '#fdce8d', '#8fdab9',
   '#acd682', '#bac3f0', '#d8db86', '#db829b'],
 }
@@ -57,6 +61,8 @@ export const LIGHTMODE = {
   scrollThumbColor: '#cccccc',
   scrollThumbHoverColor: '#999999',
   scrollNavColor: '#e9f2ff0',
+  weatherColor:'linear-gradient(0deg, rgba(255,255,255,1) 18%, #c7f9fe 72%)',
+  weatherBox:'#E9F2FF',
   labelListColor: ['#cffbb2', '#90fdec', '#f4ffac', '#fea5e6', '#fdce8d', '#8fdab9',
   '#acd682', '#bac3f0', '#d8db86', '#db829b'],
 }

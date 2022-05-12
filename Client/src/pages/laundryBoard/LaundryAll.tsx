@@ -234,9 +234,7 @@ const LaundryAll = () => {
         setMyLaundries(myRaw)
     }
   },[filter])
-  useEffect(()=>{
-    console.log(myLaundries)
-  },[])
+  
   return (
     <Wrapper>
       <Header>
