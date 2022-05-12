@@ -20,12 +20,21 @@ const SlideMenu: React.FC<IProps> = ({ themeCheck, setThemeCheck, setMenuOpen })
 
   return (
     <Nav>
-      <Menu onClick={() => handleClick('/profile')}>{user.userNick} 님</Menu>
-      <Menu onClick={() => handleClick('/laundry')}>MY LAUNDRY</Menu>
-      <Menu onClick={() => handleClick('/weather')}>WHEATHER</Menu>
-      <Menu onClick={() => handleClick('/community')}>COMMUNITY</Menu>
-      <Menu onClick={() => handleClick('/near')}>NEAR</Menu>
-      <Menu onClick={() => {setThemeCheck(!themeCheck);setMenuOpen(false)}}>{themeCheck ? 'LIGHT MODE' : 'DARK MODE'}</Menu>
+      {!!user.userEmail ?
+      <>
+        <Menu onClick={() => handleClick('/profile')}>{user.userNick} 님</Menu>
+        <Menu onClick={() => handleClick('/laundry')}>MY LAUNDRY</Menu>
+        <Menu onClick={() => handleClick('/weather')}>WHEATHER</Menu>
+        <Menu onClick={() => handleClick('/community')}>COMMUNITY</Menu>
+        <Menu onClick={() => handleClick('/near')}>NEAR</Menu>
+        <Menu onClick={() => {setThemeCheck(!themeCheck);setMenuOpen(false)}}>{themeCheck ? 'LIGHT MODE' : 'DARK MODE'}</Menu>
+      </>:
+      <>
+        <Menu onClick={() => navigate('/login')}>LOGIN</Menu>
+        <Menu onClick={() => handleClick('/weather')}>WHEATHER</Menu>
+        <Menu onClick={() => handleClick('/near')}>NEAR</Menu>
+        <Menu onClick={() => {setThemeCheck(!themeCheck);setMenuOpen(false)}}>{themeCheck ? 'LIGHT MODE' : 'DARK MODE'}</Menu>
+      </>}
     </Nav>
   );
 };

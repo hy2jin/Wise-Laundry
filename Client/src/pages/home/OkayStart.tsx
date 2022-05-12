@@ -41,7 +41,7 @@ const OkayStart = () => {
 
       newMy.map(nv => {
         const lab = defaultLabels.filter(dv => dv.careLabelName === nv)
-        console.log('🎲🎲lab:\n', lab[0]);
+        // console.log('🎲🎲lab:\n', lab[0]);
         setCareLabels([...careLabels, lab[0]])
         return lab[0]
       })
@@ -64,7 +64,20 @@ const OkayStart = () => {
       })
       .then(() => navigate('/laundry/create'))
     } else {
-      console.log('로그인으로 ㄱㄱ')
+      Swal.fire({
+        icon: 'warning',
+        text: '로그인 후 사용 가능합니다',
+        confirmButtonText: '로그인',
+        confirmButtonColor: 'orange',
+        showDenyButton: true,
+        denyButtonText: `취소`,
+        denyButtonColor: `gray`,
+      })
+      .then(({ value }) => {
+        if (value) {
+          navigate('/login')
+        }
+      })
     }
   }
 
@@ -85,6 +98,7 @@ const OkayStart = () => {
   return (
     <Wrapper>
       <Okay updateLabels={updateLabels} />
+      {myLabels.length > 0 && <div className='care-label'>세탁 라벨</div>}
       <Labels>
         {careLabels.map((v, i) =>
         <span className='label' key={i}
@@ -103,14 +117,27 @@ const OkayStart = () => {
 };
 
 const Wrapper = styled.article`
-  padding: 0 10vw;
+  .care-label {
+    width: 500px;
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+    @media screen and (max-width: 800px) {
+      width: 300px;
+    }
+  }
 `
 const Labels = styled.section`
+  margin: 0 auto;
   user-select: none;
-  padding-bottom: 2rem;
+  width: 500px;
+  display: flex;
+  flex-wrap: wrap;
   .label {
     padding: .3rem 2rem .3rem .5rem;
     margin-right: 1rem;
+    margin-bottom: 1rem;
     border-radius: 10px 0 10px 0;
     position: relative;
   
@@ -126,10 +153,19 @@ const Labels = styled.section`
       }
     }
   }
+
+  @media screen and (max-width: 800px) {
+    width: 300px;
+    .label {
+      margin-bottom: .7rem;
+    }
+  }
 `
 const BtnBox = styled.section`
-  text-align: end;
+  margin-top: 1rem;
+  text-align: center;
   button {
+    font-size: 1.5rem;
     position: relative;
     border: none;
     border-radius: 4px;
@@ -137,7 +173,8 @@ const BtnBox = styled.section`
     overflow: hidden;
     color: white;
     background-color: ${props => props.theme.activeBtnColor};
-    padding: .8rem 1.5rem;
+    padding: .8rem 0;
+    width: 500px;
   
     span {
       position: absolute;
@@ -154,6 +191,14 @@ const BtnBox = styled.section`
       span {
         right: 0;
       }
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    margin-top: .8rem;
+    button {
+      font-size: 1rem;
+      width: 300px;
     }
   }
 `

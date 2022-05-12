@@ -11,6 +11,8 @@ import rainy from './images/비구름2.png'
 import cloud from './images/구름.png'
 import smallcloud from './images/구름조금.png'
 import Rain from './Rain';
+import Cloud from './Cloud';
+import PartlyCloud from './PartlyCloud';
 
 const Wrapper = styled.div `
   position: relative;
@@ -19,9 +21,9 @@ const Wrapper = styled.div `
   height: 70vh;
   background-color: ${props => props.theme.activeBtnColor};
   background: ${props => props.theme.weatherColor};
-  /* background:linear-gradient(90deg, #5757e7 , #6363e8,#5e5eda ,#8888fc);//홍 */
+  /* background:linear-gradient(170deg,#aad9ff,#8bc6f7,#36a4ff,#75c0fe);//홍 */
   background-size: 400% 400%;
-  animation : backgoundChange 5s ease-in-out infinite;
+  animation : backgoundChange 5s ease-in infinite;
   box-shadow: ${props=>props.theme.boxShadowBox};
   border-radius: 15px;
   margin: auto;
@@ -262,8 +264,9 @@ const WeatherBox:React.FC<IProps>= ({data}) => {
 
   return (
       <Wrapper >
+        {data.weather==='cloudy' &&<Cloud/>}
+        {data.weather==='partly_cloudy' &&<PartlyCloud/>}
         {data.weather==='rain' &&<Rain/>}
-        
           <LeftPart>
             <div className='weatherTime'>{changeDate(String(data.time))} </div>
             <LeftImgPart>
@@ -278,6 +281,7 @@ const WeatherBox:React.FC<IProps>= ({data}) => {
             <ScorePart>
               <img className='Img' src={washer} alt="" />
               <progress id="progress1" value={data.laundry} max="100"/>
+              :{data.laundry}점
             </ScorePart>
             <ScorePart>
               <progress id="progress2" value={data.wind} max="15"/>

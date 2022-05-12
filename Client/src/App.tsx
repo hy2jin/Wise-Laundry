@@ -111,7 +111,7 @@ const App= (props: any) => {
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <Wrapper>
-          {isLogin && <Header />}
+          <Header />
           <Routes>
             <Route path='/' element={<Start />}/>
             <Route path='/home' element={<Home />}/>

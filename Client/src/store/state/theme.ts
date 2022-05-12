@@ -39,7 +39,7 @@ export const DARKMODE = {
   scrollThumbColor: '#999999',
   scrollThumbHoverColor: '#cccccc',
   scrollNavColor: '#2757880',
-  weatherColor:'linear-gradient(90deg, #5757e7 , #6363e8,#5e5eda ,#8888fc)',
+  weatherColor:'linear-gradient(170deg, #252576 , #0c4d76 , #40a5c4 , #052f38 )',
   weatherBox:'#97b0d1',
   labelListColor: ['#cffbb2', '#90fdec', '#f4ffac', '#fea5e6', '#fdce8d', '#8fdab9',
   '#acd682', '#bac3f0', '#d8db86', '#db829b'],
