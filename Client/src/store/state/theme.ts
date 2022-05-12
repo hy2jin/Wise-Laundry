@@ -17,6 +17,7 @@ interface Itheme {
   scrollThumbColor: string
   scrollThumbHoverColor: string
   scrollNavColor: string
+  labelListColor: string[]
 }
 // 2번 색을 지정해준다 => main 색들 넣어주고 다른곳에서 
 // color : ${props => props.theme.fontColor}; 이런식으로 사용하기
@@ -36,7 +37,10 @@ export const DARKMODE = {
   scrollThumbColor: '#999999',
   scrollThumbHoverColor: '#cccccc',
   scrollNavColor: '#2757880',
+  labelListColor: ['#cffbb2', '#90fdec', '#f4ffac', '#fea5e6', '#fdce8d', '#8fdab9',
+  '#acd682', '#bac3f0', '#d8db86', '#db829b'],
 }
+
 export const LIGHTMODE = {
   bgColor: 'white',
   fontColor: '#333',
@@ -53,6 +57,8 @@ export const LIGHTMODE = {
   scrollThumbColor: '#cccccc',
   scrollThumbHoverColor: '#999999',
   scrollNavColor: '#e9f2ff0',
+  labelListColor: ['#cffbb2', '#90fdec', '#f4ffac', '#fea5e6', '#fdce8d', '#8fdab9',
+  '#acd682', '#bac3f0', '#d8db86', '#db829b'],
 }
 
 export const themeState = atom<Itheme>({

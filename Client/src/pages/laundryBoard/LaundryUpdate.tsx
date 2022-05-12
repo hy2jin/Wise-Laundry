@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
@@ -7,7 +8,7 @@ import { userState } from '../../store/state/user'
 import ImgBox from './ImgBox'
 import Label from './Label';
 import Info from './Info';
-import { labelState } from '../../store/state/laundry'
+import { labelState, defaultLabelState } from '../../store/state/laundry'
 
 const Wrapper = styled.article`
   width: 70vw;
@@ -179,7 +180,6 @@ interface Istate{
     laundryOwnerId: number
     laundryMemo:string
   }
-  careLabels:{careLabelId: number, careLabelName:string, careLabel:string}[]
 }
 
 const LaundryUpdate = () => {
@@ -197,13 +197,13 @@ const LaundryUpdate = () => {
   const [isLoading,setIsLoading] = useState(true)
   const [laundry,setLaundry] = useState<Istate['laundry']>()
   const [laundryInfo,setlaundryInfo] = useState<string[]>([])
-  const [careLabels,setCareLabels] = useState<Istate['careLabels']>([])
+  const [careLabels,setCareLabels] = useRecoilState(labelState)
   const [laundryMemo,setLaundryMemo] = useState('')
   const [laundryImg,setLaundryImg] = useState<string>('')
   const [user,setUser] = useRecoilState(userState)
   const [file, setFile] = useState<any>();
   const navigate = useNavigate()
-  const [careLabelsstate,setCareLabelsstate] =useRecoilState(labelState)
+  const [careLabelsstate,setCareLabelsstate] = useRecoilState(defaultLabelState)
 
   const submitLaundry = ()=>{
     const formdata = new FormData()
@@ -224,19 +224,21 @@ const LaundryUpdate = () => {
       navigate(`/laundry/${laundryId}`)
     })
   }
- 
+
   useEffect(()=>{
-    getCareLabel().then((res)=>{
-      setCareLabelsstate(res.list)
-    })
-  },[])
+    if (!careLabelsstate.length) {
+      getCareLabel().then((res)=>{
+        setCareLabelsstate(res.list)
+      })
+    }
+  }, [])
 
   useEffect(()=>{
     const newarr =careLabels.filter((care)=>care!==null)
     setCareLabels(newarr)
     setIsLoading(false)
-  },[laundry])
- 
+  }, [laundry])
+
   return (
     <Wrapper>
       {isLoading ? <div>로딩중</div>:
