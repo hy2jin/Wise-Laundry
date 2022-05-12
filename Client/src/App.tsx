@@ -24,6 +24,7 @@ import NotFound from './pages/notfound/NotFound'
 import CommunityUpdate from './pages/communityBoard/CommunityUpdate'
 import LaundryUpdate from './pages/laundryBoard/LaundryUpdate'
 import Weather from './pages/oklaundry/Weather'
+import PPPP from './pages/oklaundry/PPPP'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -123,6 +124,7 @@ const App= (props: any) => {
             <Route path="/oauth" element={<KakaoLogin />}/>
             <Route path='/weather' element={<Weather />}/>
             <Route path='/*' element={<NotFound />} />
+            <Route path='/PPPP' element={<PPPP />} />
           </Routes>
         </Wrapper>
       </ThemeProvider>
