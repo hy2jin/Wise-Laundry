@@ -24,7 +24,5 @@ RUN npm install --legacy-peer-deps
 
 COPY . ./
 
-
-
 # 앱 실행
 CMD ["npm", "start"]
