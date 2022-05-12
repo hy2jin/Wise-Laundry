@@ -13,3 +13,8 @@ export const labelState = atom<Istate['careLabel'][]>({
   key:'careLabels',
   default:[]
 })
+
+export const defaultLabelState = atom<Istate['careLabel'][]>({
+  key: 'defaultLabels',
+  default: []
+})

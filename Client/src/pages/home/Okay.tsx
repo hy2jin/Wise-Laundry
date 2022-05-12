@@ -78,8 +78,20 @@ let classesDir = {
   }
 }
 
+interface Istate {
+  detectLabel: {
+    bbox: number[]
+    class: number
+    label: string
+    score: string
+  }
+}
 
-class OkayStart extends Component {
+interface IProps {
+  updateLabels: (arr: Istate["detectLabel"][]) => void
+}
+
+class OkayStart extends Component<IProps> {
   videoRef = createRef<HTMLVideoElement>();
   canvasRef = createRef<HTMLCanvasElement>();
 
@@ -90,7 +102,7 @@ class OkayStart extends Component {
         .getUserMedia({
           audio: false,
           video: {
-            facingMode: "user"
+            facingMode: "environment"
           }
         })
         .then(stream => {
@@ -187,7 +199,8 @@ class OkayStart extends Component {
         // console.log(classes)
         const detections = this.buildDetectedObjects(scores, threshold, boxes, classes, classesDir);
         if (detections.length > 0) {
-          console.log('🎲🎲🎲🎲🎲🎲🎲🎲detections: ', detections);
+          this.props.updateLabels(detections)
+          // console.log('🎲detections:\n', detections);
         }
     
         detections.forEach((item: any) => {
@@ -197,13 +210,14 @@ class OkayStart extends Component {
           const height = item['bbox'][3];
     
           // Draw the bounding box.
-          ctx.strokeStyle = "#00FFFF";
+          ctx.strokeStyle = "#6768AB";
           ctx.lineWidth = 4;
           ctx.strokeRect(x, y, width, height);
     
           // Draw the label background.
-          ctx.fillStyle = "#00FFFF";
-          const textWidth = ctx.measureText(item["label"] + " " + (100 * item["score"]).toFixed(2) + "%").width;
+          ctx.fillStyle = "#6768AB";
+          const textWidth = ctx.measureText(item["label"]).width;
+          // const textWidth = ctx.measureText(item["label"] + " " + (100 * item["score"]).toFixed(2) + "%").width;
           const textHeight = parseInt(font, 10); // base 10
           ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
         });
@@ -214,7 +228,8 @@ class OkayStart extends Component {
     
           // Draw the text last to ensure it's on top.
           ctx.fillStyle = "#000000";
-          ctx.fillText(item["label"] + " " + (100*item["score"]).toFixed(2) + "%", x, y);
+          ctx.fillText(item["label"], x, y);
+          // ctx.fillText(item["label"] + " " + (100*item["score"]).toFixed(2) + "%", x, y);
         });
       }
     }

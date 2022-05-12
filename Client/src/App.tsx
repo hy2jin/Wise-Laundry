@@ -4,11 +4,13 @@ import { BrowserRouter, Route, Routes,  } from 'react-router-dom'
 import styled,{ThemeProvider} from 'styled-components'
 import { useRecoilState } from 'recoil'
 import { themeState } from './store/state/theme'
-import { loginState,userState } from './store/state/user'
+import { loginState, userState } from './store/state/user'
+import { defaultLabelState } from './store/state/laundry';
+import { getCareLabel } from './store/api/laundry';
 import Header from './components/Header'
 import Home from './pages/home/Home'
 import Near from './pages/Near/Near'
-import Okay from './pages/home/Okay'
+import OkayStart from './pages/home/OkayStart'
 import CommunityAll from './pages/communityBoard/CommunityAll'
 import CommunityDetail from './pages/communityBoard/CommunityDetail'
 import CommunityCreate from './pages/communityBoard/CommunityCreate'
@@ -89,16 +91,22 @@ const App= (props: any) => {
   const [theme, setTheme] = useRecoilState(themeState)
   const [isLogin, setIsLogin] = useRecoilState(loginState)
   const [user, setUser] = useRecoilState(userState)
+  const [defaultLabels, setDefaultLabels] = useRecoilState(defaultLabelState)
+
   useEffect(() => {
     const newuser = sessionStorage.getItem('userInfo')||""
     if (!!newuser) {
       setUser(JSON.parse(newuser))
       setIsLogin(true)
+      if (defaultLabels.length === 0) {
+        getCareLabel()
+        .then(({ list }) => setDefaultLabels(list))
+      }
     }
     else {
       setIsLogin(false)
     }
-  },[])
+  }, [])
 
   return (
     <BrowserRouter>
@@ -109,7 +117,7 @@ const App= (props: any) => {
             <Route path='/' element={<Start />}/>
             <Route path='/home' element={<Home />}/>
             <Route path='/near' element={<Near />}/>
-            <Route path='/okay' element={<Okay />}/>
+            <Route path='/okay' element={<OkayStart />}/>
             <Route path='/community' element={<CommunityAll />}/>
             <Route path='/community/:boardId' element={<CommunityDetail />}/>
             <Route path='/board' element={<CommunityCreate />}/>
