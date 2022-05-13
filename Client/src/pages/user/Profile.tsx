@@ -11,6 +11,8 @@ import { userState } from '../../store/state/user';
 import defaultImg from './images/profile-image.png'
 import Swal from 'sweetalert2'
 
+
+
 const Wrapper = styled.div `
   display: flex;
   justify-content: center;
@@ -124,6 +126,17 @@ const EditForm = styled.div `
   .LabelTitle {
     position: relative;
     bottom: 1vh;
+    font-size: 0.8rem;
+  }
+
+  .LabelTitle2{
+    position: relative;
+    bottom: 1vh;
+    font-size: 0.8rem;
+    text-align: center;
+    margin-bottom: 0;
+    /* margin: 0; */
+    /* right: 3vw; */
   }
 
   .BtnPosition {
@@ -160,6 +173,10 @@ const EditForm = styled.div `
     .LabelTitle {
       position: relative;
       /* top: 1vh; */
+    }
+
+    .LabelTitle2 {
+      font-size: 0.6rem;
     }
     
     h1 {
@@ -224,7 +241,6 @@ const InputForm = styled.section`
     max-width: 800px;
   }
 
-
   @media screen and (max-width: 800px) {
     /* height: 15px; */
     margin-bottom: 1rem;
@@ -245,6 +261,28 @@ const InputForm = styled.section`
     }
   }
 `
+
+const OriginNick = styled.div `
+  height: 2vh;
+  padding: 0.8rem;
+  /* border: 1px solid #d8d6d6; */
+  border-radius: 10px;
+  display: flex;
+  margin-bottom: 30px;
+  width: 30vw;
+  background-color: ${props => props.theme.bgColor};
+  color : yellowgreen;
+  /* color : ${props => props.theme.fontColor}; */
+  /* font-weight: bold; */
+  align-items: center;
+  font-size: 1.3rem;
+  justify-content: center;
+
+  @media screen and (max-width: 800px) {
+    font-size: 1rem;
+  }
+`
+
 
 const Profile = () => {
   const [user, setUser] = useRecoilState(userState)
@@ -278,11 +316,10 @@ const Profile = () => {
 
   // 회원 정보 변경
   const updateUser = () => {
-    console.log(nickChecked, '확인 누름')
     if (!nickChecked) {
-      console.log(nickChecked, '조건 걸림')
       alert('변경할 닉네임을 입력해주세요')
     } else {
+      setUserChangeBtn(false)
       const formdata = new FormData()
       formdata.append('userUpdateInfo',
         new Blob([
@@ -385,12 +422,12 @@ const Profile = () => {
     window.location.reload();
   }
 
-  // const startUpdate = () => {
-  //   if (!userChangeBtn) {
-  //     setUserChangeBtn(false)
-  //     console.log(userChangeBtn, '변경버튼')
-  //   }
-  // }
+  const startUpdate = () => {
+    if (!userChangeBtn) {
+      setUserChangeBtn(true)
+      setNickChecked(false)
+    }
+  }
 
 
 
@@ -407,7 +444,9 @@ const Profile = () => {
           </ImgBox>
           <div className='NickBox'>
             <label htmlFor='nickName'>
-            <span className='LabelTitle'>닉네임</span>
+            {/* <span className='LabelTitle'>닉네임</span> */}
+            {userChangeBtn ? <span className='LabelTitle'>닉네임</span> : <p className='LabelTitle2'>닉네임</p>}
+            {userChangeBtn ? 
               <InputForm>
                 <input type='text' id='nickName'
                   placeholder='닉네임을 입력하세요'
@@ -415,17 +454,18 @@ const Profile = () => {
                   onChange={(e) => onHandelNick(e)}
                 />
                 <button className='ConfirmBtn' onClick={() => nicknameDuplicationCheck()}>확인</button>
-              </InputForm>
+              </InputForm> 
+              : <OriginNick>{nickname}</OriginNick>
+            }
+              
             </label>
           </div>
 
           <div className='BtnPosition'>
             <div className='SaveBtnBox'>
-              <button className="SaveBtn" onClick={updateUser}>확인</button>
+              {userChangeBtn ? <button className="SaveBtn" onClick={updateUser}>확인</button> : <button className="SaveBtn" onClick={startUpdate}>수정</button>}
+              {/* <button className="SaveBtn" onClick={updateUser}>확인</button> */}
             </div>
-            {/* <div className='SaveBtnBox'>
-              <button className="SaveBtn" onClick={startUpdate}>변경</button>
-            </div> */}
           </div>
           <div className='BtnPosition2'>
             <div className='EditPasswordBox'>
