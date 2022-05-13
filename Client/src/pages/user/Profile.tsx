@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import logo from './images/logo2.png';
 import PasswordModal from './PasswordModal';
-import UserImgBox from './UserImgBox';
+import ProfileImgBox from './ProfileImgBox';
 import { getNicknamecheck, getUserInfo, putUpdateUserInfo } from '../../store/api/user';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
@@ -317,7 +317,7 @@ const Profile = () => {
   // 회원 정보 변경
   const updateUser = () => {
       if (!nickChecked) {
-        alert(' ')
+        alert('닉네임을 확인해 주세요')
       } else {
         setUserChangeBtn(false)
         const formdata = new FormData()
@@ -425,7 +425,6 @@ const Profile = () => {
   const startUpdate = () => {
     if (!userChangeBtn) {
       setUserChangeBtn(true)
-      setNickChecked(false)
     }
   }
 
@@ -439,7 +438,7 @@ const Profile = () => {
         <EditForm>
         {userChangeBtn ? <h1>EDIT</h1> : <h1>Profile</h1>}
           <ImgBox>
-            <UserImgBox userImg={profileImg} file={file} setFile={setFile} setNickChecked={setNickChecked}/>
+            <ProfileImgBox userImg={profileImg} file={file} setFile={setFile} setUserChangeBtn={setUserChangeBtn} />
           </ImgBox>
           <div className='NickBox'>
             <label htmlFor='nickName'>
