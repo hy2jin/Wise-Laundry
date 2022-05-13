@@ -13,6 +13,7 @@ import smallcloud from './images/구름조금.png'
 import Rain from './Rain';
 import Cloud from './Cloud';
 import PartlyCloud from './PartlyCloud';
+import Sun from './Sun';
 
 const Wrapper = styled.div `
   position: relative;
@@ -51,9 +52,9 @@ const LeftPart = styled.div`
   display: flex;
   width: 28vw;
   flex-flow: nowrap column;
+  z-index: 1;
   .temperature{
     font-size: 3rem;
-
   }
   .weatherTime {
     font-size: 2.5rem;
@@ -147,6 +148,29 @@ const RightPart = styled.div `
   
 `
 const ScorePart = styled.article`
+  position: relative;
+  .info{
+    position: absolute;
+    top:80px;
+    left: 15vw;
+  }
+  .info1{
+    position: absolute;
+    top:80px;
+    left: 25vw;
+  }
+  @media screen and (max-width: 800px) {
+    .info{
+      top:50px;
+      font-size: 0.7rem;
+    }
+    .info1{
+      top:50px;
+      left: 37vw ;
+      font-size: 0.7rem;
+
+    }
+  }
   progress {
     width : 70%;
     appearance: none; 
@@ -266,6 +290,7 @@ const WeatherBox:React.FC<IProps>= ({data}) => {
       <Wrapper >
         {data.weather==='cloudy' &&<Cloud/>}
         {data.weather==='partly_cloudy' &&<PartlyCloud/>}
+        {/* {data.weather==='partly_cloudy' &&<Sun/>} */}
         {data.weather==='rain' &&<Rain/>}
           <LeftPart>
             <div className='weatherTime'>{changeDate(String(data.time))} </div>
@@ -281,19 +306,22 @@ const WeatherBox:React.FC<IProps>= ({data}) => {
             <ScorePart>
               <img className='Img' src={washer} alt="" />
               <progress id="progress1" value={data.laundry} max="100"/>
-              :{data.laundry}점
+              <div className='info1'>세탁지수 : {data.laundry}점</div>
             </ScorePart>
             <ScorePart>
               <progress id="progress2" value={data.wind} max="15"/>
               <img className='Img' src={wind} alt="" />
+              <div className='info' >바람 : {data.wind}</div>
             </ScorePart>
             <ScorePart>
-              <progress id="progress3" value={data.humidity} max="100"/>
+              <progress id="progress3" value={data.chanceOfRain} max="100"/>
               <img className='Img' src={rain} alt="" />
+              <div className='info'>비올 확률 : {data.chanceOfRain}</div>
             </ScorePart>
             <ScorePart>
               <progress id="progress4" value={data.humidity} max="100"/>
               <img className='Img' src={water} alt="" />
+              <div className='info'>습도 : {data.humidity}</div>
             </ScorePart>
             {/* </RightScoreImg> */}
           </RightPart>

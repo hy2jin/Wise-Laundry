@@ -95,14 +95,14 @@
 /* OBJECTS */
 
 .cloud {
-	background: #ba9595;
-	background: -moz-linear-gradient(top,  #b3b1b1 5%, #939393 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(5%,#939393), color-stop(100%,#939393));
-	background: -webkit-linear-gradient(top,  #b3b1b1 5%,#939393 100%);
-	background: -o-linear-gradient(top,  #b3b1b1 5%,#939393 100%);
-	background: -ms-linear-gradient(top,  #b3b1b1 5%,#939393 100%);
-	background: linear-gradient(top,  #b3b1b1 5%,#939393 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3b1b1', endColorstr='#939393',GradientType=0 );
+	background: #fff;
+	background: -moz-linear-gradient(top,  rgb(193, 191, 191) 5%, #b3b1b1 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(5%,#fff), color-stop(100%,#f1f1f1));
+	background: -webkit-linear-gradient(top,  #fff 5%,#f1f1f1 100%);
+	background: -o-linear-gradient(top,  #fff 5%,#f1f1f1 100%);
+	background: -ms-linear-gradient(top,  #fff 5%,#f1f1f1 100%);
+	background: linear-gradient(top,  #fff 5%,#f1f1f1 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fff', endColorstr='#f1f1f1',GradientType=0 );
 	
 	-webkit-border-radius: 100px;
 	-moz-border-radius: 100px;
@@ -118,7 +118,7 @@
 }
 
 .cloud:after, .cloud:before {
-  background: #b3b1b1;
+    background: #fff;
 	content: '';
 	position: absolute;
 	z-indeX: -1;
