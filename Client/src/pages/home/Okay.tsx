@@ -192,9 +192,9 @@ class OkayStart extends Component<IProps> {
         ctx.textBaseline = "top";
 
         //Getting predictions
-        const boxes = predictions[7].arraySync(); //detection_boxes
-        const scores = predictions[1].arraySync(); //identity_4:0
-        const classes = predictions[4].dataSync(); //identity_2:0
+        const boxes = predictions[4].arraySync(); //detection_boxes
+        const scores = predictions[2].arraySync(); //identity_4:0
+        const classes = predictions[7].dataSync(); //identity_2:0
     
         // console.log(classes)
         const detections = this.buildDetectedObjects(scores, threshold, boxes, classes, classesDir);
