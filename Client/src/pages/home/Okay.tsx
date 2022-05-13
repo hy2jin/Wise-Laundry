@@ -18,64 +18,108 @@ async function load_model() {
 let classesDir = {
   1: {
     name: "laundry1",
-    id: 1
+    id: 1,
   },
   2: {
     name: "laundry2",
-    id: 2
+    id: 2,
   },
   3: {
     name: "laundry3",
-    id: 3
+    id: 3,
   },
   4: {
     name: "laundry4",
-    id: 4
+    id: 4,
   },
   5: {
     name: "bleach1",
-    id: 5
+    id: 5,
   },
   6: {
     name: "bleach2",
-    id: 6
+    id: 6,
   },
   7: {
     name: "bleach3",
-    id: 7
+    id: 7,
   },
   8: {
     name: "bleach4",
-    id: 8
+    id: 8,
   },
   9: {
     name: "bleach5",
-    id: 9
+    id: 9,
   },
   10: {
     name: "bleach6",
-    id: 10
+    id: 10,
   },
   11: {
     name: "bleach7",
-    id: 11
+    id: 11,
   },
   12: {
     name: "dry1",
-    id: 12
+    id: 12,
   },
   13: {
     name: "dry2",
-    id: 13
+    id: 13,
   },
   14: {
     name: "dry3",
-    id: 14
+    id: 14,
   },
   15: {
     name: "dry4",
-    id: 15
-  }
+    id: 15,
+  },
+  16: {
+    name: "ironing1",
+    id: 16,
+  },
+  17: {
+    name: "ironing2",
+    id: 17,
+  },
+  18: {
+    name: "ironing3",
+    id: 18,
+  },
+  19: {
+    name: "dmethod1",
+    id: 19,
+  },
+  20: {
+    name: "dmethod2",
+    id: 20,
+  },
+  21: {
+    name: "dmethod3",
+    id: 21,
+  },
+  22: {
+    name: "dmethod4",
+    id: 22,
+  },
+  23: {
+    name: "dmethod5",
+    id: 23,
+  },
+  24: {
+    name: "dmethod6",
+    id: 24,
+  },
+  25: {
+    name: "dmethod7",
+    id: 25,
+  },
+  26: {
+    name: "dmethod8",
+    id: 26,
+  },
 }
 
 interface Istate {
