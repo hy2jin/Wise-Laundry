@@ -55,18 +55,21 @@ interface IProps {
   file: any
   setFile: React.Dispatch<any>
   userImg: string
+  setNickChecked: any
 }
 
-const UserImgBox:React.FC<IProps>= ({file, setFile, userImg}) => {
+const UserImgBox:React.FC<IProps>= ({file, setFile, userImg, setNickChecked}) => {
   const [fileSrc, setFileSrc] = useState<string>(userImg);
   const encodeMainFileToBasek64 = (fileBlob: any) => {
     const reader: any = new FileReader();
     if (fileBlob) {
       reader.readAsDataURL(fileBlob);
+
     }
     return new Promise(() => {
       reader.onload = () => {
         setFileSrc(reader.result);
+
       };
     });
   };
@@ -76,8 +79,10 @@ const UserImgBox:React.FC<IProps>= ({file, setFile, userImg}) => {
   const handleFileOnChange = (e: React.ChangeEvent) => {
     setFile((e.target as HTMLInputElement).files?.item(0));
     console.log((e.target as HTMLInputElement).files?.item(0));
+    setNickChecked(true)
     if ((e.target as HTMLInputElement).files) {
       encodeMainFileToBasek64((e.target as HTMLInputElement).files?.item(0));
+      setNickChecked(true)
     }
   };
 

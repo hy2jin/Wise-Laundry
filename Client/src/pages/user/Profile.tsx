@@ -316,47 +316,47 @@ const Profile = () => {
 
   // 회원 정보 변경
   const updateUser = () => {
-    if (!nickChecked) {
-      alert('변경할 닉네임을 입력해주세요')
-    } else {
-      setUserChangeBtn(false)
-      const formdata = new FormData()
-      formdata.append('userUpdateInfo',
-        new Blob([
-          JSON.stringify({
-            'userEmail': user.userEmail,
-            'userNick': nickname,
-            'password': '',
-          })
-        ],{type:'application/json'})
-      )
-      if(file!==undefined){
-        formdata.append('file', file)
-      }
-
-      putUpdateUserInfo(formdata)
-      .then(() => {
-        Swal.fire({
-          icon: 'success',
-          text: '변경 되었습니다',
-          showConfirmButton: false,
-          timer: 1000
-        })
-        getUserInfo()
-          .then((res) => {
-            const userInfo = {...res};
-            delete userInfo.message
-            delete userInfo.statusCode
-            sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
-            setUser(userInfo)
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+      if (!nickChecked) {
+        alert(' ')
+      } else {
+        setUserChangeBtn(false)
+        const formdata = new FormData()
+        formdata.append('userUpdateInfo',
+          new Blob([
+            JSON.stringify({
+              'userEmail': user.userEmail,
+              'userNick': nickname,
+              'password': '',
+            })
+          ],{type:'application/json'})
+        )
+        if(file!==undefined){
+          formdata.append('file', file)
         }
-      )
-      .catch((err) => console.log(err))
-    }
+
+        putUpdateUserInfo(formdata)
+        .then(() => {
+          Swal.fire({
+            icon: 'success',
+            text: '변경되었습니다',
+            showConfirmButton: false,
+            timer: 1000
+          })
+          getUserInfo()
+            .then((res) => {
+              const userInfo = {...res};
+              delete userInfo.message
+              delete userInfo.statusCode
+              sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+              setUser(userInfo)
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+          }
+        )
+        .catch((err) => console.log(err))
+      }
   }
 
   useEffect(() => {
@@ -383,7 +383,7 @@ const Profile = () => {
   // 닉네임 중복 확인
   const nicknameDuplicationCheck = () => {
     if (nickname.length > 6 || nickname.length < 2) {
-      alert('2글자 이상 6글자 이하로 입력해주세요')
+      alert('2글자 이상 6글자 이하로 입력해 주세요')
     } else {
       getNicknamecheck(nickname)
       .then((res) => {
@@ -391,14 +391,14 @@ const Profile = () => {
         if (nickname) {
           if (nickCheckMessage === 'Unavailable') {
             setNickChecked(false)
-            alert('사용중인 닉네임 입니다.')
+            alert('사용 중인 닉네임입니다.')
           } else {
             setNickChecked(true)
             setUsingNickname(nickname)
-            alert('사용가능한 닉네임 입니다.')
+            alert('사용 가능한 닉네임입니다.')
           }
         } else {
-          alert('닉네임을 입력해주세요')
+          alert('닉네임을 입력해 주세요')
           setNickChecked(false)
         }
       })
@@ -430,7 +430,6 @@ const Profile = () => {
   }
 
 
-
   return (
     <Wrapper>
       <Logobox>
@@ -438,9 +437,9 @@ const Profile = () => {
       </Logobox>
       <SmallBox>
         <EditForm>
-          <h1>EDIT</h1>
+        {userChangeBtn ? <h1>EDIT</h1> : <h1>Profile</h1>}
           <ImgBox>
-            <UserImgBox userImg={profileImg} file={file} setFile={setFile} />
+            <UserImgBox userImg={profileImg} file={file} setFile={setFile} setNickChecked={setNickChecked}/>
           </ImgBox>
           <div className='NickBox'>
             <label htmlFor='nickName'>
