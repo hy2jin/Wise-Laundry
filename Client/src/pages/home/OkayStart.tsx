@@ -82,16 +82,14 @@ const OkayStart = () => {
   }
 
   useEffect(() => {
+    setMyLabels([])
+    setCareLabels([])
     if (!defaultLabels.length) {
       getCareLabel()
       .then(res => {
         setDefaultLabels(res.list)
         console.log('🎲res.list:\n', res.list);
       })
-    }
-    return () => {
-      setMyLabels([])
-      setCareLabels([])
     }
   }, [])
 

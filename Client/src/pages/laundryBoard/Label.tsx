@@ -1,10 +1,81 @@
 import React, {  useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
-import { labelState as labelStore } from '../../store/state/laundry'
+import { defaultLabelState } from '../../store/state/laundry'
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close'
 import Swal from 'sweetalert2';
+
+
+const Label:React.FC<Iprops> = ({label,color,idx,setCareLabels,careLabels}) => {
+  const colors = 
+  ['#cffbb2','#90fdec','#f4ffac','#fea5e6','#fdce8d',
+  '#8fdab9','#acd682','#bac3f0','#d8db86','#db829b']
+  const [labelstate] = useRecoilState(defaultLabelState)
+  const [showLabel,setShowLabel] = useState<Iprops['careLabels']>([])
+  const [showModal,setShowModal] = useState(false)
+  const [value,setValue] = useState('')
+  const getdelete = ()=>{
+    const newCareLabels = careLabels.filter((label,index)=>index!==idx)
+    setCareLabels(newCareLabels)
+  }
+  
+  useEffect(()=>{
+    searchLabel()
+  },[value,labelstate])
+  const selectLabel = (label:any)=>{
+    var flag =true
+    careLabels.map((labels)=>{
+      if(labels.careLabel===label.careLabel){
+        Swal.fire('이미 있는 라벨입니다.')
+        flag=false
+      }
+    })
+    if (flag){
+      setCareLabels([...careLabels,label])
+      setValue('')
+    }
+  }
+  const searchLabel = ()=>{
+    if(value===''){
+      setShowLabel(labelstate)
+    }
+    else{
+      var newshow:Iprops['careLabels'] = []
+      labelstate.map((label)=>{
+        if(label.careLabel.includes(value))
+        {
+          newshow.push(label)
+          console.log(value)
+      }})
+      setShowLabel(newshow)
+    }
+  }
+  return (
+    <Wrapper color={color} >
+      { label.careLabel!=='' ? 
+      <p onClick={()=>{getdelete()}}>{label.careLabel}</p>:  
+      <div className='plus' onClick={()=>{setShowModal(true)}}>+</div>}
+      {showModal && 
+        <Modal>
+          <CloseIcon onClick={()=>{setShowModal(false);setValue('')}} className='close'/>
+          <InputBox>
+            <input value={value} onChange={(e)=>{setValue(e.target.value)}}/>
+            <div className='submitBtn'><SearchIcon/></div>
+          </InputBox>
+          <Labels>
+            {labelstate.length>0 && showLabel.map((label,idx)=>{return(
+              <LabelBox onClick={()=>{selectLabel(label)}} key={idx} color={colors[idx%10]}>
+                {label.careLabel}
+              </LabelBox>
+            )})}
+          </Labels>
+        </Modal> 
+        }
+    </Wrapper>
+  )
+}
+
 const Wrapper = styled.section`
   cursor: pointer;
   color: black;
@@ -120,74 +191,4 @@ interface Iprops{
   }[]
   color:string
 }
-
-const Label:React.FC<Iprops> = ({label,color,idx,setCareLabels,careLabels}) => {
-  const colors = 
-  ['#cffbb2','#90fdec','#f4ffac','#fea5e6','#fdce8d',
-  '#8fdab9','#acd682','#bac3f0','#d8db86','#db829b']
-  const [labelstate,setLabelState] = useRecoilState(labelStore)
-  const [showLabel,setShowLabel] = useState<Iprops['careLabels']>([])
-  const [showModal,setShowModal] = useState(false)
-  const [value,setValue] = useState('')
-  const getdelete = ()=>{
-    const newCareLabels = careLabels.filter((label,index)=>index!==idx)
-    setCareLabels(newCareLabels)
-  }
-  
-  useEffect(()=>{
-    searchLabel()
-  },[value,labelstate])
-  const selectLabel = (label:any)=>{
-    var flag =true
-    careLabels.map((labels)=>{
-      if(labels.careLabel===label.careLabel){
-        Swal.fire('이미 있는 라벨입니다.')
-        flag=false
-      }
-    })
-    if (flag){
-      setCareLabels([...careLabels,label])
-      setValue('')
-    }
-  }
-  const searchLabel = ()=>{
-    if(value===''){
-      setShowLabel(labelstate)
-    }
-    else{
-      var newshow:Iprops['careLabels'] = []
-      labelstate.map((label)=>{
-        if(label.careLabel.includes(value))
-        {
-          newshow.push(label)
-          console.log(value)
-      }})
-      setShowLabel(newshow)
-    }
-  }
-  return (
-    <Wrapper color={color} >
-      { label.careLabel!=='' ? 
-      <p onClick={()=>{getdelete()}}>{label.careLabel}</p>:  
-      <div className='plus' onClick={()=>{setShowModal(true)}}>+</div>}
-      {showModal && 
-        <Modal>
-          <CloseIcon onClick={()=>{setShowModal(false);setValue('')}} className='close'/>
-          <InputBox>
-            <input value={value} onChange={(e)=>{setValue(e.target.value)}}/>
-            <div className='submitBtn'><SearchIcon/></div>
-          </InputBox>
-          <Labels>
-            {labelstate.length>0 && showLabel.map((label,idx)=>{return(
-              <LabelBox onClick={()=>{selectLabel(label)}} key={idx} color={colors[idx%10]}>
-                {label.careLabel}
-              </LabelBox>
-            )})}
-          </Labels>
-        </Modal> 
-        }
-    </Wrapper>
-  )
-}
-
 export default Label
