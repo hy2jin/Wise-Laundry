@@ -7,6 +7,109 @@ import Swal from 'sweetalert2';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store/state/user';
 
+interface Istate{
+  laundry:{
+    laundryId: number
+    careLabels: {careLabelId: number, careLabelName:string, careLabel:string}[]
+    laundryInfo: string[]
+    laundryImg: string
+    laundryOwnerNick: string
+    laundryOwnerId: number
+    laundryMemo:string
+  }
+}
+
+const LaundryDetail = () => {
+  const [laundry,setLaundry] = useState<Istate['laundry']>()
+  const navigate = useNavigate()
+  const {laundryId} = useParams()
+  const [user] = useRecoilState(userState)
+  useEffect(()=>{
+    if (!!user.userEmail) {
+      getLaundryDetail(Number(laundryId)).then((res)=>{
+        setLaundry(res.list)
+      })
+    } else {
+      navigate('/login')
+    }
+  },[])
+  const imageOnErrorHandler = (
+    // 사진이 오류날 시 기본 사진
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    event.currentTarget.src =
+      "https://www.pngplay.com/wp-content/uploads/12/Basic-Half-Sleeve-T-Shirt-PNG-Free-File-Download.png";
+  };
+  const goDelete =()=>{
+    Swal.fire({
+      title: '정말로 지우시겠습니까?',
+      text: "지우면 복구하실 수 없습니다.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#e66a6a',
+      cancelButtonColor: '#5ca4e8',
+      confirmButtonText: '네 지울래요!',
+      cancelButtonText:'돌아가기',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteLaundry(Number(laundryId))
+        .then(() => {
+          Swal.fire(
+            '삭제완료!',
+            '세탁물이 삭제되었습니다.',
+            'success'
+            )
+            navigate(-1)
+        })
+        }
+    })
+  }
+
+  return (
+    <Wrapper>
+      {laundry !==undefined &&
+      <DetailBox>
+        <Top>
+          <img onError={imageOnErrorHandler} alt='옷사진' src={`/images/${laundry.laundryImg}`} />
+          <InfoBox>
+            <LabelBox>
+              <div className='title'>세탁 주의 사항</div>
+              <div className='careLabel'>
+              {laundry.careLabels.map((label,idx)=>{
+                return(<Label id={`label${String(label.careLabelId)}`} key={idx} className='label'> {label.careLabel}</Label>)})}
+              </div>
+            </LabelBox>
+            <Info>
+              <div className='title'>제품 설명 태그</div>
+              <div className='inform'>
+                {laundry.laundryInfo.map((info,idx)=>{
+                  return(
+                    <div key={idx} className='content'># {info}</div>
+                  )
+                })}
+              </div>
+            </Info>
+            <Memo>
+              <div className='mtitle'>메모 </div>
+              <div className='memo'>
+                {laundry.laundryMemo}
+              </div>
+            </Memo>
+          </InfoBox>
+        </Top>
+      </DetailBox>
+      }
+      {laundry !==undefined &&user.userId ===laundry.laundryOwnerId &&
+      <ButtonBox>
+        <button className='updateBtn' onClick={()=>{navigate(`/laundry/${laundryId}/update`)}}>수정하기</button>
+        <button className='deleteBtn' 
+        onClick={()=>{ goDelete()}}>
+          삭제하기</button>
+      </ButtonBox>}
+    </Wrapper>
+  );
+};
+
 const Wrapper = styled.article`
   width: 80vw;
   max-width: 1200px;
@@ -237,105 +340,4 @@ const Memo = styled.div`
     }
   }
 `
-interface Istate{
-  laundry:{
-    laundryId: number
-    careLabels: {careLabelId: number, careLabelName:string, careLabel:string}[]
-    laundryInfo: string[]
-    laundryImg: string
-    laundryOwnerNick: string
-    laundryOwnerId: number
-    laundryMemo:string
-  }
-}
-
-const LaundryDetail = () => {
-  const [laundry,setLaundry] = useState<Istate['laundry']>()
-  const navigate = useNavigate()
-  const {laundryId} = useParams()
-  const [user] = useRecoilState(userState)
-  useEffect(()=>{
-    if (!!user.userEmail) {
-      getLaundryDetail(Number(laundryId)).then((res)=>{
-        setLaundry(res.list)
-      })
-    } else {
-      navigate('/login')
-    }
-  },[])
-  const imageOnErrorHandler = (
-    // 사진이 오류날 시 기본 사진
-    event: React.SyntheticEvent<HTMLImageElement, Event>
-  ) => {
-    event.currentTarget.src =
-      "https://www.pngplay.com/wp-content/uploads/12/Basic-Half-Sleeve-T-Shirt-PNG-Free-File-Download.png";
-  };
-  const goDelete =()=>{
-    Swal.fire({
-      title: '정말로 지우시겠습니까?',
-      text: "지우면 복구하실 수 없습니다.",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#e66a6a',
-      cancelButtonColor: '#5ca4e8',
-      confirmButtonText: '네 지울래요!',
-      cancelButtonText:'돌아가기',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire(
-          '삭제완료!',
-          '세탁물이 삭제되었습니다.',
-          'success'
-          )
-          deleteLaundry(Number(laundryId))
-          navigate(-1)
-        }
-    })
-  }
-
-  return (
-    <Wrapper>
-      {laundry !==undefined &&
-      <DetailBox>
-        <Top>
-          <img onError={imageOnErrorHandler} alt='옷사진' src={`/images/${laundry.laundryImg}`} />
-          <InfoBox>
-            <LabelBox>
-              <div className='title'>세탁 주의 사항</div>
-              <div className='careLabel'>
-              {laundry.careLabels.map((label,idx)=>{
-                return(<Label id={`label${String(label.careLabelId)}`} key={idx} className='label'> {label.careLabel}</Label>)})}
-              </div>
-            </LabelBox>
-            <Info>
-              <div className='title'>제품 설명 태그</div>
-              <div className='inform'>
-                {laundry.laundryInfo.map((info,idx)=>{
-                  return(
-                    <div key={idx} className='content'># {info}</div>
-                  )
-                })}
-              </div>
-            </Info>
-            <Memo>
-              <div className='mtitle'>메모 </div>
-              <div className='memo'>
-                {laundry.laundryMemo}
-              </div>
-            </Memo>
-          </InfoBox>
-        </Top>
-      </DetailBox>
-      }
-      {laundry !==undefined &&user.userId ===laundry.laundryOwnerId &&
-      <ButtonBox>
-        <button className='updateBtn' onClick={()=>{navigate(`/laundry/${laundryId}/update`)}}>수정하기</button>
-        <button className='deleteBtn' 
-        onClick={()=>{ goDelete()}}>
-          삭제하기</button>
-      </ButtonBox>}
-    </Wrapper>
-  );
-};
-
 export default LaundryDetail;
