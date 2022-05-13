@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper';
 import banner1 from './images/banner1.png'
+import banner3 from './images/메인.png'
+import banner4 from './images/메인2.png'
+import banner5 from './images/메인3.png'
 import banner2 from './images/banner2.png'
 import OkayLaundry from './OkayLaundry';
 
@@ -19,7 +22,10 @@ const Home = () => {
           speed={2000}
           modules={[Autoplay]} 
         >
-          <SwiperSlide><img alt='그림' src={banner1}/></SwiperSlide>
+          {/* <SwiperSlide><img alt='그림' src={banner1}/></SwiperSlide> */}
+          {/* <SwiperSlide><img alt='그림' src={banner3}/></SwiperSlide> */}
+          {/* <SwiperSlide><img alt='그림' src={banner4}/></SwiperSlide> */}
+          <SwiperSlide><img alt='그림' src={banner5}/></SwiperSlide>
           <SwiperSlide><img alt='그림' src={'https://resource.miricanvas.com/image/web/templates/main/type_thumbnail/web_banner_hor.jpeg?1.9.36hotfix6_1651219226372'}/></SwiperSlide>
           <SwiperSlide><img alt='그림' src={banner2}/></SwiperSlide>
         </Swiper>
@@ -63,7 +69,7 @@ const EventBanner = styled.div`
   img{
     width: 100vw;
     /* height: 35vh; */
-    height: 40vh;
+    height: 50vh;
     padding-bottom: 5vh;
     object-fit: cover;
     @media screen and (max-width: 800px) {
