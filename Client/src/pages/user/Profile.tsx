@@ -24,14 +24,14 @@ const Wrapper = styled.div `
 const Logobox = styled.span `
   position: absolute;
   right: 0;
-  top: 8vh;
+  top: 7vh;
 
   img {
     height: 25vh;
   }
 
   @media screen and (max-width: 800px) {
-    top: 0;
+    top: 5vh;
     img {
       height: 12vh;
     }
@@ -252,23 +252,18 @@ const InputForm = styled.section`
 
 const Profile = () => {
   const [user, setUser] = useRecoilState(userState)
-  // const [user, setUser] = useState<Istate['user']>({})
-
   const navigate = useNavigate();
 
   const [nickname, setNickname] = useState('')
   const [usingNickname, setUsingNickname] = useState('')
   const [nickChecked, setNickChecked] = useState(true)
+  const [userChangeBtn, setUserChangeBtn] = useState(false)
 
   const [profileImg, setProfileImg] = useState('')
 
   const [modalOn, setModalOn] = useState(false);
 
   const [file, setFile] = useState<any>();
-
-  const [editCheck, setEditCheck] = useState(false)
-
-  // const [kakaoProfileImg, setKakaoProfileImg] = useState('')
 
   const passwordChangeModal = () => {
     if (sessionStorage.getItem('kakao') !== null) {
@@ -287,7 +282,9 @@ const Profile = () => {
 
   // 회원 정보 변경
   const updateUser = () => {
+    console.log(nickChecked, '확인 누름')
     if (!nickChecked) {
+      console.log(nickChecked, '조건 걸림')
       alert('변경할 닉네임을 입력해주세요')
     } else {
       const formdata = new FormData()
@@ -312,7 +309,6 @@ const Profile = () => {
           showConfirmButton: false,
           timer: 1000
         })
-        // setEditCheck(true)
         getUserInfo()
           .then((res) => {
             const userInfo = {...res};
@@ -320,12 +316,10 @@ const Profile = () => {
             delete userInfo.statusCode
             sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
             setUser(userInfo)
-            // navigate('/home')
           })
           .catch((err) => {
             console.log(err)
           })
-        // navigate('/login')
         }
       )
       .catch((err) => console.log(err))
@@ -378,19 +372,27 @@ const Profile = () => {
     }
   }
 
+  // 로그아웃
   const onLogout = () => {
-    // console.log('로그아웃!!')
     sessionStorage.clear()
     Swal.fire({
       icon: 'success',
       text: '로그아웃 되었습니다',
       showConfirmButton: false,
-      // confirmButtonColor: 'red',
       timer: 1000
     })
     navigate('/login')
     window.location.reload();
   }
+
+  // const startUpdate = () => {
+  //   if (!userChangeBtn) {
+  //     setUserChangeBtn(false)
+  //     console.log(userChangeBtn, '변경버튼')
+  //   }
+  // }
+
+
 
   return (
     <Wrapper>
@@ -421,6 +423,9 @@ const Profile = () => {
             <div className='SaveBtnBox'>
               <button className="SaveBtn" onClick={updateUser}>확인</button>
             </div>
+            {/* <div className='SaveBtnBox'>
+              <button className="SaveBtn" onClick={startUpdate}>변경</button>
+            </div> */}
           </div>
           <div className='BtnPosition2'>
             <div className='EditPasswordBox'>

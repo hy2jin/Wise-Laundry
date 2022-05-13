@@ -82,7 +82,7 @@ const Content = styled.div`
     /* height: 30vh; */
     left: 30%;
     /* top:350px; */
-    top:50vh;
+    top: 47vh;
     color:white;
     text-align: center;
     /* transition: 2s; */
@@ -90,8 +90,9 @@ const Content = styled.div`
     @media screen and (max-width: 800px) {
       width: 50vw;
       left: 25%;
-
+      top: 40vh;
     }
+
     &.show{
     visibility: visible;
     transform: translateY(-10vh);
@@ -120,25 +121,57 @@ const LoginBox = styled.div`
     transition: 1s;
   }
   position: fixed;
-  top:90vh;
+  top:85vh;
   display: flex;
   width: 50vw;
   height: 50px;
-  justify-content:space-between;
+  justify-content:center;
   left: 25%;
   button{
-    width: 20vw;
-      border-radius: 10px;
-      border: none;
-    &.login{
-        background-color: skyblue;
-        color: #333;
+    position: relative;
+    width: 15vw;
+    border-radius: 15px 0 15px 0;
+    border: none;
+    z-index: 1;
+    overflow: hidden;
+    /* &.home{
+      background-color: #6274fd;
+      color: white;
+      font-size: 1rem;
+    } */
+    font-size: 1rem;
+    &.home{
+      background-color: #77b11c;
+      background-repeat: no-repeat;
+      border-radius: 15px 0 15px 0;
+      color: white;
+      font-size: 0.8rem;
+      &:hover,
+      &:focus {
+        animation: bubbles 1s forwards ease-out;
+        background: $bubbles;
+        background-color: #77b11c;
+        background-repeat: no-repeat;
       }
-      &.signup{
-        background-color: #6274fd;
-        color: #333;
-      }
+    }
   }
+
+/* 버블 버튼 */
+
+@keyframes bubbles {
+  100% {
+    background-position: $move;
+    box-shadow: inset 0 -6.5em 0 #0072c4;
+  }
+}
+
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  padding: 1em 2em;
+}
+
+
   @media screen and (max-width: 1300px) {
     left: 5%;
     width: 90%;
@@ -185,7 +218,7 @@ const Start = () => {
     <Wrapper>
       <div className={titleUp ? 'up':'title'} >
         <div>슬기로운</div>
-        <div>세탁생활</div>
+        <div style={{textAlign: 'center'}}>세탁</div>
       </div>
       {showImg ===2 && <img id='slow' alt='img' src={img1}/>}
       {showImg ===3 && 
@@ -209,14 +242,19 @@ const Start = () => {
       
         <Content >
         <article className={showText ?"show":""} >
-          <p >슬기로운 세탁생활이 처음이신가요?</p>
-          <p >바로 가입하고 시작하세요</p>
-          <p >로그인 또는 가입하시고 </p>
-          <p >'슬세'만의 기능을 확인하세요. </p>
+          <p >슬기로운 세탁이 처음이신가요?</p>
+          <p >Start 버튼을 통해 홈페이지를 둘러보시고</p>
+          <p >로그인 또는 회원가입을 통해 더 많은</p>
+          <p >'슬세'만의 기능을 확인해 보세요.</p>
         </article>
           <LoginBox className={showLogin ?"show":""}>
-            <button onClick={()=>{navigate('/signup')}} className='signup'>가입하기</button>
-            <button onClick={()=>{navigate('/login')}}className='login'>로그인</button>
+            {/* <button onClick={()=>{navigate('/signup')}} className='signup'>가입하기</button> */}
+            {/* <button onClick={()=>{navigate('/home')}}className='home'><span />Start</button> */}
+            <button onClick={()=>{navigate('/home')}}className='btn home'>슬기로운 세탁 Start</button>
+            {/* <span><a></a></span> */}
+            {/* <a className="btn btn-bubble">슬기로운 세탁 Start</a> */}
+            {/* <button className="btn btn-bubble">슬기로운 세탁 Start</button> */}
+            
           </LoginBox>
         </Content>
         
