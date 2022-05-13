@@ -8,21 +8,21 @@ const Wrapper = styled.div`
   .snowWrapper{
     width: 100%;
     height: 100%;
-    z-index: 2;
+    z-index: 1;
     margin: auto;
   }
   .snow{
-    width: 4px;
+    width: 5px;
     border-radius: 10px 10px 0 0;
     height: 20px;
-    opacity: 1;
+    opacity: 0;
     background:#e3ebf7;
     border-radius: 50%;
     animation:snow 2s linear infinite;
   @keyframes snow{
     0%{
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(-40vh);
     } 
     40%{
       opacity: 1;

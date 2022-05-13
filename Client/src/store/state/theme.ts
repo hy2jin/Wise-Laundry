@@ -19,6 +19,7 @@ interface Itheme {
   scrollNavColor: string
   weatherColor:string
   weatherBox:string
+  weatherBoxhover:string
   labelListColor: string[]
 }
 // 2번 색을 지정해준다 => main 색들 넣어주고 다른곳에서 
@@ -39,8 +40,9 @@ export const DARKMODE = {
   scrollThumbColor: '#999999',
   scrollThumbHoverColor: '#cccccc',
   scrollNavColor: '#2757880',
-  weatherColor:'linear-gradient(170deg, #252576 , #0c4d76 , #40a5c4 , #052f38 )',
+  weatherColor:'linear-gradient(230deg, #3b3b85 , #1b6491 , #137694 , #0d7f96 )',
   weatherBox:'#97b0d1',
+  weatherBoxhover:'#9fb4cf',
   labelListColor: ['#cffbb2', '#90fdec', '#f4ffac', '#fea5e6', '#fdce8d', '#8fdab9',
   '#acd682', '#bac3f0', '#d8db86', '#db829b'],
 }
@@ -61,8 +63,9 @@ export const LIGHTMODE = {
   scrollThumbColor: '#cccccc',
   scrollThumbHoverColor: '#999999',
   scrollNavColor: '#e9f2ff0',
-  weatherColor:'linear-gradient(90deg,#a9d7fc,#6cbdff,#69bbff,#9acffa)',
+  weatherColor:'linear-gradient(250deg,#95c4eb,#56aef6,#7dc0f6,#0774cd)',
   weatherBox:'#E9F2FF',
+  weatherBoxhover:'#f5f9ff',
   labelListColor: ['#cffbb2', '#90fdec', '#f4ffac', '#fea5e6', '#fdce8d', '#8fdab9',
   '#acd682', '#bac3f0', '#d8db86', '#db829b'],
 }

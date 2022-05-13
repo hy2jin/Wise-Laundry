@@ -113,7 +113,7 @@ const imageOnErrorHandler = (
 };
 
 const Info = styled.div`
-  color: black;
+  /* color: black; */
   margin:0 5px 0 5px;
   padding: 0 5px 0 5px;
   font-size: 1rem;

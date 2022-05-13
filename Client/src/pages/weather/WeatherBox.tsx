@@ -12,6 +12,7 @@ import cloud from './images/구름.png'
 import smallcloud from './images/구름조금.png'
 import Rain from './Rain';
 import Cloud from './Cloud';
+import Cloud2 from './Cloud2';
 import PartlyCloud from './PartlyCloud';
 import Sun from './Sun';
 
@@ -22,7 +23,7 @@ const Wrapper = styled.div `
   height: 70vh;
   background-color: ${props => props.theme.activeBtnColor};
   background: ${props => props.theme.weatherColor};
-  /* background:linear-gradient(170deg,#aad9ff,#8bc6f7,#36a4ff,#75c0fe);//홍 */
+  /* background:linear-gradient(230deg, #3b3b85 , #1b6491 , #137694 , #0d7f96 );//홍 */
   background-size: 400% 400%;
   animation : backgoundChange 5s ease-in infinite;
   box-shadow: ${props=>props.theme.boxShadowBox};
@@ -52,7 +53,7 @@ const LeftPart = styled.div`
   display: flex;
   width: 28vw;
   flex-flow: nowrap column;
-  z-index: 1;
+  z-index: 2;
   .temperature{
     font-size: 3rem;
   }
@@ -124,6 +125,7 @@ const RightPart = styled.div `
   justify-content: center;
   align-content: center;
   margin: 3vh 0 ;
+  z-index: 2;
   @media screen and (max-width: 800px) {
     width: 80vw;
     height: 45vh;
@@ -288,9 +290,9 @@ const WeatherBox:React.FC<IProps>= ({data}) => {
 
   return (
       <Wrapper >
-        {data.weather==='cloudy' &&<Cloud/>}
         {data.weather==='partly_cloudy' &&<PartlyCloud/>}
-        {/* {data.weather==='partly_cloudy' &&<Sun/>} */}
+        {data.weather==='sunny' &&<Sun/>}
+        {data.weather==='cloudy' &&<><Cloud2/><Cloud/></>}
         {data.weather==='rain' &&<Rain/>}
           <LeftPart>
             <div className='weatherTime'>{changeDate(String(data.time))} </div>
@@ -311,7 +313,7 @@ const WeatherBox:React.FC<IProps>= ({data}) => {
             <ScorePart>
               <progress id="progress2" value={data.wind} max="15"/>
               <img className='Img' src={wind} alt="" />
-              <div className='info' >바람 : {data.wind}</div>
+              <div className='info' >바람 : {data.wind.toFixed(1)}</div>
             </ScorePart>
             <ScorePart>
               <progress id="progress3" value={data.chanceOfRain} max="100"/>

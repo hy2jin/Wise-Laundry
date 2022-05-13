@@ -16,6 +16,7 @@ const Wrapper =  styled.article`
   }
 `
 const Graph = styled.div`
+  border-radius: 10px;
   cursor: pointer;
   position: relative;
   margin: 20px;
@@ -25,6 +26,9 @@ const Graph = styled.div`
   background-color: ${props => props.theme.weatherBox};
   border: 1px solid #d4d1d1;
   margin-bottom: 5vh;
+  &:hover{
+    background-color: ${props => props.theme.weatherBoxhover};
+  }
   .score{
     font-size: 1.2rem;
     position: absolute;
@@ -45,6 +49,7 @@ const Graph = styled.div`
   }
 `
 const ScoreBox = styled.div`
+    border-radius: 0 10px 0 0 ;
     width: 5.5rem;
     background-color: aliceblue;
     border-bottom: 1px solid #d4d1d1;
@@ -136,12 +141,13 @@ const Graphs:React.FC<IProps> = ({fourDatas,graphData,date,setDataPick}) => {
               valueFormat=">-.2f"
               margin={{ top: 70, right: 80, bottom: 40, left: 80 }}
               borderColor={colors[ele]}
-              gridLabelOffset={36}
-              dotSize={10}
+              gridLabelOffset={15}
+              dotSize={5}
               dotColor={colors[ele]}
               dotBorderWidth={2}
               colors={colors[ele]}
               blendMode="multiply"
+              isInteractive={false}
               motionConfig="wobbly"
               legends={[ 
                 {
