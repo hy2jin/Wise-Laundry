@@ -1,5 +1,5 @@
 /* eslint-disable array-callback-return */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -110,6 +110,12 @@ const CommunityCreate = () => {
       setFileList(dataTransfer.files)
     }
   }
+
+  useEffect(() => {
+    if (!!!user.userEmail) {
+      navigate('/login')
+    }
+  }, [])
 
   return (
     <Wrapper>

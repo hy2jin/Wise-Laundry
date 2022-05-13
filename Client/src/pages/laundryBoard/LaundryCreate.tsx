@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -167,24 +168,13 @@ const Memo = styled.div`
     resize: none;
   }
 `
-interface Istate{
-  laundry:{
-    laundryId: number
-    laundryImg: string
-    careLabels: {careLabelId: number, careLabelName:string, careLabel:string}[]
-    laundryInfo: string[]
-    laundryOwnerNick: string
-    laundryOwnerId: number
-    laundryMemo:string
-  }
-}
 
 const LaundryCreate = () => {
   const colors = ['#cffbb2','#90fdec','#f4ffac','#fea5e6','#fdce8d','#ccffa8','#90faea','#eaf69d','#fba7e5','#ffd59b']
   const [laundryInfo,setlaundryInfo] = useState<string[]>([])
   const [careLabels,setCareLabels] = useRecoilState(labelState)
   const [laundryMemo,setLaundryMemo] = useState('')
-  const [user,setUser] = useRecoilState(userState)
+  const [user] = useRecoilState(userState)
   const [file, setFile] = useState<any>();
   const [careLabelsstate,setCareLabelsstate] = useRecoilState(defaultLabelState)
 
@@ -209,10 +199,14 @@ const LaundryCreate = () => {
     })
   }
   useEffect(()=>{
-    if (!careLabelsstate) {
-      getCareLabel().then((res)=>{
-        setCareLabelsstate(res.list)
-      })
+    if (!!user.userEmail) {
+      if (!careLabelsstate) {
+        getCareLabel().then((res)=>{
+          setCareLabelsstate(res.list)
+        })
+      }
+    } else {
+      navigate('/login')
     }
   },[])
 

@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import logo from './images/logo2.png';
 import { useNavigate } from 'react-router-dom';
 import { postSignUp, getEmailcheck, getNicknamecheck } from '../../store/api/user';
 // import { dividerClasses } from '@mui/material';
-import { userState } from '../../store/state/user';
-import { useRecoilState } from 'recoil';
 import UserImgBox from './UserImgBox';  
 import Swal from 'sweetalert2'
 
@@ -367,9 +366,14 @@ const Signup = () => {
   const [allowedPassword, setAllowedPassword] = useState(false)
 
   const [file, setFile] = useState<any>();
-  
+
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!!sessionStorage.getItem('token')) {
+      navigate('/home')
+    }
+  }, [])
 
   const isValid = () => {
     var check = false
@@ -532,10 +536,6 @@ const Signup = () => {
       setPaswordChecked(true)
     }
   }
-
-
-
-
 
   return (
     <Wrapper>

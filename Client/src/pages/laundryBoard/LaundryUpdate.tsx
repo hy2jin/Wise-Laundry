@@ -1,5 +1,6 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
@@ -185,22 +186,14 @@ interface Istate{
 const LaundryUpdate = () => {
   const {laundryId} = useParams()
   const colors = ['#cffbb2','#90fdec','#f4ffac','#fea5e6','#fdce8d','#ccffa8','#90faea','#eaf69d','#fba7e5','#ffd59b']
-  useEffect(()=>{
-    getLaundryDetail(Number(laundryId)).then((res)=>{
-      setLaundry(res.list)
-      setlaundryInfo(res.list.laundryInfo)
-      setLaundryImg(res.list.laundryImg)
-      setCareLabels(res.list.careLabels)
-      setLaundryMemo(res.list.laundryMemo)
-    })
-  },[])
+
   const [isLoading,setIsLoading] = useState(true)
   const [laundry,setLaundry] = useState<Istate['laundry']>()
   const [laundryInfo,setlaundryInfo] = useState<string[]>([])
   const [careLabels,setCareLabels] = useRecoilState(labelState)
   const [laundryMemo,setLaundryMemo] = useState('')
   const [laundryImg,setLaundryImg] = useState<string>('')
-  const [user,setUser] = useRecoilState(userState)
+  const [user] = useRecoilState(userState)
   const [file, setFile] = useState<any>();
   const navigate = useNavigate()
   const [careLabelsstate,setCareLabelsstate] = useRecoilState(defaultLabelState)
@@ -226,10 +219,24 @@ const LaundryUpdate = () => {
   }
 
   useEffect(()=>{
-    if (!careLabelsstate.length) {
-      getCareLabel().then((res)=>{
-        setCareLabelsstate(res.list)
+    if (!!user.userEmail) {
+      getLaundryDetail(Number(laundryId))
+      .then((res)=>{
+        setLaundry(res.list)
+        setlaundryInfo(res.list.laundryInfo)
+        setLaundryImg(res.list.laundryImg)
+        setCareLabels(res.list.careLabels)
+        setLaundryMemo(res.list.laundryMemo)
       })
+      .then(() => {
+        if (!careLabelsstate.length) {
+          getCareLabel().then((res)=>{
+            setCareLabelsstate(res.list)
+          })
+        }
+      })
+    } else {
+      navigate('/login')
     }
   }, [])
 

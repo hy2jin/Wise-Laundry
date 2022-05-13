@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import logo from './images/logo2.png';
@@ -7,13 +8,8 @@ import { getNicknamecheck, getUserInfo, putUpdateUserInfo } from '../../store/ap
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store/state/user';
-import { AltRouteTwoTone } from '@mui/icons-material';
 import defaultImg from './images/profile-image.png'
 import Swal from 'sweetalert2'
-import { userInfo } from 'os';
-import KakaoLogin from './KakaoLogin';
-
-
 
 const Wrapper = styled.div `
   display: flex;
@@ -328,11 +324,15 @@ const Profile = () => {
 
   useEffect(() => {
     const Uuser =JSON.parse(sessionStorage.getItem('userInfo')|| "" )
-    setUser(Uuser)
-    setNickname(Uuser.userNick)
-    let profileImg2 = Uuser.userImg ? `/images/${Uuser.userImg}` : Uuser.kakaoImg
-    profileImg2 = profileImg2 || defaultImg
-    setProfileImg(profileImg2)
+    if (!!Uuser) {
+      setUser(Uuser)
+      setNickname(Uuser.userNick)
+      let profileImg2 = Uuser.userImg ? `/images/${Uuser.userImg}` : Uuser.kakaoImg
+      profileImg2 = profileImg2 || defaultImg
+      setProfileImg(profileImg2)
+    } else {
+      navigate('/login')
+    }
   },[])
 
   const onHandelNick = (e: React.ChangeEvent<HTMLInputElement>) => {
