@@ -20,6 +20,8 @@ COPY package.json /app/package.json
 RUN npm install --legacy-peer-deps
 # RUN npm install react-scripts@5.0.0 -g
 
+#RUN sed -i "s#'wss'#'ws'#g" /app/node_modules/react-dev-utils/webpackHotDevClient.js
+
 COPY . ./
 
 # 앱 실행

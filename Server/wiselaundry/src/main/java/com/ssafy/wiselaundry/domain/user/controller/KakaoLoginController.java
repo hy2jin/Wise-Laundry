@@ -45,8 +45,9 @@ public class KakaoLoginController {
         if(user==null){
             user = userService.createKakaoUser((HashMap) userInfo);
             return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(user.getUserEmail()), user.getUserEmail()));
-        }else if(user.getUserNick().equals(userInfo.get("nickname").toString())
-                &&user.getKakaoImg().equals(userInfo.get("image").toString())){
+        }else if(!user.getKakaoImg().isEmpty()){
+//        }else if(user.getUserNick().equals(userInfo.get("nickname").toString())){
+//                &&user.getKakaoImg().equals(userInfo.get("image").toString().replace("http://",))){
             return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(user.getUserEmail()), user.getUserEmail()));
         }
         return ResponseEntity.status(400).body(UserLoginPostRes.of(400, "Kakao Login Error", null, null));
