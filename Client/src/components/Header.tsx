@@ -79,7 +79,7 @@ const Header = () => {
 const Wrapper = styled.div`
   position: sticky;
   top:0;
-  z-index: 2;
+  z-index: 3;
 `
 const HeaderNav = styled.nav`
   background-color: ${props => props.theme.scrollNavColor};

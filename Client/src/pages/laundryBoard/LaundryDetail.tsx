@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -252,11 +253,15 @@ const LaundryDetail = () => {
   const [laundry,setLaundry] = useState<Istate['laundry']>()
   const navigate = useNavigate()
   const {laundryId} = useParams()
-  const [user,setUser] = useRecoilState(userState)
+  const [user] = useRecoilState(userState)
   useEffect(()=>{
-    getLaundryDetail(Number(laundryId)).then((res)=>{
-      setLaundry(res.list)
-    })
+    if (!!user.userEmail) {
+      getLaundryDetail(Number(laundryId)).then((res)=>{
+        setLaundry(res.list)
+      })
+    } else {
+      navigate('/login')
+    }
   },[])
   const imageOnErrorHandler = (
     // 사진이 오류날 시 기본 사진
@@ -288,9 +293,6 @@ const LaundryDetail = () => {
     })
   }
 
- 
-  
-  
   return (
     <Wrapper>
       {laundry !==undefined &&

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import LaundryCard from './LaundryCard';
@@ -5,6 +6,7 @@ import styled from 'styled-components';
 import { getProductAll, getProductMine } from '../../store/api/laundry';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store/state/user';
+import { useNavigate } from 'react-router-dom';
 
 interface Istate{
   laundry:{
@@ -141,34 +143,42 @@ const LaundryAll = () => {
 
   const [filter,setFilter] = useState('all') // my <=> all
   const [inputText,setInputText] = useState('')
+
+  const [user] = useRecoilState(userState)
+  const navigate = useNavigate()
   
   const handleEnter = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.code === "Enter"){
       search()
     }
   }
+
   useEffect(()=>{
-    const userId = JSON.parse(sessionStorage.getItem('userInfo')||"").userId
-    getProductMine(userId).then((res)=>{
-      if(res.list===null){
-        setMyLaundries([])
-        setMyRaw([])
-      }
-      else{
-        setMyLaundries(res.list)
-        setMyRaw(res.list)
-      }
-    })
-    getProductAll().then((res)=>{
-      if(res.list===null){
-        setAllLaundries([])
-        setAllRaw([])
-      }
-      else{
-        setAllLaundries(res.list)
-      setAllRaw(res.list)
-      }
-    })
+    const { userId, userEmail } = user
+    if (!!userEmail) {
+      getProductMine(userId).then((res)=>{
+        if(res.list===null){
+          setMyLaundries([])
+          setMyRaw([])
+        }
+        else{
+          setMyLaundries(res.list)
+          setMyRaw(res.list)
+        }
+      })
+      getProductAll().then((res)=>{
+        if(res.list===null){
+          setAllLaundries([])
+          setAllRaw([])
+        }
+        else{
+          setAllLaundries(res.list)
+        setAllRaw(res.list)
+        }
+      })
+    } else {
+      navigate('/login')
+    }
   },[])
 
   const search = ()=>{

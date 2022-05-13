@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable array-callback-return */
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2'
@@ -31,11 +32,15 @@ const CommunityUpdate = () => {
   const [fileList, setFileList] = useState<FileList | undefined>()
 
   useEffect(() => {
-    getCommunityUpdate(Number(boardId))
-    .then(({ boardId, boardContent, boardImgs, boardName }) => {
-      setBoard({boardId, boardName, boardContent})
-      setOriginImgs(boardImgs)
-    })
+    if (!!sessionStorage.getItem('token')) {
+      getCommunityUpdate(Number(boardId))
+      .then(({ boardId, boardContent, boardImgs, boardName }) => {
+        setBoard({boardId, boardName, boardContent})
+        setOriginImgs(boardImgs)
+      })
+    } else {
+      navigate('/login')
+    }
   }, [boardId])
 
   const onChangeFiles= (e: React.ChangeEvent<HTMLInputElement>) => {

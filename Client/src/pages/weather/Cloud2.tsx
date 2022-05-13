@@ -1,40 +1,37 @@
 import React from 'react'
 import styled from 'styled-components'
-import './cloud.css'
+import './cloud2.css'
 
 const Wrapper = styled.div`
   position: absolute;
   overflow-y: hidden;
   overflow-x: hidden;
-  width: 110%;
+  width: 150%;
   height: 100%;
-    z-index: 2;
+	z-index: 2;
 ` 
 
 
-const Cloud = () => {
+const Cloud2 = () => {
   return (
     <Wrapper>
-      <div className="x1">
+      <div className="x11">
           <div className="cloud"/>
       </div>
-      <div className="x2">
+      <div className="x21">
           <div className="cloud"/>
       </div>
-      <div className="x3">
+      <div className="x31">
           <div className="cloud"/>
       </div>
-      <div className="x4">
+      <div className="x41">
           <div className="cloud"/>
       </div>
-      <div className="x5">
-          <div className="cloud"/>
-      </div>
-      <div className="x6">
+      <div className="x51">
           <div className="cloud"/>
       </div>
   </Wrapper>
   )
 }
 
-export default Cloud
+export default Cloud2

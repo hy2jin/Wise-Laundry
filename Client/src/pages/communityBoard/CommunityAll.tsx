@@ -145,7 +145,11 @@ const CommunityAll = () => {
   })
 
   useEffect(() => {
-    getBoard(true, -1, '', false)
+    if (!!sessionStorage.getItem('token')) {
+      getBoard(true, -1, '', false)
+    } else {
+      navigate('/login')
+    }
   }, [])
 
   return (
