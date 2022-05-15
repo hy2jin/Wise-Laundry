@@ -138,7 +138,7 @@ interface IProps {
 class OkayStart extends Component<IProps> {
   videoRef = createRef<HTMLVideoElement>();
   canvasRef = createRef<HTMLCanvasElement>();
-
+  
 
   componentDidMount() {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -174,7 +174,11 @@ class OkayStart extends Component<IProps> {
         });
     }
   }
-
+  componentWillUnmount(){
+    const myStream = window.stream 
+    var vidTrack = myStream.getVideoTracks();
+    vidTrack.forEach((track:any)=> track.enabled = false);
+  }
   detectFrame = (video: HTMLVideoElement | null, model: tf.GraphModel) => {
     tf.engine().startScope();
     model.executeAsync(this.process_input(video)).then(predictions => {
