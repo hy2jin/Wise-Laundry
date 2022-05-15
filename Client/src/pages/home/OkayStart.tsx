@@ -97,33 +97,61 @@ const OkayStart = () => {
     }
   }, [])
 
+  // const urlArray = [
+  //   'images/laundry1.png',
+  //   'images/laundry2.png',
+  //   'images/laundry3.png',
+  //   'images/laundry4.png',
+  //   'images/bleach1.png',
+  //   'images/bleach2.png',
+  //   'images/bleach3.png',
+  //   'images/bleach4.png',
+  //   'images/bleach5.png',
+  //   'images/bleach6.png',
+  //   'images/bleach7.png',
+  //   'images/dry1.png',
+  //   'images/dry2.png',
+  //   'images/dry3.png',
+  //   'images/dry4.png',
+  //   'images/ironing1.png',
+  //   'images/ironing2.png',
+  //   'images/ironing3.png',
+  //   'images/dmethod1.png',
+  //   'images/dmethod2.png',
+  //   'images/dmethod3.png',
+  //   'images/dmethod4.png',
+  //   'images/dmethod5.png',
+  //   'images/dmethod6.png',
+  //   'images/dmethod7.png',
+  //   'images/dmethod8.png',
+  // ]
   const urlArray = [
-    'images/laundry1.png',
-    'images/laundry2.png',
-    'images/laundry3.png',
-    'images/laundry4.png',
-    'images/bleach1.png',
-    'images/bleach2.png',
-    'images/bleach3.png',
-    'images/bleach4.png',
-    'images/bleach5.png',
-    'images/bleach6.png',
-    'images/bleach7.png',
-    'images/dry1.png',
-    'images/dry2.png',
-    'images/dry3.png',
-    'images/dry4.png',
-    'images/ironing1.png',
-    'images/ironing2.png',
-    'images/ironing3.png',
-    'images/dmethod1.png',
-    'images/dmethod2.png',
-    'images/dmethod3.png',
-    'images/dmethod4.png',
-    'images/dmethod5.png',
-    'images/dmethod6.png',
-    'images/dmethod7.png',
-    'images/dmethod8.png',
+    'https://i.ibb.co/MsnMSQG/laundry1.png',
+    'https://i.ibb.co/mGdBBwH/laundry2.png',
+    'https://i.ibb.co/J3wsMNp/laundry3.png',
+    'https://i.ibb.co/B6PnQLy/laundry4.png',
+    'https://i.ibb.co/B2rbjY8/bleach1.png',
+    'https://i.ibb.co/X2CZMYg/bleach2.png',
+    'https://i.ibb.co/6yQDDv6/bleach3.png',
+    'https://i.ibb.co/YPkYVz8/bleach4.png',
+    'https://i.ibb.co/KVXKwFh/bleach5.png',
+    'https://i.ibb.co/MgbGqVS/bleach6.png',
+    'https://i.ibb.co/b37mmpc/bleach7.png',
+    'https://i.ibb.co/JvPLLDz/dry1.png',
+    'https://i.ibb.co/QrsqD1s/dry2.png',
+    'https://i.ibb.co/gjN0LLR/dry3.png',
+    'https://i.ibb.co/Mkt96ZC/dry4.png',
+    'https://i.ibb.co/n3mR6Nr/ironing1.png',
+    'https://i.ibb.co/HHxp9X9/ironing2.png',
+    'https://i.ibb.co/mvfwJQq/ironing3.png',
+    'https://i.ibb.co/qkjD5RW/dmethod1.png',
+    'https://i.ibb.co/tmww3mc/dmethod2.png',
+    'https://i.ibb.co/zX3wf9H/dmethod3.png',
+    'https://i.ibb.co/vPzV7qS/dmethod4.png',
+    'https://i.ibb.co/nR63MnR/dmethod5.png',
+    'https://i.ibb.co/6Z3XTbP/dmethod6.png',
+    'https://i.ibb.co/VD5cbv6/dmethod7.png',
+    'https://i.ibb.co/ScN39wC/dmethod8.png',
   ]
 
   return (
@@ -132,7 +160,8 @@ const OkayStart = () => {
       {myLabels.length > 0 && <div className='care-label'>세탁 라벨</div>}
       <Labels>
         {careLabels.map((v, i) => {
-          const url = process.env.PUBLIC_URL + urlArray[v.careLabelId-1]
+          // const url = process.env.PUBLIC_URL + urlArray[v.careLabelId-1]
+          const url = urlArray[v.careLabelId-1]
           return (
             <LabelBox key={i}
               style={{ backgroundColor: `${theme.labelListColor[i%10]}` }}
