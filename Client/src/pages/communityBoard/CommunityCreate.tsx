@@ -35,7 +35,6 @@ const CommunityCreate = () => {
         setFileList(files)
         const nowImageUrlList = [...viewImgs]
         Array.from(files).map((file: File) => {
-          // console.log('🎲🎲file: ', file);
           nowImageUrlList.push(URL.createObjectURL(file))
         })
         setViewImgs(nowImageUrlList)
@@ -91,10 +90,8 @@ const CommunityCreate = () => {
           showConfirmButton: false,
           timer: 1500
         })
-        // console.log('🎲postBoard: ', res);
         navigate(`/community/${res.boardId}`)
       })
-      .catch(err => console.log('postBoard err:💧', err))
     }
   }
 

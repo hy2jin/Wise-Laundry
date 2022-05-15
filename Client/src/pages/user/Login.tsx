@@ -215,10 +215,6 @@ const Login = () => {
       })
       setIsLogin(true)
     })
-
-    .catch((err) => {
-      console.log(err)
-    })
   }
   
 
@@ -232,9 +228,6 @@ const Login = () => {
           sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
           setUser(userInfo)
           navigate('/home')
-        })
-        .catch((err) => {
-          console.log(err)
         })
     }
   },[isLogin])

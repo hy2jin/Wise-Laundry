@@ -43,13 +43,9 @@ const KakaoLogin = () => {
               navigate('/home')
               window.location.reload();
             })
-            .catch((err) => {
-              console.log(err)
-            })
         })
   
         .catch((err) => {
-          console.log(err)
           sessionStorage.setItem('kakao', 'false')
         })
         setIsLogin(true)

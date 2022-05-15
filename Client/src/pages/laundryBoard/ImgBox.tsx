@@ -54,7 +54,6 @@ const ImgBox:React.FC<IProps>= ({file,setFile,laundryImg}) => {
   },[laundryImg])
   const handleFileOnChange = (e: React.ChangeEvent) => {
     setFile((e.target as HTMLInputElement).files?.item(0));
-    console.log((e.target as HTMLInputElement).files?.item(0));
     if ((e.target as HTMLInputElement).files) {
       encodeMainFileToBasek64((e.target as HTMLInputElement).files?.item(0));
     }

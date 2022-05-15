@@ -50,7 +50,6 @@ const CommunityUpdate = () => {
         setFileList(files)
         const nowImageUrlList = [...newImgs]
         Array.from(files).map((file: File) => {
-          // console.log('🎲file: ', file);
           nowImageUrlList.push(URL.createObjectURL(file))
         })
         setNewImgs(nowImageUrlList)
@@ -102,10 +101,8 @@ const CommunityUpdate = () => {
           showConfirmButton: false,
           timer: 1500
         })
-        // console.log('🎲putBoard: ', res);
         navigate(`/community/${boardId}`)
       })
-      .catch(err => console.log('postBoard err:💧', err))
     }
   }
 
