@@ -117,6 +117,11 @@ const HamburgerNav = styled.nav`
   background-color: ${props => props.theme.navColor};
   svg {
     margin-right: .5rem;
+    cursor: pointer;
+  }
+  img{
+    cursor: pointer;
+
   }
 
   @media screen and (max-width: 800px) {

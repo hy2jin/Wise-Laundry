@@ -9,23 +9,25 @@ const Wrapper =  styled.article`
   margin: auto;
   display: flex;
   flex-wrap: wrap;
-  margin-top: 100px;
+  margin-top: 20px;
   justify-content: center;
 `
 const Graph = styled.div`
-  .graphbox{
-    height: 300px;
+  height: 300px;
   width: 300px;
-  }
+  position: relative;
   border-radius: 10px;
   cursor: pointer;
-  position: relative;
   margin: 20px;
   flex: 1;
-  
+  .graphbox{
+    margin: auto;
+    height: 300px;
+    width: 300px;
+  }
   background-color: ${props => props.theme.weatherBox};
   border: 1px solid #d4d1d1;
-  margin-bottom: 5vh;
+  margin-bottom: 2vh;
   &:hover{
     background-color: ${props => props.theme.weatherBoxhover};
   }
@@ -125,8 +127,6 @@ const Graphs:React.FC<IProps> = ({fourDatas,graphData,date,setDataPick}) => {
         {[0,1,2,3].map((ele)=>
           {return(
             <Graph onClick={()=>{setDataPick(ele)}} key={ele}>
-              <div className='score'>{fourDatas[ele].laundry}점</div>
-              <div className='date'>{changeDate(date[ele])}</div>
               <ScoreBox>
                 <div>날씨 :{changeWeather(fourDatas[ele].weather)} </div>
                 <div>온도 :{fourDatas[ele].temperature}°C </div>
@@ -134,35 +134,25 @@ const Graphs:React.FC<IProps> = ({fourDatas,graphData,date,setDataPick}) => {
                 <div>습도 :{fourDatas[ele].humidity}% </div>
                 <div>바람 :{fourDatas[ele].wind.toFixed(1)} </div>
               </ScoreBox>
+              <div className='score'>{fourDatas[ele].laundry}점</div>
+              <div className='date'>{changeDate(date[ele])}</div>
               <div className='graphbox'>
-            <ResponsiveRadar
-              data={graphData[ele]}
-              keys={[date[ele]]}
-              indexBy="category"
-              valueFormat=">-.2f"
-              margin={{ top: 70, right: 80, bottom: 40, left: 80 }}
-              borderColor={colors[ele]}
-              gridLabelOffset={15}
-              dotSize={5}
-              dotColor={colors[ele]}
-              dotBorderWidth={2}
-              colors={colors[ele]}
-              blendMode="multiply"
-              isInteractive={false}
-              motionConfig="wobbly"
-              legends={[ 
-                {
-                anchor: 'top-left',
-                direction: 'column',
-                translateX: -50,
-                translateY: -40,
-                itemWidth: 80,
-                itemHeight: 20,
-                itemTextColor: '#2a2929',
-                symbolSize: 12,
-                symbolShape: 'triangle',
-                effects: [{on: 'hover',style: {itemTextColor: '#0f2040'}}]}]}
-              />
+                <ResponsiveRadar
+                  data={graphData[ele]}
+                  keys={[date[ele]]}
+                  indexBy="category"
+                  valueFormat=">-.2f"
+                  margin={{ top: 70, right: 80, bottom: 40, left: 80 }}
+                  borderColor={colors[ele]}
+                  gridLabelOffset={15}
+                  dotSize={5}
+                  dotColor={colors[ele]}
+                  dotBorderWidth={2}
+                  colors={colors[ele]}
+                  blendMode="multiply"
+                  isInteractive={false}
+                  motionConfig="wobbly"
+                  />
               </div>
             </Graph>
           )})}

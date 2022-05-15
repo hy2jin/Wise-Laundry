@@ -16,14 +16,14 @@ const Wrapper = styled.div `
 const Logobox = styled.span `
   position: absolute;
   right: 0;
-  top: 0;
+  top:7vh;
 
   img {
     height: 25vh;max-width: 800px
   }
 
   @media screen and (max-width: 800px) {
-    top: 0;
+    top: 4vh;
     img {
     height: 12vh;
     }

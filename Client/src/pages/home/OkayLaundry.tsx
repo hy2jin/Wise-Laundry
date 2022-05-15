@@ -184,6 +184,9 @@ const IntroBox = styled.div`
   }
   @media screen and (max-width: 1200px) {
     display: inline-block;
+    div{
+    margin-top:0;
+    }
   }
   .left{
     width: 30vw;
