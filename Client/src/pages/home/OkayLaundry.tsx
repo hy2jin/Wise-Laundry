@@ -205,6 +205,8 @@ const IntroBox = styled.div`
     }
     @media screen and (max-width: 1200px) {
       text-align: center;
+      width: auto;
+      padding-left: 0;
     }
   }
   .right{

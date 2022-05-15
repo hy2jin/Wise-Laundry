@@ -132,7 +132,7 @@ const OkayStart = () => {
       {myLabels.length > 0 && <div className='care-label'>세탁 라벨</div>}
       <Labels>
         {careLabels.map((v, i) => {
-          const url = urlArray[v.careLabelId-1]
+          const url = process.env.PUBLIC_URL + urlArray[v.careLabelId-1]
           return (
             <LabelBox key={i}
               style={{ backgroundColor: `${theme.labelListColor[i%10]}` }}
