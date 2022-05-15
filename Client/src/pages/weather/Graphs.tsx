@@ -11,18 +11,18 @@ const Wrapper =  styled.article`
   flex-wrap: wrap;
   margin-top: 100px;
   justify-content: center;
-  @media screen and (max-width: 800px) {
-    width: 80vw;
-  }
 `
 const Graph = styled.div`
+  .graphbox{
+    height: 300px;
+  width: 300px;
+  }
   border-radius: 10px;
   cursor: pointer;
   position: relative;
   margin: 20px;
   flex: 1;
-  height: 300px;
-  width: 300px;
+  
   background-color: ${props => props.theme.weatherBox};
   border: 1px solid #d4d1d1;
   margin-bottom: 5vh;
@@ -134,6 +134,7 @@ const Graphs:React.FC<IProps> = ({fourDatas,graphData,date,setDataPick}) => {
                 <div>습도 :{fourDatas[ele].humidity}% </div>
                 <div>바람 :{fourDatas[ele].wind.toFixed(1)} </div>
               </ScoreBox>
+              <div className='graphbox'>
             <ResponsiveRadar
               data={graphData[ele]}
               keys={[date[ele]]}
@@ -162,6 +163,7 @@ const Graphs:React.FC<IProps> = ({fourDatas,graphData,date,setDataPick}) => {
                 symbolShape: 'triangle',
                 effects: [{on: 'hover',style: {itemTextColor: '#0f2040'}}]}]}
               />
+              </div>
             </Graph>
           )})}
     </Wrapper>
