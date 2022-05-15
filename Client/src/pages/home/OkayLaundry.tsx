@@ -186,6 +186,8 @@ const IntroBox = styled.div`
     display: inline-block;
   }
   .left{
+    width: 30vw;
+    padding-left: 3rem;
     .title{
       font-family: 'Times New Roman', Times, serif;
       font-style: italic;

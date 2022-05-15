@@ -46,7 +46,6 @@ const Label:React.FC<Iprops> = ({label,color,idx,setCareLabels,careLabels}) => {
         if(label.careLabel.includes(value))
         {
           newshow.push(label)
-          console.log(value)
       }})
       setShowLabel(newshow)
     }

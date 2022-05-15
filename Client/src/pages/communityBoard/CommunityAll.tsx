@@ -56,14 +56,12 @@ const CommunityAll = () => {
       if (first) {
         getView(0)
         .then(res => {
-          // console.log('🎲getView: ', res)
           setBoards(res.list)
           changeLastIdx(res.endFlag, res.list)
         })
       } else {
         getView(boards.length)
         .then(res => {
-          // console.log('🎲More getView: ', res)
           const newBoard = [...boards].concat(res.list)
           setBoards(newBoard)
           changeLastIdx(res.endFlag, res.list)
@@ -76,16 +74,13 @@ const CommunityAll = () => {
       getSearch(keyword, lastId)
       .then(res => {
         if (first) {
-          // console.log('🎲getSearch: ', res);
           setBoards(res.list)
         } else {
-          // console.log('🎲More getSearch: ', res);
           const newBoard = [...boards].concat(res.list)
           setBoards(newBoard)
         }
         changeLastIdx(res.endFlag, res.list)
       })
-      .catch(err => console.log('More getSearch err:💧 ', err))
     }
     // 일반 요청
     else {
@@ -93,16 +88,13 @@ const CommunityAll = () => {
       getCommunityAll(lastId)
       .then(res => {
         if (first) {
-          // console.log('🎲getCommunityAll: ', res);
           setBoards(res.list)
         } else {
-          // console.log('🎲More getCommunityAll: ', res);
           const newBoard = [...boards].concat(res.list)
           setBoards(newBoard)
         }
         changeLastIdx(res.endFlag, res.list)
       })
-      .catch(err => console.log('More getCommunityAll err:💧 ', err))
     }
     setFetching(false)
   }

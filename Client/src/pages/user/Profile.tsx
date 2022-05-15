@@ -350,12 +350,8 @@ const Profile = () => {
               sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
               setUser(userInfo)
             })
-            .catch((err) => {
-              console.log(err)
-            })
           }
         )
-        .catch((err) => console.log(err))
       }
   }
 
@@ -403,7 +399,6 @@ const Profile = () => {
         }
       })
       .catch((err) => {
-        console.log(err)
         setNickChecked(false)
       })
     }

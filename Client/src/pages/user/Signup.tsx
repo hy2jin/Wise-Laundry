@@ -433,7 +433,6 @@ const Signup = () => {
       navigate('/login')
       }
     )
-    .catch((err) => console.log(err))
   } 
 
   const onHandleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -465,7 +464,6 @@ const Signup = () => {
         } 
       })
       .catch((err) => {
-        console.log(err)
         setEmailChecked(false)
       })
     } else {
@@ -503,7 +501,6 @@ const Signup = () => {
         }
       })
       .catch((err) => {
-        console.log(err)
         setNickChecked(false)
       })
     }

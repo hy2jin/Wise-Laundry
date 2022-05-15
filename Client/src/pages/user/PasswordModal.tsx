@@ -278,7 +278,6 @@ const PasswordModal:React.FC<IProps> = ({setModalOn}) => {
         })
         }
       )
-      .catch((err) => console.log(err))
     }
   }
 

@@ -178,7 +178,6 @@ class OkayStart extends Component<IProps> {
   detectFrame = (video: HTMLVideoElement | null, model: tf.GraphModel) => {
     tf.engine().startScope();
     model.executeAsync(this.process_input(video)).then(predictions => {
-      // console.log(model.outputNodes)
       // 🍀인자가 두개? 한개? -> video는 안되는거 확인함
       // this.renderPredictions(predictions, video);
       this.renderPredictions(predictions);
@@ -225,7 +224,6 @@ class OkayStart extends Component<IProps> {
 
   renderPredictions = (predictions: any) => {
     if (this.canvasRef.current) {
-      // console.log(predictions)
       const ctx = this.canvasRef.current.getContext("2d");
       if (ctx) {
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -240,11 +238,9 @@ class OkayStart extends Component<IProps> {
         const scores = predictions[2].arraySync(); //identity_4:0
         const classes = predictions[7].dataSync(); //identity_2:0
     
-        // console.log(classes)
         const detections = this.buildDetectedObjects(scores, threshold, boxes, classes, classesDir);
         if (detections.length > 0) {
           this.props.updateLabels(detections)
-          // console.log('🎲detections:\n', detections);
         }
     
         detections.forEach((item: any) => {

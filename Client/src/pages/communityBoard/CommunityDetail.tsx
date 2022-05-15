@@ -99,7 +99,6 @@ const CommunityDetail = () => {
         .then(() => {
           navigate('/community')
         })
-        .catch(err => console.log('deleteBoard error:💧', err))
       }
     })
   }
@@ -112,10 +111,8 @@ const CommunityDetail = () => {
     }
     postComment(data)
     .then(res => {
-      // console.log('🎲postComment: ', res);
       setBoard({...board, comments: [...board.comments, res]})
     })
-    .catch(err => console.log('createComment error:💧', err))
     setInputText('')
   }
 
@@ -132,7 +129,6 @@ const CommunityDetail = () => {
       const newComments = board.comments.filter(c => c.commentId !== commentId)
       setBoard({...board, comments: newComments})
     })
-    .catch(err => console.log('deleteComment error:💧', err))
   }
 
   const changeIdx = (num: number) => {
@@ -155,13 +151,11 @@ const CommunityDetail = () => {
     if (!!user.userEmail) {
       getCommunityDetail(Number(boardId))
       .then(res => {
-        // console.log('🎲getCommunityDetail: ', res);
         setBoard(res)
       })
       .then(() => {
         putView(Number(boardId))
       })
-      .catch(err => console.log('getCommunityDetail err:💧', err))
     } else {
       navigate('/login')
     }

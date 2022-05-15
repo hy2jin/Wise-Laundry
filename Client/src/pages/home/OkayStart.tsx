@@ -9,7 +9,13 @@ import { labelState, defaultLabelState } from '../../store/state/laundry'
 import Okay from './Okay'
 import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
 import Swal from 'sweetalert2'
+import bleach1 from './images/bleach1.png'
+import bleach2 from './images/bleach2.png'
+import bleach3 from './images/bleach3.png'
 import bleach4 from './images/bleach4.png'
+import bleach5 from './images/bleach5.png'
+import bleach6 from './images/bleach6.png'
+import bleach7 from './images/bleach7.png'
 
 interface Istate {
   detectLabel: {
@@ -35,14 +41,12 @@ const OkayStart = () => {
   const updateLabels = (arr: Istate["detectLabel"][]) => {
     const newArr = arr.filter(v => !myLabels.includes(v.label))
     if (newArr.length > 0) {
-      console.log('🎲newArr:\n', newArr);
 
       const newMy = newArr.map(v => v.label)
       setMyLabels([...myLabels, ...newMy])
 
       newMy.map(nv => {
         const lab = defaultLabels.filter(dv => dv.careLabelName === nv)
-        // console.log('🎲🎲lab:\n', lab[0]);
         setCareLabels([...careLabels, lab[0]])
         return lab[0]
       })
@@ -89,38 +93,37 @@ const OkayStart = () => {
       getCareLabel()
       .then(res => {
         setDefaultLabels(res.list)
-        console.log('🎲res.list:\n', res.list);
       })
     }
   }, [])
 
   const urlArray = [
-    './images/laundry1.png',
-    './images/laundry2.png',
-    './images/laundry3.png',
-    './images/laundry4.png',
-    './images/bleach1.png',
-    './images/bleach2.png',
-    './images/bleach3.png',
-    './images/bleach4.png',
-    './images/bleach5.png',
-    './images/bleach6.png',
-    './images/bleach7.png',
-    './images/dry1.png',
-    './images/dry2.png',
-    './images/dry3.png',
-    './images/dry4.png',
-    './images/ironing1.png',
-    './images/ironing2.png',
-    './images/ironing3.png',
-    './images/dmethod1.png',
-    './images/dmethod2.png',
-    './images/dmethod3.png',
-    './images/dmethod4.png',
-    './images/dmethod5.png',
-    './images/dmethod6.png',
-    './images/dmethod7.png',
-    './images/dmethod8.png',
+    'images/laundry1.png',
+    'images/laundry2.png',
+    'images/laundry3.png',
+    'images/laundry4.png',
+    'images/bleach1.png',
+    'images/bleach2.png',
+    'images/bleach3.png',
+    'images/bleach4.png',
+    'images/bleach5.png',
+    'images/bleach6.png',
+    'images/bleach7.png',
+    'images/dry1.png',
+    'images/dry2.png',
+    'images/dry3.png',
+    'images/dry4.png',
+    'images/ironing1.png',
+    'images/ironing2.png',
+    'images/ironing3.png',
+    'images/dmethod1.png',
+    'images/dmethod2.png',
+    'images/dmethod3.png',
+    'images/dmethod4.png',
+    'images/dmethod5.png',
+    'images/dmethod6.png',
+    'images/dmethod7.png',
+    'images/dmethod8.png',
   ]
 
   return (
@@ -129,12 +132,12 @@ const OkayStart = () => {
       {myLabels.length > 0 && <div className='care-label'>세탁 라벨</div>}
       <Labels>
         {careLabels.map((v, i) => {
-          const url = urlArray[v.careLabelId]
-          console.log('🎲🎲이 이미지가 맞을까..', url)
+          const url = urlArray[v.careLabelId-1]
           return (
             <LabelBox key={i}
               style={{ backgroundColor: `${theme.labelListColor[i%10]}` }}
             >
+              <img src={url} alt='label' />
               {/* <div style={{backgroundImage: `url(${url})`}} /> */}
               {/* <img src={url} alt='label' /> */}
               <span>{v.careLabel}</span>

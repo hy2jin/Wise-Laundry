@@ -79,7 +79,6 @@ const ProfileImgBox:React.FC<IProps>= ({file, setFile, userImg, setUserChangeBtn
 
   const handleFileOnChange = (e: React.ChangeEvent) => {
     setFile((e.target as HTMLInputElement).files?.item(0));
-    console.log((e.target as HTMLInputElement).files?.item(0));
     setUserChangeBtn(true)
     if ((e.target as HTMLInputElement).files) {
       encodeMainFileToBasek64((e.target as HTMLInputElement).files?.item(0));

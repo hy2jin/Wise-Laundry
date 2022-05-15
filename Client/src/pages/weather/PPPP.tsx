@@ -117,7 +117,6 @@ const PPPP = () => {
         idx%2===1
       )
       setFourDatas(newlist)
-      console.log('데이터왔음💫',newlist)
     })
   }
   const xyConvert = async( v1:any, v2:any) => {
