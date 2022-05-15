@@ -24,8 +24,8 @@ const Home = () => {
         >
           {/* <SwiperSlide><img alt='그림' src={banner1}/></SwiperSlide> */}
           {/* <SwiperSlide><img alt='그림' src={banner3}/></SwiperSlide> */}
-          {/* <SwiperSlide><img alt='그림' src={banner4}/></SwiperSlide> */}
-          <SwiperSlide><img alt='그림' src={banner5}/></SwiperSlide>
+          <SwiperSlide><img alt='그림' src={banner4}/></SwiperSlide>
+          {/* <SwiperSlide><img alt='그림' src={banner5}/></SwiperSlide> */}
           <SwiperSlide><img alt='그림' src={'https://resource.miricanvas.com/image/web/templates/main/type_thumbnail/web_banner_hor.jpeg?1.9.36hotfix6_1651219226372'}/></SwiperSlide>
           <SwiperSlide><img alt='그림' src={banner2}/></SwiperSlide>
         </Swiper>

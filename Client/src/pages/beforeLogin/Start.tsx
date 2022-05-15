@@ -72,6 +72,18 @@ const Wrapper = styled.article`
         opacity: 1;
     }
 }
+
+  .subTitle {
+    text-align: center;
+
+    @media screen and (max-width: 800px) {
+      display: flex;
+      /* justify-content: center; */
+      text-align: left;
+      position: relative;
+      left: 19%;
+    }
+  }
 `
 const Content = styled.div`
   article{
@@ -218,7 +230,7 @@ const Start = () => {
     <Wrapper>
       <div className={titleUp ? 'up':'title'} >
         <div>슬기로운</div>
-        <div style={{textAlign: 'center'}}>세탁</div>
+        <div className='subTitle'>세탁</div>
       </div>
       {showImg ===2 && <img id='slow' alt='img' src={img1}/>}
       {showImg ===3 && 
