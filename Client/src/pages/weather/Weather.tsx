@@ -44,11 +44,14 @@ const Weather = () => {
   const [date,setDate] = useState<string[]>([])
   const [count,setCount] = useState(0)
   const [dataPick,setDataPick] = useState(0)
-
+  const [allowLocation,setAllowLocation] = useState(false)
   useEffect(()=>{
-    changeData()
     getLocation()
   },[])
+  useEffect(()=>{
+    if(allowLocation)
+      changeData()
+  },[allowLocation])
   useEffect(()=>{
     if(fourDatas.length===4 && isLoading)
       getNewGraph()
@@ -61,7 +64,7 @@ const Weather = () => {
           xyConvert(position.coords.latitude,position.coords.longitude)
           .then((res)=>{
             getApi(res.x,res.y)
-            
+            setAllowLocation(true)
           })
       }, function(error) {
         alert('위치정보서비스 오류');
@@ -200,10 +203,12 @@ const Weather = () => {
       <Graphs fourDatas={fourDatas} setDataPick ={setDataPick} graphData={graphData} date={date} />
     </LoadingEnd>
   :
-  <h1>데이터없음</h1>  
+  allowLocation?
+  <h1>현재 기상청의 서버 문제로 날씨를 불러올 수 없습니다</h1>
+  :
+  <h1>현재 위치정보를 켜주세요</h1>  
   }
     </Wrapper>
   )
 }
-
 export default Weather
