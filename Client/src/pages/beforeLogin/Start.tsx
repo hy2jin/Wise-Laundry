@@ -30,7 +30,7 @@ const Wrapper = styled.article`
     z-index: 2;
     @media screen and (max-width: 800px) {
       font-size: 40px;
-      left: 54%;
+      left: 57%;
     }
   }
   .up{
@@ -146,11 +146,7 @@ const LoginBox = styled.div`
     border: none;
     z-index: 1;
     overflow: hidden;
-    /* &.home{
-      background-color: #6274fd;
-      color: white;
-      font-size: 1rem;
-    } */
+    
     font-size: 1rem;
     &.home{
       background-color: #77b11c;
@@ -190,7 +186,8 @@ const LoginBox = styled.div`
     height: 50px;
     button{
       font-weight: 700;
-      width: 42vw;      
+      width: 42vw;  
+      left: 1vw;    
     }
   }
 
