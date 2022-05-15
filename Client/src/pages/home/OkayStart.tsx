@@ -213,7 +213,7 @@ const LabelBox = styled.div`
   border-radius: 10px 0 10px 0;
   position: relative;
 
-  div {
+  img {
     width: 3rem;
     height: 3rem;
   }
