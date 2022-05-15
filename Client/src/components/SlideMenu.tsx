@@ -30,7 +30,7 @@ const SlideMenu: React.FC<IProps> = ({ themeCheck, setThemeCheck, setMenuOpen })
         <Menu onClick={() => {setThemeCheck(!themeCheck);setMenuOpen(false)}}>{themeCheck ? 'LIGHT MODE' : 'DARK MODE'}</Menu>
       </>:
       <>
-        <Menu onClick={() => navigate('/login')}>LOGIN</Menu>
+        <Menu onClick={() => handleClick('/login') }>LOGIN</Menu>
         <Menu onClick={() => handleClick('/weather')}>WHEATHER</Menu>
         <Menu onClick={() => handleClick('/near')}>NEAR</Menu>
         <Menu onClick={() => {setThemeCheck(!themeCheck);setMenuOpen(false)}}>{themeCheck ? 'LIGHT MODE' : 'DARK MODE'}</Menu>

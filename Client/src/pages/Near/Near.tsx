@@ -19,7 +19,7 @@ const MapWrapper = styled.div`
     border-bottom:2px solid #ddd;
     float:left;
   }
-  .label {margin-bottom: 35px;}
+  .label {margin-bottom: 35px; color:#333}
   .label * {display: inline-block;vertical-align: top;}
   .label .left {background: url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_l.png") no-repeat;display: inline-block;height: 24px;overflow: hidden;vertical-align: top;width: 7px;}
   .label .center {background: url(https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_bg.png) repeat-x;display: inline-block;height: 24px;font-size: 12px;line-height: 24px;}

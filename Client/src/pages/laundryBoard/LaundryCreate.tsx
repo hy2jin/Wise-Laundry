@@ -119,7 +119,7 @@ const DetailBox = styled.section`
   background-color: ${props => props.theme.containerColor};
   height: 650px;
   box-shadow: ${props => props.theme.boxShadowBox} ;
-  border-radius: 50px 0 50px 0;
+  border-radius: 10px;
   margin-top: 10vh;
   @media screen and (max-width: 800px) {
     height: auto;
