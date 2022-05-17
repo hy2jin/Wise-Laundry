@@ -4,7 +4,7 @@ import {loadGraphModel} from '@tensorflow/tfjs-converter';
 import styled from 'styled-components';
 tf.setBackend('webgl');
 
-const threshold = 0.4; // 정확도 지수 ❤
+const threshold = 0.5; // 정확도 지수 ❤
 // 모델 버전 3.15
 async function load_model() {
   // It's possible to load the model locally or from a repo
@@ -238,9 +238,9 @@ class OkayStart extends Component<IProps> {
         ctx.textBaseline = "top";
 
         //Getting predictions
-        const boxes = predictions[4].arraySync(); //detection_boxes
+        const boxes = predictions[7].arraySync(); //detection_boxes
         const scores = predictions[2].arraySync(); //identity_4:0
-        const classes = predictions[7].dataSync(); //identity_2:0
+        const classes = predictions[5].dataSync(); //identity_2:0
     
         const detections = this.buildDetectedObjects(scores, threshold, boxes, classes, classesDir);
         if (detections.length > 0) {
