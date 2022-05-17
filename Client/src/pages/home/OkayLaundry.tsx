@@ -14,7 +14,7 @@ const OkayLaundry = () => {
       <Title>
         <div className='empty'/>
         <div className='namebox'>
-          <div className='big'><div>슬기로운  세탁 생활</div> <div>시작하기</div></div>
+          <div className='big'><div>슬기로운  세탁 </div> <div>시작하기</div></div>
           <div  className='small'>지금부터 당신의 빨래를 관리하세요 </div>
         </div>
         <div className='btnbox'><Button onClick={() => navigate('/okay')}>start</Button></div>
@@ -44,7 +44,7 @@ const OkayLaundry = () => {
         <div className='left'>
           <div className='title'>Step 2.</div>
           <div className='bold'> 완벽한 세탁을 위한 두번째 단계.</div>
-          <div className='normal'>슬기로운 세탁생활이 세탁 라벨을 인식하고  </div>
+          <div className='normal'>슬기로운 세탁이 세탁 라벨을 인식하고  </div>
           <div className='normal'>알려드릴 것입니다.</div>
           <div className='normal'>일치하는 라벨을 선택하고 확인을 눌러주세요.</div>
         </div>

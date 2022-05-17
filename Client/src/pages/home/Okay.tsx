@@ -4,7 +4,7 @@ import {loadGraphModel} from '@tensorflow/tfjs-converter';
 import styled from 'styled-components';
 tf.setBackend('webgl');
 
-const threshold = 0.6;
+const threshold = 0.4; // 정확도 지수 ❤
 // 모델 버전 3.15
 async function load_model() {
   // It's possible to load the model locally or from a repo

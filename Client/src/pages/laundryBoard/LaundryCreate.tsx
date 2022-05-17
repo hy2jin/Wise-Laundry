@@ -10,13 +10,15 @@ import { AddLaundry, getCareLabel } from '../../store/api/laundry';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store/state/user';
 import { labelState, defaultLabelState } from '../../store/state/laundry';
-
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import LabelInfo from './LabelInfo';
 
 
 const LaundryCreate = () => {
   const colors = ['#cffbb2','#90fdec','#f4ffac','#fea5e6','#fdce8d','#ccffa8','#90faea','#eaf69d','#fba7e5','#ffd59b']
   const [laundryInfo,setlaundryInfo] = useState<string[]>([])
   const [careLabels,setCareLabels] = useRecoilState(labelState)
+  const [showModal,setShowModal] =useState(false)
   const [laundryMemo,setLaundryMemo] = useState('')
   const [user] = useRecoilState(userState)
   const [file, setFile] = useState<any>();
@@ -62,7 +64,7 @@ const LaundryCreate = () => {
           <InfoBox>
             <LabelBox>
               <div className='title'>
-                세탁 주의 사항
+                세탁 주의 사항<WarningAmberIcon className='icon' onClick={()=>{setShowModal(true)}} />
               </div>
               <div className='careLabel'>
               {careLabels.map((label,idx)=>{
@@ -99,9 +101,12 @@ const LaundryCreate = () => {
           <button onClick={()=>{submitLaundry()}} className='saveBtn'>내 옷장에 저장</button>
         </ButtonBox>
       </DetailBox>
+      {showModal && <LabelInfo setShowModal={setShowModal} />}
     </Wrapper>
   )
 }
+
+
 
 const Wrapper = styled.article`
   width: 70vw;
@@ -164,6 +169,7 @@ const InfoBox = styled.div`
     margin-top: 30px;
     font-size: 1.2rem;
     color : ${props => props.theme.activeBtnColor}
+    
   }
   .content{
     margin-left: 20px;
@@ -211,6 +217,10 @@ const LabelBox = styled.div`
     margin-top: 20px;
     justify-content: center;
   }
+  .icon{
+      margin-left: 20px;
+      cursor: pointer;
+    }
 `
 
 const ButtonBox = styled.div`
@@ -245,6 +255,7 @@ const ButtonBox = styled.div`
 const Memo = styled.div`
   .mtitle{
     width: 45px;
+    
   }
   margin: auto;
   margin-top: 30px;

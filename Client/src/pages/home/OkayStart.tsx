@@ -162,13 +162,21 @@ const OkayStart = () => {
               <img src={url} alt='label' />
               {/* <div style={{backgroundImage: `url(${url})`}} /> */}
               {/* <img src={url} alt='label' /> */}
-              <span>{v.careLabel}</span>
+              <div className='careLabel'>
+                <p>{v.careLabel}</p>
+              </div>
               <DoNotDisturbOnIcon onClick={() => delLabel(v)} />
             </LabelBox>
           )
         }
         )}
       </Labels>
+      <InfoBox>
+        <p>세탁마크를 인식시키고 </p>
+        <p>일치하지 않으면 삭제해주세요</p>
+        <p>여기에 없는 세탁마크는  </p>
+        <p>옷 등록 화면에서 추가 가능합니다  </p>
+      </InfoBox>
       <BtnBox>
         <button onClick={() => handleBtn()}><span />옷 등록하기</button>
       </BtnBox>
@@ -194,7 +202,7 @@ const Labels = styled.section`
   width: 500px;
   display: flex;
   flex-wrap: wrap;
-
+  justify-content:space-around;
   @media screen and (max-width: 800px) {
     width: 300px;
   }
@@ -205,12 +213,19 @@ const LabelBox = styled.div`
   margin-bottom: 1rem;
   border-radius: 10px 0 10px 0;
   position: relative;
-
+  width: auto;
+  min-width: 150px;
+  display: flex;
   img {
     width: 3rem;
     height: 3rem;
   }
-
+  .careLabel{
+    text-align: center;
+    padding-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
   svg {
     cursor: pointer;
     color: red;
@@ -230,6 +245,7 @@ const LabelBox = styled.div`
 const BtnBox = styled.section`
   margin-top: 1rem;
   text-align: center;
+  padding-bottom: 5vh;
   button {
     font-size: 1.5rem;
     position: relative;
@@ -267,6 +283,9 @@ const BtnBox = styled.section`
       width: 300px;
     }
   }
+`
+const InfoBox  = styled.div`
+  text-align: center;
 `
 
 export default OkayStart;

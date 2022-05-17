@@ -60,7 +60,7 @@ const Label:React.FC<Iprops> = ({label,color,idx,setCareLabels,careLabels}) => {
           <CloseIcon onClick={()=>{setShowModal(false);setValue('')}} className='close'/>
           <InputBox>
             <input value={value} onChange={(e)=>{setValue(e.target.value)}}/>
-            <div className='submitBtn'><SearchIcon/></div>
+            <div className='submitBtn'><SearchIcon /></div>
           </InputBox>
           <Labels>
             {labelstate.length>0 && showLabel.map((label,idx)=>{return(
