@@ -9,13 +9,6 @@ import { labelState, defaultLabelState } from '../../store/state/laundry'
 import Okay from './Okay'
 import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
 import Swal from 'sweetalert2'
-import bleach1 from './images/bleach1.png'
-import bleach2 from './images/bleach2.png'
-import bleach3 from './images/bleach3.png'
-import bleach4 from './images/bleach4.png'
-import bleach5 from './images/bleach5.png'
-import bleach6 from './images/bleach6.png'
-import bleach7 from './images/bleach7.png'
 
 interface Istate {
   detectLabel: {
