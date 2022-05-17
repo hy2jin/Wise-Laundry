@@ -199,17 +199,19 @@ const CommunityDetail = () => {
             let userSrc = comment.userImg ? `/images/${comment.userImg}` : comment.kakaoImg
             userSrc = userSrc || defaultImg
             return (
-            <div className='comment' key={i}>
-              <img src={userSrc} onError={imageOnErrorHandler} alt='프로필' />
-              <p className='nick' title={comment.userNick}>{comment.userNick}</p>
-              <div className='content' style={{backgroundColor: `${theme.listBgColor[i%3]}`}}>
-                <p>{comment.commentContent}</p>
+            <Comment key={i}>
+              <div className='top'>
+                <img src={userSrc} onError={imageOnErrorHandler} alt='프로필' />
+                <p className='nick' title={comment.userNick}>{comment.userNick}</p>
+                <p className='date'>{String(comment.commentDate[0]).slice(-2)}.{comment.commentDate[1]}.{comment.commentDate[2]}</p>
                 {comment.userId === user.userId && 
                 <RemoveCircleOutlineIcon onClick={() => deleteComment(comment.commentId)} />
                 }
               </div>
-              <p className='date'>{String(comment.commentDate[0]).slice(-2)}.{comment.commentDate[1]}.{comment.commentDate[2]}</p>
-            </div>
+              <div className='bottom' style={{backgroundColor: `${theme.listBgColor[i%3]}`}}>
+                <p>{comment.commentContent}</p>
+              </div>
+            </Comment>
             )
           }
           )}
@@ -233,7 +235,7 @@ const CommunityDetail = () => {
 };
 
 const Wrapper = styled.article`
-  width: 50vw;
+  width: 60vw;
   margin: 3rem auto;
   button {
     user-select: none;
@@ -352,41 +354,53 @@ const BoardContent = styled.div`
 `
 const Comments = styled.div`
   padding: 0 1rem;
-  .comment {
-    cursor: default;
+`
+const Comment = styled.div`
+  cursor: default;
+  margin: 1rem 0;
+  .top {
     height: 5vh;
-    display: flex;
-    margin: 1rem 0;
-    p {
-      margin: 0;
-      height: 5vh;
-      line-height: 5vh;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      &.nick {width: 10vw;}
-      &.date {width: 15%;}
-    }
+    position: relative;
     img {
       height: 4vh;
       aspect-ratio: 1/1;
       border-radius: 50%;
-      margin-right: .5rem;
     }
-    .content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      padding: .5rem;
-      border-radius: 10px;
-      margin-right: .5rem;
-      svg {cursor: pointer;}
+    p {
+      position: absolute;
+      top: 0;
+      margin: 0;
+      height: 5vh;
+      line-height: 5vh;
+      &.nick {
+        left: 6vh;
+      }
+      &.date {
+        right: 2rem;
+      }
+    }
+    svg {
+      cursor: pointer;
+      position: absolute;
+      top: .8rem;
+      right: 0;
+      color: red;
     }
   }
-  @media screen and (max-width: 800px) {
-    .date {
-      display: none;
+
+  .bottom {
+    width: 100%;
+    padding: 0 .5rem;
+    border-radius: 10px;
+    white-space: nowrap;
+    overflow-y: hidden;
+    overflow-x: auto;
+    text-overflow: ellipsis;
+    &::-webkit-scrollbar {
+      height: .3rem;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: ${props => props.theme.containerColor};
     }
   }
 `
