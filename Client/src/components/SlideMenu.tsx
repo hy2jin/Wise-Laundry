@@ -10,7 +10,7 @@ interface IProps {
 }
 
 const SlideMenu: React.FC<IProps> = ({ themeCheck, setThemeCheck, setMenuOpen }) => {
-  const [user, setUser] = useRecoilState(userState)
+  const [user] = useRecoilState(userState)
   const navigate = useNavigate()
   const handleClick = (path: string) => {
     setMenuOpen(false)

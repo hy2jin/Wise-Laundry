@@ -16,7 +16,7 @@ const Header = () => {
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
   const [themeCheck, setThemeCheck] = useState(false)
-  const [user, setUser] = useRecoilState(userState)
+  const [user] = useRecoilState(userState)
   const [isLogin] = useRecoilState(loginState)
   const [theme, setTheme] = useRecoilState(themeState)
 

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable array-callback-return */
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2'
@@ -20,7 +21,7 @@ interface Istate {
 const CommunityCreate = () => {
 
   const navigate = useNavigate()
-  const [user, setUser] = useRecoilState(userState)
+  const [user] = useRecoilState(userState)
   const [board, setBoard] = useState<Istate['board']>({
     boardName: '',
     boardContent: '',
