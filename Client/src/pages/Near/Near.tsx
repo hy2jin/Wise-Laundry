@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import myMark from './images/marker.png'
@@ -41,7 +43,7 @@ const Near =() =>{
   const [lat,setLat] = useState(37.624915253753194)
   const [long,setLong]= useState(127.15122688059974)
   const [markdata,setMarkdata] = useState<IState['data'][]>([])
-  const [datas,setDatas] = useState(datass)
+  const [datas] = useState(datass)
   useEffect(() => {
     getLocation()
   }, []);
