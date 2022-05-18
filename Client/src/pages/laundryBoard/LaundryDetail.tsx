@@ -25,7 +25,7 @@ const LaundryDetail = () => {
   const {laundryId} = useParams()
   const [user] = useRecoilState(userState)
   useEffect(()=>{
-    if (!!user.userEmail) {
+    if (!!sessionStorage.getItem('token')) {
       getLaundryDetail(Number(laundryId)).then((res)=>{
         setLaundry(res.list)
       })

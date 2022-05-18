@@ -110,7 +110,7 @@ const CommunityCreate = () => {
   }
 
   useEffect(() => {
-    if (!!!user.userEmail) {
+    if (!!!sessionStorage.getItem('token')) {
       navigate('/login')
     }
   }, [])

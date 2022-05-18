@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable @typescript-eslint/no-redeclare */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
@@ -154,8 +156,8 @@ const LaundryAll = () => {
   }
 
   useEffect(()=>{
-    const { userId, userEmail } = user
-    if (!!userEmail) {
+    const { userId } = user
+    if (!!sessionStorage.getItem('token')) {
       getProductMine(userId).then((res)=>{
         if(res.list===null){
           setMyLaundries([])
