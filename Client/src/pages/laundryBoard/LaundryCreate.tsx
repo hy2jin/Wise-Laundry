@@ -12,6 +12,7 @@ import { userState } from '../../store/state/user';
 import { labelState, defaultLabelState } from '../../store/state/laundry';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import LabelInfo from './LabelInfo';
+import { ArrowBack } from '@mui/icons-material';
 
 
 const LaundryCreate = () => {
@@ -58,6 +59,9 @@ const LaundryCreate = () => {
 
   return (
     <Wrapper>
+      <BackKey>
+        <ArrowBack onClick={()=>{ navigate(-1)}}/>
+      </BackKey>
       <DetailBox>
         <Top>
           <ImgBox laundryImg='' file={file} setFile={setFile}   />
@@ -270,5 +274,11 @@ const Memo = styled.div`
     word-break:break-all;
     resize: none;
   }
+`
+const BackKey = styled.div`
+  position: fixed;
+  top : 70px;
+  left:30px;
+  
 `
 export default LaundryCreate

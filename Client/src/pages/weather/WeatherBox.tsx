@@ -290,8 +290,8 @@ const WeatherBox:React.FC<IProps>= ({data}) => {
 
   return (
       <Wrapper >
-        {data.weather==='partly_cloudy' &&<PartlyCloud/>}
         {data.weather==='sunny' &&<Sun/>}
+        {data.weather==='partly_cloudy' &&<PartlyCloud/>}
         {data.weather==='cloudy' &&<><Cloud2/><Cloud/></>}
         {data.weather==='rain' &&<Rain/>}
           <LeftPart>

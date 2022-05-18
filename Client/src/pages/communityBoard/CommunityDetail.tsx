@@ -424,7 +424,10 @@ const CreateComment = styled.div`
   }
   @media screen and (max-width: 800px) {
     input {width: 70%;}
-    button {width: 20%;}
+    button {
+      width: 20%;
+      font-size: 0.8rem;
+    }
   }
 `
 const Btns = styled.section`
@@ -444,6 +447,7 @@ const Btns = styled.section`
   @media screen and (max-width: 800px) {
     button {
       height: 4vh;
+      font-size: 0.8rem;
     }
   }
 `

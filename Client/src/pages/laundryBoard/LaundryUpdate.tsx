@@ -10,6 +10,7 @@ import ImgBox from './ImgBox'
 import Label from './Label';
 import Info from './Info';
 import { labelState, defaultLabelState } from '../../store/state/laundry'
+import { ArrowBack } from '@mui/icons-material'
 
 const Wrapper = styled.article`
   width: 70vw;
@@ -170,7 +171,12 @@ const Memo = styled.div`
 
   }
 `
-
+const BackKey = styled.div`
+  position: fixed;
+  top : 70px;
+  left:30px;
+ 
+`
 interface Istate{
   laundry:{
     laundryId: number
@@ -248,6 +254,9 @@ const LaundryUpdate = () => {
 
   return (
     <Wrapper>
+       <BackKey>
+        <ArrowBack onClick={()=>{ navigate(-1)}}/>
+      </BackKey>
       {isLoading ? <div>로딩중</div>:
       <DetailBox>
         <Top>

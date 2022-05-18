@@ -4,6 +4,7 @@ import { useRecoilState } from 'recoil';
 import { loginState, userState } from '../../store/state/user';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'
+import styled from 'styled-components';
 
 const KakaoLogin = () => {
   // 인가코드
@@ -57,10 +58,16 @@ const KakaoLogin = () => {
   
 
   return (
-    <div>
+    <Wrapper>
       <h1>카카오 로그인 진행중</h1>
-    </div>
+    </Wrapper>
   );
 };
 
 export default KakaoLogin;
+
+const Wrapper = styled.section`
+  h1{
+    margin: 100px;
+  }
+`
