@@ -31,8 +31,8 @@ interface Iprops {
 const Info:React.FC<Iprops>= ({info,infos,idx,setInfos}) => {
   const [value,setValue] = useState(info)
   const [inputMode,setInputMode] = useState(false)
-  const handleSpaceBar = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.code === "Enter" || e.code === "Space") {
+  const handleCheck = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.keyCode === 13 || e.keyCode === 19) {
       setInputMode(false)
       setValue(value)
       var newinfos = infos
@@ -40,8 +40,8 @@ const Info:React.FC<Iprops>= ({info,infos,idx,setInfos}) => {
       setInfos(newinfos)
     }
   };
-  const handleSpaceBarNew = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.code === "Enter" || e.code === "Space") {
+  const handleCheckNew = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.keyCode === 13 || e.keyCode === 19) {
       if (value!==''){
       setInputMode(false)
       setInfos([...infos,value])
@@ -62,7 +62,7 @@ const Info:React.FC<Iprops>= ({info,infos,idx,setInfos}) => {
       <input
       onChange={(e)=>{setValue(e.target.value)}} 
       value={value}
-      onKeyUp={e => handleSpaceBar(e)} 
+      onKeyUp={e => handleCheck(e)} 
       autoFocus
       /></>:<div>#{value}</div>)}
 
@@ -73,7 +73,7 @@ const Info:React.FC<Iprops>= ({info,infos,idx,setInfos}) => {
       onChange={(e)=>{setValue(e.target.value)}} 
       value={value}
       autoFocus
-      onKeyUp={e => handleSpaceBarNew(e)} 
+      onKeyUp={e => handleCheckNew(e)} 
       /></>:<div>+</div>)}
     </Wrapper>
   )
