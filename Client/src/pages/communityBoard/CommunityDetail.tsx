@@ -148,7 +148,7 @@ const CommunityDetail = () => {
   };
 
   useEffect(() => {
-    if (!!user.userEmail) {
+    if (!!sessionStorage.getItem('token')) {
       getCommunityDetail(Number(boardId))
       .then(res => {
         setBoard(res)

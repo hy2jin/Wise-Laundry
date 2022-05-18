@@ -219,7 +219,7 @@ const LaundryUpdate = () => {
   }
 
   useEffect(()=>{
-    if (!!user.userEmail) {
+    if (!!sessionStorage.getItem('token')) {
       getLaundryDetail(Number(laundryId))
       .then((res)=>{
         setLaundry(res.list)

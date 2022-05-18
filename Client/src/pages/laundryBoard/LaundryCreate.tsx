@@ -45,7 +45,7 @@ const LaundryCreate = () => {
     })
   }
   useEffect(()=>{
-    if (!!user.userEmail) {
+    if (!!sessionStorage.getItem('token')) {
       if (!careLabelsstate) {
         getCareLabel().then((res)=>{
           setCareLabelsstate(res.list)
