@@ -32,7 +32,7 @@ const Info:React.FC<Iprops>= ({info,infos,idx,setInfos}) => {
   const [value,setValue] = useState(info)
   const [inputMode,setInputMode] = useState(false)
   const handleCheck = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.keyCode === 13 || e.keyCode === 19) {
+    if (e.keyCode === 13 || e.keyCode === 19 || e.keyCode === 190) {
       setInputMode(false)
       setValue(value)
       var newinfos = infos
@@ -41,7 +41,7 @@ const Info:React.FC<Iprops>= ({info,infos,idx,setInfos}) => {
     }
   };
   const handleCheckNew = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.keyCode === 13 || e.keyCode === 19) {
+    if (e.keyCode === 13 || e.keyCode === 19 || e.keyCode === 190) {
       if (value!==''){
       setInputMode(false)
       setInfos([...infos,value])
