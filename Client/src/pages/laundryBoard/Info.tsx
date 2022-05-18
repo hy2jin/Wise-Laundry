@@ -62,7 +62,7 @@ const Info:React.FC<Iprops>= ({info,infos,idx,setInfos}) => {
       <input
       onChange={(e)=>{setValue(e.target.value)}} 
       value={value}
-      onKeyUp={e => handleCheck(e)} 
+      onKeyDown={e => handleCheck(e)} 
       autoFocus
       /></>:<div>#{value}</div>)}
 
@@ -73,7 +73,7 @@ const Info:React.FC<Iprops>= ({info,infos,idx,setInfos}) => {
       onChange={(e)=>{setValue(e.target.value)}} 
       value={value}
       autoFocus
-      onKeyUp={e => handleCheckNew(e)} 
+      onKeyDown={e => handleCheckNew(e)} 
       /></>:<div>+</div>)}
     </Wrapper>
   )
