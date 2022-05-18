@@ -37,7 +37,7 @@ public class Board{
     private String boardName;
 
     @ApiModelProperty(value = "게시글 내용", required = true, example = "게시글 내용입니다")
-    @Column(name = "board_content")
+    @Column(name = "board_content", length = 1500)
     private String boardContent;
 
     @ApiModelProperty(value = "게시글 날짜", required = true, example = "2020-01-23 13:33:33")
