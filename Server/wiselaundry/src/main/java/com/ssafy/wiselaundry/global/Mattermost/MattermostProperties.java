@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 @Primary
 public class MattermostProperties {
     // 알림 켜고 끄기!
-    private boolean mmEnabled = true;
+    private boolean mmEnabled = false;
 
     private String channel;
     private String pretext;
