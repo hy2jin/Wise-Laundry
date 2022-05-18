@@ -21,6 +21,15 @@ const Wrapper = styled.div`
       outline: none;
     }
   }
+  .submitbtn{
+    border-radius: 4px;
+    color: white;
+    background-color: ${props => props.theme.activeBtnColor};
+    border: none;
+    font-size: 0.8rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+  }
 `
 interface Iprops {
   info:string
@@ -31,13 +40,16 @@ interface Iprops {
 const Info:React.FC<Iprops>= ({info,infos,idx,setInfos}) => {
   const [value,setValue] = useState(info)
   const [inputMode,setInputMode] = useState(false)
-  const handleCheck = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.keyCode === 13 || e.keyCode === 19 || e.keyCode === 190) {
+  const handleCheck = () => {
+    if (value!==''){
       setInputMode(false)
-      setValue(value)
-      var newinfos = infos
-      newinfos[idx] = value
-      setInfos(newinfos)
+      setInfos([...infos,value])
+      setValue('')
+      }
+      if (value===''){
+        setInputMode(false)
+        setValue(value)
+        setValue('')
     }
   };
   const handleCheckNew = async (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -54,27 +66,30 @@ const Info:React.FC<Iprops>= ({info,infos,idx,setInfos}) => {
       }
     }
   };
-  return (
-    <Wrapper onClick={()=>{setInputMode(true)}}>
-      {info!=='' && 
-      (inputMode ? 
-        <>#
-      <input
-      onChange={(e)=>{setValue(e.target.value)}} 
-      value={value}
-      onKeyDown={e => handleCheck(e)} 
-      autoFocus
-      /></>:<div>#{value}</div>)}
+  const handleClick = ()=>{
+    if(info==='')
+      setInputMode(true)
+    else{
+      const newInfo = infos.filter((info,index)=>index!==idx)
+      setInfos(newInfo)
+    }
+  }
 
-      {info==='' &&
+  return (
+    <Wrapper onClick={()=>{handleClick()}}>
+      {info!=='' && 
+      <div>#{value}</div>}
+      {info==='' && //'' 가 온다면 아예 아무 
       (inputMode ? 
         <>#<input
-      placeholder='Press Spacebar or Enter'
+      placeholder='Press Enter'
       onChange={(e)=>{setValue(e.target.value)}} 
       value={value}
       autoFocus
       onKeyDown={e => handleCheckNew(e)} 
-      /></>:<div>+</div>)}
+      />
+      <button className='submitbtn' onClick={()=>{handleCheck()}}>등록</button>
+      </>:<div>+</div>)}
     </Wrapper>
   )
 }

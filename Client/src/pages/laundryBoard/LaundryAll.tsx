@@ -29,14 +29,20 @@ const Header = styled.article`
 `
 const Title = styled.div`
   display: flex;
+  justify-content: center;
   width: 400px;
   margin: auto;
   color : #63a1ff;
-  justify-content: center;
+  
+  @media screen and (max-width: 800px) {
+    width:100%;
+  }
   .box{
     background-color: white;
     border-radius: 10px;
-    margin: 40px;
+    margin: 20px;
+    margin-top: 40px;
+    margin-bottom: 40px;
     width: 100px;
     height: 100px;
     text-align: center;
@@ -44,7 +50,9 @@ const Title = styled.div`
     @media screen and (max-width: 800px) {
       width: 80px;
       height: 80px;
-  }
+      margin-left: 10px;
+      margin-right: 10px;
+    }
   }
   p{
     margin-top: 15px;
@@ -52,15 +60,13 @@ const Title = styled.div`
     font-size: 25px;
     @media screen and (max-width: 800px) {
       font-size: 15px;
-  }
+    }
   }
   #filter{
     color : white;
     background-color: #63a1ff ;
   }
-  @media screen and (max-width: 800px) {
-    width:100%;
-  }
+  
  
 `
 const SearchBox = styled.article`
@@ -258,6 +264,10 @@ const LaundryAll = () => {
           <div onClick={()=>{setFilter('my')}} id={filter==='my'?'filter':''} className='box'>
             <p>나만의 </p>
             <p>옷장</p>
+          </div>
+          <div onClick={()=>{navigate('/okay')}}  className='box'>
+            <p>새 세탁 </p>
+            <p>등록</p>
           </div>
         </Title>
         <SearchBox>

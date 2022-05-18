@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-
+import 팝업 from './images/팝업.png'
 
 const PopUpBox = styled.div `
   top: 10vh;
@@ -39,10 +39,10 @@ const PopUpBox = styled.div `
   }
 
   @media screen and (max-width: 800px) {
-    width: 75vw;
+    width: 80vw;
 
     .popUpImg {
-      width: 75vw;
+      width: 80vw;
       aspect-ratio: 1/1;
     }
 
@@ -95,7 +95,7 @@ const PopUpLaundry:React.FC<IProps> = ({showPopUp, setShowPopUp}) => {
       <>
         {showPopUp && 
           <PopUpBox>
-            <img className='popUpImg' src="https://t1.daumcdn.net/cfile/blog/99FFF5505D075BC932" alt="" />
+            <img className='popUpImg' src={팝업} alt="" />
             <BtnPositon>
               <div className='allDayBtnPosition'>
                 <button className='allDayCloseBtn' onClick={() => onPopUpNotShow()}>하루 동안 보지 않기</button>

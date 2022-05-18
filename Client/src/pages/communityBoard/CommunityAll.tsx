@@ -149,7 +149,7 @@ const CommunityAll = () => {
       <p className='title'>
         <span>게시판</span>
         <TopBtn className='left' onClick={() => getBoard(true, -1, '', true)}><span />조회순</TopBtn>
-        <TopBtn className='right' onClick={() => navigate('/board')}><span />질문하기</TopBtn>
+        <TopBtn className='right' onClick={() => navigate('/board')}><span />글 쓰기</TopBtn>
       </p>
       <SearchBar>
         <label htmlFor='search'>
