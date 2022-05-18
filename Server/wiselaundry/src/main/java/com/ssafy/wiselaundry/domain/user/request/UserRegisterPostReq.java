@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.json.simple.JSONObject;
 
 /**
  * 유저 회원가입 API ([POST] /api/v1/users) 요청에 필요한 리퀘스트 바디 정의.
@@ -29,5 +30,13 @@ public class UserRegisterPostReq {
 				.userNick(body.getUserNick())
 				.password(body.getPassword())
 				.build();
+	}
+
+	public JSONObject toJson(){
+		JSONObject ret = new JSONObject();
+		ret.put("userEmail",this.userEmail);
+		ret.put("password",this.password);
+		ret.put("userNick",this.userNick);
+		return ret;
 	}
 }
