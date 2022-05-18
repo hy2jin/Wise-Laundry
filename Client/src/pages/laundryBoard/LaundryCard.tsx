@@ -27,12 +27,13 @@ const Wrapper = styled.section`
 `
 const ImgWrapper = styled.article`
   background-color: ${props => props.theme.containerColor};
+  margin: auto;
   border-radius: 10px 10px 0 0;
+  width: 250px;
   img{
     height: 250px;
     width: 250px;
     margin-top: 20px;
-    margin-left: 25px;
     border-radius: 10px 10px 0 0;
   }
 `

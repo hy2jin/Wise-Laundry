@@ -6,6 +6,8 @@ import { deleteLaundry, getLaundryDetail } from '../../store/api/laundry';
 import Swal from 'sweetalert2';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store/state/user';
+import { ArrowBack } from '@mui/icons-material';
+
 
 interface Istate{
   laundry:{
@@ -67,6 +69,9 @@ const LaundryDetail = () => {
 
   return (
     <Wrapper>
+      <BackKey>
+        <ArrowBack onClick={()=>{ navigate(-1)}}/>
+      </BackKey>
       {laundry !==undefined &&
       <DetailBox>
         <Top>
@@ -148,6 +153,7 @@ const Top = styled.div`
     width: 50vw;
     margin-left: 3vw;
     margin-top: 10vh;
+    border-radius: 10px;
   }
   @media screen and (max-width: 800px) {
     display: inline;
@@ -339,5 +345,10 @@ const Memo = styled.div`
     width: 60%;
     }
   }
+`
+const BackKey = styled.div`
+  position: fixed;
+  top : 50px;
+  left:30px;
 `
 export default LaundryDetail;
