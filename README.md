@@ -35,6 +35,10 @@
 
 ### TF Object Detection Model
 
+Tensorflow로 구현된  object detection model을 라이브러리 형태로 제공하고, 머신러닝이나 텐서플로우에 대한 개념이 없더라도 라이브러리 형태로 손쉽게 사용할 수 있습니다.  각기 다른 정확도와 속도의 여러 모델을 가지고  있으며, 그 중 프로젝트에서 사용한 모델인 SSD  Mobilenet은 다양한 view를 활용하면서 통합된 network 구조를 가진 1-stage detector로서 높은 정확도와 빠른 속도라는 장점을 가지고 있습니다. 
+
+
+
 
 ## 메인 기능
 
